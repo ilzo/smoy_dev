@@ -1,0 +1,187 @@
+/*
+Theme Name: smoy
+Theme URI: -
+Author: Ilari Juvani
+Author URI: -
+Description:  Smoy is a Wordpress theme made for an advertising agency in Helsinki, Finland.
+Version: 1.0
+Text Domain: smoy
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+
+* { 
+    margin: 0;
+}
+
+.size-auto, 
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+	max-width: 100%;
+	height: auto;
+}
+
+html {
+    position:relative;
+    overflow-y: scroll;
+    overflow-x: hidden;   
+}
+
+body {
+    position:relative;
+    padding:0; 
+    margin:0; 
+}
+
+.page-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#page-wrapper-single {
+    position: relative;
+    width:100%;
+    height: auto !important;
+    margin: 0 auto; /* the bottom margin is the negative value of the footer's height */
+}
+
+
+.hidden {
+    display: none;
+}
+
+.visuallyhidden {
+  opacity: 0;
+}
+
+#header-home {
+    height: 100vh;
+    width: 100%;
+}
+
+#home-hero {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    background-color: #e7dfd6;
+    padding: 0;
+}
+
+.logo-container {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+/*
+.content-section-front {
+    padding: 9.5% 10% 13.3% 10%;
+}
+*/
+
+img {
+    height: 100%;
+    max-width: 100%;
+}
+
+.bg-img {
+    width: 100%;
+}
+
+#about-us {
+    max-width: 100%;
+    margin-top: 0;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 9.5% 10% 13.3% 10%;
+}
+
+.about-container {
+    text-align: center;
+}
+
+.about-section-title {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.about-container p {
+    font-size: 18px;
+    margin: 8px 0 8px 0;
+}
+
+
+#services {
+    max-width: 100%;
+    height: 100vh;
+    margin-top: 0;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #828282;
+    padding: 0 0 0 0;
+}
+
+#our-customers {
+    background-color: #c5c5c5;
+    max-width: 100%;
+    margin-top: 0;
+    text-align: center;  
+}
+
+#social {
+    position: relative;
+    background-color: #e7dfd6;
+    max-width: 100%;
+    margin-top: 0;
+    text-align: center;
+    height: auto;
+}
+
+#our-staff {
+    position: relative;
+    max-width: 100%;
+    margin-top: 0;
+    text-align: center;
+    height: auto;
+}
+
+
+
+#contact {
+    background-color: #e7dfd6;
+    max-width: 100%;
+    margin-top: 0;
+    padding: 9.5% 0 15% 0;
+    text-align: center;
+    min-height: 530px;
+}
+
+
+.footer-container {
+    text-align: center;
+}
+
+#footer, #footer-single {
+    max-width: 100%; 
+    bottom: 0; 
+    left: 0; 
+    right: 0;
+    background-color: #0c0c0c;
+}
+
+#footer {
+    position: relative;
+    height: 12.5em;
+    padding: 5% 0 0 0;
+}
+
