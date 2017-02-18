@@ -81,6 +81,36 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.navigation-top {
+    position: fixed;
+    top: 0px;
+    height: auto;
+    width: 100%;
+    z-index: 9999;
+    background-color: black;
+}
+
+#header-single {
+    height: 50vh;
+    width: 100%;
+}
+
+#top-menu ul{
+    list-style-type: none;
+}
+
+#top-menu li.page_item {
+    display: inline-block;
+    width: 30%;
+    margin: 17px 0;
+}
+
+#top-menu li.page_item a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
 /*
 .content-section-front {
     padding: 9.5% 10% 13.3% 10%;

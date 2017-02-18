@@ -18,8 +18,10 @@
 
 <body>
 <div id="page-wrapper-single">
-<div class="header-single">   
-    
-        <div class="single-title"><?php the_title(); ?></div>
+<div id="header-single">   
+    <div class="navigation-top">
+         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
+    </div><!-- .navigation-top -->
+    <div class="single-title"><?php the_title(); ?></div>
              
 </div>

@@ -118,7 +118,7 @@ function smoy_setup() {
 
 function smoy_register_menus() {
   register_nav_menus(
-    array('header-menu' => __( 'Menu', 'smoy' ))
+    array('top' => __( 'Main menu', 'smoy' ))
   );
 }
 
