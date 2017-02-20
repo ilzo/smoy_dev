@@ -124,6 +124,20 @@ function smoy_register_menus() {
 
 add_action( 'init', 'smoy_register_menus' );
 
+/*
+
+add_filter( 'wp_nav_menu_items', 'add_logo_to_nav', 10, 2 );
+
+function add_logo_to_nav( $items, $args )
+{
+     if( $args->theme_location == 'top' ){
+        $items .= '<li><a title="Admin" href="'. esc_url( admin_url() ) .'">' . __( 'Admin' ) . '</a></li>';
+    }
+    return $items;
+}
+*/
+
+
 function load_scripts()
 {
     
@@ -376,13 +390,18 @@ function strip_shortcode_gallery( $content ) {
 
 /*
 add_filter( 'wp_nav_menu_items', 'smoy_custom_menu_item', 10, 2 );
-function smoy_custom_menu_item ($items) {
-    
+function smoy_custom_menu_item ($items, $args) {
+    if ($args->theme_location == 'top') {
     $items .= '<li>Show whatever</li>';
+    }
+    
+    print_r($items);
   
     return $items;
 }
+
 */
+
 
 
 /*
