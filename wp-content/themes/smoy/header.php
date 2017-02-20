@@ -20,11 +20,11 @@
 <header id="header-home">
     <!-- <a href="#" class="open-menu-btn nav-down">Menu</a> -->
     <div class="navigation-top">
-				<?php get_template_part( 'template-parts/navigation', 'top' ); ?>
-			</div><!-- .navigation-top -->
+        <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
+    </div><!-- .navigation-top -->
     <section id="home-hero">
-        <div class="logo-container">
-            <h1>Logo tulee tähän</h1>
+        <div id="header-logo-container">
+            <img src="<?php echo get_template_directory_uri(); ?>/img/logo/mainostoimisto_SMOY_logo_white.png" alt="Smoy header logo" width="746px" height="247.5px" />
         </div>
     </section>
 </header> 

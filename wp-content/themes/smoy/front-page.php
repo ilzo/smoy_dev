@@ -19,10 +19,42 @@ get_header(); ?>
 </section>
 
 <section id="services" class="content-section-front">   
-    <h3 class="section-title">Palvelut</h3>
-    <div id="services-intro"><p>Lorem ipsum jne</p></div>
-    <div class="services-wrapper">
+    <div id="services-wrapper">
+        <!--<div class="service-row"> -->
+        <a href="#">
+            <figure id="service-1" class="service-box">
+                
+            </figure>
+        </a>
+        <a href="#">
+            <figure id="service-2" class="service-box">
+                
+            </figure>
+        </a>
+        <a href="#">
+            <figure id="service-3" class="service-box">
+                
+            </figure>
+        </a>
         
+        <!--</div>-->
+        <!-- <div class="service-row"> -->
+        <a href="#">
+            <figure id="service-4" class="service-box">
+               
+            </figure>
+        </a>
+        <a href="#">
+             <figure id="service-5" class="service-box">
+                
+            </figure> 
+        </a>
+        <a href="#">
+            <figure id="service-6" class="service-box">
+                
+            </figure>
+        </a>
+       <!-- </div> -->
     </div>
 </section>
 <!-- <section id="bg-pic-1" class="bg-img-container"> -->
