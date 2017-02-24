@@ -174,84 +174,109 @@ img {
     padding: 0 0 0 0;
 }
 
+
+
 #services-wrapper {
+    /*
     display: flex;
     flex-wrap: wrap;
+    */
+    padding: 0px 0px 0px 0px;
+    margin: 0 2px -2px -2px;
 }
 
 
 
+/*
+
+#services-wrapper a figure img {
+    height: 100%;
+    width: 100%;
+}
+*/
+
+/*
 #services-wrapper a{
     display: inline-block;
+    
     margin-bottom: -4px;
     width: 33.33%;
     height: 50vh;
     margin-right: 0px;
     text-decoration: none;
     color: black;
+    
 }
-
-#services-wrapper a figure img {
-    height: 100%;
-    width: 100%;
-}
+*/
 
 .service-box {
-    /*
-    float:left;
-    position: relative;
-    width: 30%;
-    padding-bottom : 30%; 
-    margin:1.66%;
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-size:cover;
-    */
-    height: 50vh;
-    margin: 0;
-    overflow: hidden;
+    display: inline-block;
+    width: 33.333%;
+    margin: -2px -4px -2px 0px; 
 }
 
-#service-1 {
+div.stretchy-wrapper {
+    width: 100%;
+    padding-bottom: 105%; 
+    position: relative;
+    background: black;
+}
+ 
+.service-content-wrapper {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+
+#service-1 .service-content-wrapper {
     background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
     url("./img/services/designing-impressive-of-mobile-typography-in-2016-trending-techniques-in-designing-for-copy.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    
 }
 
-#service-2 {
+#service-2 .service-content-wrapper {
     background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
     url("./img/services/mainonnantuotanto-copy.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+   
 }
 
-#service-3 {
+#service-3 .service-content-wrapper {
     background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
     url("./img/services/Blogging-Why-its-an-awesome-marketing-tool-and-super-important-for-your-photography-website.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+  
 }
 
-#service-4 {
+#service-4 .service-content-wrapper {
     background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
     url("./img/services/Web-Design-Las-Vegas-33a-1600x900-copy.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+   
 }
 
-#service-5 {
+#service-5 .service-content-wrapper {
     background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
     url("./img/services/translate-copy.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+   
 }
 
-#service-6 {
+#service-6 .service-content-wrapper {
     background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
     url("./img/services/160-photogaphing-paintings-part1-copy.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+   
+}
+
+.service-content {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 75%;
+    text-align: left;
+    font-size: 35px;
 }
 
 #our-customers {

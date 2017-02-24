@@ -21,39 +21,75 @@ get_header(); ?>
 <section id="services" class="content-section-front">   
     <div id="services-wrapper">
         <!--<div class="service-row"> -->
-        <a href="#">
+        
             <figure id="service-1" class="service-box">
-                
+                <div class="stretchy-wrapper">
+                    <a href="#">
+                        <div class="service-content-wrapper">
+                            <div class="service-content">Konsepti- ja kampanjasuunnittelu</div>
+                        </div>
+                    </a>
+                </div>
             </figure>
-        </a>
-        <a href="#">
+        
+        
             <figure id="service-2" class="service-box">
-                
+                <div class="stretchy-wrapper">
+                    <a href="#">
+                        <div class="service-content-wrapper">
+                            <div class="service-content">Asiakkuusmarkkinointi</div>
+                        </div>
+                    </a>
+                </div>
             </figure>
-        </a>
-        <a href="#">
+        
+        
             <figure id="service-3" class="service-box">
-                
+                <div class="stretchy-wrapper">
+                    <a href="#">
+                        <div class="service-content-wrapper">
+                            <div class="service-content">Graafinen suunnittelu</div>
+                        </div>
+                    </a>
+                </div>
             </figure>
-        </a>
+        
         
         <!--</div>-->
         <!-- <div class="service-row"> -->
-        <a href="#">
+        
             <figure id="service-4" class="service-box">
-               
+               <div class="stretchy-wrapper">
+                   <a href="#">
+                       <div class="service-content-wrapper">
+                            <div class="service-content">Digitaaliset ratkaisut</div>
+                        </div>
+                    </a>
+                </div>
             </figure>
-        </a>
-        <a href="#">
+        
+        
              <figure id="service-5" class="service-box">
-                
+                <div class="stretchy-wrapper">
+                    <a href="#">
+                        <div class="service-content-wrapper">
+                            <div class="service-content">Jakelutie</div>
+                        </div>
+                    </a>
+                </div>
             </figure> 
-        </a>
-        <a href="#">
+        
+        
             <figure id="service-6" class="service-box">
-                
+                <div class="stretchy-wrapper">
+                    <a href="#">
+                        <div class="service-content-wrapper">
+                            <div class="service-content">Kuvauspalvelut ja käännökset</div>
+                        </div>
+                    </a>
+                </div>
             </figure>
-        </a>
+        
        <!-- </div> -->
     </div>
 </section>
