@@ -1,0 +1,367 @@
+%!Adobe-FontList 1.16
+%Locale:0x809
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-Book
+FamilyName:Avenir
+StyleName:Book
+FullName:Avenir Book
+MenuName:Avenir Book
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:72
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:400
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,18,Avenir Book
+NameArray:0,Mac,4,Avenir Book
+NameArray:0,Win,1,Avenir Book
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-BookOblique
+FamilyName:Avenir
+StyleName:Book Oblique
+FullName:Avenir Book Oblique
+MenuName:Avenir Book
+StyleBits:1
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:388
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:400
+WidthClass:5
+AngleClass:1
+NameArray:0,Mac,18,Avenir Book Oblique
+NameArray:0,Mac,4,Avenir Book Oblique
+NameArray:0,Win,1,Avenir Book
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-Black
+FamilyName:Avenir
+StyleName:Black
+FullName:Avenir Black
+MenuName:Avenir Black
+StyleBits:2
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:704
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:800
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,18,Avenir Black
+NameArray:0,Mac,4,Avenir Black
+NameArray:0,Win,1,Avenir Black
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-BlackOblique
+FamilyName:Avenir
+StyleName:Black Oblique
+FullName:Avenir Black Oblique
+MenuName:Avenir Black Oblique
+StyleBits:3
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:1004
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:800
+WidthClass:5
+AngleClass:1
+NameArray:0,Mac,18,Avenir Black Oblique
+NameArray:0,Mac,4,Avenir Black Oblique
+NameArray:0,Win,1,Avenir Black Oblique
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-Heavy
+FamilyName:Avenir
+StyleName:Heavy
+FullName:Avenir Heavy
+MenuName:Avenir Heavy
+StyleBits:2
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:1304
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:900
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,18,Avenir Heavy
+NameArray:0,Mac,4,Avenir Heavy
+NameArray:0,Win,1,Avenir Heavy
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-HeavyOblique
+FamilyName:Avenir
+StyleName:Heavy Oblique
+FullName:Avenir Heavy Oblique
+MenuName:Avenir Heavy
+StyleBits:3
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:1588
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:900
+WidthClass:5
+AngleClass:1
+NameArray:0,Mac,18,Avenir Heavy Oblique
+NameArray:0,Mac,4,Avenir Heavy Oblique
+NameArray:0,Win,1,Avenir Heavy
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-Light
+FamilyName:Avenir
+StyleName:Light
+FullName:Avenir Light
+MenuName:Avenir Light
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:1904
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:300
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,18,Avenir Light
+NameArray:0,Mac,4,Avenir Light
+NameArray:0,Win,1,Avenir Light
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-LightOblique
+FamilyName:Avenir
+StyleName:Light Oblique
+FullName:Avenir Light Oblique
+MenuName:Avenir Light
+StyleBits:1
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:2220
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:300
+WidthClass:5
+AngleClass:1
+NameArray:0,Mac,18,Avenir Light Oblique
+NameArray:0,Mac,4,Avenir Light Oblique
+NameArray:0,Win,1,Avenir Light
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-Medium
+FamilyName:Avenir
+StyleName:Medium
+FullName:Avenir Medium
+MenuName:Avenir Medium
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:2536
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:500
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,18,Avenir Medium
+NameArray:0,Mac,4,Avenir Medium
+NameArray:0,Win,1,Avenir Medium
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-MediumOblique
+FamilyName:Avenir
+StyleName:Medium Oblique
+FullName:Avenir Medium Oblique
+MenuName:Avenir Medium
+StyleBits:1
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:2836
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:500
+WidthClass:5
+AngleClass:1
+NameArray:0,Mac,18,Avenir Medium Oblique
+NameArray:0,Mac,4,Avenir Medium Oblique
+NameArray:0,Win,1,Avenir Medium
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-Oblique
+FamilyName:Avenir
+StyleName:Oblique
+FullName:Avenir Oblique
+MenuName:Avenir
+StyleBits:1
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:3152
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:400
+WidthClass:5
+AngleClass:1
+NameArray:0,Mac,18,Avenir Oblique
+NameArray:0,Mac,4,Avenir Oblique
+NameArray:0,Win,1,Avenir
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Avenir-Roman
+FamilyName:Avenir
+StyleName:Roman
+FullName:Avenir Roman
+MenuName:Avenir
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Avenir.ttc
+TTCOffset:3468
+DataFormat:sfntData
+FileLength:1593228
+FileModTime:1449967384
+WeightClass:400
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,18,Avenir Roman
+NameArray:0,Mac,4,Avenir Roman
+NameArray:0,Win,1,Avenir
+NameArray:0,Win,16,Avenir
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Century Gothic
+FileModTime:1299744000
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Lato-Light
+FamilyName:Lato
+StyleName:Light
+FullName:Lato Light
+MenuName:Lato Light
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\Lato-Light.ttf
+DataFormat:sfntData
+FileLength:644556
+FileModTime:1438879320
+WeightClass:300
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Lato Light
+NameArray:0,Win,1,Lato Light
+NameArray:0,Win,16,Lato
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:MinionPro-Regular
+FamilyName:Minion Pro
+StyleName:Regular
+FullName:Minion Pro
+MenuName:Minion Pro
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\MinionPro-Regular.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+FileLength:231312
+FileModTime:1392896642
+WeightClass:400
+WidthClass:5
+AngleClass:0
+DesignSize:110
+NameArray:0,Mac,4,Minion Pro
+NameArray:0,Win,1,Minion Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:RobotoSlab-Bold
+FamilyName:Roboto Slab
+StyleName:Bold
+FullName:Roboto Slab Bold
+MenuName:Roboto Slab
+StyleBits:2
+WritingScript:Roman
+OutlineFileName:C:\Users\Ilari\Documents\Opinnäytetyö\projekti\leiskat\smoy_verkkosivut_2302_2017 Ilarille\smoy_verkkosivut_2302_2017 Ilarille\Document fonts\RobotoSlab-Bold.ttf
+DataFormat:sfntData
+FileLength:170616
+FileModTime:1487726282
+WeightClass:700
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,18,Roboto Slab Bold
+NameArray:0,Mac,4,Roboto Slab Bold
+NameArray:0,Win,1,Roboto Slab
+NameArray:0,Win,16,Roboto Slab
+%EndFont
+

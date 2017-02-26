@@ -8,12 +8,18 @@
 get_header(); ?>
 
 <section id="about-us" class="content-section-front">
+    <div id="about-heading">
+        <h1>Moro.</h1>
+    </div>
     <div class="about-container">
         <h3 class="about-section-title">Keitä me olemme?</h3>
+        <div class="title-underline-orange"></div>
         <p>Luova, vaikuttava ja tuloshakuinen mainostoimisto ja asiakassuhdemarkkinoinnin edelläkävijä.</p>
         <h3 class="about-section-title">Mitä teemme?</h3>
+        <div class="title-underline-orange"></div>
         <p>Suunnittelemme ja toteutamme monikanavaista markkinointiviestintää asiakkaidemme tavoitteiden saavuttamiseksi. Palveluihimme kuuluu konsepti- ja kampanjasuunnittelu, graafinen ja digitaalinen suunnittelu ja tuotanto, asiakkuusmarkkinoinnin kehittäminen, sekä kääntäminen ja kuvaukset.</p>
         <h3 class="about-section-title">Miten me teemme sen?</h3>
+        <div class="title-underline-orange"></div>
         <p>Pitkään kokemukseen ja tuoreeseen näkemykseen perustuvalla tiedolla ja taidolla, sekä erittäin hyvällä palveluasenteella. Panostamme työssämme luovuuteen, laadukkaaseen designiin ja tarkkaan tuotantoon.</p>
     </div>
 </section>
