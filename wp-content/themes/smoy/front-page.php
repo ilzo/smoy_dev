@@ -43,7 +43,7 @@ get_header(); ?>
         <!--<div class="service-row"> -->
         
             <figure id="service-1" class="service-box">
-                <div class="stretchy-wrapper">
+                <div class="service-stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
                             <div class="service-content">
@@ -57,7 +57,7 @@ get_header(); ?>
         
         
             <figure id="service-2" class="service-box">
-                <div class="stretchy-wrapper">
+                <div class="service-stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
                             <div class="service-content">
@@ -71,7 +71,7 @@ get_header(); ?>
         
         
             <figure id="service-3" class="service-box">
-                <div class="stretchy-wrapper">
+                <div class="service-stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
                             <div class="service-content">
@@ -88,7 +88,7 @@ get_header(); ?>
         <!-- <div class="service-row"> -->
         
             <figure id="service-4" class="service-box">
-               <div class="stretchy-wrapper">
+               <div class="service-stretchy-wrapper">
                    <a href="#">
                        <div class="service-content-wrapper">
                             <div class="service-content">
@@ -102,7 +102,7 @@ get_header(); ?>
         
         
              <figure id="service-5" class="service-box">
-                <div class="stretchy-wrapper">
+                <div class="service-stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
                             <div class="service-content">
@@ -116,7 +116,7 @@ get_header(); ?>
         
         
             <figure id="service-6" class="service-box">
-                <div class="stretchy-wrapper">
+                <div class="service-stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
                             <div class="service-content">
@@ -136,8 +136,140 @@ get_header(); ?>
 <!-- </section> -->
 
 <section id="our-customers" class="content-section-front">
-    <h3 class="section-title">Asiakkaat</h3>
-    <div id="customers-list">Tähän tulee asiakasrefejä</div>
+    <div class="content-section-header">
+        <div class="content-header-wrapper">
+            <div id="customers-heading" class="content-section-heading">
+                <h1 class="heading-orange">Referenssit</h1>
+            </div>
+            <div id="customers-header-body" class="content-header-body">
+                <p class="body-text-orange">Luova, vaikuttava ja tuloshakuinen mainostoimisto ja asiakassuhdemarkkinoinnin edelläkävijä.</p>
+            </div>
+       </div>
+    </div>
+    
+    <div id="customers-wrapper">
+        <figure id="customer-1" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-2" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-3" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-4" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-5" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-6" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-7" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-8" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-9" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-10" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-11" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        <figure id="customer-12" class="customer-box">
+                <div class="customer-stretchy-wrapper">
+                    <a href="#">
+                        <div class="customer-content-wrapper">
+                            <div class="customer-content">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </figure>
+        
+    </div>
 </section>
 
 <!-- <section id="bg-pic-2" class="bg-img-container"> -->
