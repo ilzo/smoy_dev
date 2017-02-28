@@ -181,14 +181,39 @@ img {
     margin-bottom: 3.8em;
 }
 
-#about-heading h1 {
+.heading-orange, .heading-pink {
+    display: inline-block;
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
-    font-size: 4.0em;
-    width: 188px;
-    padding: 0 0px 0 15px;
     color: #f2f2f2;
+    font-size: 4.0em;
+    padding: 0 25px 0px 15px;
+}
+
+.body-text-orange, .body-text-pink {
+    display: inline-block;
+    font-family: 'LatoLight', Fallback, sans-serif;
+    color: #f2f2f2;
+    font-size: 1.15em;
+    //padding: 15px;
+    text-align: left;
+}
+
+
+.heading-orange, .body-text-orange { 
     background-color: #ff8100;
 }
+
+.heading-pink, .body-text-pink {
+    background-color: deeppink;
+}
+
+
+#about-heading > .heading-orange{
+  
+    //width: 188px;
+   
+}
+
 
 .about-container {
     max-width: 578px;
@@ -215,6 +240,26 @@ img {
     color: #f2f2f2;
 }
 
+.contact-us-button {
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+	background-color: transparent;
+	border: 2px solid #ff8100;
+	display: inline-block;
+	cursor: pointer;
+	color: #f2f2f2;
+	font-size: 24px;
+	padding: 22px 22px;
+    margin-top: 12px;
+	text-decoration: none;
+}
+
+
+.contact-us-button:hover {
+	
+//background-color:transparent;
+
+}
+
 
 #services {
     max-width: 100%;
@@ -225,6 +270,39 @@ img {
     background-size: cover;
     background-color: #828282;
     padding: 0 0 0 0;
+}
+
+.content-section-header {
+    position: relative;
+    height: 70vh !important;
+    background-repeat-x: no-repeat !important;
+    background-repeat-y: no-repeat !important;
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+
+.content-header-wrapper {
+    position: absolute;
+    bottom: 80px;
+    left: 145px;
+}
+
+.content-section-heading {
+    margin-bottom: 5px;
+}
+
+#services > .content-section-header {
+    background: url("./img/background/content_section_header_img_1.png");
+}
+
+
+#services-header-body > .body-text-pink {
+    max-width: 236px;
+    padding: 15px 57px 15px 15px;
 }
 
 
@@ -286,50 +364,72 @@ div.stretchy-wrapper {
     background-position: center !important;
 }
 
+/*
+.service-content-wrapper {
+    background: linear-gradient( rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.8) );
+}
+*/
+
 
 #service-1 .service-content-wrapper {
-    background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
+    background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ),
     url("./img/services/designing-impressive-of-mobile-typography-in-2016-trending-techniques-in-designing-for-copy.jpg");
     
 }
 
 #service-2 .service-content-wrapper {
-    background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
+    background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ),
     url("./img/services/mainonnantuotanto-copy.jpg");
    
 }
 
 #service-3 .service-content-wrapper {
-    background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
+    background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ),
     url("./img/services/Blogging-Why-its-an-awesome-marketing-tool-and-super-important-for-your-photography-website.jpg");
   
 }
 
 #service-4 .service-content-wrapper {
-    background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
+    background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ),
     url("./img/services/Web-Design-Las-Vegas-33a-1600x900-copy.png");
    
 }
 
 #service-5 .service-content-wrapper {
-    background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
+    background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ),
     url("./img/services/translate-copy.jpg");
    
 }
 
 #service-6 .service-content-wrapper {
-    background: linear-gradient( rgba(0, 0, 31, 0.45), rgba(0, 0, 31, 0.45) ),
+    background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ),
     url("./img/services/160-photogaphing-paintings-part1-copy.jpg");
    
 }
 
 .service-content {
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
     position: absolute;
     top: 20px;
     left: 20px;
     width: 75%;
     text-align: left;
     font-size: 35px;
+}
+
+#service-1 .service-content-wrapper .service-content, #service-6 .service-content-wrapper .service-content {
+    max-width: 450px;
+}
+
+#service-3 .service-content-wrapper .service-content, #service-4 .service-content-wrapper .service-content {
+    max-width: 300px;
+}
+
+.title-underline-pink {
+    height: 2px;
+    width: 50px;
+    background-color: deeppink;
+    margin: 17px 0 0px 0;
 }
 
 #our-customers {
@@ -339,7 +439,7 @@ div.stretchy-wrapper {
     text-align: center;  
 }
 
-#social {
+#blog {
     position: relative;
     background-color: #e7dfd6;
     max-width: 100%;
@@ -384,6 +484,12 @@ div.stretchy-wrapper {
     position: relative;
     height: 12.5em;
     padding: 5% 0 0 0;
+}
+
+@media screen and (max-width: 1300px) {
+    .service-content {
+        font-size: 28px;
+    }
 }
 
 

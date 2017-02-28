@@ -7,9 +7,9 @@
 
 get_header(); ?>
 
-<section id="about-us" class="content-section-front">
+<section id="about-us">
     <div id="about-heading">
-        <h1>Moro.</h1>
+        <h1 class="heading-orange">Moro.</h1>
     </div>
     <div class="about-container">
         <h3 class="about-section-title">Keitä me olemme?</h3>
@@ -22,9 +22,23 @@ get_header(); ?>
         <div class="title-underline-orange"></div>
         <p>Pitkään kokemukseen ja tuoreeseen näkemykseen perustuvalla tiedolla ja taidolla, sekä erittäin hyvällä palveluasenteella. Panostamme työssämme luovuuteen, laadukkaaseen designiin ja tarkkaan tuotantoon.</p>
     </div>
+    <div class="contact-button-container">
+        <!--<a href="#">Ota yhteyttä</a>-->
+        <button class="contact-us-button">Ota yhteyttä.</button>
+    </div>
 </section>
 
-<section id="services" class="content-section-front">   
+<section id="services" class="content-section-front">
+    <div class="content-section-header">
+        <div class="content-header-wrapper">
+            <div id="services-heading" class="content-section-heading">
+                <h1 class="heading-pink">Palvelut.</h1>
+            </div>
+            <div id="services-header-body" class="content-header-body">
+                <p class="body-text-pink">Luova, vaikuttava ja tuloshakuinen mainostoimisto ja asiakassuhdemarkkinoinnin edelläkävijä.</p>
+            </div>
+       </div>
+    </div>
     <div id="services-wrapper">
         <!--<div class="service-row"> -->
         
@@ -32,7 +46,10 @@ get_header(); ?>
                 <div class="stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
-                            <div class="service-content">Konsepti- ja kampanjasuunnittelu</div>
+                            <div class="service-content">
+                                Konsepti- ja kampanjasuunnittelu
+                                <div class="title-underline-pink"></div>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -43,7 +60,10 @@ get_header(); ?>
                 <div class="stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
-                            <div class="service-content">Asiakkuusmarkkinointi</div>
+                            <div class="service-content">
+                                <span class="service-title-desktop">Asiakkuus-<br/>markkinointi</span>
+                                <div class="title-underline-pink"></div>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -54,7 +74,10 @@ get_header(); ?>
                 <div class="stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
-                            <div class="service-content">Graafinen suunnittelu</div>
+                            <div class="service-content">
+                                Graafinen suunnittelu
+                                <div class="title-underline-pink"></div>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -68,7 +91,10 @@ get_header(); ?>
                <div class="stretchy-wrapper">
                    <a href="#">
                        <div class="service-content-wrapper">
-                            <div class="service-content">Digitaaliset ratkaisut</div>
+                            <div class="service-content">
+                                Digitaaliset ratkaisut
+                                <div class="title-underline-pink"></div>
+                           </div>
                         </div>
                     </a>
                 </div>
@@ -79,7 +105,10 @@ get_header(); ?>
                 <div class="stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
-                            <div class="service-content">Jakelutie</div>
+                            <div class="service-content">
+                                Jakelutie
+                                <div class="title-underline-pink"></div>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -90,7 +119,10 @@ get_header(); ?>
                 <div class="stretchy-wrapper">
                     <a href="#">
                         <div class="service-content-wrapper">
-                            <div class="service-content">Kuvauspalvelut ja käännökset</div>
+                            <div class="service-content">
+                                Kuvauspalvelut ja käännökset
+                                <div class="title-underline-pink"></div>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -111,12 +143,11 @@ get_header(); ?>
 <!-- <section id="bg-pic-2" class="bg-img-container"> -->
 <!--<img class="bg-img" src="http://192.168.11.6:8081/loud_dev/wp-content/uploads/2016/08/1103-helmi_0144_bg-2400x1600.jpg" /> -->
 <!-- </section> -->
-<section id="social" class="content-section-front">
-    <h3 class="section-title">Smoy Somessa</h3>
+<section id="blog" class="content-section-front">
+    <h3 class="section-title">Blogi</h3>
     <div>
-    <p>Tähän tulee some- ja blogiupotteet</p>
+    <p>Tähän tulee blogiupote/-feedi</p>
     </div>
-    
 </section>
 <section id="our-staff" class="content-section-front">
     <h3 class="section-title">Me</h3>
