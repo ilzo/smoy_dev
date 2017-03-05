@@ -149,124 +149,148 @@ get_header(); ?>
     
     <div id="customers-wrapper">
         <figure id="customer-1" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-2" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-3" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-4" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-5" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-6" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                   
                 </div>
+                 </a>
         </figure>
         <figure id="customer-7" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-8" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                   
                 </div>
+                 </a>
         </figure>
         <figure id="customer-9" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-10" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-11" class="customer-box">
+            <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                    
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
+                </a>
         </figure>
         <figure id="customer-12" class="customer-box">
+             <a href="#">
                 <div class="customer-stretchy-wrapper">
-                    <a href="#">
+                   
                         <div class="customer-content-wrapper">
                             <div class="customer-content">
                             </div>
                         </div>
-                    </a>
+                   
                 </div>
+                  </a>
         </figure>
         
     </div>

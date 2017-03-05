@@ -372,6 +372,7 @@ div.service-stretchy-wrapper {
 .service-content-wrapper {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
+    margin: -1px;
     color: white;
     font-size: 24px;
     text-align: center;
@@ -458,31 +459,6 @@ div.service-stretchy-wrapper {
 #customers-wrapper {
     padding: 0;
     margin: 0 0.001% -2px -2px;
-}
-
-
-.customer-box {
-    display: inline-block;
-    width: 25%;
-    margin: -2px -1.5px -2px -2.5px; 
-}
-
-div.customer-stretchy-wrapper {
-    width: 100%;
-    padding-bottom: 95%; 
-    position: relative;
-    background: black;
-}
- 
-.customer-content-wrapper {
-    position: absolute;
-    top: 0; bottom: 0; left: 0; right: 0;
-    color: white;
-    font-size: 24px;
-    text-align: center;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-    background-position: center !important;
 }
 
 
