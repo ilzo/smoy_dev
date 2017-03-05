@@ -147,6 +147,8 @@ get_header(); ?>
        </div>
     </div>
     
+    <!--
+    
     <div id="customers-wrapper">
         <figure id="customer-1" class="customer-box">
             <a href="#">
@@ -294,6 +296,7 @@ get_header(); ?>
         </figure>
         
     </div>
+-->
 </section>
 
 <!-- <section id="bg-pic-2" class="bg-img-container"> -->
