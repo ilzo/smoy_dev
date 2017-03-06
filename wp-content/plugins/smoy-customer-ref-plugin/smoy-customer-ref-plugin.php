@@ -9,7 +9,7 @@ Author URI: -
 License: -
 */
 
-require_once(dirname( __DIR__ ) . '/includes/smoy-ref-controller.php' );
+require_once(dirname( __DIR__ ) . '/smoy-customer-ref-plugin/includes/smoy-ref-controller.php' );
 
 function setup_smoy_customer_refs() {
     
@@ -84,6 +84,7 @@ function smoy_refs_parse_request( $query ) {
         $query->set( 'post_type', array( 'post', 'smoy_customer_refs', 'page' ) );
     }
 }
+
 add_action( 'pre_get_posts', 'smoy_refs_parse_request' );
 
 

@@ -46,18 +46,20 @@ class SmoyRefController
         if( is_home() )
             
             self::$smoy_refs_total_posts = get_option('posts_per_page'); /* number of latest posts to show */
-            self::$smoy_refs_latest_loop = new WP_Query( array( 'post_type' => 'smoy_customer_refs', 'posts_per_page' => $smoy_refs_total_posts, 'order' => 'DESC','ignore_sticky_posts' => true ) );
+            self::$smoy_refs_latest_loop = new WP_Query( array( 'post_type' => 'smoy_customer_refs', 'posts_per_page' => self::$smoy_refs_total_posts, 'order' => 'ASC','ignore_sticky_posts' => true ) );
         
-            
-            add_action('wp_enqueue_scripts', 'smoy_refs_load_front_page_styles');
-            add_action( 'wp_head', 'smoy_refs_box_background_styles');
+            add_action('wp_enqueue_scripts', array(&$this, 'smoy_refs_load_front_page_styles' ));
+            add_action('wp_head', array(&$this, 'smoy_refs_box_background_styles' ));
             add_action('smoy_get_references', array(&$this, 'smoy_refs_front_page_output' ));
 
     }
     
     function smoy_refs_load_front_page_styles() 
     {
-        wp_enqueue_style('smoy_customer_references_front', plugin_dir_url( __FILE__ ) . 'public/css/smoy-customer-references-front.css' );
+        //wp_enqueue_style('smoy_customer_references_front', plugin_dir_url( __FILE__ ) . 'public/css/smoy-customer-references-front.css' );
+        
+        wp_enqueue_style('smoy_customer_references_front', plugins_url( 'public/css/smoy-customer-references-front.css', dirname(__FILE__) ));
+         
     }
 
 
@@ -65,7 +67,7 @@ class SmoyRefController
     {
         
         //include our view
-        require_once(dirname( __DIR__ ) . 'views/smoy-ref-front-page-html.php' );
+        require_once(dirname( __DIR__ ) . '/includes/views/smoy-ref-front-page-html.php' );
 
         //render the view
         $content = SmoyRefFrontPageHtmlView::render(self::$smoy_refs_total_posts, self::$smoy_refs_latest_loop);
@@ -80,24 +82,35 @@ class SmoyRefController
         
         $latest_posts = self::$smoy_refs_latest_loop;
         
-        
         if( !empty($total_posts) && ($total_posts > 0) ):
         
-            echo '<style type="text/css">\n';
                 $i = 0;
 
                 if ( $latest_posts->have_posts() ) :
+        
+                    echo "<style type=\"text/css\">";
 
-                    while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
+                        while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
+                        
+                        $attr = array(
+                            'id' => get_the_ID()
+                        );
+                    
+                        $i++;
+        
+                        //$thumb = wp_get_attachment_image_src( get_post_thumbnail_id($attr), 'test-big' );
+                        
+                        $image_id = get_post_thumbnail_id();
+                        $image_url = wp_get_attachment_image_src($image_id, 'test-big', true);
+                        //var_dump($image_url);
+        
+                        echo "#customer-".$i." .customer-content-wrapper {background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url(\"".$image_url[0]."\");}\n";
 
-                    $i++;
-
-                    echo '#customer-'.$i.' .customer-content-wrapper {background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url("'.the_post_thumbnail_url().'");}\n';
-
-                    endwhile;
-
+                        endwhile;
+                    echo "</style>";
+                    wp_reset_postdata();
                 endif;
-            echo '</style>';
+            
         endif;
           
     }

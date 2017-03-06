@@ -36,6 +36,7 @@ function smoy_setup() {
 	add_theme_support( 'post-thumbnails' );
     /* Set the image size by cropping the image */
     add_image_size('test-thumbnail', 500, 326, true);
+    add_image_size( 'test-big', 3000, 9999);
     /*
     add_image_size('works-thumbnail-large', 1250, 815, true ); 
     add_image_size( 'single-big-test', 3000, 9999);

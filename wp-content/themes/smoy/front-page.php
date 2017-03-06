@@ -146,6 +146,7 @@ get_header(); ?>
             </div>
        </div>
     </div>
+    <?php do_action('smoy_get_references'); ?>
     
     <!--
     

@@ -8,7 +8,7 @@
  * @since 1.0
  */
  
-if( !class_exists( SmoyRefFrontPageHtmlView) ):
+//if( !class_exists( SmoyRefFrontPageHtmlView) ):
  
 /**
  * class to render the html for single posts
@@ -181,5 +181,5 @@ if( !class_exists( SmoyRefFrontPageHtmlView) ):
          
         
     }
-endif;
+//endif;
 ?>
