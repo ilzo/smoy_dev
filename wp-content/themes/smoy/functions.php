@@ -70,7 +70,7 @@ function smoy_setup() {
 	 * Switch default core markup for search form, comment form, and comments
 	 * to output valid HTML5.
 	 */
-    /*
+    
 	add_theme_support( 'html5', array(
 		'search-form',
 		'comment-form',
@@ -79,8 +79,7 @@ function smoy_setup() {
 		'caption',
 	) );
     
-    */
-
+    
 	/*
 	 * Enable support for Post Formats.
 	 *
@@ -411,6 +410,59 @@ function twentysixteen_content_width() {
 }
 add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
 */
+
+
+
+
+
+
+
+function smoy_blog_excerpts($content = false) {
+        global $post;
+        $excerpt_length = 42;
+        
+        if ( $post->post_excerpt ) {
+            if(is_home()){
+                $content = get_the_excerpt();
+
+                function custom_excerpt_length( $length ) {
+                    return 20;
+                }
+                add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+                function excerpt_readmore($more) {
+                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( 'Lue lisää &#187;', 'smoy' ) . '</a>';
+                }
+
+                add_filter('excerpt_more', 'excerpt_readmore');
+            }
+            
+        }else{
+            if(is_home()){
+                $content = $post->post_content;
+                $words = explode(' ', $content, $excerpt_length + 1);
+                if(count($words) > $excerpt_length) {
+                    array_pop($words);
+                    $content = implode(' ', $words);
+                }
+                
+                $content = strip_tags($content);
+                $content = '<p>' . $content . ' ...</p>';
+                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( 'Lue lisää &#187;', 'smoy' ) . '</a>';
+            }
+        }
+        
+
+        return $content;
+    
+}
+
+
+add_filter('the_content', 'smoy_blog_excerpts');
+
+
+
+
 
 
 

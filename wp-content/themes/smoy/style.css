@@ -181,7 +181,7 @@ img {
     margin-bottom: 3.8em;
 }
 
-.heading-orange, .heading-pink {
+.heading-orange, .heading-pink, .heading-black {
     display: inline-block;
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
     color: #f2f2f2;
@@ -189,7 +189,7 @@ img {
     padding: 0 25px 0px 15px;
 }
 
-.body-text-orange, .body-text-pink {
+.body-text-orange, .body-text-pink, .body-text-black {
     display: inline-block;
     font-family: 'LatoLight', Fallback, sans-serif;
     color: #f2f2f2;
@@ -205,6 +205,10 @@ img {
 
 .heading-pink, .body-text-pink {
     background-color: deeppink;
+}
+
+.heading-black, .body-text-black {
+    background-color: black;
 }
 
 
@@ -301,6 +305,10 @@ img {
 
 #our-customers > .content-section-header {
     background: url("./img/background/content_section_header_img_2.png");
+}
+
+#blog > .content-section-header {
+    background: url("./img/background/content_section_header_img_4.png");
 }
 
 #services-header-body > .body-text-pink {
@@ -500,11 +508,41 @@ div.customer-stretchy-wrapper {
 
 #blog {
     position: relative;
-    background-color: #e7dfd6;
+    background-color: #f2f2f2;
     max-width: 100%;
     margin-top: 0;
     text-align: center;
     height: auto;
+}
+
+#blog-wrapper {
+    display: flex;
+    padding: 9.0em 4.5em 9.0em 4.5em;
+    max-width: 1250px;
+    margin: auto;
+}
+
+#blog-wrapper article {
+    font-family: 'LatoLight', Fallback, sans-serif;
+    display: block;
+    width: 50%;
+    text-align: left;
+    margin: 0 2.5% 0 2.5%;
+}
+
+.blog-front-header, .blog-front-content {
+    max-width: 600px;
+}
+
+.blog-front-header {
+    background-color: black;
+    color: #f2f2f2;
+    padding: 1.5em 1.5em 1.5em 1.5em;
+}
+
+
+.blog-front-content p {
+    margin: 2.5% 0 2.5% 0;
 }
 
 #our-staff {

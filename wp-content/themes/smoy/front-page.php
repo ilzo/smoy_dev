@@ -152,18 +152,27 @@ get_header(); ?>
 <!-- <section id="bg-pic-2" class="bg-img-container"> -->
 <!--<img class="bg-img" src="http://192.168.11.6:8081/loud_dev/wp-content/uploads/2016/08/1103-helmi_0144_bg-2400x1600.jpg" /> -->
 <!-- </section> -->
-<section id="blog" class="content-section-front">
-    <h3 class="section-title">Blogi</h3>
-    <div>
-    <p>Tähän tulee blogiupote/-feedi</p>
-    </div>
-</section>
 <section id="our-staff" class="content-section-front">
     <h3 class="section-title">Me</h3>
     <div>
     <p>Tähän tulee henkilöstökuvat</p>
     </div>
     
+</section>
+<section id="blog" class="content-section-front">
+    <div class="content-section-header">
+        <div class="content-header-wrapper">
+            <div id="blog-heading" class="content-section-heading">
+                <h1 class="heading-black">Blogi</h1>
+            </div>
+            <!--
+            <div id="blog-header-body" class="content-header-body">
+                <p class="body-text-orange">Luova, vaikuttava ja tuloshakuinen mainostoimisto ja asiakassuhdemarkkinoinnin edelläkävijä.</p>
+            </div>
+            -->
+       </div>
+    </div>
+    <?php get_template_part( 'template-parts/smoy-blogs-front'); ?>
 </section>
 <section id="contact" class="content-section-front">
     <h3 class="section-title">Ota yhteyttä</h3>
