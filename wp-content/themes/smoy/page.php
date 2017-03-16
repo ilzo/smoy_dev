@@ -7,7 +7,7 @@
  * other "pages" on your WordPress site will use a different template.
  *
  * @package WordPress
- * @subpackage smoy
+ * @subpackage Smoy
  * 
  */
 
@@ -36,6 +36,4 @@ get_header('single'); ?>
 	<?php get_sidebar( 'content-bottom' ); ?>
 
 </div><!-- .content-area -->
-
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

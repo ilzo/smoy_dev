@@ -2,7 +2,7 @@
 
 <?php 
 
-$smoy_latest_loop = new WP_Query( array( 'post_type' => 'post', 'posts_per_page' => 2, 'order' => 'DESC','ignore_sticky_posts' => true ) );
+$smoy_latest_loop = new WP_Query( array( 'post_type' => 'post', 'posts_per_page' => 2, 'order' => 'DESC', 'cat' => 2, 'ignore_sticky_posts' => true ) );
 
 if ( !wp_is_mobile() ){
 

@@ -3,7 +3,7 @@
  * The template used for displaying page content
  *
  * @package WordPress
- * @subpackage smoy
+ * @subpackage Smoy
  * 
  */
 ?>
