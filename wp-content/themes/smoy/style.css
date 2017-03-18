@@ -11,19 +11,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 @font-face {
-  font-family: 'Avenir';
-  src:  url('./fonts/Avenir.ttc') format('ttc');
-}
-
-@font-face {
   font-family: 'LatoLight';
   src:  url('./fonts/Lato-Light.ttf') format('truetype');
 }
 
-@font-face {
-  font-family: 'MinionProRegular';
-  src:  url('./fonts/MinionPro-Regular.otf') format('otf');
-}
 
 @font-face {
   font-family: 'RobotoSlabBold';
@@ -115,8 +106,16 @@ body {
 }
 
 #header-single {
+    position: relative;
     height: 50vh;
     width: 100%;
+    background-repeat-x: no-repeat !important;
+    background-repeat-y: no-repeat !important;
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+    background-position: center !important;
 }
 
 #top-menu {
@@ -535,7 +534,7 @@ div.customer-stretchy-wrapper {
     max-width: 600px;
 }
 
-.blog-front-header {
+.blog-front-header, .blog-header {
     background-color: black;
     color: #f2f2f2;
     padding: 1.5em 1.5em 1.5em 1.5em;
@@ -563,6 +562,20 @@ div.customer-stretchy-wrapper {
     padding: 9.5% 0 15% 0;
     text-align: center;
     min-height: 530px;
+}
+
+.blogs-wrapper {
+    padding: 5.5em 0 5.5em 0;
+    margin: auto auto;
+    max-width: 1800px;
+    text-align: center;
+}
+
+.blog-preview-content {
+    font-family: 'LatoLight', Fallback, sans-serif;
+    max-width: 50%;
+    margin: 5% auto 5% auto;
+    text-align: left;
 }
 
 

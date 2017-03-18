@@ -13,28 +13,23 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
-<?php 
-    /*
-        $smoy_single_post_thumbnail_url = the_post_thumbnail_url( 'large' );
-        $test = '#header-single{ background: url("'.$smoy_single_post_thumbnail_url.'");}';
-        $smoy_single_header_css = '<style type="text/css">';
-        $smoy_single_header_css .= $smoy_single_post_thumbnail_url;
-        $smoy_single_header_css .= $test;
-        $smoy_single_header_css .= '</style>';
-
-        echo $smoy_single_header_css;
-        */
-    
-    ?>
 <?php wp_head(); ?>
 </head>
 
 <body>
-<div id="page-wrapper-single">
-<div id="header-single">   
+<div id="page-wrapper-blogs">
+<div id="header-blogs">   
     <div class="navigation-top">
          <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
-    </div><!-- .navigation-top -->
-    <div class="single-title"><?php the_title(); ?></div>
+    </div>
+    <section id="blog" class="content-section-front">
+    <div class="content-section-header">
+        <div class="content-header-wrapper">
+            <div id="blog-heading" class="content-section-heading">
+                <h1 class="heading-black">Blogi</h1>
+            </div>
+       </div>
+    </div>
+    </section>
              
 </div>

@@ -7,9 +7,9 @@
  * 
  */
 
-get_header('single'); ?>
+get_header('blogs'); ?>
 
-	<article>
+	<div class="blogs-wrapper">
 
 		<?php 
 		//$temp = $wp_query; $wp_query= null;
@@ -23,16 +23,26 @@ get_header('single'); ?>
         );
         
 		$smoy_blogs_loop = new WP_Query($smoy_blogs_query_args); 
-        //$wp_query->query('posts_per_page=5' . '&paged='.$paged);
-        
-        //$smoy_blogs_loop = new WP_Query( array( 'post_type' => 'post', 'posts_per_page' => 5, 'order' => 'DESC', 'cat' => 2, 'ignore_sticky_posts' => true ) );
-        
         
 		while ($smoy_blogs_loop->have_posts()) : $smoy_blogs_loop->the_post(); ?>
 
-		<h2><a href="<?php the_permalink(); ?>" title="Read more"><?php the_title(); ?></a></h2>
-		<?php //the_excerpt(); ?>
-
+		
+        <article class="blog-preview-content">
+            <div class="wrap">
+                <header class="blog-header">
+                        <?php the_title( '<h2 class="blog-front-title">', '</h2>' ); ?>
+                </header>
+                <?php 
+                //the_post_thumbnail('test-big');
+                the_post_thumbnail('large'); 
+                ?>
+                <div class="blog-content">
+                        <?php the_content(); ?>
+                </div>
+            </div>
+        </article>
+        
+        
 		<?php endwhile; 
         
         smoy_custom_pagination($smoy_blogs_loop->max_num_pages,"",$paged);
@@ -43,6 +53,6 @@ get_header('single'); ?>
         
        <?php wp_reset_postdata(); ?>
 
-	</article>
+	</div>
 
-<?php get_footer(); ?>
+<?php get_footer('single'); ?>

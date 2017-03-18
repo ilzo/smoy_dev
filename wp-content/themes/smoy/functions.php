@@ -420,9 +420,10 @@ add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
 function smoy_blog_excerpts($content = false) {
         global $post;
         $excerpt_length = 42;
+        $somevar = "moro";
         
         if ( $post->post_excerpt ) {
-            if(is_home() || is_page_template('blogs')){
+            if(is_home() || is_page('blogi')){
                 $content = get_the_excerpt();
 
                 function custom_excerpt_length( $length ) {
@@ -438,7 +439,9 @@ function smoy_blog_excerpts($content = false) {
             }
             
         }else{
-            if(is_home()){
+            
+            if(is_home() || is_page('blogi')){
+                
                 $content = $post->post_content;
                 $words = explode(' ', $content, $excerpt_length + 1);
                 if(count($words) > $excerpt_length) {
@@ -523,6 +526,43 @@ function smoy_custom_pagination($numpages = '', $pagerange = '', $paged='') {
 
 }
 
+
+/*
+add_action( 'wp_head', 'output_single_header_style');
+
+function output_single_header_style() {
+    
+    if(!is_single()){
+        return;
+    }
+    
+    global $post;
+        
+    $smoy_single_post_thumbnail_url = get_the_post_thumbnail_url( $post, 'large' );
+        
+    $header_css_line = '#header-single{ background: url("'.$smoy_single_post_thumbnail_url.'");}';
+    $smoy_single_header_css = '<style type="text/css">';
+    $smoy_single_header_css .= $header_css_line;
+    $smoy_single_header_css .= '</style>';
+
+    echo $smoy_single_header_css;
+        
+    
+    
+}
+*/
+
+
+
+
+function smoy_get_blog_attached_images() {
+    global $post;
+    $szPostContent = $post->post_content;
+    $szSearchPattern = '~<img [^\>]*\ />~';
+    // Run preg_match_all to grab all the images and save the results in $aPics
+    preg_match_all( $szSearchPattern, $szPostContent, $aPics );
+    return $aPics[0];
+}
 
 
 
@@ -703,54 +743,58 @@ function smoy_customer_references_styles(){
 add_action( 'wp_head', 'smoy_customer_references_styles');
 
 function smoy_customer_references_styles() {
+    
+    if(is_home()) {
 
-    $css = array();
-    $customer_bg_imgs = array();
-    $smoy_refs_logo_min_heights = array();
-    $smoy_refs_logo_max_heights = array();
-    $counter = 1;
-    
-    for($i = 0; $i < 12; $i++){
-        $j = $i + 1;
-        $customer_bg_imgs[$i] = get_theme_mod( 'smoy_customer_bg_img_'.$j);
-    }
-    
-    foreach ($customer_bg_imgs as $bg_img) {
-        
-        $this_customer_logo_min_height = get_theme_mod( 'smoy_customer_logo_min_height_'.$counter);
-        $this_customer_logo_max_height = get_theme_mod( 'smoy_customer_logo_max_height_'.$counter);
-    
-        if(empty($bg_img)){
-            $css['#customer-'.$counter.' .customer-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) )";
-        }else{
-            $bg_url = wp_get_attachment_url($bg_img);
-            $css['#customer-'.$counter.' .customer-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url(\"".$bg_url."\")";
-        }
-    
-        if(!empty($this_customer_logo_min_height)){
-            $css['#customer-'.$counter.' .customer-content img']['min-height'] = $this_customer_logo_min_height . 'px';
-        }
-        
-        if(!empty($this_customer_logo_max_height)){
-            $css['#customer-'.$counter.' .customer-content img']['max-height'] = $this_customer_logo_max_height . 'px';
-        }
-        
-        $counter++;
-          
-    }
+        $css = array();
+        $customer_bg_imgs = array();
+        $smoy_refs_logo_min_heights = array();
+        $smoy_refs_logo_max_heights = array();
+        $counter = 1;
 
-    $final_css = '<style type="text/css">';
-    foreach ( $css as $style => $style_array ) {
-        $final_css .= $style . '{';
-        foreach ( $style_array as $property => $value ) {
-            $final_css .= $property . ':' . $value . ';';
+        for($i = 0; $i < 12; $i++){
+            $j = $i + 1;
+            $customer_bg_imgs[$i] = get_theme_mod( 'smoy_customer_bg_img_'.$j);
         }
-        $final_css .= '}';
-    }
-    
-    $final_css .= '</style>';
 
-    echo $final_css;
+        foreach ($customer_bg_imgs as $bg_img) {
+
+            $this_customer_logo_min_height = get_theme_mod( 'smoy_customer_logo_min_height_'.$counter);
+            $this_customer_logo_max_height = get_theme_mod( 'smoy_customer_logo_max_height_'.$counter);
+
+            if(empty($bg_img)){
+                $css['#customer-'.$counter.' .customer-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) )";
+            }else{
+                $bg_url = wp_get_attachment_url($bg_img);
+                $css['#customer-'.$counter.' .customer-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url(\"".$bg_url."\")";
+            }
+
+            if(!empty($this_customer_logo_min_height)){
+                $css['#customer-'.$counter.' .customer-content img']['min-height'] = $this_customer_logo_min_height . 'px';
+            }
+
+            if(!empty($this_customer_logo_max_height)){
+                $css['#customer-'.$counter.' .customer-content img']['max-height'] = $this_customer_logo_max_height . 'px';
+            }
+
+            $counter++;
+
+        }
+
+        $final_css = '<style type="text/css">';
+        foreach ( $css as $style => $style_array ) {
+            $final_css .= $style . '{';
+            foreach ( $style_array as $property => $value ) {
+                $final_css .= $property . ':' . $value . ';';
+            }
+            $final_css .= '}';
+        }
+
+        $final_css .= '</style>';
+
+        echo $final_css;
+        
+    }
 }
 
 add_action('smoy_get_references', 'smoy_refs_front_page_output');
