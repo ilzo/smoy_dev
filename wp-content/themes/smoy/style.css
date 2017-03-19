@@ -186,7 +186,7 @@ img {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
     color: #f2f2f2;
     font-size: 4.0em;
-    padding: 0 25px 0px 15px;
+    padding: 0 17px 0px 17px;
 }
 
 .body-text-orange, .body-text-pink, .body-text-black {
@@ -297,6 +297,7 @@ img {
 
 .content-section-heading {
     margin-bottom: 5px;
+    float: left;
 }
 
 #services > .content-section-header {
@@ -307,26 +308,47 @@ img {
     background: url("./img/background/content_section_header_img_2.png");
 }
 
+
+#our-staff > .content-section-header {
+    background: url("./img/background/content_section_header_img_4.jpg");
+}
+
+
 #blog > .content-section-header {
-    background: url("./img/background/content_section_header_img_4.png");
+    background: url("./img/background/content_section_header_img_5.png");
 }
 
 #services-header-body > .body-text-pink {
-    max-width: 236px;
-    padding: 15px 57px 15px 15px;
+    max-width: 270px;
+    padding: 15px 35px 15px 15px;
 }
 
 #customers-heading {
     padding: 0;
 }
 
+/*
 #customers-heading > .heading-orange{
     padding: 0 37px 0px 22px;
 }
+*/
+
 
 #customers-header-body > .body-text-orange {
     max-width: 358px;
     padding: 15px 33px 15px 15px;
+}
+
+/*
+#staff-heading > .heading-pink{
+    padding: 0 17px 0px 17px;
+}
+*/
+
+
+#staff-header-body > .body-text-pink {
+    max-width: 335px;
+    padding: 15px 27px 15px 15px;
 }
 
 
@@ -552,6 +574,105 @@ div.customer-stretchy-wrapper {
     text-align: center;
     height: auto;
 }
+
+#staff-wrapper {
+    position: relative;
+    //height: 87.5vh !important;
+    background-color: #0c0c0c;
+    height: 871px;
+}
+
+
+.staff-box {
+    /*
+    position: absolute;
+    
+    top: 0px;
+    left: 0px;
+    */
+    width: 190px;
+    height: 190px;
+}
+
+.person-content-wrapper{
+    width: 100%;
+    height: 100%;
+    
+}
+
+
+.person-content-wrapper {
+    background-size: cover !important;
+}
+
+/*
+
+#person-1 .person-content-wrapper {
+    background-image: url("./img/ihmiset/Maria_Blomberg.jpg");
+   
+}
+
+#person-2 .person-content-wrapper {
+    background-image: url("./img/ihmiset/Kimmo_Levonen@2x.jpg");
+   
+}
+
+#person-3 .person-content-wrapper {
+    background-image: url("./img/ihmiset/Katja_Himanen.jpg");
+   
+}
+
+#person-4 .person-content-wrapper {
+    background-image: url("./img/ihmiset/jarno_laitinen@2x.jpg");
+   
+}
+
+#person-5 .person-content-wrapper {
+    background-image: url("./img/ihmiset/teemu_eskola.jpg");
+   
+}
+
+#person-6 .person-content-wrapper {
+    background-image: url("./img/ihmiset/Jukka_Illikainen.jpg");
+   
+}
+
+#person-7 .person-content-wrapper {
+    background-image: url("./img/ihmiset/esa_sonninen@2x.jpg");
+   
+}
+
+#person-8 .person-content-wrapper {
+    background-image: url("./img/ihmiset/jyri_huhtala@2x.jpg");
+   
+}
+
+#person-9 .person-content-wrapper {
+    background-image: url("./img/ihmiset/marini_jarvenpaa_graafihrj.jpg");
+   
+}
+
+#person-10 .person-content-wrapper {
+    background-image: url("./img/ihmiset/Mari_Eramaa@2x.jpg");
+   
+}
+
+#person-11 .person-content-wrapper {
+    background-image: url("./img/ihmiset/Leyla_Avsar@2x.jpg");
+   
+}
+
+#person-12 .person-content-wrapper {
+    background-image: url("./img/ihmiset/Pekka_Palonkorpi@2x.JPG");
+    
+}
+
+#person-13 .person-content-wrapper {
+   background-image: url("./img/ihmiset/Dani_Raatikainen_@2x.jpg");
+    
+}
+*/
+
 
 
 

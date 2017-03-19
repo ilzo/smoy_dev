@@ -35,7 +35,7 @@ get_header(); ?>
                 <h1 class="heading-pink">Palvelut.</h1>
             </div>
             <div id="services-header-body" class="content-header-body">
-                <p class="body-text-pink">Luova, vaikuttava ja tuloshakuinen mainostoimisto ja asiakassuhdemarkkinoinnin edelläkävijä.</p>
+                <p class="body-text-pink">Meiltä löydät monipuolisten mainostoimistopalvelujen lisäksi palveluasennetta, joka ei ole kiinni markkinointibudjettisi koosta.</p>
             </div>
        </div>
     </div>
@@ -139,7 +139,7 @@ get_header(); ?>
     <div class="content-section-header">
         <div class="content-header-wrapper">
             <div id="customers-heading" class="content-section-heading">
-                <h1 class="heading-orange">Referenssit</h1>
+                <h1 class="heading-orange">Referenssit.</h1>
             </div>
             <div id="customers-header-body" class="content-header-body">
                 <p class="body-text-orange">Luova, vaikuttava ja tuloshakuinen mainostoimisto ja asiakassuhdemarkkinoinnin edelläkävijä.</p>
@@ -153,17 +153,26 @@ get_header(); ?>
 <!--<img class="bg-img" src="http://192.168.11.6:8081/loud_dev/wp-content/uploads/2016/08/1103-helmi_0144_bg-2400x1600.jpg" /> -->
 <!-- </section> -->
 <section id="our-staff" class="content-section-front">
-    <h3 class="section-title">Me</h3>
-    <div>
-    <p>Tähän tulee henkilöstökuvat</p>
+    <div class="content-section-header">
+        <div class="content-header-wrapper">
+            <div id="staff-heading" class="content-section-heading">
+                <h1 class="heading-pink">Me.</h1>
+            </div>
+            <div id="staff-header-body" class="content-header-body">
+                <p class="body-text-pink">Monipuolisuudestamme ja kokemuksestamme markkinointiviestinnän parissa on sinulle takuulla hyötyä. Sovitaanko heti starttipalaveri?</p>
+            </div>
+       </div>
     </div>
-    
+    <div id="staff-wrapper">
+        
+        
+    </div>
 </section>
 <section id="blog" class="content-section-front">
     <div class="content-section-header">
         <div class="content-header-wrapper">
             <div id="blog-heading" class="content-section-heading">
-                <h1 class="heading-black">Blogi</h1>
+                <h1 class="heading-black">Blogi.</h1>
             </div>
             <!--
             <div id="blog-header-body" class="content-header-body">
@@ -180,17 +189,5 @@ get_header(); ?>
     <p>Tähän tulee yhteydenottolomake</p>
     </div>
 </section>
-<!-- <section id="bg-pic-3" class="bg-img-container"> -->
-<!--<img class="bg-img" src="http://192.168.11.6:8081/loud_dev/wp-content/uploads/2016/08/1103-helmi_0144_bg-2400x1600.jpg" /> -->
-<!-- </section> -->
-
-<!-- <section id="bg-pic-4" class="bg-img-container"> -->
-<!--<img class="bg-img" src="http://192.168.11.6:8081/loud_dev/wp-content/uploads/2016/08/1103-helmi_0144_bg-2400x1600.jpg" /> -->
-<!-- </section> -->
-
-<!-- <section id="bg-pic-5" class="bg-img-container"> -->
-<!--<img class="bg-img" src="http://192.168.11.6:8081/loud_dev/wp-content/uploads/2016/08/1103-helmi_0144_bg-2400x1600.jpg" /> -->
-<!-- </section> -->
-
 
 <?php get_footer(); ?>
