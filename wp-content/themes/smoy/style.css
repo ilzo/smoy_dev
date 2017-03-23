@@ -582,15 +582,30 @@ div.customer-stretchy-wrapper {
     height: 871px;
 }
 
-.staff-wrapper-test-class-1 {
+.staff-wrapper-custom-class-s {
     height: 130vw !important;
 }
 
-.staff-box-test-class-1 {
+.staff-wrapper-custom-class-m {
+    height: 59.15vw !important;
+}
+
+
+.staff-box-custom-class-s {
     top: 0 !important;
     left: 0 !important;
     width: 33.33% !important;
     height: 25% !important;
+    position: relative !important;
+    display: inline-block;
+    float: left;
+}
+
+.staff-box-custom-class-m {
+    top: 0 !important;
+    left: 0 !important;
+    width: 20% !important;
+    height: 33.5% !important;
     position: relative !important;
     display: inline-block;
     float: left;

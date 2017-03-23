@@ -116,6 +116,141 @@ function smoy_setup() {
         
 }
 
+
+
+add_action('init', 'smoy_people');
+
+function smoy_people() {
+    
+    $labels = array(
+        'name' => _x('Henkilöstö', 'post type general name'),
+        'singular_name' => _x('Henkilö', 'post type singular name'),
+        'add_new_item' => _x( 'Lisää uusi henkilö', 'smoy' ),
+        'set_featured_image' => _x('Aseta henkilökuva', 'smoy')
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => false,
+        'publicly_queryable' => false,
+        'exclude_from_search' => true,
+        'show_ui' => true,
+        'query_var' => false,
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'menu_position' => null,
+        'menu_icon' => 'dashicons-groups',
+        'supports' => 'title',
+        'rewrite' => false
+    ); 
+
+    register_post_type( 'smoy_person' , $args );
+    flush_rewrite_rules();
+}
+
+/*
+add_action('do_meta_boxes', 'smoy_move_person_image_meta_box');
+
+function smoy_move_person_image_meta_box(){
+    remove_meta_box( 'postimagediv', 'post', 'side' );
+    add_meta_box('smoy_person_image_metabox', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
+}
+*/
+
+
+
+
+final class Smoy_Person_Metabox {
+    // These hook into to the two core actions we need to perform; creating the metabox, and saving it's contents when it is posted
+    public function __construct() {
+        // http://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
+        add_action( 'add_meta_boxes', array( $this, 'create_meta_box' ) );
+
+        // http://codex.wordpress.org/Plugin_API/Action_Reference/save_post
+        add_filter( 'save_post', array( $this, 'save_meta_box' ), 10, 2 );
+    }
+
+    public function create_meta_box() {
+        // http://codex.wordpress.org/Function_Reference/add_meta_box
+        add_meta_box(
+            'person_information_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
+            __( 'Henkilön tiedot', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
+            array( $this, 'print_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
+            'smoy_person', // (string) (required) The type of Write screen on which to show the edit screen section ('post', 'page', 'dashboard', 'link', 'attachment' or 'custom_post_type' where custom_post_type is the custom post type slug)
+            'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
+            'high' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
+        );
+        
+        add_meta_box('smoy_person_image_metabox', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
+    }
+
+    public function print_meta_box( $post, $metabox ) {
+        ?>
+            <!-- These hidden fields are a registry of metaboxes that need to be saved if you wanted to output multiple boxes. The current metabox ID is added to the array. -->
+            <input type="hidden" name="meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
+            <!-- http://codex.wordpress.org/Function_Reference/wp_nonce_field -->
+            <?php wp_nonce_field( 'save_' . $metabox['id'], $metabox['id'] . '_nonce' ); ?>
+
+            <!-- This is a sample of fields that are associated with the metabox. You will notice that get_post_meta is trying to get previously saved information associated with the metabox. -->
+            <!-- http://codex.wordpress.org/Function_Reference/get_post_meta -->
+            <table class="form-table">
+            <tr><th><label for="person_title"><?php _e( 'Henkilön nimike', 'smoy' ); ?></label></th>
+            <td><input name="location_address" type="text" id="person_title" value="<?php echo get_post_meta($post->ID, 'person_title', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="person_phone"><?php _e( 'Henkilön puhelinnumero', 'smoy' ); ?></label></th>
+            <td><input name="person_phone" type="text" id="person_phone" value="<?php echo get_post_meta($post->ID, 'person_phone', true); ?>" class="regular-text"></td></tr>
+            </table>
+
+            <!-- These hidden fields are a registry of fields that need to be saved for each metabox. The field names correspond to the field name output above. -->
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="person_title" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="person_phone" />
+        <?php
+    }
+
+    public function save_meta_box( $post_id, $post ) {
+        // Check if this information is being submitted by means of an autosave; if so, then do not process any of the following code
+        if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
+
+        // Determine if the postback contains any metaboxes that need to be saved
+        if( empty( $_POST['meta_box_ids'] ) ){ return; }
+
+        // Iterate through the registered metaboxes
+        foreach( $_POST['meta_box_ids'] as $metabox_id ){
+            // Verify thhe request to update this metabox
+            if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
+
+            // Determine if the metabox contains any fields that need to be saved
+            if( count( $_POST[ $metabox_id . '_fields' ] ) == 0 ){ continue; }
+
+            // Iterate through the registered fields        
+            foreach( $_POST[ $metabox_id . '_fields' ] as $field_id ){
+                // Update or create the submitted contents of the fiels as post meta data
+                // http://codex.wordpress.org/Function_Reference/update_post_meta
+                update_post_meta($post_id, $field_id, $_POST[ $field_id ]);
+            }
+        }
+
+        return $post;
+    }
+}
+
+$smoy_person_metabox = new Smoy_Person_Metabox();
+
+
+
+
+add_filter( 'enter_title_here', 'smoy_person_title' );
+
+function smoy_person_title( $input ) {
+    if ( 'smoy_person' === get_post_type() ) {
+        return __( 'Kirjoita henkilön nimi', 'smoy' );
+    }
+
+    return $input;
+}
+
+
+
+
 function smoy_register_menus() {
   register_nav_menus(
     array('top' => __( 'Main menu', 'smoy' ))
@@ -123,6 +258,25 @@ function smoy_register_menus() {
 }
 
 add_action( 'init', 'smoy_register_menus' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 
@@ -149,7 +303,7 @@ function load_scripts()
     
     wp_register_script( 'font-awesome', 'https://use.fontawesome.com/e06db2cf19.js', array(), '4.6.3', false );
     
-    wp_register_script( 'freewall', get_template_directory_uri() . '/js/freewall.js', array( 'jquery'), '1.0.6', false);
+    //wp_register_script( 'freewall', get_template_directory_uri() . '/js/freewall.js', array( 'jquery'), '1.0.6', false);
     
     
     //wp_register_script( 'scrolloverflow', get_template_directory_uri() . '/js/scrolloverflow.min.js', array(), '5.2.0', false);
@@ -190,9 +344,12 @@ function load_scripts()
     
     //wp_enqueue_script( 'nav-menu');
     
+    /*
+    
     if(is_home()){
         wp_enqueue_script( 'freewall' );
     }
+    */
     
     
     /*
