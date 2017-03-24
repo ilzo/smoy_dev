@@ -163,10 +163,7 @@ get_header(); ?>
             </div>
        </div>
     </div>
-    <div id="staff-wrapper">
-        
-        
-    </div>
+    <?php do_action('smoy_get_people'); ?> 
 </section>
 <section id="blog" class="content-section-front">
     <div class="content-section-header">

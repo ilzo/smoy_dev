@@ -140,7 +140,7 @@ function smoy_people() {
         'hierarchical' => false,
         'menu_position' => null,
         'menu_icon' => 'dashicons-groups',
-        'supports' => 'title',
+        'supports' => array('title', 'thumbnail'),
         'rewrite' => false
     ); 
 
@@ -156,6 +156,8 @@ function smoy_move_person_image_meta_box(){
     add_meta_box('smoy_person_image_metabox', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
 }
 */
+
+
 
 
 
@@ -181,7 +183,9 @@ final class Smoy_Person_Metabox {
             'high' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
         );
         
-        add_meta_box('smoy_person_image_metabox', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
+        remove_meta_box( 'postimagediv', 'smoy_person', 'side' );
+        
+        add_meta_box('postimagediv', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
     }
 
     public function print_meta_box( $post, $metabox ) {
@@ -195,7 +199,7 @@ final class Smoy_Person_Metabox {
             <!-- http://codex.wordpress.org/Function_Reference/get_post_meta -->
             <table class="form-table">
             <tr><th><label for="person_title"><?php _e( 'Henkilön nimike', 'smoy' ); ?></label></th>
-            <td><input name="location_address" type="text" id="person_title" value="<?php echo get_post_meta($post->ID, 'person_title', true); ?>" class="regular-text"></td></tr>
+            <td><input name="person_title" type="text" id="person_title" value="<?php echo get_post_meta($post->ID, 'person_title', true); ?>" class="regular-text"></td></tr>
             <tr><th><label for="person_phone"><?php _e( 'Henkilön puhelinnumero', 'smoy' ); ?></label></th>
             <td><input name="person_phone" type="text" id="person_phone" value="<?php echo get_post_meta($post->ID, 'person_phone', true); ?>" class="regular-text"></td></tr>
             </table>
@@ -575,14 +579,9 @@ add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
 
 
 
-
-
-
-
 function smoy_blog_excerpts($content = false) {
         global $post;
         $excerpt_length = 42;
-        $somevar = "moro";
         
         if ( $post->post_excerpt ) {
             if(is_home() || is_page('blogi')){
@@ -974,6 +973,131 @@ function smoy_refs_front_page_output() {
 	require_once(get_template_directory() . '/template-parts/smoy-customer-references.php' );
 	$output = ob_get_clean();
 	echo $output;
+}
+
+
+
+add_action('smoy_get_people', 'smoy_staff_front_page_output');
+
+function smoy_staff_front_page_output() {
+    
+    if(is_home()){
+        
+         class Smoy_Person {
+             public $id;
+             public $name = '';
+             public $title = null;
+             public $phone = null;
+             public $thumbnail = null;
+
+             public function __construct($id, $name, $title, $phone, $thumbnail) {
+                 $this->id = $id;
+                 $this->name = $name;
+                 if(!empty($title)){
+                     $this->title = $title;
+                 }
+
+                 if(!empty($phone)){
+                    $this->phone = $phone;
+                 }
+                 
+                 if(!empty($thumbnail)){
+                    $this->thumbnail = $thumbnail;
+                 }
+
+             }
+
+
+
+         }   
+
+        $arrIndex = 0;
+        $pplArray = array();
+        $metaArray = array();
+        
+        $smoy_people_query = new WP_Query( array( 'post_type' => 'smoy_person', 'order' => 'ASC', 'posts_per_page'=> -1) );
+
+        $posts = $smoy_people_query->posts;
+
+        foreach($posts as $post) {
+            $thisPersonTitle = get_post_meta($post->ID, 'person_title');
+            $thisPersonPhone = get_post_meta($post->ID, 'person_phone');
+            $thisPersonThumb = get_the_post_thumbnail_url($post->ID, 'full');
+            $thisPerson = new Smoy_Person($post->ID, $post->post_title, $thisPersonTitle[0], $thisPersonPhone[0], $thisPersonThumb);
+            $pplArray[$arrIndex] = $thisPerson;
+            $arrIndex++;
+            
+        }
+        
+        $arrLength = count($pplArray);
+        
+        //$remainder = count($pplArray) % 8;
+        
+        
+        if($arrLength % 8 !== 0){
+            $remainder = $arrLength % 8;
+            $blackBoxNum = 8 - $remainder;
+            
+            $currentPos = ($arrLength - 1) - ($blackBoxNum * 2);
+            
+            for($i = 0; $i < $blackBoxNum; $i++){
+                
+                $blackBox = 'black_box';
+                
+                //$original = array( 'a', 'b', 'c', 'd', 'e' );
+                //$inserted = array( 'x' ); // Not necessarily an array
+
+                array_splice( $pplArray, $currentPos, 0, $blackBox); // splice in at position 3
+                
+                $currentPos += 2;
+                // $original is now a b c x d e
+                
+            }
+            
+              
+        }
+        
+        
+        //print_r($pplArray);
+        //var_dump($metaArray);
+        
+        ob_start();
+        require_once(get_template_directory() . '/template-parts/smoy-people.php' );
+        $output = ob_get_clean();
+        echo $output;
+        
+
+        /*    
+        if ( $smoy_people_loop->have_posts() ) :
+        while ( $smoy_people_loop->have_posts() ) : $smoy_people_loop->the_post();
+
+        $pplArray[$arrIndex] = 
+
+
+        $arrIndex++;
+        endwhile;
+        endif;
+        */
+
+
+        wp_reset_postdata();     
+        
+    }
+    
+    /*
+    
+    $smoy_refs_logos = array();
+    
+    for ($i = 0; $i < 12; $i++) {
+        $j = $i + 1; 
+        $smoy_refs_logos[$i] = wp_get_attachment_url(get_theme_mod( 'smoy_customer_logo_'.$j));
+    }
+    
+    ob_start();
+	require_once(get_template_directory() . '/template-parts/smoy-customer-references.php' );
+	$output = ob_get_clean();
+	echo $output;
+    */
 }
 
 
