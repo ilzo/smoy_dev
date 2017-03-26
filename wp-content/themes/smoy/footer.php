@@ -12,6 +12,9 @@
 
 <script type="text/javascript">
     
+    
+    
+    
     //var temp = "<div class='staff-box' style='width:{width}px; height: {height}px;'><div class='person-stretchy-wrapper'><div class='person-content-wrapper' style='background: {thisUrl}; background-position: center !important;'><div class='person-content'></div></div></div></div>";
 			
     

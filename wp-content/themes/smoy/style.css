@@ -80,7 +80,7 @@ body {
     height: 100%;
     width: 100%;
     text-align: center;
-    background: url(./img/background/home_header.png);
+    background: url(./img/background/smoy_home_header.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 100%;
@@ -101,7 +101,7 @@ body {
     top: 0px;
     height: auto;
     width: 100%;
-    z-index: 9999;
+    z-index: 5;
     background-color: black;
 }
 
@@ -119,14 +119,17 @@ body {
 }
 
 #top-menu {
+   position: relative;
    width: 100%;
    margin-left: 180px;
 }
+
 
 #top-menu ul{
     list-style-type: none;
     text-align: center;
 }
+
 
 #top-menu li {
     display: inline-block;
@@ -134,9 +137,11 @@ body {
     margin: 15px auto;
 }
 
+
 #top-menu li a{
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
     text-decoration: none;
-    color: white;
+    color: #f2f2f2;
     font-size: 20px;
 }
 
@@ -150,6 +155,51 @@ body {
     padding: 9.5% 10% 13.3% 10%;
 }
 */
+
+
+
+/* The Overlay (background) */
+#top-menu-overlay {
+    
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+    height: auto;
+    left: 0;
+    top: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0);
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+
+  
+/* When you mouse over the navigation links, change their color */
+#top-menu-overlay a:hover, #top-menu-overlay a:focus {
+    color: #f1f1f1;
+}
+
+#top-menu-open {
+    width: 0 !important;
+    display: none;
+    margin: 14px 15px 4px 15px;
+    font-size: 2em;
+    color: white;
+}
+
+
+#top-menu-overlay .closebtn {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+    z-index: 999;
+    text-decoration: none;
+    color: #f2f2f2;
+}
+
 
 img {
     height: 100%;
@@ -403,7 +453,7 @@ div.service-stretchy-wrapper {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
     margin: -1px;
-    color: white;
+    color: #f2f2f2;
     font-size: 24px;
     text-align: center;
     background-repeat: no-repeat !important;
@@ -508,7 +558,7 @@ div.customer-stretchy-wrapper {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
     margin: -1px;
-    color: white;
+    color: #f2f2f2;
     font-size: 24px;
     text-align: center;
     background-repeat: no-repeat !important;
@@ -807,10 +857,13 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 1200px) {
+    
+    
     #home-hero {
-        background-size: 190%;
-        background-position: 97.5% 30%;
+        background-size: 150%;
+        background-position: 70% 75%;
     }
+    
     
     
     .customer-box {
@@ -822,14 +875,145 @@ div.customer-stretchy-wrapper {
 }
 
 
-@media screen and (max-width: 960px) { 
+@media screen and (max-width: 960px) {
+    
+    
+    #home-hero {
+        background: url(./img/background/smoy_home_header_mobile.jpg);
+        position: relative;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 53%;
+        padding: 0;
+    }
+    
+    /*
+    
+    #header-home {
+        height: 76vh;
+        width: 100%;
+    }
+    */
+    
 
     .customer-box {
         display: inline-block;
         width: 50%;
         margin: -2px -1.5px -2px -2.5px; 
     }
+    
+    #top-menu {
+        position: absolute;
+        top: 25%;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+    }
+    
+    
+    
+    #top-menu li {
+        padding: 8px;
+        font-size: 36px;
+        color: #818181;
+        display: block; /* Display block instead of inline */
+        transition: 0.3s; /* Transition effects on hover (color) */
+    }
+    
+    #top-menu-overlay {
+        height: 0;
+        width: 100%;
+        position: fixed; 
+        z-index: -1;
+        left: 0;
+        top: 0;
+        background-color: rgb(0,0,0); 
+        background-color: rgba(0,0,0, 0.9); 
+        overflow: hidden; 
+        transition: 0.5s; 
 
+    }
+    
+    #nav-logo-container {
+        float: none;
+        margin: 15px 20px 4px 15px;
+        text-align: center;
+        width: 90%;
+        display: inline-block;
+    }
+
+    
+    #top-menu-open {
+        float: left;
+        display: inline-block;
+    }
+    
+    #top-menu-overlay .closebtn {
+        display: block;
+    }
+    
+    
+      
+    
+
+}
+
+@media screen and (max-width: 780px) {
+    
+    #header-home {
+        height: 100vw;
+        width: 100%;
+    }
+    
+    #home-hero {
+        background-size: 110%;
+        background-position: 45% 20%;
+    }
+    
+    /*
+    @media screen and (max-height: 900px) {
+        #home-hero {
+            background-size: 154%;
+            background-position: 68% 100%;
+        }
+    }
+    
+    */
+    
+    
+
+}
+
+/*
+@media screen and (max-width: 780px) and (min-width: 783px) {
+    
+    #header-home {
+        height: 783px;
+        width: 100%;
+    }
+    
+    #home-hero {
+        background-size: 154%;
+        background-position: 68% 0%;
+    }
+
+}
+
+*/
+
+
+
+
+@media screen and (max-height: 450px) {
+    #top-menu-overlay a {font-size: 20px}
+    #top-menu-overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
 }
 
 

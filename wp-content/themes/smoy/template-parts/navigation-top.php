@@ -8,7 +8,9 @@
  */
 
 ?>
+<!--
 <div id="site-navigation" class="main-navigation" role="navigation">
+-->
     
 <div id="nav-logo-container">
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
@@ -16,11 +18,20 @@
     </a>
 </div>
 
-	
+<div id="top-menu-overlay">
+    
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	<?php wp_nav_menu( array(
 		'theme_location'      => 'top',
 		'menu_id'             => 'top-menu',
         'container'           => 'nav'
 	)); ?>
+    
+    
+</div>	
 
-</div><!-- #site-navigation -->
+<span id="top-menu-open" class="dashicons dashicons-menu" onclick="openNav()"></span>
+
+<!--
+</div>
+-->
