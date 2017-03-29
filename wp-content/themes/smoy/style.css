@@ -630,8 +630,8 @@ div.customer-stretchy-wrapper {
     position: relative;
     background-color: #0c0c0c;
     height: auto;
-    padding-top: 4px;
-    margin-bottom: -4px;
+    padding-top: 0px;
+    margin: -2px 0 -5px 0px;
 }
 
 .staff-wrapper-custom-class-s {
@@ -665,10 +665,10 @@ div.customer-stretchy-wrapper {
 
 
 .person-box {
-    
+    position: relative;
     display: inline-block;
     width: 12.5%;
-    margin: -4px -1.5px 0px -2.5px;
+    margin: -5px -1.5px 0px -2.5px;
 }
 
 .person-content-wrapper{
@@ -682,13 +682,18 @@ div.customer-stretchy-wrapper {
     background-size: cover !important;
 }
 
+
+/*
 .person-stretchy-wrapper {
     position: relative;
     width: 100%;
     //padding-bottom: 95%;
 }
+*/
 
 .person-content-wrapper img {
+    display: block;
+    vertical-align: bottom;
     width: 100%;
     max-width: 380px;
     height: 100%;
@@ -697,14 +702,75 @@ div.customer-stretchy-wrapper {
 
 .person-content {
     position: absolute;
-    top: 45%;
-    transform: translateY(-12%);
-    height: 100%;
+    top: 0;
+    height: 76.5%;
     width: 100%;
-    display: none; 
-    margin-left: auto;
-    margin-right: auto;
+    opacity: 0; 
+    padding: 22.5% 0 1% 0;
+    background-color: rgba(204, 0, 153, 0.50);
+    color: #f2f2f2;
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    -ms-transition: all 0.5s ease-out 0s;
+    -o-transition: all 0.5s ease-out 0s;
+    transition: all 0.5s ease-out 0s;
 }
+
+
+.person-content:hover {
+    opacity: 1; 
+}
+
+
+    .person-content .person-name, .person-content .person-title, .person-content .person-phone {
+       margin: 0px 0 0px 10px;
+       text-align: left;
+    }
+
+    .person-content .person-name {
+        font-family: 'RobotoSlabBold', Fallback, sans-serif;
+        font-size: 1.15em;
+        
+    }
+
+
+    .person-content .person-title,  .person-content .person-phone{
+        font-family: 'LatoLight', Fallback, sans-serif;
+        font-size: 0.85em;
+        
+    }
+    
+    .person-content .person-line-separator {
+        height: 2px;
+        width: 40px;
+        margin: 5px 0px 10px 10px;
+        text-align: left;
+        background-color: #f2f2f2;
+    }
+    
+    
+
+
+
+
+
+/*
+.person-content .person-name {
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+}
+
+.person-content .person-title, .person-content .person-phone {
+    font-family: 'LatoLight', Fallback, sans-serif;
+}
+
+.person-content .person-line-separator {
+    height: 2px;
+    width: 10px;
+    background-color: #f2f2f2;
+}
+*/
+
+
 
 /*
 
@@ -850,10 +916,38 @@ div.customer-stretchy-wrapper {
     padding: 5% 0 0 0;
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1360px) {
     .service-content {
         font-size: 28px;
     }
+    
+    .person-box {
+        width: 25%;  
+    }
+    
+   .person-content .person-name, .person-content .person-title, .person-content .person-phone {
+       margin: 0px 0 0px 25px;
+       //text-align: left;
+    }
+    
+    .person-content .person-line-separator {
+        width: 40px;
+        margin: 5px 0px 15px 25px;
+        //text-align: left;
+    }
+    
+    .person-content .person-name {
+        font-size: 1.5em;
+        
+    }
+
+    .person-content .person-title, .person-content .person-phone {
+        font-size: 1.0em;
+    
+    }
+    
+      
+    
 }
 
 
@@ -1005,8 +1099,21 @@ div.customer-stretchy-wrapper {
     }
     
     
+    
+    
 
 }
+
+
+@media screen and (max-width: 630px) { 
+    
+    .person-box {
+        width: 50%;  
+    }
+
+
+}
+
 
 /*
 @media screen and (max-width: 780px) and (min-width: 783px) {
@@ -1040,7 +1147,8 @@ div.customer-stretchy-wrapper {
         width: 15%;
         float: left;
     }
-
+    
+    
 }
 
 

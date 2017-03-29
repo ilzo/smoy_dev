@@ -9,11 +9,15 @@
     if(!is_object($smoy_person)):
     
 ?> 
-    <figure id="person-<?php echo $i ?>" class="person-box">
-        <div class="person-stretchy-wrapper">
+    <figure id="person-<?php echo $i ?>" class="person-box black-box">
+        
+        <!--<div class="person-stretchy-wrapper">-->
             <div class="person-content-wrapper">
+                <div class="person-content">
+                </div>
             </div>
-        </div>
+        <!--</div>-->
+
     </figure>
     
 <?php
@@ -25,7 +29,7 @@
 
 <figure id="person-<?php echo $i ?>" class="person-box">
    <!--<a class="references-img-a" href="#">-->
-    <div class="person-stretchy-wrapper">
+   <!-- <div class="person-stretchy-wrapper">-->
         <div class="person-content-wrapper">
             <?php if(!empty($smoy_person->thumbnail)): 
                 $thisThumb = $smoy_person->thumbnail;
@@ -37,16 +41,17 @@
             <?php endif; 
             if(!empty($smoy_person->title)): ?>
                 <div class="person-content">
-                    <p><?php echo $smoy_person->name ?></p>
-                    <p><?php echo $smoy_person->title ?></p>
+                    <p class="person-name"><?php echo $smoy_person->name ?></p>
+                    <div class="person-line-separator"></div>
+                    <p class="person-title"><?php echo $smoy_person->title ?></p>
                     <?php if(!empty($smoy_person->phone)): ?>
-                        <p><?php echo $smoy_person->phone ?></p>
+                        <p class="person-phone"><?php echo $smoy_person->phone ?></p>
                     <?php endif; ?>
                 </div>
             
             <?php endif; ?>
         </div>
-    </div>
+   <!-- </div> -->
    <!--</a>-->
 </figure>
 
