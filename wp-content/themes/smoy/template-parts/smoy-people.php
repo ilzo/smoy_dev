@@ -37,6 +37,7 @@
             <?php endif; 
             if(!empty($smoy_person->title)): ?>
                 <div class="person-content">
+                    <p><?php echo $smoy_person->name ?></p>
                     <p><?php echo $smoy_person->title ?></p>
                     <?php if(!empty($smoy_person->phone)): ?>
                         <p><?php echo $smoy_person->phone ?></p>

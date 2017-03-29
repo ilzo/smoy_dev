@@ -11,7 +11,13 @@
 <?php wp_footer(); ?>
 
 <script type="text/javascript">
-    
+    /*
+    jQuery(".person-content-wrapper img").hover(function(){
+        $(this).css("background-color", "yellow");
+        }, function(){
+        $(this).css("background-color", "pink");
+    });
+    */
     
     
     

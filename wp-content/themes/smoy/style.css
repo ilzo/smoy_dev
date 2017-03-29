@@ -365,7 +365,8 @@ img {
 
 
 #blog > .content-section-header {
-    background: url("./img/background/content_section_header_img_5.png");
+    background: url("./img/background/content_section_header_img_5.jpg");
+    background-position: 80% 80% !important;
 }
 
 #services-header-body > .body-text-pink {
@@ -697,7 +698,7 @@ div.customer-stretchy-wrapper {
 .person-content {
     position: absolute;
     top: 45%;
-    transform: translateY(-5%);
+    transform: translateY(-12%);
     height: 100%;
     width: 100%;
     display: none; 
@@ -941,8 +942,14 @@ div.customer-stretchy-wrapper {
         float: none;
         margin: 15px 20px 4px 15px;
         text-align: center;
-        width: 90%;
+        width: 88%;
         display: inline-block;
+    }
+    
+    #open-button-container {
+        display: inline-block;
+        width: 5%;
+        float: left;
     }
 
     
@@ -964,13 +971,13 @@ div.customer-stretchy-wrapper {
 @media screen and (max-width: 780px) {
     
     #header-home {
-        height: 100vw;
+        height: 98vw;
         width: 100%;
     }
     
     #home-hero {
         background-size: 110%;
-        background-position: 45% 20%;
+        background-position: 45% 0;
     }
     
     /*
@@ -982,6 +989,20 @@ div.customer-stretchy-wrapper {
     }
     
     */
+    
+    #nav-logo-container {
+        float: none;
+        margin: 15px 20px 4px 15px;
+        text-align: center;
+        width: 80%;
+        display: inline-block;
+    }
+    
+    #open-button-container {
+        display: inline-block;
+        width: 10%;
+        float: left;
+    }
     
     
 
@@ -1005,6 +1026,24 @@ div.customer-stretchy-wrapper {
 */
 
 
+@media screen and (max-width: 450px) { 
+    #nav-logo-container {
+        float: none;
+        margin: 15px 20px 4px 15px;
+        text-align: center;
+        width: 70%;
+        display: inline-block;
+    }
+    
+    #open-button-container {
+        display: inline-block;
+        width: 15%;
+        float: left;
+    }
+
+}
+
+
 
 
 @media screen and (max-height: 450px) {
@@ -1014,6 +1053,8 @@ div.customer-stretchy-wrapper {
         top: 15px;
         right: 35px;
     }
+    
+    
 }
 
 

@@ -29,8 +29,10 @@
     
     
 </div>	
+<div id="open-button-container">
+    <span id="top-menu-open" class="dashicons dashicons-menu" onclick="openNav()"></span>
+</div>
 
-<span id="top-menu-open" class="dashicons dashicons-menu" onclick="openNav()"></span>
 
 <!--
 </div>
