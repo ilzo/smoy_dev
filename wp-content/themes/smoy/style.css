@@ -538,6 +538,7 @@ div.service-stretchy-wrapper {
 }
 
 #customers-wrapper {
+    position: relative;
     padding: 0;
     margin: 0 0.001% -2px -2px;
 }
@@ -575,6 +576,19 @@ div.customer-stretchy-wrapper {
     margin-right: -50%;
     transform: translate(-50%, -50%);
 
+}
+
+.customer-test-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: magenta;
+    
+    /*
+    transform: translateY(0);
+    -webkit-transition: width 1.5s, height 1.5s; 
+    transition: width 1.5s, height 1.5s;
+    */
 }
 
 

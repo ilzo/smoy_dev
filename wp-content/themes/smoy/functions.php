@@ -309,6 +309,8 @@ function load_scripts()
     
     wp_register_script('top-nav-menu', get_template_directory_uri() .'/js/top-nav-menu.js', array('jquery'), null, true);
     
+    wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery'), null, false);
+    
     //wp_register_script( 'freewall', get_template_directory_uri() . '/js/freewall.js', array( 'jquery'), '1.0.6', false);
     
     
@@ -340,6 +342,7 @@ function load_scripts()
     // Enqueue the registered scripts 
     wp_enqueue_script( 'font-awesome' );
     wp_enqueue_script( 'top-nav-menu' );
+    wp_enqueue_script( 'customer-references' );
     
     //wp_enqueue_script( 'gsap-tweenmax' );
     
