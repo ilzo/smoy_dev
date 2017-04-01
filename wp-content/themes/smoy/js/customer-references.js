@@ -65,7 +65,6 @@ jQuery(function() {
         }
         
         jQuery(customerBoxClone).on( "click", function() {
-            
             var cloneBoxTop = parseInt(jQuery(this).css('top'), 10);
             
             if(cloneBoxClicked == 0){
@@ -87,7 +86,6 @@ jQuery(function() {
            customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);      
         }
         
-    
     });
     
 });
