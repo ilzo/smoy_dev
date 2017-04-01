@@ -952,6 +952,8 @@ function smoy_customer_references_styles() {
             if(!empty($this_customer_logo_max_height)){
                 $css['#customer-'.$counter.' .customer-content img']['max-height'] = $this_customer_logo_max_height . 'px';
             }
+            
+            $css['#customer-'.$counter.' .customer-content-wrapper']['background-size'] = '240%';
 
             $counter++;
 

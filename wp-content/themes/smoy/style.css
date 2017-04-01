@@ -564,7 +564,7 @@ div.customer-stretchy-wrapper {
     font-size: 24px;
     text-align: center;
     background-repeat: no-repeat !important;
-    background-size: cover !important;
+    background-size: 240%; 
     background-position: center !important;
 }
 
@@ -578,17 +578,32 @@ div.customer-stretchy-wrapper {
 
 }
 
+.customer-content img {
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 .customer-test-box {
-    position: absolute;
+    position: absolute !important;
     top: 0;
     left: 0;
-    background-color: magenta;
+    //background-color: magenta;
     
     /*
     transform: translateY(0);
     -webkit-transition: width 1.5s, height 1.5s; 
     transition: width 1.5s, height 1.5s;
     */
+}
+
+.customer-cloned-box {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    
 }
 
 
