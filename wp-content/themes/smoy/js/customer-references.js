@@ -8,7 +8,6 @@ var customersWrapper;
 var customerBoxNum = 0;
 var customerBoxWidth = 0;
 var customerBoxHeight = 0;
-var cloneBoxClicked = 0;
 var customerBoxMarginTop = 0;
 var customerBoxMarginBottom = 0;
 var customerBoxMargin = '';
@@ -64,20 +63,6 @@ jQuery(function() {
            jQuery(customerBoxCloneLogoImg[0]).css(logoStyle);
         }
         
-        jQuery(customerBoxClone).on( "click", function() {
-            var cloneBoxTop = parseInt(jQuery(this).css('top'), 10);
-            
-            if(cloneBoxClicked == 0){
-                onCloneBoxClicked(customerBoxCloneContentWrapper[0], customerBoxCloneLogoImg[0]);
-            }
-
-            cloneBoxClicked = 1;
-
-        });
-        
-        console.log("customer box has been cloned:");
-        console.log(customerBoxClone);
-        
         if(isFourCols == 1) {
            customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);
         }else if(isThreeCols == 1) {
@@ -86,6 +71,8 @@ jQuery(function() {
            customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);      
         }
         
+        resizeCloneBox(customerBoxCloneContentWrapper[0], customerBoxCloneLogoImg[0]);
+    
     });
     
 });
@@ -181,8 +168,6 @@ function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customer
 
     jQuery(customersWrapper).append(customerBoxClone);
 
-    cloneBoxClicked = 0;
-
     if(customerBoxNum == 12) { 
         isInLastCorner = 1;
     }
@@ -271,8 +256,6 @@ function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, custome
 
     jQuery(customersWrapper).append(customerBoxClone);
 
-    cloneBoxClicked = 0;
-
     if(customerBoxNum == 12) { 
         isInLastCorner = 1;
     }
@@ -360,12 +343,10 @@ function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerB
 
     jQuery(customersWrapper).append(customerBoxClone);
 
-    cloneBoxClicked = 0;
-    
 }
 
 
-function onCloneBoxClicked(customerCloneContentWrapper, customerCloneLogo) {
+function resizeCloneBox(customerCloneContentWrapper, customerCloneLogo) {
     
     cloneBoxWidthDouble = 2 * customerBoxWidth;
     cloneBoxHeightDouble = 2 * customerBoxHeight;

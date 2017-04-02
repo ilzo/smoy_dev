@@ -80,7 +80,7 @@ body {
     height: 100%;
     width: 100%;
     text-align: center;
-    background: url(./img/background/smoy_home_header.jpg);
+    background: url(./img/background/smoy_home_header2.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 100%;
@@ -216,8 +216,8 @@ img {
     //height: auto;
     background-attachment:fixed;
     min-height: 100%;
-    background: linear-gradient( rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.8) ),
-    url("./img/background/about_us.jpg");
+    background: linear-gradient( rgba(18, 18, 18, 0.5), rgba(18, 18, 18, 0.5) ),
+    url("./img/background/meista.jpg");
     background-repeat-x: no-repeat !important;
     background-repeat-y: no-repeat !important;
     -webkit-background-size: cover !important;
@@ -328,7 +328,7 @@ img {
 
 .content-section-header {
     position: relative;
-    height: 70vh !important;
+    height: 80vh !important;
     background-repeat-x: no-repeat !important;
     background-repeat-y: no-repeat !important;
     -webkit-background-size: cover !important;
@@ -351,21 +351,22 @@ img {
 }
 
 #services > .content-section-header {
-    background: url("./img/background/content_section_header_img_1.png");
+    background: url("./img/background/palvelut.jpg");
 }
 
 #our-customers > .content-section-header {
-    background: url("./img/background/content_section_header_img_2.png");
+    background: url("./img/background/referenssit.jpg");
+    background-position: 70% 70% !important;
 }
 
 
 #our-staff > .content-section-header {
-    background: url("./img/background/content_section_header_img_4.jpg");
+    background: url("./img/background/me.jpg");
 }
 
 
 #blog > .content-section-header {
-    background: url("./img/background/content_section_header_img_5.jpg");
+    background: url("./img/background/blogi.jpg");
     background-position: 80% 80% !important;
 }
 
@@ -982,11 +983,13 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1200px) {
     
+    /*
     
     #home-hero {
         background-size: 150%;
         background-position: 70% 75%;
     }
+    */
     
     
     
@@ -1001,7 +1004,7 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 960px) {
     
-    
+    /*
     #home-hero {
         background: url(./img/background/smoy_home_header_mobile.jpg);
         position: relative;
@@ -1013,6 +1016,7 @@ div.customer-stretchy-wrapper {
         background-position: 50% 53%;
         padding: 0;
     }
+    */
     
     /*
     
@@ -1098,10 +1102,12 @@ div.customer-stretchy-wrapper {
         width: 100%;
     }
     
+    /*
     #home-hero {
         background-size: 110%;
         background-position: 45% 0;
     }
+    */
     
     /*
     @media screen and (max-height: 900px) {
