@@ -242,10 +242,13 @@ img {
 .body-text-orange, .body-text-pink, .body-text-black {
     display: inline-block;
     font-family: 'LatoLight', Fallback, sans-serif;
+    padding: 15px 20px 15px 20px;
+    font-weight: 600;
     color: #f2f2f2;
-    font-size: 1.15em;
-    //padding: 15px;
+    font-size: 1.08em;
+    line-height: 1.35;
     text-align: left;
+    float: left;
 }
 
 
@@ -341,8 +344,9 @@ img {
 
 .content-header-wrapper {
     position: absolute;
-    bottom: 80px;
-    left: 145px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 145px;  
 }
 
 .content-section-heading {
@@ -370,9 +374,12 @@ img {
     background-position: 80% 80% !important;
 }
 
+#contact > .content-section-header {
+    background: url("./img/background/ota_yhteytta.jpg");
+}
+
 #services-header-body > .body-text-pink {
-    max-width: 270px;
-    padding: 15px 35px 15px 15px;
+    max-width: 290px;
 }
 
 #customers-heading {
@@ -387,8 +394,7 @@ img {
 
 
 #customers-header-body > .body-text-orange {
-    max-width: 358px;
-    padding: 15px 33px 15px 15px;
+    max-width: 397px;
 }
 
 /*
@@ -399,8 +405,12 @@ img {
 
 
 #staff-header-body > .body-text-pink {
-    max-width: 335px;
-    padding: 15px 27px 15px 15px;
+    max-width: 325px;
+}
+
+
+#contact-header-body > .body-text-orange {
+    max-width: 366px;
 }
 
 
@@ -752,35 +762,31 @@ div.customer-stretchy-wrapper {
 }
 
 
-    .person-content .person-name, .person-content .person-title, .person-content .person-phone {
-       margin: 0px 0 0px 10px;
-       text-align: left;
-    }
+.person-content .person-name, .person-content .person-title, .person-content .person-phone {
+    margin: 0px 0 0px 10px;
+    text-align: left;
+}
 
-    .person-content .person-name {
-        font-family: 'RobotoSlabBold', Fallback, sans-serif;
-        font-size: 1.15em;
+.person-content .person-name {
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+    font-size: 1.15em;
         
-    }
+}
 
 
-    .person-content .person-title,  .person-content .person-phone{
-        font-family: 'LatoLight', Fallback, sans-serif;
-        font-size: 0.85em;
+.person-content .person-title,  .person-content .person-phone{
+    font-family: 'LatoLight', Fallback, sans-serif;
+    font-size: 0.85em;
         
-    }
+}
     
-    .person-content .person-line-separator {
-        height: 2px;
-        width: 40px;
-        margin: 5px 0px 10px 10px;
-        text-align: left;
-        background-color: #f2f2f2;
-    }
-    
-    
-
-
+.person-content .person-line-separator {
+    height: 2px;
+    width: 40px;
+    margin: 5px 0px 10px 10px;
+    text-align: left;
+    background-color: #f2f2f2;
+}
 
 
 
@@ -801,85 +807,139 @@ div.customer-stretchy-wrapper {
 */
 
 
-
-/*
-
-#person-1 .person-content-wrapper {
-    background-image: url("./img/ihmiset/Maria_Blomberg.jpg");
-   
-}
-
-#person-2 .person-content-wrapper {
-    background-image: url("./img/ihmiset/Kimmo_Levonen@2x.jpg");
-   
-}
-
-#person-3 .person-content-wrapper {
-    background-image: url("./img/ihmiset/Katja_Himanen.jpg");
-   
-}
-
-#person-4 .person-content-wrapper {
-    background-image: url("./img/ihmiset/jarno_laitinen@2x.jpg");
-   
-}
-
-#person-5 .person-content-wrapper {
-    background-image: url("./img/ihmiset/teemu_eskola.jpg");
-   
-}
-
-#person-6 .person-content-wrapper {
-    background-image: url("./img/ihmiset/Jukka_Illikainen.jpg");
-   
-}
-
-#person-7 .person-content-wrapper {
-    background-image: url("./img/ihmiset/esa_sonninen@2x.jpg");
-   
-}
-
-#person-8 .person-content-wrapper {
-    background-image: url("./img/ihmiset/jyri_huhtala@2x.jpg");
-   
-}
-
-#person-9 .person-content-wrapper {
-    background-image: url("./img/ihmiset/marini_jarvenpaa_graafihrj.jpg");
-   
-}
-
-#person-10 .person-content-wrapper {
-    background-image: url("./img/ihmiset/Mari_Eramaa@2x.jpg");
-   
-}
-
-#person-11 .person-content-wrapper {
-    background-image: url("./img/ihmiset/Leyla_Avsar@2x.jpg");
-   
-}
-
-#person-12 .person-content-wrapper {
-    background-image: url("./img/ihmiset/Pekka_Palonkorpi@2x.JPG");
-    
-}
-
-#person-13 .person-content-wrapper {
-   background-image: url("./img/ihmiset/Dani_Raatikainen_@2x.jpg");
-    
-}
-*/
-
-
-
-
 #contact {
-    background-color: #e7dfd6;
     max-width: 100%;
-    margin-top: 0;
-    padding: 9.5% 0 15% 0;
     text-align: center;
     min-height: 530px;
+}
+
+#contact-wrapper {
+    padding: 15em 25em 15em 15%;
+    background-attachment:fixed;
+    min-height: 100%;
+    background: linear-gradient( rgba(18, 18, 18, 0.25), rgba(18, 18, 18, 0.25) ),
+    url("./img/background/ota_yhteytta_content.jpg");
+    background-repeat-x: no-repeat !important;
+    background-repeat-y: no-repeat !important;
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+}
+
+#contact-info-container, #contact-form-container {
+    display: inline-block;
+}
+
+
+#contact-form-container {
+    max-width: 800px;
+    min-width: 500px;
+    width: 65%;
+}
+
+#contact-info-container {
+    float: left;
+    max-width: 230px;
+    min-width: 100px;
+    width: 30%;
+    min-height: 508px;
+    height: 100%;
+    color: #f2f2f2;
+}
+
+.contact-info-block {
+    min-height: 170px;
+    text-align: left;
+}
+
+.contact-info-name{
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+    font-size: 1.5em;
+}
+
+.contact-info-title, .contact-info-tel {
+    font-family: 'LatoLight', Fallback, sans-serif;
+    font-size: 1.05em;
+    letter-spacing: 1.15pt;
+    font-weight: 600;
+}
+
+.contact-line-separator {
+    height: 2px;
+    width: 75px;
+    margin: 15px 0px;
+    text-align: left;
+    background-color: #ff8100;
+}
+
+.wpcf7 {
+    font-family: 'LatoLight', Fallback, sans-serif;
+    max-width: 800px;
+}
+
+.wpcf7 input[type="text"],
+.wpcf7 input[type="email"],
+.wpcf7 input[type="tel"],
+.wpcf7 textarea {
+    background-color: #fff;
+    color: black;
+    width: 100%;
+    border-radius: 2px;
+    border: 1px solid #acacac;
+    border-width: 1px;
+    padding: 0 5px 0 10px;
+    font-size: 11pt;
+    font-weight: 600;
+}
+
+.wpcf7 textarea { 
+    height: 225px;
+    padding-top: 5px;
+}
+
+.wpcf7 input[type="text"],
+.wpcf7 input[type="email"],
+.wpcf7 input[type="tel"] {
+    height: 35px;
+    margin-bottom: 20px;
+    
+}
+
+.wpcf7 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #959595;
+}
+
+.wpcf7 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: #959595;
+   opacity: 1;
+}
+.wpcf7 ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: #959595;
+   opacity: 1;
+}
+.wpcf7 :-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #959595;
+}
+
+.contact-form-field-label {
+    float: left;
+    margin: 3px 0 13px 8px;
+    color: #f2f2f2;
+    font-weight: 600;
+}
+
+.wpcf7-form-control.wpcf7-submit {
+    float: left;
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+    background-color: transparent;
+    border: 2px solid #ff8100;
+    display: inline-block;
+    font-size: 1.15em;
+    padding: 10px 30px;
+    margin-top: 25px;
+    text-decoration: none;
+    color: #f2f2f2;
 }
 
 .blogs-wrapper {
@@ -946,7 +1006,12 @@ div.customer-stretchy-wrapper {
     padding: 5% 0 0 0;
 }
 
-@media screen and (max-width: 1360px) {
+.text-divider {
+    visibility: hidden;
+    height: 12px;
+}
+
+@media screen and (max-width: 1380px) {
     .service-content {
         font-size: 28px;
     }
@@ -976,6 +1041,19 @@ div.customer-stretchy-wrapper {
     
     }
     
+    #contact-wrapper {
+        padding: 15em 12em 15em 9%;
+    }
+    
+    .contact-info-name {
+        font-size: 1.25em;
+    }
+    
+    .contact-info-title, .contact-info-tel {
+        font-size: 1.0em;
+        letter-spacing: 0;
+    }
+    
       
     
 }
@@ -983,20 +1061,45 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1200px) {
     
-    /*
-    
-    #home-hero {
-        background-size: 150%;
-        background-position: 70% 75%;
-    }
-    */
-    
-    
-    
     .customer-box {
         display: inline-block;
         width: 33.333%;
         margin: -2px -1.5px -2px -2.5px; 
+    }
+    
+    #contact-wrapper {
+        padding: 15em 13% 15em 11%;
+    }
+    
+    #contact-info-container, #contact-form-container {
+        display: block; 
+        float: none;    
+    }
+    
+    #contact-info-container {
+        max-width: 100%;
+        min-width: 100px;
+        width: 100%;
+        min-height: 150px;
+        margin-left: 5.25%;
+    }
+    
+    #contact-form-container {
+        max-width: 100%;
+        min-width: 300px;
+        width: 100%;
+    }
+    
+    .contact-info-block {
+        display: inline-block;
+        min-height: 135px;
+        text-align: left;
+        width: 30%;
+    }
+    
+    .wpcf7 {
+        font-family: 'LatoLight', Fallback, sans-serif;
+        max-width: 100%;
     }
     
 }
@@ -1134,13 +1237,11 @@ div.customer-stretchy-wrapper {
     }
     
     
-    
-    
 
 }
 
 
-@media screen and (max-width: 630px) { 
+@media screen and (max-width: 700px) { 
     
     .person-box {
         width: 50%;  

@@ -35,7 +35,9 @@ get_header(); ?>
                 <h1 class="heading-pink">Palvelut.</h1>
             </div>
             <div id="services-header-body" class="content-header-body">
-                <p class="body-text-pink">Meiltä löydät monipuolisten mainostoimistopalvelujen lisäksi palveluasennetta, joka ei ole kiinni markkinointibudjettisi koosta.</p>
+                <div class="body-text-pink">
+                    <p>Meiltä löydät monipuolisten mainostoimistopalvelujen lisäksi palveluasennetta, joka ei ole kiinni markkinointibudjettisi koosta.</p>
+                </div>
             </div>
        </div>
     </div>
@@ -142,7 +144,9 @@ get_header(); ?>
                 <h1 class="heading-orange">Referenssit.</h1>
             </div>
             <div id="customers-header-body" class="content-header-body">
-                <p class="body-text-orange">Luova, vaikuttava ja tuloshakuinen mainostoimisto ja asiakassuhdemarkkinoinnin edelläkävijä.</p>
+                <div class="body-text-orange">
+                    <p>Olemme ylpeitä saadessamme tehdä töitä asiakkaille, jotka toimivat monilla eri toimialoilla – näin saamme puhutella lukuisia kiinnostavia kohderyhmiä.</p>
+                </div>
             </div>
        </div>
     </div>
@@ -159,7 +163,9 @@ get_header(); ?>
                 <h1 class="heading-pink">Me.</h1>
             </div>
             <div id="staff-header-body" class="content-header-body">
-                <p class="body-text-pink">Monipuolisuudestamme ja kokemuksestamme markkinointiviestinnän parissa on sinulle takuulla hyötyä. Sovitaanko heti starttipalaveri?</p>
+                <div class="body-text-pink">
+                    <p>Monipuolisuudestamme ja kokemuksestamme markkinointiviestinnän parissa on sinulle takuulla hyötyä. Sovitaanko heti starttipalaveri?</p>
+                </div>
             </div>
        </div>
     </div>
@@ -181,10 +187,21 @@ get_header(); ?>
     <?php get_template_part( 'template-parts/smoy-blogs-front'); ?>
 </section>
 <section id="contact" class="content-section-front">
-    <h3 class="section-title">Ota yhteyttä</h3>
-    <div>
-    <p>Tähän tulee yhteydenottolomake</p>
+    <div class="content-section-header">
+        <div class="content-header-wrapper">
+            <div id="contact-heading" class="content-section-heading">
+                <h1 class="heading-orange">Ota yhteyttä.</h1>
+            </div>
+            <div id="contact-header-body" class="content-header-body">
+                <div class="body-text-orange">
+                    <p>Soita, meilaa, tule käymään tai pyydä tarjous yhteydenottolomakkeella.</p>
+                    <hr class="text-divider"/>
+                    <p>Sähköpostit: etunimi.sukunimi(at)smoy.com</p>
+                </div>
+            </div>
+       </div>
     </div>
+    <?php get_template_part( 'template-parts/smoy-contact-form-front'); ?>
 </section>
 
 <?php get_footer(); ?>
