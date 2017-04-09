@@ -874,6 +874,7 @@ div.customer-stretchy-wrapper {
 }
 
 .wpcf7 {
+    position: relative;
     font-family: 'LatoLight', Fallback, sans-serif;
     max-width: 800px;
 }
@@ -882,6 +883,8 @@ div.customer-stretchy-wrapper {
 .wpcf7 input[type="email"],
 .wpcf7 input[type="tel"],
 .wpcf7 textarea {
+    font-family: 'LatoLight', Fallback, sans-serif;
+    font-weight: 600;
     background-color: #fff;
     color: black;
     width: 100%;
@@ -932,7 +935,7 @@ div.customer-stretchy-wrapper {
 .wpcf7-form-control.wpcf7-submit {
     float: left;
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
-    background-color: transparent;
+    background-color:rgba(0, 0, 0, 0);
     border: 2px solid #ff8100;
     display: inline-block;
     font-size: 1.15em;
@@ -940,6 +943,117 @@ div.customer-stretchy-wrapper {
     margin-top: 25px;
     text-decoration: none;
     color: #f2f2f2;
+    outline: none !important; 
+}
+
+.wpcf7-form-control.wpcf7-submit:hover {
+    -webkit-animation: submitbuttonbg .25s forwards;
+       -moz-animation: submitbuttonbg .25s forwards;
+        -ms-animation: submitbuttonbg .25s forwards;
+         -o-animation: submitbuttonbg .25s forwards;
+            animation: submitbuttonbg .25s forwards;
+}
+
+@keyframes submitbuttonbg {
+    from {background-color:rgba(0, 0, 0, 0);}
+    to {background-color:rgba(255, 129, 0, 1);}
+}
+
+.wpcf7-response-output {
+    position: absolute;
+    margin: auto !important;
+    padding: 0 !important;
+    top: 115%;
+}
+
+.wpcf7-mail-sent-ok, .wpcf7-validation-errors, .wpcf7-mail-sent-ng {
+    border: none !important;
+    font-weight: 600;
+} 
+
+.wpcf7-mail-sent-ok {
+    color: #ff8100; 
+}
+
+.wpcf7-validation-errors {
+    color: #f2f2f2;
+}
+
+.wpcf7-mail-sent-ng {
+    color: #ff0f0f;
+}
+
+.wpcf7-not-valid-tip {
+    display: none !important;
+}
+
+.wpcf7-not-valid {
+    border: 1.8px solid #ff3c46 !important;
+    background-color: #fff0f0 !important;
+}
+
+.ajax-loader, .ajax-loader:before, .ajax-loader:after {
+    border-radius: 50%;
+    width: 2.25em !important;
+    height: 2.25em !important;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.25s infinite ease-in-out;
+    animation: load7 1.25s infinite ease-in-out;
+}
+
+.ajax-loader {
+    //width: auto !important;
+    background-image: none !important;
+    color: #ff8100;
+    font-size: 10px;
+    //margin: 80px auto;
+    margin: 10px 0px 0 -10em !important;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.ajax-loader:before, .ajax-loader:after {
+    content: '';
+    position: absolute;
+    top: 0;
+}
+
+.ajax-loader:before {
+    left: -3em;
+    -webkit-animation-delay: -0.30s;
+    animation-delay: -0.30s;
+}
+
+.ajax-loader:after {
+    left: 3em;
+}
+
+@-webkit-keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.25em 0 -1.3em;
+    }
+    38.5% {
+        box-shadow: 0 2.25em 0 0;
+    }
+}
+
+@keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.25em 0 -1.3em;
+    }
+    38.5% {
+        box-shadow: 0 2.25em 0 0;
+    }
 }
 
 .blogs-wrapper {
@@ -1198,6 +1312,74 @@ div.customer-stretchy-wrapper {
 
 }
 
+
+@media screen and (max-width: 840px) {
+    
+    #contact-wrapper {
+        padding: 8em 3.25em 15em 2.25em;
+    }
+    
+    #contact-info-container {
+        margin: 0;
+    }
+    
+    .contact-info-block {
+        display: block;
+        min-height: 155px;
+        text-align: left;
+        max-width: 100%;
+        width: 100%; 
+    }
+    
+    .contact-info-name {
+        font-size: 1.58em;
+    }
+    
+    .contact-info-title, .contact-info-tel {
+        font-size: 1.15em;
+        letter-spacing: 0.8pt;
+    }
+    
+    .wpcf7 input[type="text"], 
+    .wpcf7 input[type="email"], 
+    .wpcf7 input[type="tel"] {
+        height: 45px;
+        margin-bottom: 25px;
+    }
+    
+    .wpcf7 input[type="text"], 
+    .wpcf7 input[type="email"], 
+    .wpcf7 input[type="tel"], 
+    .wpcf7 textarea {
+        font-size: 13pt;
+    }
+    
+    .contact-form-field-label {
+        font-size: 1.15em;
+    }
+    
+    .wpcf7-form-control.wpcf7-submit {
+        font-size: 1.5em;
+        padding: 18px 45px;
+        margin-top: 50px; 
+    }
+    
+    .wpcf7-response-output {
+        font-size: 1.15em;
+        top: 123%;
+    }
+    
+    .ajax-loader {
+        margin: 50px 0px 0 0 !important;
+    }
+    
+    
+
+}
+
+
+
+
 @media screen and (max-width: 780px) {
     
     #header-home {
@@ -1249,6 +1431,22 @@ div.customer-stretchy-wrapper {
 
 
 }
+
+
+
+@media screen and (max-width: 630px) { 
+
+    .wpcf7-response-output {
+        font-size: 1.25em;
+        top: 119%;
+    }
+    
+
+}
+
+
+
+
 
 
 /*
