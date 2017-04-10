@@ -597,18 +597,19 @@ add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
 function smoy_blog_excerpts($content = false) {
         global $post;
         $excerpt_length = 42;
+        $double_angle_html = '<span class="read-more-symbol">&#187</span>';    
+        $read_more_html = sprintf( '%s', __( 'Lue lisää ', 'smoy' ) .  $double_angle_html);
         
         if ( $post->post_excerpt ) {
             if(is_home() || is_page('blogi')){
                 $content = get_the_excerpt();
-
                 function custom_excerpt_length( $length ) {
                     return 20;
                 }
                 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 
                 function excerpt_readmore($more) {
-                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( 'Lue lisää &#187;', 'smoy' ) . '</a>';
+                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( $read_more_html, 'smoy' ) . '</a>';
                 }
 
                 add_filter('excerpt_more', 'excerpt_readmore');
@@ -627,7 +628,9 @@ function smoy_blog_excerpts($content = false) {
                 
                 $content = strip_tags($content);
                 $content = '<p>' . $content . ' ...</p>';
-                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( 'Lue lisää &#187;', 'smoy' ) . '</a>';
+                
+                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( $read_more_html, 'smoy' ) . '</a>';
+                
             }
         }
         
@@ -638,7 +641,6 @@ function smoy_blog_excerpts($content = false) {
 
 
 add_filter('the_content', 'smoy_blog_excerpts');
-
 
 
 function smoy_custom_pagination($numpages = '', $pagerange = '', $paged='') {

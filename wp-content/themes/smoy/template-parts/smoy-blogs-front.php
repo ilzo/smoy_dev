@@ -13,6 +13,7 @@ if ( !wp_is_mobile() ){
                     <div class="wrap">
                         <header class="blog-front-header">
                             <?php the_title( '<h2 class="blog-front-title">', '</h2>' ); ?>
+                            <?php the_date('F Y', '<h4 class="blog-front-month">', '</h4>'); ?>
                         </header>
                         <div class="blog-front-content">
                             <?php the_content(); ?>
