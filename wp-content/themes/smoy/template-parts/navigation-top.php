@@ -20,7 +20,7 @@
 
 <div id="top-menu-overlay">
     
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="javascript:void(0)" id="top-menu-overlay-close" class="closebtn" onclick="closeNav()">&times;</a>
 	<?php wp_nav_menu( array(
 		'theme_location'      => 'top',
 		'menu_id'             => 'top-menu',
