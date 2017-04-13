@@ -756,6 +756,14 @@ function smoy_customize_register( $wp_customize ) {
     /* ------------- SECTIONS ------------ */
     /* ----------------------------------- */
     
+    /* ------- Front-Page About Us Section -------- */
+    
+    $wp_customize->add_section( 'smoy_about_us_section', array(
+      'title' => __( 'About us', 'smoy' ),
+      'description' => __( 'Edit about us section content here.', 'smoy' ),
+      'capability' => 'edit_theme_options'
+    ));
+    
     
     
     /* ------- Front-Page Customer References ----- */
@@ -768,13 +776,40 @@ function smoy_customize_register( $wp_customize ) {
     
     
     
+    
+    
     /* ----------------------------------- */
     /* ------------- SETTINGS ------------ */
     /* ----------------------------------- */
     
     
    
-    /* ------- Front-Page Customer References -------- */
+    /* ------- Front-Page About Us Section -------- */
+    
+    $wp_customize->add_setting('smoy_about_section_title', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    for ($i = 1; $i < 4; $i++) {
+        
+        $wp_customize->add_setting('smoy_about_content_title_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_about_content_body_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+           
+    }
+    
+    
+    /* ------- Front-Page Customer References ----- */
     
     
     for ($i = 1; $i < 13; $i++) {
@@ -812,9 +847,37 @@ function smoy_customize_register( $wp_customize ) {
     /* ------------- CONTROLS ------------ */
     /* ----------------------------------- */
     
+    /* ------- Front-Page About Us Section -------- */
+    
+    $wp_customize->add_control( 'smoy_about_section_title', array(
+          'label' => __( 'Section title', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+    ));
+    
+    for ($i = 1; $i < 4; $i++) {
+        
+        $wp_customize->add_control( 'smoy_about_content_title_'.$i, array(
+          'label' => __( 'Paragraph '.$i.' heading', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_content_body_'.$i, array(
+          'label' => __( 'Paragraph '.$i.' body text', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+    }
+    
+    
     
 
-    /* ------- Front-Page Services -------- */
+    /* ------- Front-Page Customer References ----- */
     
     
     for ($i = 1; $i < 13; $i++) {
@@ -915,6 +978,29 @@ function smoy_customer_references_styles(){
 */
 
 
+
+
+add_action( 'smoy_get_about_us', 'smoy_about_us_output');
+
+function smoy_about_us_output() {
+    if(is_home()) {
+        $smoy_about_section_title = get_theme_mod( 'smoy_about_section_title');
+        $smoy_about_content_titles = array();
+        $smoy_about_content_body_texts = array();
+    
+        for ($i = 0; $i < 3; $i++) {
+            $j = $i + 1; 
+            $smoy_about_content_titles[$i] = get_theme_mod( 'smoy_about_content_title_'.$j);
+            $smoy_about_content_body_texts[$i] = get_theme_mod( 'smoy_about_content_body_'.$j);
+        }
+
+        ob_start();
+        require_once(get_template_directory() . '/template-parts/smoy-about-us.php' );
+        $output = ob_get_clean();
+        echo $output;
+    
+    }
+}
 
 
 
@@ -1025,9 +1111,7 @@ function smoy_staff_front_page_output() {
                  }
 
              }
-
-
-
+             
          }   
 
         $arrIndex = 0;
