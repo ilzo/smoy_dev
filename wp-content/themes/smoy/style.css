@@ -296,101 +296,146 @@ img {
     z-index: 2;
 }
 
-
-#test-shape-1 {
+.about-mask {
+    visibility: visible;
     position: absolute;
-    top: 230px;
-    left: 1026px;
-    height: 150px;
-    width: 150px;
     background-color: rgba(255, 136, 0, 0.8);
-    border-radius: 75px;
     z-index: 2;
     mix-blend-mode: screen;
 }
 
-#test-shape-1 p {
+.overlay-hole{
+    visibility: visible;
+}
+
+.about-mask p {
     font-family: serif;
     font-style: italic;
     font-size: 16pt;
     text-align: center;
     color: #f2f2f2;
+}
+
+
+#filler-shape-1.middle {
+    top: 130px;
+    left: 1026px;
+    height: 150px;
+    width: 150px;
+    border-radius: 75px; 
+}
+
+#filler-shape-1 p {
     margin: 39px 30px 0px 30px;
 }
 
 
 
-#test-shape-2 {
-    position: absolute;
-    top: 347px;
+#filler-shape-2.middle {
+    top: 247px;
     left: 1158px;
     height: 200px;
     width: 200px;
-    background-color:rgba(255, 129, 0, 0.8);
     border-radius: 100px;
-    mix-blend-mode: screen;
 }
 
-#test-shape-2 p {
-    font-family: serif;
-    font-style: italic;
-    font-size: 16pt;
-    text-align: center;
-    color: #f2f2f2;
+#filler-shape-2 p {
     margin: 49px 15px 0px 15px;
 }
 
-#test-shape-3 {
-    position: absolute;
-    top: 536px;
+#filler-shape-3.middle {
+    top: 436px;
     left: 1050px;
     height: 180px;
     width: 180px;
-    background-color: rgba(255, 136, 0, 0.8);
     border-radius: 90px;
-    z-index: 2;
-    mix-blend-mode: screen;
 }
 
-#test-shape-3 p {
-    font-family: serif;
-    font-style: italic;
-    font-size: 16pt;
-    text-align: center;
-    color: #f2f2f2;
+#filler-shape-3 p {
     margin: 54px 13px 0px 13px;
 }
 
-#test-shape-4 {
-    position: absolute;
-    top: 708px;
+#filler-shape-4.middle {
+    top: 608px;
     left: 1170px;
     height: 150px;
     width: 150px;
-    background-color: rgba(255, 136, 0, 0.8);
     border-radius: 75px;
-    z-index: 2;
-    mix-blend-mode: screen;
 }
 
-#test-shape-4 p {
-    font-family: serif;
-    font-style: italic;
-    font-size: 16pt;
-    text-align: center;
-    color: #f2f2f2;
+#filler-shape-4 p {
     margin: 42px 17px 0px 17px;
 }
 
+#filler-shape-1.right {
+    top: 130px;
+    left: 1276px;
+    height: 150px;
+    width: 150px;
+    border-radius: 75px; 
+}
 
-#mySVG {
+#filler-shape-2.right {
+    top: 247px;
+    left: 1408px;
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+}
+
+#filler-shape-3.right {
+    top: 436px;
+    left: 1300px;
+    height: 180px;
+    width: 180px;
+    border-radius: 90px;
+}
+
+#filler-shape-4.right {
+    top: 608px;
+    left: 1420px;
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+}
+
+#filler-shape-1.left {
+    top: 130px;
+    left: 776px;
+    height: 150px;
+    width: 150px;
+    border-radius: 75px; 
+}
+
+#filler-shape-2.left {
+    top: 247px;
+    left: 908px;
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+}
+
+#filler-shape-3.left {
+    top: 436px;
+    left: 800px;
+    height: 180px;
+    width: 180px;
+    border-radius: 90px;
+}
+
+#filler-shape-4.left {
+    top: 608px;
+    left: 920px;
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+}
+
+#smoy-about-us-svg {
     position: absolute;
     top: 0;
     left: 0;
 }
-
-
-
 
 .about-section-title {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
@@ -722,18 +767,6 @@ div.customer-stretchy-wrapper {
     user-select: none;
 }
 
-.customer-test-box {
-    position: absolute !important;
-    top: 0;
-    left: 0;
-    //background-color: magenta;
-    
-    /*
-    transform: translateY(0);
-    -webkit-transition: width 1.5s, height 1.5s; 
-    transition: width 1.5s, height 1.5s;
-    */
-}
 
 .customer-cloned-box {
     position: absolute !important;
@@ -741,7 +774,6 @@ div.customer-stretchy-wrapper {
     left: 0;
     
 }
-
 
 
 #blog {
@@ -795,7 +827,7 @@ div.customer-stretchy-wrapper {
 }
 
 
-.blog-front-content p {
+.blog-front-content .blog-excerpt-content {
     margin: 2.5% 0 2.5% 0;
     font-weight: 600;
     font-size: 11.5pt;
@@ -803,7 +835,7 @@ div.customer-stretchy-wrapper {
 }
 
 
-.blog-front-content p:first-child:first-letter {
+.blog-front-content > .blog-excerpt-content:first-child:first-letter {
     float: left;
     font-size: 35pt;
     line-height: 15px;
@@ -812,6 +844,9 @@ div.customer-stretchy-wrapper {
     padding-left: 0px;
 }
 
+.blogs-more-container {
+    width: 60px;
+}
 
 #our-staff {
     display: block;
@@ -1235,31 +1270,20 @@ div.customer-stretchy-wrapper {
     color: #ff8100;
     padding-bottom: 5px;
     font-weight: 600;
-    /*
-    -webkit-transition: all 0.25s ease-out 0s;
-    -moz-transition: all 0.25s ease-out 0s;
-    -ms-transition: all 0.25s ease-out 0s;
-    -o-transition: all 0.25s ease-out 0s;
-    transition: all 0.25s ease-out 0s;
-    */
 }
 
-.more-link:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  border-bottom: 2px solid #ff8100;
-  -webkit-transition: all 0.18s ease-out 0s;
+.more-link-underline {
+    width: 0%;
+    border-bottom: 2px solid #ff8100;
+    -webkit-transition: all 0.18s ease-out 0s;
     -moz-transition: all 0.18s ease-out 0s;
     -ms-transition: all 0.18s ease-out 0s;
     -o-transition: all 0.18s ease-out 0s;
     transition: all 0.18s ease-out 0s;
 }
 
-.more-link:hover:after {
-  width: 120%;
+.blogs-more-container:hover > .more-link-underline{
+  width: 111.8%;
 }
 
 .read-more-symbol {
@@ -1271,7 +1295,7 @@ div.customer-stretchy-wrapper {
     font-weight: 600 !important;
 }
 
-.more-link:hover > .read-more-symbol {
+.more-link:hover .read-more-symbol {
   -webkit-animation: arrowbounce 0.2625s cubic-bezier(0.000, 0.575, 0.505, 0.940);
     animation: arrowbounce 0.2625s cubic-bezier(0.000, 0.575, 0.505, 0.940);
 }
@@ -1449,6 +1473,12 @@ div.customer-stretchy-wrapper {
         max-width: 100%;
     }
     
+}
+
+@media screen and (max-width: 1140px) { 
+    .about-mask, .overlay-hole {
+        visibility: hidden;
+    }
 }
 
 
@@ -1749,11 +1779,22 @@ div.customer-stretchy-wrapper {
         font-size: 13pt;
     }
     
+    .blogs-more-container:hover > .more-link-underline{
+      width: 95%;
+    }
+    
+    .blogs-more-container {
+        width: 100px;
+    }
+    
     .more-link {
         font-size: 15pt;
     }
     
+    
     .read-more-symbol {
+        top: -1px;
+        left: 80px;
         font-size: 17.5pt;
     }
     

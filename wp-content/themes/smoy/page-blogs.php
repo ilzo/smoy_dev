@@ -13,6 +13,8 @@ get_header('blogs'); ?>
 
 		<?php 
 		//$temp = $wp_query; $wp_query= null;
+        $double_angle_html = '<span class="read-more-symbol">&#187</span>';    
+        $read_more_html = sprintf( '%s', __( 'Lue lisää ', 'smoy' ) .  $double_angle_html);
         $paged = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
         $smoy_blogs_query_args = array(
           'post_type' => 'post',
@@ -38,6 +40,10 @@ get_header('blogs'); ?>
                 ?>
                 <div class="blog-content">
                         <?php the_content(); ?>
+                </div>
+                <div class="blogs-more-container">
+                    <?php echo '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text">' . __( $read_more_html, 'smoy' ) . '</p></a>'; ?>
+                    <div class="more-link-underline"></div>
                 </div>
             </div>
         </article>

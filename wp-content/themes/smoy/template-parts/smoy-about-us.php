@@ -23,30 +23,30 @@ if ( !wp_is_mobile() ){
 </div>
 -->
 
-<div id="test-shape-1">
+<div id="filler-shape-1" class="about-mask middle">
     <p>”Mukava ja aito ilmapiiri”</p>
 </div>
-<div id="test-shape-2">
+<div id="filler-shape-2" class="about-mask middle">
     <p>”Jatkuvasti toisiamme rohkeasti haastava vuoropuhelu”</p>
 </div>
-<div id="test-shape-3">
+<div id="filler-shape-3" class="about-mask middle">
     <p>”Innostunut ja ammattitaitoinen porukka”</p>
 </div>
-<div id="test-shape-4">
+<div id="filler-shape-4" class="about-mask middle">
     <p>”Joustavaa ja tarkkaa työtä”</p>
 </div>
-<svg id="mySVG" width="100%" height="100%">
+<svg id="smoy-about-us-svg" width="100%" height="100%">
   <defs>
-    <mask id="hole">
+    <mask id="filter-holes">
       <rect width="100%" height="100%" fill="#b0b"/>
-      <circle id="circle1" r="75" fill="black" transform="translate(1101, 304)"/>
-      <circle id="circle2" r="100" fill="black" transform="translate(1258, 447)"/>
-      <circle id="circle3" r="90" fill="black" transform="translate(1140, 627)"/>
-    <circle id="circle4" r="75" fill="black" transform="translate(1245, 783)"/>
+        <circle id="hole-1" class="overlay-hole" r="75" fill="black" transform="translate(1101, 204)"/>
+        <circle id="hole-2" class="overlay-hole" r="100" fill="black" transform="translate(1258, 347)"/>
+        <circle id="hole-3" class="overlay-hole" r="90" fill="black" transform="translate(1140, 527)"/>
+        <circle id="hole-4" class="overlay-hole" r="75" fill="black" transform="translate(1245, 683)"/>
     </mask>
   </defs>
 
-<rect id="about-us-overlay" width="100%" height="100%" mask="url(#hole)" />
+<rect id="about-us-overlay" width="100%" height="100%" mask="url(#filter-holes)" />
     
 </svg>
     

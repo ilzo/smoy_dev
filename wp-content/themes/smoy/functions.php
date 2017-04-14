@@ -601,6 +601,9 @@ function smoy_blog_excerpts($content = false) {
         $read_more_html = sprintf( '%s', __( 'Lue lisää ', 'smoy' ) .  $double_angle_html);
         
         if ( $post->post_excerpt ) {
+            
+            
+            
             if(is_home() || is_page('blogi')){
                 $content = get_the_excerpt();
                 function custom_excerpt_length( $length ) {
@@ -609,7 +612,7 @@ function smoy_blog_excerpts($content = false) {
                 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 
                 function excerpt_readmore($more) {
-                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( $read_more_html, 'smoy' ) . '</a>';
+                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text">' . __( $read_more_html, 'smoy' ) . '</p></a>';
                 }
 
                 add_filter('excerpt_more', 'excerpt_readmore');
@@ -627,9 +630,13 @@ function smoy_blog_excerpts($content = false) {
                 }
                 
                 $content = strip_tags($content);
-                $content = '<p>' . $content . ' ...</p>';
+                $content = '<p class="blog-excerpt-content">' . $content . ' ...</p>';
                 
-                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link">  ' . __( $read_more_html, 'smoy' ) . '</a>';
+                
+                /*
+                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text">' . __( $read_more_html, 'smoy' ) . '</p></a>';
+                */
+                
                 
             }
         }
