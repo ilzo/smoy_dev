@@ -230,7 +230,7 @@ img {
     max-width: 100%;
     margin-top: 0;
     background-attachment:fixed;
-    height: 800px;
+    min-height: 800px;
     background: url("./img/background/meista.jpg");
     background-repeat-x: no-repeat !important;
     background-repeat-y: no-repeat !important;
@@ -238,14 +238,16 @@ img {
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
-    padding: 0 10% 22em 10%;
+    padding: 6.75em 10% 6.75em 10%;
+}
+
+#about-body-text-wrapper {
+    position: relative;
+    z-index: 2;
 }
 
 #about-heading {
-    position: absolute;
-    top: 125px;
     margin-bottom: 3.8em;
-    z-index: 2;
 }
 
 .heading-orange, .heading-pink, .heading-black {
@@ -282,18 +284,14 @@ img {
 }
 
 
+/*
 #about-heading > .heading-orange{
-  
-    //width: 188px;
-   
+    width: 188px;
 }
-
+*/
 
 .about-container {
     max-width: 578px;
-    position: absolute;
-    top: 280px;
-    z-index: 2;
 }
 
 .about-mask {
@@ -328,8 +326,6 @@ img {
 #filler-shape-1 p {
     margin: 39px 30px 0px 30px;
 }
-
-
 
 #filler-shape-2.middle {
     top: 247px;
@@ -458,12 +454,6 @@ img {
     color: #f2f2f2;
 }
 
-.contact-button-container {
-    position: absolute;
-    top: 930px;
-    z-index: 2;
-}
-
 .contact-us-button {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
 	background-color: transparent;
@@ -586,10 +576,6 @@ img {
 
 
 #services-wrapper {
-    /*
-    display: flex;
-    flex-wrap: wrap;
-    */
     padding: 0px 0px 0px 0px;
     margin: 0 2px -2px -2px;
 }
@@ -775,7 +761,6 @@ div.customer-stretchy-wrapper {
     
 }
 
-
 #blog {
     position: relative;
     background-color: #f2f2f2;
@@ -894,7 +879,6 @@ div.customer-stretchy-wrapper {
     float: left;
 }
 
-
 .person-box {
     position: relative;
     display: inline-block;
@@ -912,15 +896,6 @@ div.customer-stretchy-wrapper {
 .person-content-wrapper {
     background-size: cover !important;
 }
-
-
-/*
-.person-stretchy-wrapper {
-    position: relative;
-    width: 100%;
-    //padding-bottom: 95%;
-}
-*/
 
 .person-content-wrapper img {
     display: block;
@@ -1341,8 +1316,6 @@ div.customer-stretchy-wrapper {
     color: #fff;
 }
 
-
-
 .footer-container {
     text-align: center;
 }
@@ -1377,13 +1350,11 @@ div.customer-stretchy-wrapper {
     
    .person-content .person-name, .person-content .person-title, .person-content .person-phone {
        margin: 0px 0 0px 25px;
-       //text-align: left;
     }
     
     .person-content .person-line-separator {
         width: 40px;
         margin: 5px 0px 15px 25px;
-        //text-align: left;
     }
     
     .person-content .person-name {
@@ -1482,7 +1453,11 @@ div.customer-stretchy-wrapper {
 }
 
 
-@media screen and (max-width: 1100px) { 
+@media screen and (max-width: 1100px) {
+    
+    #about-us {
+        background-position: 10%; 
+    }
     
     #blog-wrapper {
         display: block;
@@ -1534,7 +1509,6 @@ div.customer-stretchy-wrapper {
     }
     */
     
-
     .customer-box {
         display: inline-block;
         width: 50%;
@@ -1600,8 +1574,17 @@ div.customer-stretchy-wrapper {
 }
 
 
+@media screen and (max-width: 930px) { 
+
+    #about-us {
+        background-position: 0; 
+    }
+
+}
+
+
+
 @media screen and (max-width: 840px) {
-    
     
     .person-content .person-name, .person-content .person-title, .person-content .person-phone {
        margin: 0px 0 0px 12px;
@@ -1742,12 +1725,21 @@ div.customer-stretchy-wrapper {
     .person-box {
         width: 50%;  
     }
-
+    
 }
 
 
 
 @media screen and (max-width: 630px) {
+    
+    #about-us {
+        background-position: 14%;
+        padding: 8em 1.25em 8em 1.25em;
+    }
+    
+    .about-container p {
+        font-size: 1.30em;
+    }
     
     #blog-wrapper {
         display: block;
@@ -1808,8 +1800,13 @@ div.customer-stretchy-wrapper {
 }
 
 
+@media screen and (max-width: 548px) {  
 
-
+    #about-us {
+        background-position: 16%;
+    }
+    
+}
 
 
 /*
@@ -1845,6 +1842,10 @@ div.customer-stretchy-wrapper {
         float: left;
     }
     
+    #about-us {
+        background-position: 17%;
+    }
+    
     
 }
 
@@ -1858,7 +1859,6 @@ div.customer-stretchy-wrapper {
         top: 15px;
         right: 35px;
     }
-    
     
 }
 

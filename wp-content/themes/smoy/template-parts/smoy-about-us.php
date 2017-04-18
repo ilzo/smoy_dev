@@ -1,12 +1,8 @@
-<?php
-                  
-if ( !wp_is_mobile() ){
-             
-?>
-
-<div id="about-heading">
-    <h1 class="heading-orange"><?php echo $smoy_about_section_title ?></h1>
-</div>
+<?php if ( !wp_is_mobile() ){ ?>
+<div id="about-body-text-wrapper">
+    <div id="about-heading">
+        <h1 class="heading-orange"><?php echo $smoy_about_section_title ?></h1>
+    </div>
     <div class="about-container">
         <?php $i = 1; for($i = 0; $i < 3; $i++):?>
             <h3 class="about-section-title"><?php echo $smoy_about_content_titles[$i] ?></h3>
@@ -17,6 +13,7 @@ if ( !wp_is_mobile() ){
     <div class="contact-button-container">
         <button class="contact-us-button">Ota yhteyttä.</button>
     </div>
+</div>
 <!--
 <div id="about-quote-ball-1" class="about-quote-ball">
     <p>"Mukava ja aito ilmapiiri"</p>
@@ -49,8 +46,7 @@ if ( !wp_is_mobile() ){
 <rect id="about-us-overlay" width="100%" height="100%" mask="url(#filter-holes)" />
     
 </svg>
-    
-  
+
 <?php
 
 } else {
