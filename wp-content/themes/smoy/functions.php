@@ -772,6 +772,14 @@ function smoy_customize_register( $wp_customize ) {
     ));
     
     
+    /* ----------- Front-Page Services ----------- */
+    
+    $wp_customize->add_section( 'smoy_services_section', array(
+      'title' => __( 'Services', 'smoy' ),
+      'description' => __( 'Edit services here.', 'smoy' ),
+      'capability' => 'edit_theme_options'
+    ));
+    
     
     /* ------- Front-Page Customer References ----- */
     
@@ -808,6 +816,31 @@ function smoy_customize_register( $wp_customize ) {
         ));
         
         $wp_customize->add_setting('smoy_about_content_body_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+           
+    }
+    
+    
+    /* ------- Front-Page Services Section -------- */
+    
+    for ($i = 1; $i < 7; $i++) {
+        
+        $wp_customize->add_setting('smoy_service_title_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_service_hyphen_checkbox_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'smoy_sanitize_checkbox' 
+        ));
+        
+        $wp_customize->add_setting('smoy_service_content_body_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
@@ -881,6 +914,35 @@ function smoy_customize_register( $wp_customize ) {
         
     }
     
+    
+    /* ------- Front-Page Services Section -------- */
+    
+    
+    for ($i = 1; $i < 7; $i++) {
+        
+        $wp_customize->add_control( 'smoy_service_title_'.$i, array(
+          'label' => __( 'Service '.$i.' heading', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_service_hyphen_checkbox_'.$i, array(
+          'label' => __( 'Insert line break after hyphen (-) character in heading?', 'smoy'),
+          'type' => 'checkbox',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        
+        $wp_customize->add_control( 'smoy_service_content_body_'.$i, array(
+          'label' => __( 'Service '.$i.' body text', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+    }
     
     
 
@@ -985,6 +1047,9 @@ function smoy_customer_references_styles(){
 */
 
 
+function smoy_sanitize_checkbox( $input ) {
+	return ( $input === true ) ? true : false;
+}
 
 
 add_action( 'smoy_get_about_us', 'smoy_about_us_output');
@@ -1008,6 +1073,39 @@ function smoy_about_us_output() {
     
     }
 }
+
+
+add_action('smoy_get_services', 'smoy_services_front_page_output');
+
+function smoy_services_front_page_output() { 
+    $smoy_services_titles = array();
+    $smoy_services_checkboxes = array();
+    $smoy_services_body_texts = array();
+    
+    for ($i = 0; $i < 6; $i++) {
+        $j = $i + 1; 
+        $smoy_services_titles[$i] = get_theme_mod( 'smoy_service_title_'.$j);
+        $smoy_services_checkboxes[$i] = get_theme_mod( 'smoy_service_hyphen_checkbox_'.$j);
+        
+        if ($smoy_services_checkboxes[$i] === true) {
+            $dash_pos = strpos($smoy_services_titles[$i],"-");
+            if($dash_pos !== false){
+                $dash_pos++;
+                $smoy_services_titles[$i] = substr_replace($smoy_services_titles[$i], '<br/>', $dash_pos, 0);
+            }
+        }
+        
+        
+        $smoy_services_body_texts[$i] = get_theme_mod( 'smoy_service_content_body_'.$j);
+    }
+    
+    ob_start();
+	require_once(get_template_directory() . '/template-parts/smoy-services-front.php' );
+	$output = ob_get_clean();
+	echo $output;
+
+}
+
 
 
 
@@ -1086,7 +1184,6 @@ function smoy_refs_front_page_output() {
 	$output = ob_get_clean();
 	echo $output;
 }
-
 
 
 add_action('smoy_get_people', 'smoy_staff_front_page_output');
