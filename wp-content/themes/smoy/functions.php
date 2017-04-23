@@ -35,8 +35,8 @@ function smoy_setup() {
 	
 	add_theme_support( 'post-thumbnails' );
     /* Set the image size by cropping the image */
-    add_image_size('test-thumbnail', 500, 326, true);
-    add_image_size( 'test-big', 3000, 9999);
+    //add_image_size('test-thumbnail', 500, 326, true);
+    //add_image_size( 'test-big', 3000, 9999);
     /*
     add_image_size('works-thumbnail-large', 1250, 815, true ); 
     add_image_size( 'single-big-test', 3000, 9999);
@@ -305,11 +305,9 @@ function load_scripts()
     }
     */
     
-    wp_register_script( 'font-awesome', 'https://use.fontawesome.com/e06db2cf19.js', array(), '4.6.3', false );
-    
     wp_register_script('top-nav-menu', get_template_directory_uri() .'/js/top-nav-menu.js', array('jquery'), null, true);
     
-    wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery'), null, false);
+    
     
     //wp_register_script( 'freewall', get_template_directory_uri() . '/js/freewall.js', array( 'jquery'), '1.0.6', false);
     
@@ -320,6 +318,10 @@ function load_scripts()
     //wp_register_script( 'fullpage-js', get_template_directory_uri() . '/js/jquery.fullpage.js', array( 'jquery', 'scrolloverflow' ), '2.8.2', false);
     
     //wp_register_script( 'masonry-4.1.0', get_template_directory_uri() . '/js/masonry.pkgd.min.js', array('jquery'), '4.1.0', false);
+    
+    wp_register_script( 'gsap-tweenmax', get_template_directory_uri() .'/js/TweenMax.min.js', array(), '1.19.1', false );
+    
+    wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery', 'gsap-tweenmax'), null, false);
     
     //wp_register_script( 'gsap-tweenmax', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js', array(), '1.18.5', false );
     
@@ -339,12 +341,11 @@ function load_scripts()
     
     //wp_register_script( 'custom-juicer', get_template_directory_uri() . '/js/customJuicer.js', array( 'jquery'), '1.0.0', true );
    
-    // Enqueue the registered scripts 
-    wp_enqueue_script( 'font-awesome' );
     wp_enqueue_script( 'top-nav-menu' );
+    wp_enqueue_script( 'gsap-tweenmax' );
     wp_enqueue_script( 'customer-references' );
     
-    //wp_enqueue_script( 'gsap-tweenmax' );
+    
     
     //wp_enqueue_script( 'gsap-timelinelite' );
     
@@ -597,7 +598,7 @@ add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
 function smoy_blog_excerpts($content = false) {
         global $post;
         $excerpt_length = 42;
-        $double_angle_html = '<span class="read-more-symbol">&#187</span>';    
+        $double_angle_html = '<div class="read-more-symbol">&#187</div>';    
         $read_more_html = sprintf( '%s', __( 'Lue lisää ', 'smoy' ) .  $double_angle_html);
         
         if ( $post->post_excerpt ) {
@@ -610,12 +611,13 @@ function smoy_blog_excerpts($content = false) {
                     return 20;
                 }
                 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
-
+                
                 function excerpt_readmore($more) {
-                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text">' . __( $read_more_html, 'smoy' ) . '</p></a>';
+                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>';
                 }
 
                 add_filter('excerpt_more', 'excerpt_readmore');
+                
             }
             
         }else{
@@ -632,13 +634,24 @@ function smoy_blog_excerpts($content = false) {
                 $content = strip_tags($content);
                 $content = '<p class="blog-excerpt-content">' . $content . ' ...</p>';
                 
-                
                 /*
-                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text">' . __( $read_more_html, 'smoy' ) . '</p></a>';
+                function output_readmore_content($post) {
+                    return '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>';
+                }
+
+                add_action('smoy_get_readmore_content', 'output_readmore_content');
+                
+                
+                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>';
                 */
                 
                 
+                
+                
             }
+            
+            
+            
         }
         
 
@@ -834,6 +847,12 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
         ));
         
+        $wp_customize->add_setting('smoy_service_mobile_title_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
         $wp_customize->add_setting('smoy_service_hyphen_checkbox_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
@@ -844,6 +863,25 @@ function smoy_customize_register( $wp_customize ) {
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_service_body_max_width_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_service_bg_img_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+        ));
+        
+        $wp_customize->add_setting('smoy_service_bg_img_position_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'default' => '50',
+            'sanitize_callback' => 'absint'
         ));
            
     }
@@ -927,6 +965,14 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
         
+        $wp_customize->add_control( 'smoy_service_mobile_title_'.$i, array(
+          'label' => __( 'Service '.$i.' mobile heading', 'smoy'),
+          'description' => __( 'How the service heading should be displayed in mobile view' ),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
         $wp_customize->add_control( 'smoy_service_hyphen_checkbox_'.$i, array(
           'label' => __( 'Insert line break after hyphen (-) character in heading?', 'smoy'),
           'type' => 'checkbox',
@@ -940,6 +986,37 @@ function smoy_customize_register( $wp_customize ) {
           'type' => 'textarea',
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_service_body_max_width_'.$i, array(
+          'label' => __( 'Service '.$i.' body text max width', 'smoy'),
+          'description' => __( 'Adjust the body text max width. You can use normal css units, like px, em and % (default 60%)' ),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 
+            new WP_Customize_Media_Control(
+                $wp_customize,'smoy_service_bg_img_'.$i, array(
+                    'label' => __( 'Service background image '.$i , 'smoy'),
+                    'section' => 'smoy_services_section',
+                    'mime_type' => 'image',
+                    'active_callback' => 'is_front_page'
+                )
+            )
+        );
+        
+        $wp_customize->add_control( 'smoy_service_bg_img_position_'.$i, array(
+          'type' => 'range',
+          'section' => 'smoy_services_section',
+          'label' => __( 'Service '.$i.' background image position' ),
+          'description' => __( 'Adjust the background image horizontal position (default 50)' ),
+          'input_attrs' => array(
+            'min' => 0,
+            'max' => 100,
+            'step' => 1,
+          ),
         ));
         
     }
@@ -1075,35 +1152,115 @@ function smoy_about_us_output() {
 }
 
 
+add_action( 'wp_head', 'smoy_services_styles');
+
+function smoy_services_styles() { 
+    if(is_home()) {
+
+            $css = array();
+            //$services_bg_imgs = array();
+            $j = 1;
+
+            for($i = 0; $i < 6; $i++){
+                
+                $bg_img = get_theme_mod( 'smoy_service_bg_img_'.$j);
+                if(!empty($bg_img)){
+                    
+                    $bg_img_pos = get_theme_mod( 'smoy_service_bg_img_position_'.$j); 
+                    $bg_url = wp_get_attachment_url($bg_img);
+                    $css['#service-'.$j.' .service-content-wrapper']['background-image'] = "url(\"".$bg_url."\")";
+                    //$css['#service-'.$j.' .service-content-wrapper']['background-color'] = "rgba(4, 20, 30, 0.75)";
+                    
+                    
+                    
+                    if(empty($bg_img_pos)){
+                        $css['#service-'.$j.' .service-content-wrapper']['background-position'] = "50% !important";
+                    }else{
+                        $css['#service-'.$j.' .service-content-wrapper']['background-position'] = $bg_img_pos . "% !important";
+                    }    
+                }
+                
+                $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_'.$j);
+                
+                if(empty($body_text_max_width)) {
+                    $css['#service-'.$j.' .service-body-text']['max-width'] = "60%";
+                }else{
+                    $css['#service-'.$j.' .service-body-text']['max-width'] = $body_text_max_width;
+                }
+                
+                
+                $j++;
+                  
+            }
+
+            /*
+            foreach ($services_bg_imgs as $bg_img) {
+
+
+                if(empty($bg_img)){
+                    $css['#service-'.$counter.' .service-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) )";
+                }else{
+                    $bg_url = wp_get_attachment_url($bg_img);
+                    $css['#service-'.$counter.' .service-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url(\"".$bg_url."\")";
+                }
+
+                $counter++;
+
+            }
+            */
+
+            $final_css = '<style type="text/css">';
+            foreach ( $css as $style => $style_array ) {
+                $final_css .= $style . '{';
+                foreach ( $style_array as $property => $value ) {
+                    $final_css .= $property . ':' . $value . ';';
+                }
+                $final_css .= '}';
+            }
+
+            $final_css .= '</style>';
+
+            echo $final_css;
+
+    }
+
+
+}
+
+
+
 add_action('smoy_get_services', 'smoy_services_front_page_output');
 
-function smoy_services_front_page_output() { 
-    $smoy_services_titles = array();
-    $smoy_services_checkboxes = array();
-    $smoy_services_body_texts = array();
-    
-    for ($i = 0; $i < 6; $i++) {
-        $j = $i + 1; 
-        $smoy_services_titles[$i] = get_theme_mod( 'smoy_service_title_'.$j);
-        $smoy_services_checkboxes[$i] = get_theme_mod( 'smoy_service_hyphen_checkbox_'.$j);
-        
-        if ($smoy_services_checkboxes[$i] === true) {
-            $dash_pos = strpos($smoy_services_titles[$i],"-");
-            if($dash_pos !== false){
-                $dash_pos++;
-                $smoy_services_titles[$i] = substr_replace($smoy_services_titles[$i], '<br/>', $dash_pos, 0);
-            }
-        }
-        
-        
-        $smoy_services_body_texts[$i] = get_theme_mod( 'smoy_service_content_body_'.$j);
-    }
-    
-    ob_start();
-	require_once(get_template_directory() . '/template-parts/smoy-services-front.php' );
-	$output = ob_get_clean();
-	echo $output;
+function smoy_services_front_page_output() {
+    if(is_home()) {
+        $smoy_services_titles = array();
+        $smoy_services_mobile_titles = array();
+        $smoy_services_checkboxes = array();
+        $smoy_services_body_texts = array();
 
+        for ($i = 0; $i < 6; $i++) {
+            $j = $i + 1; 
+            $smoy_services_titles[$i] = get_theme_mod( 'smoy_service_title_'.$j);
+            $smoy_services_mobile_titles[$i] = get_theme_mod( 'smoy_service_mobile_title_'.$j);
+            $smoy_services_checkboxes[$i] = get_theme_mod( 'smoy_service_hyphen_checkbox_'.$j);
+
+            if ($smoy_services_checkboxes[$i] === true) {
+                $dash_pos = strpos($smoy_services_titles[$i],"-");
+                if($dash_pos !== false){
+                    $dash_pos++;
+                    $smoy_services_titles[$i] = substr_replace($smoy_services_titles[$i], '<br/>', $dash_pos, 0);
+                }
+            }
+
+
+            $smoy_services_body_texts[$i] = get_theme_mod( 'smoy_service_content_body_'.$j);
+        }
+
+        ob_start();
+        require_once(get_template_directory() . '/template-parts/smoy-services-front.php' );
+        $output = ob_get_clean();
+        echo $output; 
+    }
 }
 
 
@@ -1116,42 +1273,33 @@ function smoy_customer_references_styles() {
     if(is_home()) {
 
         $css = array();
-        $customer_bg_imgs = array();
-        $smoy_refs_logo_min_heights = array();
-        $smoy_refs_logo_max_heights = array();
-        $counter = 1;
+        $j = 1;
 
         for($i = 0; $i < 12; $i++){
-            $j = $i + 1;
-            $customer_bg_imgs[$i] = get_theme_mod( 'smoy_customer_bg_img_'.$j);
-        }
+            $bg_img = get_theme_mod( 'smoy_customer_bg_img_'.$j);
+            
+            $this_customer_logo_min_height = get_theme_mod( 'smoy_customer_logo_min_height_'.$j);
+            $this_customer_logo_max_height = get_theme_mod( 'smoy_customer_logo_max_height_'.$j);
 
-        foreach ($customer_bg_imgs as $bg_img) {
-
-            $this_customer_logo_min_height = get_theme_mod( 'smoy_customer_logo_min_height_'.$counter);
-            $this_customer_logo_max_height = get_theme_mod( 'smoy_customer_logo_max_height_'.$counter);
-
-            if(empty($bg_img)){
-                $css['#customer-'.$counter.' .customer-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) )";
-            }else{
+            
+            if(!empty($bg_img)){
                 $bg_url = wp_get_attachment_url($bg_img);
-                $css['#customer-'.$counter.' .customer-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url(\"".$bg_url."\")";
+                $css['#customer-'.$j]['background-image'] = "url(\"".$bg_url."\")";
+                
             }
 
             if(!empty($this_customer_logo_min_height)){
-                $css['#customer-'.$counter.' .customer-content img']['min-height'] = $this_customer_logo_min_height . 'px';
+                $css['#customer-'.$j.' .customer-content img']['min-height'] = $this_customer_logo_min_height . 'px';
             }
 
             if(!empty($this_customer_logo_max_height)){
-                $css['#customer-'.$counter.' .customer-content img']['max-height'] = $this_customer_logo_max_height . 'px';
+                $css['#customer-'.$j.' .customer-content img']['max-height'] = $this_customer_logo_max_height . 'px';
             }
             
-            $css['#customer-'.$counter.' .customer-content-wrapper']['background-size'] = '240%';
-
-            $counter++;
-
+            $j++;
+               
         }
-
+        
         $final_css = '<style type="text/css">';
         foreach ( $css as $style => $style_array ) {
             $final_css .= $style . '{';
@@ -1173,10 +1321,25 @@ add_action('smoy_get_references', 'smoy_refs_front_page_output');
 function smoy_refs_front_page_output() {
     
     $smoy_refs_logos = array();
+    $smoy_bg_img_widths = array();
+    $smoy_bg_img_heights = array();
+    
     
     for ($i = 0; $i < 12; $i++) {
+        
+        
         $j = $i + 1; 
         $smoy_refs_logos[$i] = wp_get_attachment_url(get_theme_mod( 'smoy_customer_logo_'.$j));
+        $bg_img = get_theme_mod( 'smoy_customer_bg_img_'.$j);
+        $bg_url = wp_get_attachment_url($bg_img);
+        
+        list($width, $height) = getimagesize($bg_url);
+        
+        $smoy_bg_img_widths[$i] = $width;
+        $smoy_bg_img_heights[$i] = $height;
+        //echo "<img src=\"img/flag.jpg\" $attr alt=\"getimagesize() example\" />";
+        //echo $width . "<br/>";
+        //echo $height . "<br/>";
     }
     
     ob_start();

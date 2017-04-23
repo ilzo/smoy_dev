@@ -19,11 +19,113 @@ var cloneBoxWidthDouble = 0;
 var cloneBoxHeightDouble = 0;
 var customerBoxMargin = '';
 var customerBoxClone;
+//var customerBgResizeValues = [];
+var resizeDimensions = [];
+
+
+function calculateBgDimensions(){
+    let bgResizeDimensions = [];
+    
+    for (var i = 1; i < 13; i++) {
+        
+        let j = i - 1;
+        
+        //console.log(contentWrappers[i]);
+        //var thisWrapperId = jQuery(contentWrappers[i]).attr('id');
+        
+        let thisElem = document.getElementById('customer-'+i);
+        
+        
+        //customerImg.src = window.getComputedStyle(thisElem).getPropertyValue("background-image").replace(/url\((['"])?(.*?)\1\)/gi, '$2').split(',')[0];
+        
+        
+        //var imageSrc = document.getElementById('customer-'+i).style.backgroundImage.replace(/url\((['"])?(.*?)\1\)/gi, '$2').split(',')[0];
+
+            
+        let thisWidth = thisElem.getAttribute("data-width");
+        let thisHeight = thisElem.getAttribute("data-height");
+        
+    
+        let aspectRatio = thisHeight / thisWidth;
+        //let bgWidth = 240;
+        
+        let bgWidth;
+        let resizeWidth;
+        if(aspectRatio > 0.90){
+           bgWidth = 240;
+            //bgWidth = 201;
+            resizeWidth = 115;
+        }else if(aspectRatio > 0.80  && aspectRatio <= 0.90) {    
+           //bgWidth = 240;
+            bgWidth = 210;
+            resizeWidth = 120;
+        }else if(aspectRatio > 0.75  && aspectRatio <= 0.80) {    
+           //bgWidth = 300;
+            bgWidth = 262.5;
+            resizeWidth = 140;
+        }else if(aspectRatio > 0.60  && aspectRatio <= 0.75) {
+           //bgWidth = 338;
+            bgWidth = 295.75;
+            resizeWidth = 158;      
+        }else if(aspectRatio > 0.49  && aspectRatio <= 0.60){
+            //bgWidth = 360;
+            bgWidth = 315;
+            resizeWidth = 180;      
+        }else{
+            //bgWidth = 380;  
+            bgWidth = 332.5;
+            resizeWidth = 190;
+        }
+        
+        let calculatedHeight = bgWidth * aspectRatio;
+        
+        let calculatedResizeHeight = resizeWidth * aspectRatio;
+        
+        let sizeObject = {width : resizeWidth, height : calculatedResizeHeight};
+            
+            
+        
+        jQuery(thisElem).css('background-size', '240% '+calculatedHeight+'%');
+        
+        bgResizeDimensions[j] = sizeObject;
+        /*
+        var aspectRatio = bgWidth / bgHeight;
+        console.log(aspectRatio);
+        
+        var calculatedHeight = 200 * aspectRatio;
+        */
+
+        //function resize(){
+            //var bgHeight = document.body.offsetWidth * img.height / img.width;
+            //document.body.style.height = bgHeight + 'px';
+        //}
+        //window.onresize = resize; resize();
+        
+        //let imgWidth = jQuery(contentWrappers[i]).width();
+        //let imgHeight = jQuery(contentWrappers[i]).height();
+        
+        //console.log(wrapperWidth);
+        //console.log(wrapperHeight);
+        
+        
+        //jQuery(thisElem).css('background-size', '240% '+calculatedHeight+'%');
+        
+      
+    }
+    
+    return bgResizeDimensions;
+    
+}
+
+
 
 jQuery(function() {
+    resizeDimensions = calculateBgDimensions();
     customersWrapper = jQuery("#customers-wrapper");
     viewportWidth = jQuery(window).width();
     onViewPortResize(viewportWidth);
+    //jQuery('.customer-content-wrapper').css('background-size', '240%');
+    
     
     jQuery(window).resize(function() {
         if(customersWrapper.find('.customer-cloned-box').length != 0){
@@ -33,8 +135,19 @@ jQuery(function() {
         viewportWidth = jQuery(window).width();
         onViewPortResize(viewportWidth);
     });
+    
+    //calculateBgDimensions(jQuery('.customer-content-wrapper'));
+    
 
     jQuery(".customer-box").click(function() {
+        
+        let customerWrapperHtml = jQuery('<div class="customer-content-wrapper customer-cloned-box"></div>');
+        let customerOverlayWrapperHtml = jQuery('<div class="customer-overlay-wrapper-clicked"></div>');
+        let customerContentHtml = jQuery('<div class="customer-content"></div>');
+        let customerLogoHtml = jQuery('<img />');
+        customerContentHtml.append(customerLogoHtml);
+        customerOverlayWrapperHtml.append(customerContentHtml);
+        customerWrapperHtml.append(customerOverlayWrapperHtml);
         
         if(customersWrapper.find('.customer-cloned-box').length != 0){
             jQuery(".customer-cloned-box").remove();
@@ -44,24 +157,73 @@ jQuery(function() {
         customerBoxHeight = jQuery(this).height();
         customerBoxMargin = jQuery(this).css("margin");
         customerBoxNum = jQuery(".customer-box").index(this) + 1;
-        customerBoxClone = jQuery(this).clone();
         
-        var customerBoxCloneContentWrapper = jQuery(customerBoxClone).find("div.customer-content-wrapper");
-        var customerBoxCloneLogoImg = jQuery(customerBoxClone).find("img");
-        var thisCustomerContentWrapper = jQuery(this).find("div.customer-content-wrapper");
-        var thisCustomerLogoImg = jQuery(this).find("img");
+        //var original = jQuery(this);
         
-        jQuery(customerBoxClone).removeAttr("id");
-        customerBoxClone.removeClass("customer-box");
-        customerBoxClone.addClass("customer-cloned-box");
+        let thisCustomerContentWrapper = jQuery(this).find(".customer-content-wrapper");
+        let thisCustomerLogoImg = jQuery(this).find("img");
         
-        var backgroundStyle = css_utility(jQuery(thisCustomerContentWrapper[0]));
-        jQuery(customerBoxCloneContentWrapper[0]).css(backgroundStyle);
+        let thisWrapperId = jQuery(thisCustomerContentWrapper).attr('id');
+        let idNum = parseInt(thisWrapperId.split("-").pop()) - 1;
+    
         
         if(typeof thisCustomerLogoImg[0] != "undefined"){
-           var logoStyle = css_utility(jQuery(thisCustomerLogoImg[0]));
-           jQuery(customerBoxCloneLogoImg[0]).css(logoStyle);
+            
+            
+            //var logoStyle = css_utility(jQuery(thisCustomerLogoImg[0]));
+           
+            var thisLogoSrc = jQuery(thisCustomerLogoImg[0]).attr('src');
+            
+            //jQuery(customerLogoHtml).css('opacity', '1');
+            
+            jQuery(customerLogoHtml).attr('src', thisLogoSrc);
+            
+            jQuery(customerLogoHtml).css({
+                'opacity' : '1',
+                'min-width' : jQuery(thisCustomerLogoImg[0]).css('min-width'),
+                'max-width' : jQuery(thisCustomerLogoImg[0]).css('max-width'),
+                'min-height' : jQuery(thisCustomerLogoImg[0]).css('min-height'),
+                'max-height' : jQuery(thisCustomerLogoImg[0]).css('max-height')
+            });
+            
+            
+            
+            
+            //jQuery(customerBoxCloneLogoImg[0]).css(logoStyle);
+            //jQuery(customerLogoHtml).css(logoStyle);
+            
+            
+           
+            
+            
         }
+        
+        /*
+        
+        var bgUrlStr = jQuery(thisCustomerContentWrapper[0]).css('background-image');
+        
+        var slicedUrl = bgUrlStr.slice(5, -2);
+        
+        console.log("sliced: " + slicedUrl);
+        */
+        
+        
+        //var thisWrapperBgStyle = jQuery(thisCustomerContentWrapper[0]).css('background');
+        jQuery(customerWrapperHtml).css({
+            'background-image' : jQuery(thisCustomerContentWrapper[0]).css('background-image'),
+            'background-size': jQuery(thisCustomerContentWrapper[0]).css('background-size')
+        });
+        
+        /*
+        console.log("heyya heyaa: " + jQuery(thisCustomerContentWrapper[0]).css('background-image'));
+        console.log('background-image is: ' + jQuery(customerWrapperHtml).css('background-image'));
+        console.log('background is: ' + jQuery(customerWrapperHtml).css('background'));
+        */
+        //jQuery(customerCloneContentWrapper).css("cssText", "height: " + cloneBoxHeightDouble + "px !important;");
+        
+        customerBoxClone = customerWrapperHtml;
+        
+        
         
         if(isFourCols == 1) {
            customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);
@@ -71,9 +233,12 @@ jQuery(function() {
            customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);      
         }
         
-        resizeCloneBox(customerBoxCloneContentWrapper[0], customerBoxCloneLogoImg[0]);
+        //resizeCloneBox(customerBoxCloneContentWrapper[0] , customerBoxCloneLogoImg[0]);
+        resizeCloneBox(customerBoxClone, idNum, customerOverlayWrapperHtml, customerLogoHtml);
     
     });
+    
+    
     
 });
 
@@ -346,7 +511,14 @@ function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerB
 }
 
 
-function resizeCloneBox(customerCloneContentWrapper, customerCloneLogo) {
+function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOverlay, customerCloneLogo) {
+    
+    let whereToResize = resizeDimensions[clickedId].width+'% '+resizeDimensions[clickedId].height+'%';
+    
+    
+    let customerTween = new TimelineMax({
+        paused:true
+    });
     
     cloneBoxWidthDouble = 2 * customerBoxWidth;
     cloneBoxHeightDouble = 2 * customerBoxHeight;
@@ -356,25 +528,52 @@ function resizeCloneBox(customerCloneContentWrapper, customerCloneLogo) {
 
         if(isBottomLeftSide == 1){
             var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
-
+            /*
              jQuery(customerBoxClone).animate({
                 width: cloneBoxWidthDouble,
                 marginTop: cloneBoxNewMarginTop,
-                height: cloneBoxHeightDouble
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
             }, 1250 );
+            
+            */
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                marginTop: cloneBoxNewMarginTop,
+                backgroundSize: whereToResize,
+                autoRound:false, 
+                ease: Power1.ease0ut
+            }).play();
+            
             
         }else{
 
 
             var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
             var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
-
+            /*
             jQuery(customerBoxClone).animate({
                 marginLeft: cloneBoxNewMarginLeft,
                 width: cloneBoxWidthDouble,
                 marginTop: cloneBoxNewMarginTop,
-                height: cloneBoxHeightDouble
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
             }, 1250 );
+            
+            */
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                marginLeft: cloneBoxNewMarginLeft,
+                marginTop: cloneBoxNewMarginTop,
+                backgroundSize: whereToResize,
+                autoRound:false, 
+                ease: Power1.ease0ut
+            }).play();
+            
             
         }
 
@@ -383,68 +582,59 @@ function resizeCloneBox(customerCloneContentWrapper, customerCloneLogo) {
         if(isRightSide){
 
             var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
-
+            
+            /*
+            
             jQuery(customerBoxClone).animate({
                 marginLeft: cloneBoxNewMarginLeft,
                 width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
             }, 1250 );
+            */
+            
+            
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                marginLeft: cloneBoxNewMarginLeft,
+                backgroundSize: whereToResize,
+                autoRound:false, 
+                ease: Power1.ease0ut
+            }).play();
+            
             
         }else{
-            
+            /*
             jQuery(customerBoxClone).animate({
                 width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
             }, 1250 );
+            */
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                backgroundSize: whereToResize,
+                autoRound:false, 
+                ease: Power1.ease0ut
+            }).play();
+            
             
         }
 
     }
     
-    jQuery(customerCloneContentWrapper).animate({
-                backgroundSize: '169%',
-            }, 1250 );
+    jQuery(customerCloneOverlay).animate({
+                opacity: '0',
+    }, 1250 );
     
     jQuery(customerCloneLogo).animate({
                 opacity: '0',
     }, 1250 );
+    
 }
 
 
-/*
-*
-* CSS utility functions
-*
-*/
-
-function css_utility(a) {
-    var sheets = document.styleSheets, o = {};
-    for (var i in sheets) {
-        var rules = sheets[i].rules || sheets[i].cssRules;
-        for (var r in rules) {
-            if (a.is(rules[r].selectorText)) {
-                o = jQuery.extend(o, css2json_utility(rules[r].style), css2json_utility(a.attr('style')));
-            }
-        }
-    }
-    return o;
-}
-
-function css2json_utility(css) {
-    var s = {};
-    if (!css) return s;
-    if (css instanceof CSSStyleDeclaration) {
-        for (var i in css) {
-            if ((css[i]).toLowerCase) {
-                s[(css[i]).toLowerCase()] = (css[css[i]]);
-            }
-        }
-    } else if (typeof css == "string") {
-        css = css.split("; ");
-        for (var i in css) {
-            var l = css[i].split(": ");
-            s[l[0].toLowerCase()] = (l[1]);
-        }
-    }
-    return s;
-}

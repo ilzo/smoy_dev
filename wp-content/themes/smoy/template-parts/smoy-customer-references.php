@@ -2,24 +2,28 @@
 <?php
                   
 if ( !wp_is_mobile() ){
-    $i = 1;
+    $i = 0;
+    $j = 1;
     foreach($smoy_refs_logos as $ref_logo_url):         
 ?>    
-<figure id="customer-<?php echo $i ?>" class="customer-box">
+<figure class="customer-box">
    <!--<a class="references-img-a" href="#">-->
     <div class="customer-stretchy-wrapper">
-        <div class="customer-content-wrapper">
-            <div class="customer-content">
-                <?php if(!empty($ref_logo_url)): ?>
-                    <img src="<?php echo esc_url($ref_logo_url) ?>" />
-                <?php endif; ?>
+        
+        <div id="customer-<?php echo $j ?>" class="customer-content-wrapper" data-width="<?php echo $smoy_bg_img_widths[$i] ?>" data-height="<?php echo $smoy_bg_img_heights[$i] ?>">
+            <div class="customer-overlay-wrapper">
+                <div class="customer-content">
+                    <?php if(!empty($ref_logo_url)): ?>
+                        <img src="<?php echo esc_url($ref_logo_url) ?>" />
+                     <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>
    <!--</a>-->
 </figure>
 
-<?php $i++; endforeach;
+<?php $i++; $j++; endforeach;
 
 } else {
 

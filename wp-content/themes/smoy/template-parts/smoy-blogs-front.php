@@ -1,7 +1,7 @@
 <div id="blog-wrapper">
 
 <?php 
-$double_angle_html = '<span class="read-more-symbol">&#187</span>';    
+$double_angle_html = '<div class="read-more-symbol">&#187</div>';    
 $read_more_html = sprintf( '%s', __( 'Lue lisää ', 'smoy' ) .  $double_angle_html);
 $smoy_latest_loop = new WP_Query( array( 'post_type' => 'post', 'posts_per_page' => 2, 'order' => 'DESC', 'cat' => 2, 'ignore_sticky_posts' => true ) );
 
@@ -20,7 +20,7 @@ if ( !wp_is_mobile() ){
                             <?php the_content(); ?>
                         </div>
                         <div class="blogs-more-container">
-                            <?php echo '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text">' . __( $read_more_html, 'smoy' ) . '</p></a>'; ?>
+                            <?php echo '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>'; ?>
                             <div class="more-link-underline"></div>
                         </div>
                     </div>
