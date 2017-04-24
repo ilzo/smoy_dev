@@ -37,6 +37,7 @@ function smoy_setup() {
     /* Set the image size by cropping the image */
     //add_image_size('test-thumbnail', 500, 326, true);
     //add_image_size( 'test-big', 3000, 9999);
+    add_image_size( 'service-thumb', 1600, 9999);
     /*
     add_image_size('works-thumbnail-large', 1250, 815, true ); 
     add_image_size( 'single-big-test', 3000, 9999);
@@ -117,6 +118,62 @@ function smoy_setup() {
 }
 
 
+add_action('init', 'smoy_services');
+
+function smoy_services() {
+    
+    $labels = array(
+        'name' => _x('Palvelut', 'post type general name'),
+        'singular_name' => _x('Palvelu', 'post type singular name'),
+        'add_new_item' => _x( 'Lisää uusi palvelu', 'smoy' ),
+        'set_featured_image' => _x('Aseta pääkuva', 'smoy')
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'menu_position' => null,
+        'menu_icon' => 'dashicons-store',
+        'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
+        //'rewrite' => true
+        'rewrite' => array(
+            'slug' => 'palvelut',
+            'with_front' => false
+        )
+    ); 
+
+    register_post_type( 'smoy_service' , $args );
+    flush_rewrite_rules();
+}
+
+
+//code below will remove the post_name slug from the url
+/*
+function smoy_remove_slug( $post_link, $post, $leavename ) {
+    if ( 'smoy_service' != $post->post_type || 'publish' != $post->post_status ) {
+        return $post_link;
+    }
+    $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+    return $post_link;
+}
+add_filter( 'post_type_link', 'smoy_remove_slug', 10, 3 );
+
+function smoy_parse_request( $query ) {
+    if ( ! $query->is_main_query() || 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
+        return;
+    }
+    if ( ! empty( $query->query['name'] ) ) {
+        $query->set( 'post_type', array( 'post', 'smoy_service', 'page' ) );
+    }
+}
+add_action( 'pre_get_posts', 'smoy_parse_request' );
+
+*/
 
 add_action('init', 'smoy_people');
 
@@ -147,6 +204,8 @@ function smoy_people() {
     register_post_type( 'smoy_person' , $args );
     flush_rewrite_rules();
 }
+
+
 
 /*
 add_action('do_meta_boxes', 'smoy_move_person_image_meta_box');
@@ -342,8 +401,7 @@ function load_scripts()
     //wp_register_script( 'custom-juicer', get_template_directory_uri() . '/js/customJuicer.js', array( 'jquery'), '1.0.0', true );
    
     wp_enqueue_script( 'top-nav-menu' );
-    wp_enqueue_script( 'gsap-tweenmax' );
-    wp_enqueue_script( 'customer-references' );
+    
     
     
     
@@ -355,12 +413,13 @@ function load_scripts()
     
     //wp_enqueue_script( 'nav-menu');
     
-    /*
+    
     
     if(is_home()){
-        wp_enqueue_script( 'freewall' );
+        wp_enqueue_script( 'gsap-tweenmax' );
+        wp_enqueue_script( 'customer-references' );
     }
-    */
+    
     
     
     /*
@@ -841,11 +900,14 @@ function smoy_customize_register( $wp_customize ) {
     
     for ($i = 1; $i < 7; $i++) {
         
-        $wp_customize->add_setting('smoy_service_title_'.$i, array(
+        
+        
+        $wp_customize->add_setting('smoy_service_title_front_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
+        
         
         $wp_customize->add_setting('smoy_service_mobile_title_'.$i, array(
             'type' => 'theme_mod',
@@ -859,11 +921,14 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'smoy_sanitize_checkbox' 
         ));
         
+        /*
+        
         $wp_customize->add_setting('smoy_service_content_body_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
+        */
         
         $wp_customize->add_setting('smoy_service_body_max_width_'.$i, array(
             'type' => 'theme_mod',
@@ -871,11 +936,14 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
         ));
         
+        
+        /*
         $wp_customize->add_setting('smoy_service_bg_img_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'absint'
         ));
+        */
         
         $wp_customize->add_setting('smoy_service_bg_img_position_'.$i, array(
             'type' => 'theme_mod',
@@ -958,35 +1026,37 @@ function smoy_customize_register( $wp_customize ) {
     
     for ($i = 1; $i < 7; $i++) {
         
-        $wp_customize->add_control( 'smoy_service_title_'.$i, array(
-          'label' => __( 'Service '.$i.' heading', 'smoy'),
+        $wp_customize->add_control( 'smoy_service_title_front_'.$i, array(
+          'label' => __( 'Service '.$i.' front page heading', 'smoy'),
           'type' => 'text',
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
         
+        
         $wp_customize->add_control( 'smoy_service_mobile_title_'.$i, array(
           'label' => __( 'Service '.$i.' mobile heading', 'smoy'),
-          'description' => __( 'How the service heading should be displayed in mobile view' ),
+          'description' => __( 'How the front page service heading should be displayed in mobile view' ),
           'type' => 'text',
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
         
         $wp_customize->add_control( 'smoy_service_hyphen_checkbox_'.$i, array(
-          'label' => __( 'Insert line break after hyphen (-) character in heading?', 'smoy'),
+          'label' => __( 'Insert line break after hyphen (-) character in front page heading?', 'smoy'),
           'type' => 'checkbox',
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
         
-        
+        /*
         $wp_customize->add_control( 'smoy_service_content_body_'.$i, array(
           'label' => __( 'Service '.$i.' body text', 'smoy'),
           'type' => 'textarea',
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
+        */
         
         $wp_customize->add_control( 'smoy_service_body_max_width_'.$i, array(
           'label' => __( 'Service '.$i.' body text max width', 'smoy'),
@@ -995,6 +1065,8 @@ function smoy_customize_register( $wp_customize ) {
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
+        
+        /*
         
         $wp_customize->add_control( 
             new WP_Customize_Media_Control(
@@ -1006,6 +1078,7 @@ function smoy_customize_register( $wp_customize ) {
                 )
             )
         );
+        */
         
         $wp_customize->add_control( 'smoy_service_bg_img_position_'.$i, array(
           'type' => 'range',
@@ -1156,27 +1229,66 @@ add_action( 'wp_head', 'smoy_services_styles');
 
 function smoy_services_styles() { 
     if(is_home()) {
+        
+        /*
+        
+            class Smoy_Service {
+                 public $id;
+                 public $title = '';
+                 public $excerpt = '';
+                 public $url;
+                 public $featured_img = null;
 
+                 public function __construct($id, $title, $excerpt, $url, $featured_img) {
+                     $this->id = $id;
+                     $this->title = $title;
+                     $this->excerpt = $excerpt;
+                     $this->url = $url;
+                     if(!empty($featured_img)){
+                        $this->featured_img = $featured_img;
+                     }
+
+                 }
+
+             }
+             */
+
+            //$smoy_services_titles = array();
+            //$smoy_services_mobile_titles = array();
+            //$smoy_services_checkboxes = array();
+            //$smoy_services_body_texts = array();
+
+            //$servicesArray = array();
+
+            $smoy_services_query = new WP_Query( array( 'post_type' => 'smoy_service', 'order' => 'DESC', 'posts_per_page'=> 6) );
+
+            $smoy_service_posts = $smoy_services_query->posts;
             $css = array();
             //$services_bg_imgs = array();
-            $j = 1;
-
-            for($i = 0; $i < 6; $i++){
+            
+            $i = 0;
+            foreach($smoy_service_posts as $post) {
+                $j = $i + 1; 
                 
-                $bg_img = get_theme_mod( 'smoy_service_bg_img_'.$j);
-                if(!empty($bg_img)){
+                $bg_img_url = get_the_post_thumbnail_url($post->ID, 'service-thumb');
+                //$this_service_featured_img = get_the_post_thumbnail_url($post->ID, 'service-thumb');
+                if(!empty($bg_img_url)){
                     
                     $bg_img_pos = get_theme_mod( 'smoy_service_bg_img_position_'.$j); 
-                    $bg_url = wp_get_attachment_url($bg_img);
-                    $css['#service-'.$j.' .service-content-wrapper']['background-image'] = "url(\"".$bg_url."\")";
+                    //$bg_url = wp_get_attachment_url($bg_img);
+                    //$css['#service-'.$j.' .service-content-wrapper']['background-image'] = "url(\"".$bg_img_url."\")";
+                    $css['#service-'.$j.' .service-image-wrapper']['background-image'] = "url(\"".$bg_img_url."\")";
+                    
                     //$css['#service-'.$j.' .service-content-wrapper']['background-color'] = "rgba(4, 20, 30, 0.75)";
                     
                     
                     
                     if(empty($bg_img_pos)){
-                        $css['#service-'.$j.' .service-content-wrapper']['background-position'] = "50% !important";
+                        //$css['#service-'.$j.' .service-content-wrapper']['background-position'] = "50% !important";
+                        $css['#service-'.$j.' .service-image-wrapper']['background-position'] = "50% !important";
                     }else{
-                        $css['#service-'.$j.' .service-content-wrapper']['background-position'] = $bg_img_pos . "% !important";
+                        //$css['#service-'.$j.' .service-content-wrapper']['background-position'] = $bg_img_pos . "% !important";
+                        $css['#service-'.$j.' .service-image-wrapper']['background-position'] = $bg_img_pos . "% !important";
                     }    
                 }
                 
@@ -1188,27 +1300,10 @@ function smoy_services_styles() {
                     $css['#service-'.$j.' .service-body-text']['max-width'] = $body_text_max_width;
                 }
                 
-                
-                $j++;
-                  
-            }
-
-            /*
-            foreach ($services_bg_imgs as $bg_img) {
-
-
-                if(empty($bg_img)){
-                    $css['#service-'.$counter.' .service-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) )";
-                }else{
-                    $bg_url = wp_get_attachment_url($bg_img);
-                    $css['#service-'.$counter.' .service-content-wrapper']['background'] = "linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url(\"".$bg_url."\")";
-                }
-
-                $counter++;
+                $i++;
 
             }
-            */
-
+        
             $final_css = '<style type="text/css">';
             foreach ( $css as $style => $style_array ) {
                 $final_css .= $style . '{';
@@ -1221,7 +1316,7 @@ function smoy_services_styles() {
             $final_css .= '</style>';
 
             echo $final_css;
-
+            wp_reset_postdata();  
     }
 
 
@@ -1233,34 +1328,82 @@ add_action('smoy_get_services', 'smoy_services_front_page_output');
 
 function smoy_services_front_page_output() {
     if(is_home()) {
-        $smoy_services_titles = array();
+        
+        class Smoy_Service {
+             public $id;
+             public $title = '';
+             public $excerpt = '';
+             public $url;
+             public $featured_img = null;
+
+             public function __construct($id, $title, $excerpt, $url, $featured_img) {
+                 $this->id = $id;
+                 $this->title = $title;
+                 $this->excerpt = $excerpt;
+                 $this->url = $url;
+                 if(!empty($featured_img)){
+                    $this->featured_img = $featured_img;
+                 }
+                 
+             }
+             
+         }
+        
+        $smoy_services_titles_front = array();
         $smoy_services_mobile_titles = array();
         $smoy_services_checkboxes = array();
-        $smoy_services_body_texts = array();
+        //$smoy_services_body_texts = array();
+        
+        $servicesArray = array();
+    
+        $smoy_services_query = new WP_Query( array( 'post_type' => 'smoy_service', 'order' => 'DESC', 'posts_per_page'=> 6) );
 
-        for ($i = 0; $i < 6; $i++) {
+        $smoy_service_posts = $smoy_services_query->posts;
+        
+        $i = 0;
+        foreach($smoy_service_posts as $post) {
             $j = $i + 1; 
-            $smoy_services_titles[$i] = get_theme_mod( 'smoy_service_title_'.$j);
+            $smoy_services_titles_front[$i] = get_theme_mod( 'smoy_service_title_front_'.$j);
             $smoy_services_mobile_titles[$i] = get_theme_mod( 'smoy_service_mobile_title_'.$j);
             $smoy_services_checkboxes[$i] = get_theme_mod( 'smoy_service_hyphen_checkbox_'.$j);
+            //$smoy_this_service_title = $post->post_title;
 
             if ($smoy_services_checkboxes[$i] === true) {
-                $dash_pos = strpos($smoy_services_titles[$i],"-");
+                
+                $dash_pos = strpos($smoy_services_titles_front[$i],"-");
                 if($dash_pos !== false){
                     $dash_pos++;
-                    $smoy_services_titles[$i] = substr_replace($smoy_services_titles[$i], '<br/>', $dash_pos, 0);
+                    $smoy_services_titles_front[$i] = substr_replace($smoy_services_titles_front[$i], '<br/>', $dash_pos, 0);
                 }
+                
             }
-
-
-            $smoy_services_body_texts[$i] = get_theme_mod( 'smoy_service_content_body_'.$j);
+            
+            //$smoy_services_body_texts[$i] = get_theme_mod( 'smoy_service_content_body_'.$j);
+            
+            $this_service_permalink = esc_url(get_permalink($post));
+            $this_service_featured_img = get_the_post_thumbnail_url($post->ID, 'service-thumb');
+            
+            
+            
+            $this_service = new Smoy_Service($post->ID, $post->post_title, get_the_excerpt($post), $this_service_permalink, $this_service_featured_img);
+            $servicesArray[$i] = $this_service;
+            $i++;
+    
         }
+        
+        
+        
 
         ob_start();
         require_once(get_template_directory() . '/template-parts/smoy-services-front.php' );
         $output = ob_get_clean();
-        echo $output; 
+        echo $output;
+        
+        wp_reset_postdata();     
+        
     }
+    
+      
 }
 
 

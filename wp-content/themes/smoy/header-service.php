@@ -13,26 +13,18 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
-<?php 
-    /*
-        $smoy_single_post_thumbnail_url = the_post_thumbnail_url( 'large' );
-        $test = '#header-single{ background: url("'.$smoy_single_post_thumbnail_url.'");}';
-        $smoy_single_header_css = '<style type="text/css">';
-        $smoy_single_header_css .= $smoy_single_post_thumbnail_url;
-        $smoy_single_header_css .= $test;
-        $smoy_single_header_css .= '</style>';
-
-        echo $smoy_single_header_css;
-        */
-    
-    ?>
 <?php wp_head(); ?>
 </head>
-
 <body>
-<div id="page-wrapper-single">
-<?php while ( have_posts() ) : the_post(); 
+<?php while ( have_posts() ) : the_post();
+$service_id = get_the_ID();    
 $single_thumb_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+if($service_id % 2 === 0): ?>
+    <div id="page-wrapper-service" class="service-pink">
+<?php else: ?>
+    <div id="page-wrapper-service" class="service-orange">
+<?php 
+endif; 
 if ( has_post_thumbnail() ): ?>    
     <div id="header-single" style="background: url('<?php echo $single_thumb_url ?>')">
 <?php else:  ?>
@@ -41,6 +33,5 @@ if ( has_post_thumbnail() ): ?>
     <div class="navigation-top">
          <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
     </div><!-- .navigation-top -->
-    <div class="single-title"><?php the_title(); ?></div>
-             
+    <div class="single-service-title"><?php the_title(); ?></div>            
 </div>
