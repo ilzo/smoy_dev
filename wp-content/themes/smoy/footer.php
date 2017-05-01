@@ -1,7 +1,24 @@
 </div>  <!-- END OF SITE CONTENT -->
 
-<footer id="footer">
+<footer id="footer">  
 <div class="footer-container">
+      
+    <div id="footer-content-left">
+        <div id="footer-mobile-button-container">
+            <button id="newsletter-button-mobile" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
+        </div>
+        <?php do_action('smoy_get_footer_contact_info') ?>
+    </div>
+    <div id="footer-content-center">
+        <?php do_action('smoy_get_footer_social_icons') ?>
+        <div id="footer-button-container">
+            <button id="newsletter-button" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
+        </div>
+    </div>
+    <div id="footer-content-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/img/logo/asml-logo.png" width="102px" height="38px" />
+        <img src="<?php echo get_template_directory_uri(); ?>/img/logo/mtl-jasentunnus.png" width="105px" height="105px"/>
+    </div>
 </div> 
     
 </footer>
@@ -31,6 +48,12 @@ jQuery(function() {
             jQuery('.navigation-top').css('background-color', 'transparent');
         }
     });
+    
+    jQuery("#about-us-contact").click(function() {
+    jQuery('html, body').animate({
+            scrollTop: jQuery("#contact-wrapper").offset().top
+        }, 2000);
+    });
         
 });
 
@@ -54,7 +77,6 @@ window.onresize = function(){
     checkWidth(w);
      
 }
-
 
 function checkWidth(w) {
     let thisTranslateValues;
@@ -104,25 +126,20 @@ function checkWidth(w) {
             if(thisServiceTitleMobile.length > 0) {
                 thisServiceTitle.css('display', 'none');
                 thisServiceTitleMobile.css('display', 'block');
-                
-                
             }
             
             let contentPaddingTop = jQuery('#service-'+i+' .service-content').css('paddingTop');
-            //console.log(contentPaddingTop);
-        
+            
             if(thisServiceTitleMobile.length > 0){
                 let titleHeight = jQuery(thisServiceTitle).height();
                 let mobiletitleHeight = jQuery(thisServiceTitleMobile).height();
                 
                 if(mobiletitleHeight > 20 && mobiletitleHeight < 50) {
                     if (contentPaddingTop === '57px' || contentPaddingTop == '20px') {
-                        console.log("lowering title down");
                         jQuery('#service-'+i+' .service-content').css('padding', '81px 0 0');
                     }
                 }else if(mobiletitleHeight > 50  && mobiletitleHeight < 100){
                     if (contentPaddingTop === '81px' || contentPaddingTop === '20px') {
-                        console.log("lifting title up");
                         jQuery('#service-'+i+' .service-content').css('padding', '57px 0 0');
                     }
                 }
@@ -131,14 +148,12 @@ function checkWidth(w) {
                 let titleHeight = jQuery(thisServiceTitle).height();
                 if(titleHeight > 20  && titleHeight < 50) {
                     if (contentPaddingTop === '57px' || contentPaddingTop === '20px') {
-                        console.log("lowering title down");
                         jQuery('#service-'+i+' .service-content').css('padding', '81px 0 0');
                     }
                     
                     
                 }else if(titleHeight > 50  && titleHeight < 100){
                     if (contentPaddingTop === '81px' || contentPaddingTop === '20px') {
-                        console.log("lifting title up");
                         jQuery('#service-'+i+' .service-content').css('padding', '57px 0 0');
                     }   
                 }
@@ -200,7 +215,6 @@ function checkWidth(w) {
             
             
             if(thisServiceContent.css('paddingTop') == '81px' || thisServiceContent.css('paddingTop') == '57px'){
-               console.log("changing padding into original");
                thisServiceContent.css('padding', '20px 0 0 20px');
             }
             

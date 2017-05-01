@@ -519,25 +519,43 @@ function modify_single_content($content)
 
 */
 
-/*
+
+add_filter('the_content', 'smoy_modify_single_service_content');
 
 
-add_filter('the_content', 'modify_single_content');
-
-
-function modify_single_content($content) {
+function smoy_modify_single_service_content($content) {
     
-    if ( !is_home()) {
+    if ( is_singular('smoy_service')) {
+        $dom = new DOMDocument();
+        $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+        $xpath = new DOMXPath($dom);
+        //$results = $xpath->query('//div[@class="someclass"]');
+        $results = $xpath->query('//h1|//h2|//h3|//h4|//h5|//h6');
+        if ($results->length > 0) {
+            foreach($results as $node){
+                //print_r($node);
+                $testNode = $dom->createElement('div', '');
+                $testNode->setAttribute('class', 'single-service-title-underline');
+                //$node->parentNode->appendChild($testNode); // Insert new node after 
+                $node->parentNode->insertBefore( $testNode, $node->nextSibling);
+                //$node->parentNode->insertBefore($testNode, $node); // Insert new node before  
+            }
+            $content = $dom->saveHTML();
+        }
         
-        $counter = substr_count($content, '<p>');
+        //$content = wpautop($content);
         
+        //$counter = substr_count($content, '<p>');
         
-        $content = str_replace('<p>', '<section class="single-content-section"><div class="single-container">', $content);
-        $content = str_replace('</p>', '</div></section>', $content);
+        //var_dump($content);
+        //$content = str_replace('<p>', '<section class="single-content-section"><div class="single-container">', $content);
+        //$content = str_replace('</p>', '</div></section>', $content);
         return $content;
     } 
 }
-*/
+
+
+
 
 /*
 
@@ -864,6 +882,13 @@ function smoy_customize_register( $wp_customize ) {
     
     
     
+    $wp_customize->add_section( 'smoy_footer_section', array(
+      'title' => __( 'Footer', 'smoy' ),
+      'description' => __( 'Edit site footer here.', 'smoy' ),
+      'capability' => 'edit_theme_options'
+    ));
+    
+    
     
     /* ----------------------------------- */
     /* ------------- SETTINGS ------------ */
@@ -987,6 +1012,70 @@ function smoy_customize_register( $wp_customize ) {
         ));
         
     }
+    
+    
+    /* ------------------- Footer ------------------ */
+    
+    
+    $wp_customize->add_setting('smoy_footer_contact_building', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_footer_contact_street', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_footer_contact_city', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_footer_contact_phone', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_footer_contact_email', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    
+    for($i = 1; $i < 5; $i++) {
+        
+        $wp_customize->add_setting('smoy_footer_social_icon_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+        ));
+        
+        $wp_customize->add_setting('smoy_footer_social_icon_link_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'esc_url_raw'
+        ));
+        
+    }
+    
+    
+    
+    /*
+    $wp_customize->add_setting('smoy_footer_contact_business_id', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    */
+    
+    
+    
     
     
     /* ----------------------------------- */
@@ -1149,6 +1238,69 @@ function smoy_customize_register( $wp_customize ) {
         ));
     
     }
+    
+    
+    
+    /* ------------------ Footer -------------------- */
+    
+     $wp_customize->add_control( 'smoy_footer_contact_building', array(
+          'label' => __( 'Building name', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_footer_section'
+    ));
+    
+    $wp_customize->add_control( 'smoy_footer_contact_street', array(
+          'label' => __( 'Street address', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_footer_section'
+    ));
+    
+    $wp_customize->add_control( 'smoy_footer_contact_city', array(
+          'label' => __( 'City', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_footer_section'
+    ));
+    
+    $wp_customize->add_control( 'smoy_footer_contact_phone', array(
+          'label' => __( 'Phone', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_footer_section'
+    ));
+    
+    $wp_customize->add_control( 'smoy_footer_contact_email', array(
+          'label' => __( 'E-mail', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_footer_section'
+    ));
+    
+    for ($i = 1; $i < 5; $i++) {
+        
+        $wp_customize->add_control( 
+            new WP_Customize_Media_Control(
+                $wp_customize, 'smoy_footer_social_icon_'.$i, array(
+                    'label' => __( 'Social icon '.$i , 'smoy'),
+                    'section' => 'smoy_footer_section',
+                    'mime_type' => 'image'
+                )
+            )
+        );
+        
+        $wp_customize->add_control( 'smoy_footer_social_icon_link_'.$i, array(
+              'label' => __( 'Social icon link/url '.$i, 'smoy'),
+              'type' => 'text',
+              'section' => 'smoy_footer_section'
+        ));
+        
+    }
+    
+    /*
+    $wp_customize->add_control( 'smoy_footer_contact_business_id', array(
+          'label' => __( 'Business id (Y-tunnus)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_footer_section'
+    ));
+    */
+    
     
     
 }
@@ -1611,6 +1763,80 @@ function smoy_staff_front_page_output() {
 	$output = ob_get_clean();
 	echo $output;
     */
+}
+
+
+
+add_action('smoy_get_footer_contact_info', 'smoy_footer_contact_output');
+
+function smoy_footer_contact_output() { 
+    
+    
+    $smoy_footer_contact_building = get_theme_mod('smoy_footer_contact_building');
+    $smoy_footer_contact_street = get_theme_mod('smoy_footer_contact_street');
+    $smoy_footer_contact_city = get_theme_mod('smoy_footer_contact_city');
+    $smoy_footer_contact_phone = get_theme_mod('smoy_footer_contact_phone');
+    $smoy_footer_contact_email = get_theme_mod('smoy_footer_contact_email');
+    
+    ob_start();
+    require_once(get_template_directory() . '/template-parts/smoy-footer-contact-info.php' );
+    $output = ob_get_clean();
+    echo $output;
+    
+
+}
+
+
+
+add_action('smoy_get_footer_social_icons', 'smoy_footer_social_icons_output');
+
+function smoy_footer_social_icons_output() { 
+    
+    $iconArr = array();
+    $iconUrlArr = array();
+    $linkArr = array();
+    
+    $iconArr[0] = get_theme_mod('smoy_footer_social_icon_1');
+    $iconArr[1] = get_theme_mod('smoy_footer_social_icon_2');
+    $iconArr[2] = get_theme_mod('smoy_footer_social_icon_3');
+    $iconArr[3] = get_theme_mod('smoy_footer_social_icon_4');
+    
+    $linkArr[0] = get_theme_mod('smoy_footer_social_icon_link_1');
+    $linkArr[1] = get_theme_mod('smoy_footer_social_icon_link_2');
+    $linkArr[2] = get_theme_mod('smoy_footer_social_icon_link_3');
+    $linkArr[3] = get_theme_mod('smoy_footer_social_icon_link_4');
+    
+    $iconArrLength = count($iconArr);
+    
+    for($i = 0; $i < $iconArrLength; $i++){
+        
+        if(!empty($iconArr[$i])){
+            $icon_url = wp_get_attachment_url($iconArr[$i]);
+            $iconUrlArr[$i] = $icon_url;    
+        }
+        
+        /*
+        
+        if(empty($linkArr[$i])){
+            $linkArr[$i] = '#';    
+        }else{
+            
+        }
+        */
+        
+        
+        
+    }
+    
+    $iconUrlArrLength = count($iconUrlArr);
+    
+    
+    ob_start();
+    require_once(get_template_directory() . '/template-parts/smoy-footer-social-icons.php' );
+    $output = ob_get_clean();
+    echo $output;
+    
+
 }
 
 

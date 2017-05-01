@@ -11,7 +11,7 @@
         <?php endfor; ?>  
     </div>
     <div class="contact-button-container">
-        <button class="contact-us-button">Ota yhteyttä.</button>
+        <button id="about-us-contact" class="contact-us-button">Ota yhteyttä.</button>
     </div>
 </div>
 <!--
