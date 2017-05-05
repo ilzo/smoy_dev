@@ -219,6 +219,80 @@ function smoy_move_person_image_meta_box(){
 
 
 
+final class Smoy_Service_Metabox {
+    // These hook into to the two core actions we need to perform; creating the metabox, and saving it's contents when it is posted
+    public function __construct() {
+        // http://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
+        add_action( 'add_meta_boxes', array( $this, 'create_meta_box' ) );
+
+        // http://codex.wordpress.org/Plugin_API/Action_Reference/save_post
+        add_filter( 'save_post', array( $this, 'save_meta_box' ), 10, 2 );
+    }
+
+    public function create_meta_box() {
+        // http://codex.wordpress.org/Function_Reference/add_meta_box
+        add_meta_box(
+            'service_keywords_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
+            __( 'Avainsanoja', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
+            array( $this, 'print_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
+            'smoy_service', // (string) (required) The type of Write screen on which to show the edit screen section ('post', 'page', 'dashboard', 'link', 'attachment' or 'custom_post_type' where custom_post_type is the custom post type slug)
+            'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
+            'low' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
+        );
+        
+        //remove_meta_box( 'postimagediv', 'smoy_person', 'side' );
+        
+        //add_meta_box('postimagediv', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
+    }
+
+    public function print_meta_box( $post, $metabox ) {
+        ?>
+            <!-- These hidden fields are a registry of metaboxes that need to be saved if you wanted to output multiple boxes. The current metabox ID is added to the array. -->
+            <input type="hidden" name="meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
+            <!-- http://codex.wordpress.org/Function_Reference/wp_nonce_field -->
+            <?php wp_nonce_field( 'save_' . $metabox['id'], $metabox['id'] . '_nonce' ); ?>
+
+            <!-- This is a sample of fields that are associated with the metabox. You will notice that get_post_meta is trying to get previously saved information associated with the metabox. -->
+            <!-- http://codex.wordpress.org/Function_Reference/get_post_meta -->
+            <table class="form-table">
+            <tr><th><label for="service_keywords"><?php _e( 'Palvelun avainsanat', 'smoy' ); ?></label></th>
+            <td><textarea name="service_keywords" id="service_keywords"><?php echo get_post_meta($post->ID, 'service_keywords', true); ?></textarea></td></tr>
+            </table>
+
+            <!-- These hidden fields are a registry of fields that need to be saved for each metabox. The field names correspond to the field name output above. -->
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="service_keywords" />
+            
+        <?php
+    }
+
+    public function save_meta_box( $post_id, $post ) {
+        // Check if this information is being submitted by means of an autosave; if so, then do not process any of the following code
+        if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
+
+        // Determine if the postback contains any metaboxes that need to be saved
+        if( empty( $_POST['meta_box_ids'] ) ){ return; }
+
+        // Iterate through the registered metaboxes
+        foreach( $_POST['meta_box_ids'] as $metabox_id ){
+            // Verify thhe request to update this metabox
+            if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
+
+            // Determine if the metabox contains any fields that need to be saved
+            if( count( $_POST[ $metabox_id . '_fields' ] ) == 0 ){ continue; }
+
+            // Iterate through the registered fields        
+            foreach( $_POST[ $metabox_id . '_fields' ] as $field_id ){
+                // Update or create the submitted contents of the fiels as post meta data
+                // http://codex.wordpress.org/Function_Reference/update_post_meta
+                update_post_meta($post_id, $field_id, $_POST[ $field_id ]);
+            }
+        }
+
+        return $post;
+    }
+}
+
+$smoy_service_metabox = new Smoy_Service_Metabox();
 
 
 final class Smoy_Person_Metabox {
@@ -316,7 +390,8 @@ function smoy_person_title( $input ) {
 
 function smoy_register_menus() {
   register_nav_menus(
-    array('top' => __( 'Main menu', 'smoy' ))
+    array('top' => __( 'Main menu', 'smoy' ),
+         'secondary' => __( 'Secondary menu', 'smoy' ))
   );
 }
 
@@ -327,17 +402,15 @@ add_action( 'init', 'smoy_register_menus' );
 
 
 
+add_action('admin_head', 'smoy_admin_styles');
 
-
-
-
-
-
-
-
-
-
-
+function smoy_admin_styles() {
+  echo '<style>
+    #service_keywords {
+        width: 100%;
+    }
+  </style>';
+}
 
 
 
@@ -519,13 +592,36 @@ function modify_single_content($content)
 
 */
 
+add_action( 'wp_head', 'smoy_service_add_html_meta_tags' , 2 );
+
+function smoy_service_add_html_meta_tags() {
+    
+    if ( is_singular('smoy_service')) {
+        global $post;
+        $keywords = get_post_meta($post->ID, 'service_keywords');
+        $excerpt = get_the_excerpt($post);
+        if(!empty($excerpt)) {
+            echo '<meta name="description" content="' . wp_strip_all_tags($excerpt) . '" />' . "\n";
+        }
+        if(!empty($keywords)) {
+            echo '<meta name="keywords" content="' . wp_strip_all_tags($keywords[0]) . '" />' . "\n";
+        }
+    }
+}
+
 
 add_filter('the_content', 'smoy_modify_single_service_content');
-
 
 function smoy_modify_single_service_content($content) {
     
     if ( is_singular('smoy_service')) {
+        global $post;
+        $keywords = get_post_meta($post->ID, 'service_keywords');
+        if(!empty($keywords)) {
+           
+           $keywordsContainer = '<div class="smoy-service-keywords"><span>Avainsanoja</span> '.wp_strip_all_tags($keywords[0]).'</div>'; 
+        }
+        
         $dom = new DOMDocument();
         $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $xpath = new DOMXPath($dom);
@@ -533,7 +629,6 @@ function smoy_modify_single_service_content($content) {
         $results = $xpath->query('//h1|//h2|//h3|//h4|//h5|//h6');
         if ($results->length > 0) {
             foreach($results as $node){
-                //print_r($node);
                 $testNode = $dom->createElement('div', '');
                 $testNode->setAttribute('class', 'single-service-title-underline');
                 //$node->parentNode->appendChild($testNode); // Insert new node after 
@@ -543,13 +638,9 @@ function smoy_modify_single_service_content($content) {
             $content = $dom->saveHTML();
         }
         
-        //$content = wpautop($content);
+        $content = preg_replace('/<p([^>]+)?>/', '<p$1 class="service-lead-paragraph">', $content, 1);
+        $content .= $keywordsContainer;
         
-        //$counter = substr_count($content, '<p>');
-        
-        //var_dump($content);
-        //$content = str_replace('<p>', '<section class="single-content-section"><div class="single-container">', $content);
-        //$content = str_replace('</p>', '</div></section>', $content);
         return $content;
     } 
 }
@@ -857,7 +948,7 @@ function smoy_customize_register( $wp_customize ) {
     
     $wp_customize->add_section( 'smoy_about_us_section', array(
       'title' => __( 'About us', 'smoy' ),
-      'description' => __( 'Edit about us section content here.', 'smoy' ),
+      'description' => __( 'Edit about us section here.', 'smoy' ),
       'capability' => 'edit_theme_options'
     ));
     
@@ -866,7 +957,7 @@ function smoy_customize_register( $wp_customize ) {
     
     $wp_customize->add_section( 'smoy_services_section', array(
       'title' => __( 'Services', 'smoy' ),
-      'description' => __( 'Edit services here.', 'smoy' ),
+      'description' => __( 'Edit services section here.', 'smoy' ),
       'capability' => 'edit_theme_options'
     ));
     
@@ -875,12 +966,33 @@ function smoy_customize_register( $wp_customize ) {
     
     $wp_customize->add_section( 'smoy_customer_ref_section', array(
       'title' => __( 'Customers', 'smoy' ),
-      'description' => __( 'Edit customer references here.', 'smoy' ),
+      'description' => __( 'Edit customer references section here.', 'smoy' ),
       'capability' => 'edit_theme_options'
     ));
     
     
     
+    /* ------------- Front-Page People ------------ */
+    
+    $wp_customize->add_section( 'smoy_people_section', array(
+      'title' => __( 'People', 'smoy' ),
+      'description' => __( 'Edit people section here.', 'smoy' ),
+      'capability' => 'edit_theme_options'
+    ));
+    
+    
+    
+    /* ------------ Front-Page Contact ------------ */
+    
+    $wp_customize->add_section( 'smoy_contact_section', array(
+      'title' => __( 'Contact', 'smoy' ),
+      'description' => __( 'Edit contact section here.', 'smoy' ),
+      'capability' => 'edit_theme_options'
+    ));
+    
+    
+    
+    /* ----------------- Footer ------------------- */
     
     $wp_customize->add_section( 'smoy_footer_section', array(
       'title' => __( 'Footer', 'smoy' ),
@@ -923,9 +1035,31 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------- Front-Page Services Section -------- */
     
+        $wp_customize->add_setting('smoy_services_header_title', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_services_header_desc', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_services_header_desc_max_width', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting( 'smoy_services_header_text_bg_color', array(
+          'capability' => 'edit_theme_options',
+          'default' => 'orange',
+          'sanitize_callback' => 'smoy_sanitize_radio',
+        ));
+    
     for ($i = 1; $i < 7; $i++) {
-        
-        
         
         $wp_customize->add_setting('smoy_service_title_front_'.$i, array(
             'type' => 'theme_mod',
@@ -982,6 +1116,29 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------- Front-Page Customer References ----- */
     
+        $wp_customize->add_setting('smoy_customer_ref_header_title', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_customer_ref_header_desc', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting( 'smoy_customer_ref_header_text_bg_color', array(
+          'capability' => 'edit_theme_options',
+          'default' => 'orange',
+          'sanitize_callback' => 'smoy_sanitize_radio',
+        ));
     
     for ($i = 1; $i < 13; $i++) {
         
@@ -1012,6 +1169,92 @@ function smoy_customize_register( $wp_customize ) {
         ));
         
     }
+    
+    
+    /* ------------- Front-Page People ------------- */
+    
+        $wp_customize->add_setting('smoy_people_header_title', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_people_header_desc', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_people_header_desc_max_width', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting( 'smoy_people_header_text_bg_color', array(
+          'capability' => 'edit_theme_options',
+          'default' => 'orange',
+          'sanitize_callback' => 'smoy_sanitize_radio',
+        ));
+    
+
+    /* ------------ Front-Page Contact ------------- */
+    
+    
+        $wp_customize->add_setting('smoy_contact_header_title', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_contact_header_desc', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_contact_header_desc_max_width', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting( 'smoy_contact_header_text_bg_color', array(
+          'capability' => 'edit_theme_options',
+          'default' => 'orange',
+          'sanitize_callback' => 'smoy_sanitize_radio',
+        ));
+    
+    
+        for($i = 1; $i < 4; $i++) {
+
+            $wp_customize->add_setting('smoy_contact_person_name_'.$i, array(
+                'type' => 'theme_mod',
+                'capability' => 'edit_theme_options',
+                'sanitize_callback' => 'sanitize_text_field'
+            ));
+
+            $wp_customize->add_setting('smoy_contact_person_title_'.$i, array(
+                'type' => 'theme_mod',
+                'capability' => 'edit_theme_options',
+                'sanitize_callback' => 'sanitize_text_field'
+            ));
+
+            $wp_customize->add_setting('smoy_contact_person_phone_'.$i, array(
+                'type' => 'theme_mod',
+                'capability' => 'edit_theme_options',
+                'sanitize_callback' => 'sanitize_text_field'
+            ));
+
+        }
+    
+    
+    $wp_customize->add_setting('smoy_contact_form_shortcode', array(
+                'type' => 'theme_mod',
+                'capability' => 'edit_theme_options',
+                'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
     
     
     /* ------------------- Footer ------------------ */
@@ -1112,6 +1355,41 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------- Front-Page Services Section -------- */
     
+       
+        $wp_customize->add_control( 'smoy_services_header_title', array(
+          'label' => __( 'Header title', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_services_header_desc', array(
+          'label' => __( 'Header description body', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_services_header_desc_max_width', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_services_header_text_bg_color', array(
+          'type' => 'radio',
+          'section' => 'smoy_services_section', 
+          'label' => __( 'Text background', 'smoy'),
+          'description' => __( 'Select header text background color', 'smoy'),
+          'choices' => array(
+            'orange' => __( 'Orange', 'smoy'),
+            'pink' => __( 'Pink' , 'smoy')
+          ),
+          'active_callback' => 'is_front_page'
+        ));
+    
     
     for ($i = 1; $i < 7; $i++) {
         
@@ -1125,7 +1403,7 @@ function smoy_customize_register( $wp_customize ) {
         
         $wp_customize->add_control( 'smoy_service_mobile_title_'.$i, array(
           'label' => __( 'Service '.$i.' mobile heading', 'smoy'),
-          'description' => __( 'How the front page service heading should be displayed in mobile view' ),
+          'description' => __( 'How the front page service heading should be displayed in mobile view', 'smoy'),
           'type' => 'text',
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
@@ -1149,7 +1427,7 @@ function smoy_customize_register( $wp_customize ) {
         
         $wp_customize->add_control( 'smoy_service_body_max_width_'.$i, array(
           'label' => __( 'Service '.$i.' body text max width', 'smoy'),
-          'description' => __( 'Adjust the body text max width. You can use normal css units, like px, em and % (default 60%)' ),
+          'description' => __( 'Adjust the body text max width. You can use normal css units, like px, em and % (default 60%)', 'smoy'),
           'type' => 'text',
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
@@ -1172,8 +1450,8 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_control( 'smoy_service_bg_img_position_'.$i, array(
           'type' => 'range',
           'section' => 'smoy_services_section',
-          'label' => __( 'Service '.$i.' background image position' ),
-          'description' => __( 'Adjust the background image horizontal position (default 50)' ),
+          'label' => __( 'Service '.$i.' background image position', 'smoy'),
+          'description' => __( 'Adjust the background image horizontal position (default 50)', 'smoy'),
           'input_attrs' => array(
             'min' => 0,
             'max' => 100,
@@ -1186,6 +1464,40 @@ function smoy_customize_register( $wp_customize ) {
     
 
     /* ------- Front-Page Customer References ----- */
+    
+        $wp_customize->add_control( 'smoy_customer_ref_header_title', array(
+          'label' => __( 'Header title', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_customer_ref_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_customer_ref_header_desc', array(
+          'label' => __( 'Header description body', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_customer_ref_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_customer_ref_header_desc_max_width', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_customer_ref_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_customer_ref_header_text_bg_color', array(
+          'type' => 'radio',
+          'section' => 'smoy_customer_ref_section', 
+          'label' => __( 'Text background', 'smoy'),
+          'description' => __( 'Select header text background color', 'smoy'),
+          'choices' => array(
+            'orange' => __( 'Orange', 'smoy'),
+            'pink' => __( 'Pink' , 'smoy')
+          ),
+          'active_callback' => 'is_front_page'
+        ));
     
     
     for ($i = 1; $i < 13; $i++) {
@@ -1216,8 +1528,8 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_control( 'smoy_customer_logo_min_height_'.$i, array(
           'type' => 'range',
           'section' => 'smoy_customer_ref_section',
-          'label' => __( 'Logo '.$i.' min height' ),
-          'description' => __( 'Adjust the logo minimun height (default 0)' ),
+          'label' => __( 'Logo '.$i.' min height', 'smoy'),
+          'description' => __( 'Adjust the logo minimun height (default 0)', 'smoy'),
           'input_attrs' => array(
             'min' => 0,
             'max' => 200,
@@ -1228,8 +1540,8 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_control( 'smoy_customer_logo_max_height_'.$i, array(
           'type' => 'range',
           'section' => 'smoy_customer_ref_section',
-          'label' => __( 'Logo '.$i.' max height' ),
-          'description' => __( 'Adjust the logo maximum height (default 200)' ),
+          'label' => __( 'Logo '.$i.' max height', 'smoy'),
+          'description' => __( 'Adjust the logo maximum height (default 200)', 'smoy'),
           'input_attrs' => array(
             'min' => 0,
             'max' => 200,
@@ -1239,6 +1551,114 @@ function smoy_customize_register( $wp_customize ) {
     
     }
     
+    
+    
+    /* ------------- Front-Page People -------------- */
+    
+       $wp_customize->add_control( 'smoy_people_header_title', array(
+          'label' => __( 'Header title', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_people_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_people_header_desc', array(
+          'label' => __( 'Header description body', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_people_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_people_header_desc_max_width', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+          'type' => 'text',
+          'section' => 'smoy_people_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_people_header_text_bg_color', array(
+          'type' => 'radio',
+          'section' => 'smoy_people_section', 
+          'label' => __( 'Text background', 'smoy'),
+          'description' => __( 'Select header text background color', 'smoy'),
+          'choices' => array(
+            'orange' => __( 'Orange', 'smoy'),
+            'pink' => __( 'Pink' , 'smoy')
+          ),
+          'active_callback' => 'is_front_page'
+        ));
+    
+    /* ------------- Front-Page Contact ------------- */
+    
+        $wp_customize->add_control( 'smoy_contact_header_title', array(
+          'label' => __( 'Header title', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_contact_header_desc', array(
+          'label' => __( 'Header description body', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_contact_header_desc_max_width', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+          'type' => 'text',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_contact_header_text_bg_color', array(
+          'type' => 'radio',
+          'section' => 'smoy_contact_section', 
+          'label' => __( 'Text background', 'smoy'),
+          'description' => __( 'Select header text background color', 'smoy'),
+          'choices' => array(
+            'orange' => __( 'Orange', 'smoy'),
+            'pink' => __( 'Pink' , 'smoy')
+          ),
+          'active_callback' => 'is_front_page'
+        ));
+    
+    
+    
+        for($i = 1; $i < 4; $i++) {
+
+            $wp_customize->add_control('smoy_contact_person_name_'.$i, array(
+              'label' => __( 'Contact person '.$i.' name', 'smoy'),
+              'type' => 'text',
+              'section' => 'smoy_contact_section',
+              'active_callback' => 'is_front_page'
+            ));
+            
+            $wp_customize->add_control('smoy_contact_person_title_'.$i, array(
+              'label' => __( 'Contact person '.$i.' title', 'smoy'),
+              'type' => 'text',
+              'section' => 'smoy_contact_section',
+              'active_callback' => 'is_front_page'
+            ));
+            
+            $wp_customize->add_control('smoy_contact_person_phone_'.$i, array(
+              'label' => __( 'Contact person '.$i.' phone number', 'smoy'),
+              'type' => 'text',
+              'section' => 'smoy_contact_section',
+              'active_callback' => 'is_front_page'
+            ));
+             
+        }
+    
+    $wp_customize->add_control('smoy_contact_form_shortcode', array(
+              'label' => __( 'Contact form shortcode', 'smoy'),
+              'description' => __( 'Place the contact form shortcode here', 'smoy'),
+              'type' => 'text',
+              'section' => 'smoy_contact_section',
+              'active_callback' => 'is_front_page'
+    ));
     
     
     /* ------------------ Footer -------------------- */
@@ -1351,6 +1771,18 @@ function smoy_customer_references_styles(){
 
 function smoy_sanitize_checkbox( $input ) {
 	return ( $input === true ) ? true : false;
+}
+
+
+function smoy_sanitize_radio( $input, $setting ) {
+  // Ensure input is a slug.
+  $input = sanitize_key( $input );
+
+  // Get list of choices from the control associated with the setting.
+  $choices = $setting->manager->get_control( $setting->id )->choices;
+
+  // If the input is a valid key, return it; otherwise, return the default.
+  return ( array_key_exists( $input, $choices ) ? $input : $setting->default );
 }
 
 
@@ -1474,6 +1906,28 @@ function smoy_services_styles() {
 
 }
 
+
+add_action( 'smoy_get_content_section_header_services', 'smoy_section_header_services_output');
+
+function smoy_section_header_services_output() {
+    if(is_home()) {
+        $this_section_header_id_prefix = 'services';
+        $smoy_section_header_title = get_theme_mod( 'smoy_services_header_title');
+        $smoy_section_header_body = get_theme_mod( 'smoy_services_header_desc');
+        $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_services_header_desc_max_width' );
+        if(empty($smoy_section_header_desc_max_width)){
+            $smoy_section_header_desc_max_width = '500px';
+        }
+        $smoy_section_header_text_background = get_theme_mod( 'smoy_services_header_text_bg_color');
+        
+        ob_start();
+        include get_template_directory() . '/template-parts/smoy-content-section-header.php';
+        $output = ob_get_clean();
+        echo $output;
+    
+    }
+}
 
 
 add_action('smoy_get_services', 'smoy_services_front_page_output');
@@ -1611,6 +2065,33 @@ function smoy_customer_references_styles() {
     }
 }
 
+
+//'smoy_get_content_section_header_references'
+
+add_action( 'smoy_get_content_section_header_references', 'smoy_section_header_ref_output');
+
+function smoy_section_header_ref_output() {
+    if(is_home()) {
+        
+        $this_section_header_id_prefix = 'customers';
+        $smoy_section_header_title = get_theme_mod( 'smoy_customer_ref_header_title');
+        $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc');
+        $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_customer_ref_header_desc_max_width' );
+        if(empty($smoy_section_header_desc_max_width)){
+            $smoy_section_header_desc_max_width = '500px';
+        }
+        $smoy_section_header_text_background = get_theme_mod( 'smoy_customer_ref_header_text_bg_color');
+        
+        ob_start();
+        include get_template_directory() . '/template-parts/smoy-content-section-header.php';
+        $output = ob_get_clean();
+        echo $output;
+        
+    }
+}
+
+
 add_action('smoy_get_references', 'smoy_refs_front_page_output');
 
 function smoy_refs_front_page_output() {
@@ -1641,6 +2122,29 @@ function smoy_refs_front_page_output() {
 	require_once(get_template_directory() . '/template-parts/smoy-customer-references.php' );
 	$output = ob_get_clean();
 	echo $output;
+}
+
+
+add_action( 'smoy_get_content_section_header_people', 'smoy_section_header_people_output');
+
+function smoy_section_header_people_output() {
+    if(is_home()) {
+        $this_section_header_id_prefix = 'staff';
+        $smoy_section_header_title = get_theme_mod( 'smoy_people_header_title');
+        $smoy_section_header_body = get_theme_mod( 'smoy_people_header_desc');
+        $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_people_header_desc_max_width' );
+        if(empty($smoy_section_header_desc_max_width)){
+            $smoy_section_header_desc_max_width = '500px';
+        }
+        $smoy_section_header_text_background = get_theme_mod( 'smoy_people_header_text_bg_color');
+        
+        ob_start();
+        include get_template_directory() . '/template-parts/smoy-content-section-header.php';
+        $output = ob_get_clean();
+        echo $output;
+    
+    }
 }
 
 
@@ -1765,6 +2269,81 @@ function smoy_staff_front_page_output() {
     */
 }
 
+
+add_action( 'smoy_get_content_section_header_contact', 'smoy_section_header_contact_output');
+
+function smoy_section_header_contact_output() {
+    if(is_home()) {
+        $this_section_header_id_prefix = 'contact';
+        $smoy_section_header_title = get_theme_mod( 'smoy_contact_header_title');
+        $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc');
+        $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_contact_header_desc_max_width' );
+        if(empty($smoy_section_header_desc_max_width)){
+            $smoy_section_header_desc_max_width = '500px';
+        }
+        $smoy_section_header_text_background = get_theme_mod( 'smoy_contact_header_text_bg_color');
+        
+        ob_start();
+        include get_template_directory() . '/template-parts/smoy-content-section-header.php';
+        $output = ob_get_clean();
+        echo $output;
+    
+    }
+}
+
+
+add_action('smoy_get_contact_form', 'smoy_contact_form_output');
+
+function smoy_contact_form_output() {
+    
+    
+    class Smoy_Contact_Person {
+         public $name = '';
+         public $title = null;
+         public $phone = null;
+
+         public function __construct($name, $title, $phone) {
+             $this->name = $name;
+             if(!empty($title)){
+                 $this->title = $title;
+             }
+
+             if(!empty($phone)){
+                $this->phone = $phone;
+             }
+
+         }
+             
+    }
+    
+    $contact_form_shortcode = get_theme_mod( 'smoy_contact_form_shortcode' );
+    
+    if(empty($contact_form_shortcode)) {
+        $contact_form_shortcode = '';
+    }
+    
+    $contact_ppl_array = array();
+
+    for ($i = 0; $i < 3; $i++) {
+        $j = $i + 1;
+        $thisPersonName = get_theme_mod( 'smoy_contact_person_name_'.$j);
+        $thisPersonTitle = get_theme_mod( 'smoy_contact_person_title_'.$j);
+        $thisPersonPhone = get_theme_mod( 'smoy_contact_person_phone_'.$j);
+        
+        $thisPerson = new Smoy_Contact_Person($thisPersonName, $thisPersonTitle, $thisPersonPhone);
+        $contact_ppl_array[$i] = $thisPerson;
+        
+    }
+    
+    
+    ob_start();
+    require_once(get_template_directory() . '/template-parts/smoy-contact-form-front.php' );
+    $output = ob_get_clean();
+    echo $output;
+    
+
+}
 
 
 add_action('smoy_get_footer_contact_info', 'smoy_footer_contact_output');

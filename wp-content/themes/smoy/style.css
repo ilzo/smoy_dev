@@ -116,7 +116,6 @@ body {
     height: auto;
     width: 100%;
     z-index: 5;
-    //background-color: black;
     background-color: transparent;
     
     -webkit-transition: background 0.5s ease-out 0s;
@@ -125,6 +124,28 @@ body {
     -o-transition: background 0.5s ease-out 0s;
     transition: background 0.5s ease-out 0s;
 }
+
+
+.navigation-secondary {
+    position: fixed;
+    top: 56px;
+    height: auto;
+    width: 100%;
+    z-index: 5;
+    background-color: black;
+    overflow: hidden;
+    -webkit-transition: background 0.5s ease-out 0s;
+    -moz-transition: background 0.5s ease-out 0s;
+    -ms-transition: background 0.5s ease-out 0s;
+    -o-transition: background 0.5s ease-out 0s;
+    transition: background 0.5s ease-out 0s;
+}
+
+/*
+.menu-alavalikko-container {
+    margin: 20px 0 0 0;
+}
+*/
 
 #header-single {
     position: relative;
@@ -139,13 +160,14 @@ body {
     background-position: center !important;
 }
 
+
 #top-menu {
    position: relative;
    width: 100%;
 }
 
 
-#top-menu ul{
+#top-menu ul {
     list-style-type: none;
     text-align: center;
 }
@@ -155,6 +177,7 @@ body {
     display: inline-block;
     width: 200px;
     margin: 15px auto;
+    text-align: center;
 }
 
 
@@ -174,6 +197,47 @@ body {
     color: #ff8100;
 }
 
+#secondary-menu {
+    height: auto;
+    max-height: 0;
+    overflow: hidden;
+    list-style-type: none;
+    -webkit-transition: max-height 0.5s ease-out 0s;
+    -moz-transition: max-height 0.5s ease-out 0s;
+    -ms-transition: max-height 0.5s ease-out 0s;
+    -o-transition: max-height 0.5s ease-out 0s;
+    transition: max-height 0.5s ease-out 0s;
+}
+
+
+#secondary-menu.second-menu-opened {
+    max-height: 485px;
+}
+
+#secondary-menu li:first-of-type {
+    margin-top: 30px;
+}
+
+#secondary-menu li:last-of-type {
+    margin-bottom: 30px;
+}
+
+#secondary-menu li {
+    display: table;
+    margin: 15px 0 0px 0;
+    padding: 5px 15px 5px 15px;
+    border: 2px solid #f2f2f2;
+}
+
+#secondary-menu li a{
+    display: table-cell;
+    font-family: 'MyriadProRegular', Fallback, sans-serif;
+    text-decoration: none;
+    color: #f2f2f2;
+    font-size: 32px;
+    padding: 5px 0 0 0;
+}
+
 #nav-logo-container {
     float: left;
     margin: 15px 20px 4px 15px;
@@ -187,10 +251,25 @@ body {
     height: auto;
     left: 0;
     top: 0;
-    background-color: rgb(0,0,0);
     background-color: rgba(0,0,0, 0);
     overflow: hidden;
 }
+
+/*
+
+#secondary-menu-overlay {
+    position: fixed;
+    height: 0;
+    z-index: 999;
+    width: 100%;
+    margin: 56px 0 0 0px;
+    padding: 35px 0 35px 50px;
+    left: 0;
+    top: 0;
+    background-color: rgb(0,0,0);
+    overflow: hidden;
+}
+*/
 
 
   
@@ -200,7 +279,7 @@ body {
 }
 
 
-#top-menu-open, #top-menu-overlay .closebtn {
+#top-menu-open, #top-menu-overlay .closebtn /*, .navigation-secondary*/ {
     -webkit-transition: all 0.25s ease-out 0s;
     -moz-transition: all 0.25s ease-out 0s;
     -ms-transition: all 0.25s ease-out 0s;
@@ -218,7 +297,7 @@ body {
 
 
 #top-menu-overlay .closebtn {
-    opacity: 0;
+    display: none;
     position: absolute;
     top: 20px;
     right: 45px;
@@ -231,6 +310,28 @@ body {
 #top-menu-overlay .closebtn:hover {
     color: #ff8100;
 }
+
+
+#menu-item-2405 a:after {
+	content: '';
+	display: block;
+	margin: auto;
+	height: 2px;
+	width: 0px;
+	background: transparent;
+	//transition: width .25s ease, background-color .25s ease;
+    -webkit-transition: all 0.25s ease-out 0s;
+    -moz-transition: all 0.25s ease-out 0s;
+    -ms-transition: all 0.25s ease-out 0s;
+    -o-transition: all 0.25s ease-out 0s;
+    transition: all 0.25s ease-out 0s;
+}
+
+#menu-item-2405 a:first-of-type.active-link:after {
+	width: 29%;
+	background: #ff8100;
+}
+
 
 img {
     height: 100%;
@@ -571,9 +672,12 @@ button {
     background: url("./img/background/ota_yhteytta.jpg");
 }
 
+/*
+
 #services-header-body > .body-text-pink {
     max-width: 290px;
 }
+*/
 
 #customers-heading {
     padding: 0;
@@ -585,10 +689,11 @@ button {
 }
 */
 
-
+/*
 #customers-header-body > .body-text-orange {
     max-width: 397px;
 }
+*/
 
 /*
 #staff-heading > .heading-pink{
@@ -597,14 +702,17 @@ button {
 */
 
 
+/*
 #staff-header-body > .body-text-pink {
     max-width: 325px;
 }
+*/
 
-
+/*
 #contact-header-body > .body-text-orange {
     max-width: 366px;
 }
+*/
 
 
 
@@ -861,6 +969,10 @@ div.service-stretchy-wrapper {
     margin-top: 2.65em;
 }
 
+.single-service-content h2 {
+    font-size: 1.28em;
+}
+
 
 .single-service-title-underline {
     height: 2px;
@@ -878,13 +990,38 @@ div.service-stretchy-wrapper {
 }
 
 .single-service-content p {
-    font-family: 'LatoLight', Fallback, sans-serif;
-    font-weight: 600;
+    font-family: 'MyriadProRegular', Fallback, sans-serif;
     font-size: 12pt;
-    font-weight: 600;
     line-height: 1.35;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 0 19px 0;
+}
+
+.service-lead-paragraph {
+    font-weight: bold;
+    width: 82%;
+    max-width: 900px !important;
+    font-size: 14pt !important;
+    line-height: 1.38 !important;
+}
+
+.smoy-service-keywords {
+    font-family: 'MyriadProRegular', Fallback, sans-serif;
+    
+}
+
+.smoy-service-keywords {
+    width: 85%;
+    max-width: 1000px;
+    font-style: italic;
+    font-size: 10pt;
+    margin-top: 45px;
+}
+
+.smoy-service-keywords span {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 11pt;
 }
 
 #our-customers {
@@ -1716,6 +1853,14 @@ div.customer-stretchy-wrapper {
 }
 
 
+@media screen and (max-width: 1280px) and (max-height: 1000px) { 
+    #home-hero {
+        background-position: 48%;
+        background-size: 135%;
+    }
+}
+
+
 @media screen and (max-width: 1280px) {
     
     .service-box {
@@ -1826,6 +1971,11 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1100px) {
     
+    #home-hero {
+        background-position: 63%;
+        background-size: 160%;
+    }
+    
     #about-us {
         background-position: 10%; 
     }
@@ -1896,7 +2046,7 @@ div.customer-stretchy-wrapper {
     
     #top-menu li {
         display: block;
-        padding: 8px;
+        padding: 0;
         font-size: 36px;
         color: #818181;
     }
@@ -1915,6 +2065,64 @@ div.customer-stretchy-wrapper {
         transition: 0.5s; 
 
     }
+    
+    
+    .navigation-secondary {
+        /*
+        top: 306px;
+        height: 0;
+        width: 100%;
+        */
+        background-color: transparent;
+        text-align: center;
+    }
+    
+    #top-menu ul {
+        list-style-type: none;
+        text-align: center;
+        padding: 0;
+    }
+
+
+
+    li#menu-item-2405 {
+        width: 100%;
+    }
+
+    #secondary-menu {
+        margin: 0;
+    }
+    
+    #secondary-menu.second-menu-opened {
+        max-height: 375px;
+    }
+    
+    #secondary-menu li {
+        display: table;
+        padding: 0 !important;
+        margin: 15px auto 15px auto;
+        width: 70%;
+        border: 1px solid #f2f2f2;
+    }
+    
+    #secondary-menu li:first-of-type {
+        margin-top: 12px;
+    }
+
+    #secondary-menu li:last-of-type {
+        margin-bottom: 12px;
+    }
+
+    #secondary-menu li a {
+        font-size: 20px;
+        padding: 10px 0 5px 0;
+        margin: 0;
+    }
+    
+    #menu-item-2405 a:first-of-type.active-link:after {
+        width: 65px;
+    }
+    
     
     #nav-logo-container {
         float: none;
@@ -2040,7 +2248,12 @@ div.customer-stretchy-wrapper {
 }
 
 
-@media screen and (max-width: 930px) { 
+@media screen and (max-width: 930px) {
+    
+    #home-hero {
+        background-size: cover;
+        background-position: 74.5%;
+    }
 
     #about-us {
         background-position: 0; 
@@ -2052,6 +2265,35 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 840px) {
     
+    .content-header-wrapper {
+        top: initial;
+        transform: initial;
+        bottom: 36px;
+        width: 80%;
+        left: 10%;
+        margin: 0;
+    }
+
+    .content-section-heading {
+        width: 100%; 
+    }
+
+    .heading-orange:not(#about-main-title), .heading-pink, .heading-black {
+        padding: 0;
+        width: 100%;
+        float: left;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .body-text-orange, .body-text-pink, .body-text-black {
+        max-width: 100% !important;
+        padding: 25px 10% 25px 10%;
+        float: left;
+        font-size: 1.25em;
+        line-height: 1.28;
+    }
+
     .person-content .person-name, .person-content .person-title, .person-content .person-phone {
        margin: 0px 0 0px 12px;
        
@@ -2071,6 +2313,14 @@ div.customer-stretchy-wrapper {
     .person-content .person-title, .person-content .person-phone {
         font-size: 0.85em;
     
+    }
+    
+    #services > .content-section-header {
+        background-position: 85% 50% !important;
+    }
+    
+    #our-customers > .content-section-header {
+        background-position: 30% !important;
     }
     
     #contact-wrapper {
@@ -2191,10 +2441,12 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 780px) {
     
+    /*
     #header-home {
         height: 98vw;
         width: 100%;
     }
+    */
     
     /*
     #home-hero {
@@ -2246,6 +2498,11 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 630px) {
+    
+    #home-hero {
+        background-size: cover;
+        background-position: 59.5%;
+    }
     
     #about-us {
         background-position: 14%;

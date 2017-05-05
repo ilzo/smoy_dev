@@ -12,19 +12,7 @@ get_header(); ?>
 </section>
 
 <section id="services" class="content-section-front">
-    <div class="content-section-header">
-        <div class="content-header-wrapper">
-            <div id="services-heading" class="content-section-heading">
-                <h1 class="heading-pink">Palvelut.</h1>
-            </div>
-            <div id="services-header-body" class="content-header-body">
-                <div class="body-text-pink">
-                    <p>Meiltä löydät monipuolisten mainostoimistopalvelujen lisäksi palveluasennetta, joka ei ole kiinni markkinointibudjettisi koosta.</p>
-                </div>
-            </div>
-       </div>
-    </div>
-    
+    <?php do_action('smoy_get_content_section_header_services'); ?>
     <?php do_action('smoy_get_services'); ?>
 </section>
 <!-- <section id="bg-pic-1" class="bg-img-container"> -->
@@ -32,18 +20,7 @@ get_header(); ?>
 <!-- </section> -->
 
 <section id="our-customers" class="content-section-front">
-    <div class="content-section-header">
-        <div class="content-header-wrapper">
-            <div id="customers-heading" class="content-section-heading">
-                <h1 class="heading-orange">Referenssit.</h1>
-            </div>
-            <div id="customers-header-body" class="content-header-body">
-                <div class="body-text-orange">
-                    <p>Olemme ylpeitä saadessamme tehdä töitä asiakkaille, jotka toimivat monilla eri toimialoilla – näin saamme puhutella lukuisia kiinnostavia kohderyhmiä.</p>
-                </div>
-            </div>
-       </div>
-    </div>
+    <?php do_action('smoy_get_content_section_header_references'); ?>
     <?php do_action('smoy_get_references'); ?>
 </section>
 
@@ -51,18 +28,7 @@ get_header(); ?>
 <!--<img class="bg-img" src="http://192.168.11.6:8081/loud_dev/wp-content/uploads/2016/08/1103-helmi_0144_bg-2400x1600.jpg" /> -->
 <!-- </section> -->
 <section id="our-staff" class="content-section-front">
-    <div class="content-section-header">
-        <div class="content-header-wrapper">
-            <div id="staff-heading" class="content-section-heading">
-                <h1 class="heading-pink">Me.</h1>
-            </div>
-            <div id="staff-header-body" class="content-header-body">
-                <div class="body-text-pink">
-                    <p>Monipuolisuudestamme ja kokemuksestamme markkinointiviestinnän parissa on sinulle takuulla hyötyä. Sovitaanko heti starttipalaveri?</p>
-                </div>
-            </div>
-       </div>
-    </div>
+    <?php do_action('smoy_get_content_section_header_people'); ?>
     <?php do_action('smoy_get_people'); ?> 
 </section>
 <section id="blog" class="content-section-front">
@@ -81,21 +47,8 @@ get_header(); ?>
     <?php get_template_part( 'template-parts/smoy-blogs-front'); ?>
 </section>
 <section id="contact" class="content-section-front">
-    <div class="content-section-header">
-        <div class="content-header-wrapper">
-            <div id="contact-heading" class="content-section-heading">
-                <h1 class="heading-orange">Ota yhteyttä.</h1>
-            </div>
-            <div id="contact-header-body" class="content-header-body">
-                <div class="body-text-orange">
-                    <p>Soita, meilaa, tule käymään tai pyydä tarjous yhteydenottolomakkeella.</p>
-                    <hr class="text-divider"/>
-                    <p>Sähköpostit: etunimi.sukunimi(at)smoy.com</p>
-                </div>
-            </div>
-       </div>
-    </div>
-    <?php get_template_part( 'template-parts/smoy-contact-form-front'); ?>
+    <?php do_action('smoy_get_content_section_header_contact'); ?>
+    <?php do_action('smoy_get_contact_form'); ?> 
 </section>
 
 <?php get_footer(); ?>

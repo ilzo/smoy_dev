@@ -15,4 +15,4 @@ get_header('service'); ?>
         endwhile;
     ?>
 </main><!-- .site-main -->
-<?php get_footer('single'); ?>
+<?php get_footer(); ?>

@@ -18,12 +18,12 @@
 <body <?php body_class(); ?>>
 <div class="page-wrapper">
 <header id="header-home">
-    <!-- <a href="#" class="open-menu-btn nav-down">Menu</a> -->
     <div class="navigation-top">
         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
-    </div><!-- .navigation-top -->
-    <section id="home-hero">
-       
-    </section>
+    </div>
+    <div class="navigation-secondary">
+        <?php get_template_part( 'template-parts/navigation', 'secondary' ); ?>
+    </div>
+    <section id="home-hero"></section>
 </header> 
 <div id="content" class="site-content">

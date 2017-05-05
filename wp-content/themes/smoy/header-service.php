@@ -31,7 +31,10 @@ if ( has_post_thumbnail() ): ?>
 <div id="header-single">  
 <?php endif; endwhile; ?>
     <div class="navigation-top">
-         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
-    </div><!-- .navigation-top -->
+        <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
+    </div>
+    <div class="navigation-secondary">
+        <?php get_template_part( 'template-parts/navigation', 'secondary' ); ?>
+    </div>
     <div class="single-service-title"><?php the_title(); ?></div>            
 </div>

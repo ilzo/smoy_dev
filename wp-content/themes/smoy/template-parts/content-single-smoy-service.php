@@ -11,7 +11,7 @@
 <article id="service-<?php echo get_the_ID() ?>" <?php post_class(); ?>>
 	<div class="single-service-content">
 		<?php
-			the_content();  
+			the_content();
 		?>
 	</div>
 </article>

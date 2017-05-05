@@ -39,16 +39,6 @@ var h = window.innerHeight
 jQuery(function() {
     checkWidth(w);
     jQuery('.wpcf7-form span.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
-    var scroll_start = 0;
-    jQuery(document).scroll(function() { 
-        scroll_start = jQuery(this).scrollTop();
-        if(scroll_start > 465) {
-            jQuery('.navigation-top').css('background-color', 'black');
-        } else {
-            jQuery('.navigation-top').css('background-color', 'transparent');
-        }
-    });
-    
     jQuery("#about-us-contact").click(function() {
     jQuery('html, body').animate({
             scrollTop: jQuery("#contact-wrapper").offset().top

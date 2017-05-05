@@ -20,7 +20,10 @@
 <div id="page-wrapper-blogs">
 <div id="header-blogs">   
     <div class="navigation-top">
-         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
+        <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
+    </div>
+    <div class="navigation-secondary">
+        <?php get_template_part( 'template-parts/navigation', 'secondary' ); ?>
     </div>
     <section id="blog" class="content-section-front">
     <div class="content-section-header">

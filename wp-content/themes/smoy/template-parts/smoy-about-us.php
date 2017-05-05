@@ -1,7 +1,7 @@
 <?php if ( !wp_is_mobile() ){ ?>
 <div id="about-body-text-wrapper">
     <div id="about-heading">
-        <h1 class="heading-orange"><?php echo $smoy_about_section_title ?></h1>
+        <h1 id="about-main-title" class="heading-orange"><?php echo $smoy_about_section_title ?></h1>
     </div>
     <div class="about-container">
         <?php $i = 1; for($i = 0; $i < 3; $i++):?>
