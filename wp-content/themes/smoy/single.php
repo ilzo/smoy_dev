@@ -27,6 +27,7 @@ get_header('single'); ?>
 
 			// End of the loop.
 		endwhile;
+        wp_reset_postdata();
 		?>
 
 	</main><!-- .site-main -->

@@ -19,9 +19,13 @@
 <?php while ( have_posts() ) : the_post();
 $service_id = get_the_ID();    
 $single_thumb_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-if($service_id % 2 === 0): ?>
+$color_value = get_post_meta($service_id, 'service_color', true);    
+    
+if($color_value === 'orange'): ?>
+    <div id="page-wrapper-service" class="service-orange">
+<?php elseif($color_value === 'pink'): ?>
     <div id="page-wrapper-service" class="service-pink">
-<?php else: ?>
+<?php elseif(empty($color_value)): ?>
     <div id="page-wrapper-service" class="service-orange">
 <?php 
 endif; 

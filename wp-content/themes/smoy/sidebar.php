@@ -8,12 +8,10 @@
  * @subpackage Smoy
  * 
  */
-
-if ( ! is_active_sidebar( 'sidebar-1' ) ) {
-	return;
-}
+if ( is_active_sidebar( 'blog_posts_sidebar' ) ) : 
 ?>
+<aside id="primary-sidebar" class="primary-sidebar widget-area" role="primary">
+    <?php dynamic_sidebar( 'blog_posts_sidebar' ); ?>
+</aside>
+<?php endif; ?>
 
-<aside id="secondary" class="widget-area" role="complementary">
-	<?php dynamic_sidebar( 'sidebar-1' ); ?>
-</aside><!-- #secondary -->

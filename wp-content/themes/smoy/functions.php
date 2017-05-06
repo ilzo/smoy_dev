@@ -37,6 +37,8 @@ function smoy_setup() {
     /* Set the image size by cropping the image */
     //add_image_size('test-thumbnail', 500, 326, true);
     //add_image_size( 'test-big', 3000, 9999);
+    add_image_size( 'bg-test-1', 3000, 9999);
+    add_image_size( 'bg-test-2', 5000, 9999);
     add_image_size( 'service-thumb', 1600, 9999);
     /*
     add_image_size('works-thumbnail-large', 1250, 815, true ); 
@@ -223,32 +225,43 @@ final class Smoy_Service_Metabox {
     // These hook into to the two core actions we need to perform; creating the metabox, and saving it's contents when it is posted
     public function __construct() {
         // http://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
-        add_action( 'add_meta_boxes', array( $this, 'create_meta_box' ) );
+        add_action( 'add_meta_boxes', array( $this, 'create_service_meta_boxes' ) );
 
         // http://codex.wordpress.org/Plugin_API/Action_Reference/save_post
-        add_filter( 'save_post', array( $this, 'save_meta_box' ), 10, 2 );
+        add_filter( 'save_post', array( $this, 'save_service_meta_boxes' ), 10, 2 );
     }
 
-    public function create_meta_box() {
+    public function create_service_meta_boxes() {
         // http://codex.wordpress.org/Function_Reference/add_meta_box
         add_meta_box(
             'service_keywords_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
             __( 'Avainsanoja', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
-            array( $this, 'print_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
+            array( $this, 'print_service_keywords_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
             'smoy_service', // (string) (required) The type of Write screen on which to show the edit screen section ('post', 'page', 'dashboard', 'link', 'attachment' or 'custom_post_type' where custom_post_type is the custom post type slug)
             'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
             'low' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
         );
+        
+        add_meta_box(
+            'service_color_scheme_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
+            __( 'Otsikoiden taustaväri/Alleviivausten väri', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
+            array( $this, 'print_service_color_scheme_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
+            'smoy_service', // (string) (required) The type of Write screen on which to show the edit screen section ('post', 'page', 'dashboard', 'link', 'attachment' or 'custom_post_type' where custom_post_type is the custom post type slug)
+            'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
+            'low' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
+        );
+        
+        
         
         //remove_meta_box( 'postimagediv', 'smoy_person', 'side' );
         
         //add_meta_box('postimagediv', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
     }
 
-    public function print_meta_box( $post, $metabox ) {
+    public function print_service_keywords_meta_box( $post, $metabox ) {
         ?>
             <!-- These hidden fields are a registry of metaboxes that need to be saved if you wanted to output multiple boxes. The current metabox ID is added to the array. -->
-            <input type="hidden" name="meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
+            <input type="hidden" name="service_keywords_meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
             <!-- http://codex.wordpress.org/Function_Reference/wp_nonce_field -->
             <?php wp_nonce_field( 'save_' . $metabox['id'], $metabox['id'] . '_nonce' ); ?>
 
@@ -264,16 +277,58 @@ final class Smoy_Service_Metabox {
             
         <?php
     }
+    
+    public function print_service_color_scheme_meta_box( $post, $metabox ) {
+        ?>
+            <!-- These hidden fields are a registry of metaboxes that need to be saved if you wanted to output multiple boxes. The current metabox ID is added to the array. -->
+            <input type="hidden" name="service_color_meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
+            <!-- http://codex.wordpress.org/Function_Reference/wp_nonce_field -->
+            <?php wp_nonce_field( 'save_' . $metabox['id'], $metabox['id'] . '_nonce' ); ?>
 
-    public function save_meta_box( $post_id, $post ) {
+            <!-- This is a sample of fields that are associated with the metabox. You will notice that get_post_meta is trying to get previously saved information associated with the metabox. -->
+            <!-- http://codex.wordpress.org/Function_Reference/get_post_meta -->
+
+            <?php $color_value = get_post_meta($post->ID, 'service_color', true); ?>
+
+            <table class="form-table">
+            <tr>
+                <th><label for="service_color"><?php _e( 'Valitse sivun väriteema', 'smoy' ); ?></label></th>
+                <td><input name="service_color" type="radio" id="service_color_orange" value="orange" class="radio-input" <?php checked( $color_value, 'orange' ); ?>>Oranssi</td>
+                <td><input name="service_color" type="radio" id="service_color_pink" value="pink" class="radio-input" <?php checked( $color_value, 'pink' ); ?>>Pinkki</td>
+            </tr>
+            </table>
+
+            <!-- These hidden fields are a registry of fields that need to be saved for each metabox. The field names correspond to the field name output above. -->
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="service_color" />
+            
+        <?php
+    }
+
+    public function save_service_meta_boxes( $post_id, $post ) {
         // Check if this information is being submitted by means of an autosave; if so, then do not process any of the following code
         if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
 
         // Determine if the postback contains any metaboxes that need to be saved
-        if( empty( $_POST['meta_box_ids'] ) ){ return; }
+        if( empty( $_POST['service_keywords_meta_box_ids'] ) &&  empty( $_POST['service_color_meta_box_ids'] )){ return; }
 
-        // Iterate through the registered metaboxes
-        foreach( $_POST['meta_box_ids'] as $metabox_id ){
+        // Iterate through keywords metabox
+        foreach( $_POST['service_keywords_meta_box_ids'] as $metabox_id ){
+            // Verify thhe request to update this metabox
+            if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
+
+            // Determine if the metabox contains any fields that need to be saved
+            if( count( $_POST[ $metabox_id . '_fields' ] ) == 0 ){ continue; }
+
+            // Iterate through the registered fields        
+            foreach( $_POST[ $metabox_id . '_fields' ] as $field_id ){
+                // Update or create the submitted contents of the fiels as post meta data
+                // http://codex.wordpress.org/Function_Reference/update_post_meta
+                update_post_meta($post_id, $field_id, $_POST[ $field_id ]);
+            }
+        }
+        
+        // Iterate through color scheme metabox
+        foreach( $_POST['service_color_meta_box_ids'] as $metabox_id ){
             // Verify thhe request to update this metabox
             if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
 
@@ -290,6 +345,12 @@ final class Smoy_Service_Metabox {
 
         return $post;
     }
+    
+    
+    
+    
+    
+    
 }
 
 $smoy_service_metabox = new Smoy_Service_Metabox();
@@ -386,8 +447,6 @@ function smoy_person_title( $input ) {
 }
 
 
-
-
 function smoy_register_menus() {
   register_nav_menus(
     array('top' => __( 'Main menu', 'smoy' ),
@@ -396,9 +455,6 @@ function smoy_register_menus() {
 }
 
 add_action( 'init', 'smoy_register_menus' );
-
-
-
 
 
 
@@ -411,6 +467,23 @@ function smoy_admin_styles() {
     }
   </style>';
 }
+
+
+add_action( 'widgets_init', 'smoy_widgets_init' );
+
+function smoy_widgets_init() {
+
+	register_sidebar( array(
+		'name'          => 'Blog page sidebar',
+		'id'            => 'blog_posts_sidebar',
+		'before_widget' => '<div>',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="latest-blog-posts-title">',
+		'after_title'   => '</h2>',
+	) );
+
+}
+
 
 
 
@@ -610,9 +683,9 @@ function smoy_service_add_html_meta_tags() {
 }
 
 
-add_filter('the_content', 'smoy_modify_single_service_content');
+add_filter('the_content', 'smoy_modify_single_content');
 
-function smoy_modify_single_service_content($content) {
+function smoy_modify_single_content($content) {
     
     if ( is_singular('smoy_service')) {
         global $post;
@@ -629,10 +702,10 @@ function smoy_modify_single_service_content($content) {
         $results = $xpath->query('//h1|//h2|//h3|//h4|//h5|//h6');
         if ($results->length > 0) {
             foreach($results as $node){
-                $testNode = $dom->createElement('div', '');
-                $testNode->setAttribute('class', 'single-service-title-underline');
+                $titleUnderline = $dom->createElement('div', '');
+                $titleUnderline->setAttribute('class', 'single-service-title-underline');
                 //$node->parentNode->appendChild($testNode); // Insert new node after 
-                $node->parentNode->insertBefore( $testNode, $node->nextSibling);
+                $node->parentNode->insertBefore( $titleUnderline, $node->nextSibling);
                 //$node->parentNode->insertBefore($testNode, $node); // Insert new node before  
             }
             $content = $dom->saveHTML();
@@ -640,8 +713,13 @@ function smoy_modify_single_service_content($content) {
         
         $content = preg_replace('/<p([^>]+)?>/', '<p$1 class="service-lead-paragraph">', $content, 1);
         $content .= $keywordsContainer;
-        
         return $content;
+    }else if(is_singular() && in_category('blogi')){
+        $substring = substr($content, 0, strpos($content, '<h'));
+        $content = str_replace($substring, "<div class=\"blog-post-lead-paragraph\">".$substring."</div>", $content);
+        return $content;
+    }else{
+       return $content; 
     } 
 }
 
@@ -773,7 +851,7 @@ function smoy_blog_excerpts($content = false) {
             
             
             
-            if(is_home() || is_page('blogi')){
+            if(is_home()){
                 $content = get_the_excerpt();
                 function custom_excerpt_length( $length ) {
                     return 20;
@@ -789,9 +867,7 @@ function smoy_blog_excerpts($content = false) {
             }
             
         }else{
-            
-            if(is_home() || is_page('blogi')){
-                
+            if(is_home()){
                 $content = $post->post_content;
                 $words = explode(' ', $content, $excerpt_length + 1);
                 if(count($words) > $excerpt_length) {
