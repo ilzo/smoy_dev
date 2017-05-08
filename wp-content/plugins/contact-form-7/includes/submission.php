@@ -71,7 +71,8 @@ class WPCF7_Submission {
 
 	private function setup_posted_data() {
 		$posted_data = (array) $_POST;
-		$posted_data = array_diff_key( $posted_data, array( '_wpnonce' => '' ) );
+		$posted_data = array_diff_key(
+			$posted_data, array( '_wpcf7_nonce' => '' ) );
 		$posted_data = $this->sanitize_posted_data( $posted_data );
 
 		$tags = $this->contact_form->scan_form_tags();
@@ -139,6 +140,8 @@ class WPCF7_Submission {
 			'timestamp' => current_time( 'timestamp' ),
 			'unit_tag' =>
 				isset( $_POST['_wpcf7_unit_tag'] ) ? $_POST['_wpcf7_unit_tag'] : '',
+			'container_post_id' => isset( $_POST['_wpcf7_container_post'] )
+				? (int) $_POST['_wpcf7_container_post'] : 0,
 		);
 
 		$contact_form = $this->contact_form;
@@ -229,7 +232,8 @@ class WPCF7_Submission {
 	}
 
 	private function verify_nonce() {
-		return wpcf7_verify_nonce( $_POST['_wpnonce'], $this->contact_form->id() );
+		return wpcf7_verify_nonce(
+			$_POST['_wpcf7_nonce'], $this->contact_form->id() );
 	}
 
 	private function blacklist_check() {

@@ -1,8 +1,6 @@
 </div>  <!-- END OF SITE CONTENT -->
-
 <footer id="footer">  
 <div class="footer-container">
-      
     <div id="footer-content-left">
         <div id="footer-mobile-button-container">
             <button id="newsletter-button-mobile" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
@@ -20,13 +18,9 @@
         <img src="<?php echo get_template_directory_uri(); ?>/img/logo/mtl-jasentunnus.png" width="105px" height="105px"/>
     </div>
 </div> 
-    
 </footer>
 </div>  <!-- END OF PAGE WRAPPER -->
-
-
 <?php wp_footer(); ?>
-
 <script type="text/javascript"> 
 var overlayHoles = document.getElementsByClassName('overlay-hole');
 var w = window.innerWidth
@@ -42,7 +36,7 @@ jQuery(function() {
     jQuery("#about-us-contact").click(function() {
     jQuery('html, body').animate({
             scrollTop: jQuery("#contact-wrapper").offset().top
-        }, 2000);
+        }, 1500);
     });
         
 });
@@ -148,32 +142,10 @@ function checkWidth(w) {
                     }   
                 }
             }
-            
-            /*
-            if(thisServiceTitleMobile.length > 0){
-               if(jQuery(thisServiceTitleMobile).height() < 90) {
-                    console.log("lowering title down");
-                    jQuery('#service-'+i+' .service-content').css('padding', '81px 0 0 0');
-                }
-            }else{
-               if(jQuery(thisServiceTitle).height() < 90) {
-                    console.log("lowering title down");
-                    jQuery('#service-'+i+' .service-content').css('padding', '81px 0 0 0');
-                    
-                    
-               }
-            }
-            */
-            
-            
-            
-            
+               
         }
         
         jQuery('#services-wrapper').css('display', 'block');
-        
-        
-        
         
     }else if(w > 960){
         
@@ -194,23 +166,10 @@ function checkWidth(w) {
                 jQuery('#service-'+i+' .service-title').css('display', 'block');
             }
             
-            /*
-            
-            if(thisServiceTitleMobile.length > 0) {
-                thisServiceTitle.css('display', 'none');
-                thisServiceTitleMobile.css('display', 'block');
-                
-                
-            */
-            
-            
             if(thisServiceContent.css('paddingTop') == '81px' || thisServiceContent.css('paddingTop') == '57px'){
                thisServiceContent.css('padding', '20px 0 0 20px');
             }
-            
-            
-            
-            
+           
         }
         
         jQuery('#services-wrapper').css('display', 'block');
@@ -235,8 +194,6 @@ function changeOverlayHoleLeftTrans (amount) {
         overlayHoles[i].setAttribute('transform', 'translate('+thisLeftTranslateValue+','+thisTopTranslateValue+')');        
     }
 }    
-    
 </script>
-
 </body>
 </html>    

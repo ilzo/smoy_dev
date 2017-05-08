@@ -435,7 +435,6 @@ $smoy_person_metabox = new Smoy_Person_Metabox();
 
 
 
-
 add_filter( 'enter_title_here', 'smoy_person_title' );
 
 function smoy_person_title( $input ) {
@@ -445,6 +444,7 @@ function smoy_person_title( $input ) {
 
     return $input;
 }
+
 
 
 function smoy_register_menus() {
@@ -458,6 +458,50 @@ add_action( 'init', 'smoy_register_menus' );
 
 
 
+
+if ( ! is_admin() ) {
+    add_filter( 'wp_get_nav_menu_items', 'smoy_replace_nav_placeholder_with_latest_post_link', 10, 3 );
+}
+ 
+
+function smoy_replace_nav_placeholder_with_latest_post_link( $items, $menu, $args ) {
+    foreach ($items as $item) {
+        if ('#latestpost' != $item->url)
+            continue;
+ 
+        // Get the latest post
+        $latestpost = get_posts( array(
+            'numberposts' => 1,
+        ));
+ 
+        if (empty($latestpost))
+            continue;
+        // Replace the placeholder with the real URL
+        $item->url = get_permalink( $latestpost[0]->ID );
+    }
+ 
+    return $items;
+}
+
+
+require_once('/inc/smoy-recent-posts-widget.php');
+add_action( 'widgets_init', 'smoy_widgets_init' );
+
+function smoy_widgets_init() {
+	register_sidebar( array(
+		'name'          => 'Blog page sidebar',
+		'id'            => 'blog_posts_sidebar',
+		'before_widget' => '<div>',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="latest-blog-posts-title">',
+		'after_title'   => '</h2>',
+	));
+    
+    register_widget('Smoy_Recent_Posts_Widget');
+    
+}
+
+
 add_action('admin_head', 'smoy_admin_styles');
 
 function smoy_admin_styles() {
@@ -467,24 +511,6 @@ function smoy_admin_styles() {
     }
   </style>';
 }
-
-
-add_action( 'widgets_init', 'smoy_widgets_init' );
-
-function smoy_widgets_init() {
-
-	register_sidebar( array(
-		'name'          => 'Blog page sidebar',
-		'id'            => 'blog_posts_sidebar',
-		'before_widget' => '<div>',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h2 class="latest-blog-posts-title">',
-		'after_title'   => '</h2>',
-	) );
-
-}
-
-
 
 
 /*
@@ -691,7 +717,6 @@ function smoy_modify_single_content($content) {
         global $post;
         $keywords = get_post_meta($post->ID, 'service_keywords');
         if(!empty($keywords)) {
-           
            $keywordsContainer = '<div class="smoy-service-keywords"><span>Avainsanoja</span> '.wp_strip_all_tags($keywords[0]).'</div>'; 
         }
         
@@ -717,11 +742,30 @@ function smoy_modify_single_content($content) {
     }else if(is_singular() && in_category('blogi')){
         $substring = substr($content, 0, strpos($content, '<h'));
         $content = str_replace($substring, "<div class=\"blog-post-lead-paragraph\">".$substring."</div>", $content);
+        $sourcesString = 'Lähteet';
+        $sourcesTitlePos = strrpos($content, $sourcesString);
+
+        if($sourcesTitlePos !== false){
+            $content = substr_replace($content, "<span class=\"blog-post-sources-title\">Lähteet</span>", $sourcesTitlePos, strlen($sourcesString));
+        }
+        
         return $content;
     }else{
        return $content; 
     } 
 }
+
+
+/*
+add_action( 'pre_get_posts', 'smoy_set_post_query_category' );
+
+function smoy_set_post_query_category( $query ) { 
+    if ($query->is_main_query()) {
+        $query->set( 'cat', '2'); 
+    } 
+} 
+*/
+
 
 
 
