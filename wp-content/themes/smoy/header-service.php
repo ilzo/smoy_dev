@@ -20,7 +20,6 @@
 $service_id = get_the_ID();    
 $single_thumb_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
 $color_value = get_post_meta($service_id, 'service_color', true);    
-    
 if($color_value === 'orange'): ?>
     <div id="page-wrapper-service" class="service-orange">
 <?php elseif($color_value === 'pink'): ?>
@@ -28,12 +27,8 @@ if($color_value === 'orange'): ?>
 <?php elseif(empty($color_value)): ?>
     <div id="page-wrapper-service" class="service-orange">
 <?php 
-endif; 
-if ( has_post_thumbnail() ): ?>    
-    <div id="header-single" style="background: url('<?php echo $single_thumb_url ?>')">
-<?php else:  ?>
-<div id="header-single">  
-<?php endif; endwhile; ?>
+endif; endwhile;  ?>    
+<div id="header-service">  
     <div class="navigation-top">
         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
     </div>

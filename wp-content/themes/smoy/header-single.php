@@ -31,14 +31,7 @@
 
 <body>
 <div id="page-wrapper-single">
-<?php while ( have_posts() ) : the_post(); 
-//$single_thumb_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-$single_thumb_url = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'bg-test-2', true);
-if ( has_post_thumbnail() ): ?>    
-    <div id="header-single" style="background: url('<?php echo esc_url($single_thumb_url[0]) ?>')">
-<?php else: ?>
-<div id="header-single">  
-<?php endif; endwhile;?>
+<div id="header-single">
     <div class="navigation-top">
         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
     </div>

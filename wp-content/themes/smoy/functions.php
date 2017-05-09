@@ -37,9 +37,18 @@ function smoy_setup() {
     /* Set the image size by cropping the image */
     //add_image_size('test-thumbnail', 500, 326, true);
     //add_image_size( 'test-big', 3000, 9999);
-    add_image_size( 'bg-test-1', 3000, 9999);
-    add_image_size( 'bg-test-2', 5000, 9999);
+    
+    add_image_size( 'background-small', 640);
+    add_image_size( 'background-medium', 1280);
+    add_image_size( 'background-large', 1600);
     add_image_size( 'service-thumb', 1600, 9999);
+    //add_image_size( 'background-large', 2400);
+    //add_image_size( 'background-x-large', 3000);
+    
+    
+    //add_image_size( 'bg-test-1', 3000, 9999);
+    //add_image_size( 'bg-test-2', 5000, 9999);
+    
     /*
     add_image_size('works-thumbnail-large', 1250, 815, true ); 
     add_image_size( 'single-big-test', 3000, 9999);
@@ -118,6 +127,9 @@ function smoy_setup() {
     
         
 }
+
+
+add_filter( 'jpeg_quality', create_function( '', 'return 80;' ) );
 
 
 add_action('init', 'smoy_services');
@@ -218,7 +230,33 @@ function smoy_move_person_image_meta_box(){
 }
 */
 
+//Custom CSS Widget
+add_action('admin_menu', 'smoy_custom_css_hooks');
+add_action('save_post', 'smoy_save_custom_css');
+add_action('wp_head','smoy_post_insert_custom_css');
+function smoy_custom_css_hooks() {
+	add_meta_box('custom_css', __( 'Oma CSS', 'smoy' ), 'smoy_custom_css_input', 'post', 'normal', 'low');
+}
+function smoy_custom_css_input() {
+	global $post;
+	echo '<input type="hidden" name="custom_css_noncename" id="custom_css_noncename" value="'.wp_create_nonce('custom-css').'" />';
+	echo '<textarea name="custom_css" id="custom_css" rows="5" cols="30" style="width:100%;">'.get_post_meta($post->ID,'_custom_css',true).'</textarea>';
+}
+function smoy_save_custom_css($post_id) {
+	if (!wp_verify_nonce($_POST['custom_css_noncename'], 'custom-css')) return $post_id;
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
+	$custom_css = $_POST['custom_css'];
+	update_post_meta($post_id, '_custom_css', $custom_css);
+}
 
+function smoy_post_insert_custom_css() {
+	if (is_single()) {
+		if (have_posts()) : while (have_posts()) : the_post();
+			echo '<style type="text/css">'.get_post_meta(get_the_ID(), '_custom_css', true).'</style>';
+		endwhile; endif;
+		rewind_posts();
+	}
+}
 
 
 final class Smoy_Service_Metabox {
@@ -243,16 +281,16 @@ final class Smoy_Service_Metabox {
         );
         
         add_meta_box(
-            'service_color_scheme_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
-            __( 'Otsikoiden taustaväri/Alleviivausten väri', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
-            array( $this, 'print_service_color_scheme_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
-            'smoy_service', // (string) (required) The type of Write screen on which to show the edit screen section ('post', 'page', 'dashboard', 'link', 'attachment' or 'custom_post_type' where custom_post_type is the custom post type slug)
-            'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
-            'low' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
+            'service_color_scheme_meta_box',
+            __( 'Otsikoiden taustaväri/Alleviivausten väri', 'smoy' ), 
+            array( $this, 'print_service_color_scheme_meta_box' ), 
+            'smoy_service', 
+            'normal', 
+            'low' 
         );
         
         
-        
+        add_meta_box('custom_css', __( 'Oma CSS', 'smoy' ), array( $this, 'print_service_custom_css_meta_box'), 'smoy_service', 'normal', 'low');
         //remove_meta_box( 'postimagediv', 'smoy_person', 'side' );
         
         //add_meta_box('postimagediv', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
@@ -303,13 +341,20 @@ final class Smoy_Service_Metabox {
             
         <?php
     }
+    
+    
+    public function print_service_custom_css_meta_box($post_id) {
+        global $post;
+        echo '<input type="hidden" name="custom_css_noncename" id="custom_css_noncename" value="'.wp_create_nonce('custom-css').'" />';
+        echo '<textarea name="custom_css" id="custom_css" rows="5" cols="30" style="width:100%;">'.get_post_meta($post->ID,'_custom_css',true).'</textarea>';
+    }
 
     public function save_service_meta_boxes( $post_id, $post ) {
         // Check if this information is being submitted by means of an autosave; if so, then do not process any of the following code
         if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
 
         // Determine if the postback contains any metaboxes that need to be saved
-        if( empty( $_POST['service_keywords_meta_box_ids'] ) &&  empty( $_POST['service_color_meta_box_ids'] )){ return; }
+        if(empty( $_POST['service_keywords_meta_box_ids'] ) && empty($_POST['service_color_meta_box_ids']) && empty($_POST['custom_css'])){ return; }
 
         // Iterate through keywords metabox
         foreach( $_POST['service_keywords_meta_box_ids'] as $metabox_id ){
@@ -342,7 +387,11 @@ final class Smoy_Service_Metabox {
                 update_post_meta($post_id, $field_id, $_POST[ $field_id ]);
             }
         }
-
+        
+        if (!wp_verify_nonce($_POST['custom_css_noncename'], 'custom-css')) return;
+        $custom_css = $_POST['custom_css'];
+        update_post_meta($post_id, '_custom_css', $custom_css);
+        
         return $post;
     }
     
@@ -369,12 +418,12 @@ final class Smoy_Person_Metabox {
     public function create_meta_box() {
         // http://codex.wordpress.org/Function_Reference/add_meta_box
         add_meta_box(
-            'person_information_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
-            __( 'Henkilön tiedot', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
-            array( $this, 'print_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
-            'smoy_person', // (string) (required) The type of Write screen on which to show the edit screen section ('post', 'page', 'dashboard', 'link', 'attachment' or 'custom_post_type' where custom_post_type is the custom post type slug)
-            'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
-            'high' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
+            'person_information_meta_box',
+            __( 'Henkilön tiedot', 'smoy' ),
+            array( $this, 'print_meta_box' ),
+            'smoy_person',
+            'normal',
+            'high'
         );
         
         remove_meta_box( 'postimagediv', 'smoy_person', 'side' );
@@ -446,6 +495,7 @@ function smoy_person_title( $input ) {
 }
 
 
+add_action( 'init', 'smoy_register_menus' );
 
 function smoy_register_menus() {
   register_nav_menus(
@@ -454,16 +504,11 @@ function smoy_register_menus() {
   );
 }
 
-add_action( 'init', 'smoy_register_menus' );
-
-
-
 
 if ( ! is_admin() ) {
     add_filter( 'wp_get_nav_menu_items', 'smoy_replace_nav_placeholder_with_latest_post_link', 10, 3 );
 }
  
-
 function smoy_replace_nav_placeholder_with_latest_post_link( $items, $menu, $args ) {
     foreach ($items as $item) {
         if ('#latestpost' != $item->url)
@@ -709,6 +754,63 @@ function smoy_service_add_html_meta_tags() {
 }
 
 
+add_action( 'wp_head', 'smoy_generate_responsive_background_image_styles');
+
+function smoy_generate_responsive_background_image_styles() {
+    
+    if ( is_singular() ) {
+        global $post;
+        $image_id = get_post_thumbnail_id($post->ID); // set or grab your image id
+        $img_srcset = wp_get_attachment_image_srcset( $image_id, 'full' );
+        
+        $sizes = explode( ", ", $img_srcset );
+        
+        asort($sizes, SORT_NATURAL | SORT_FLAG_CASE);
+        $sizes = array_values($sizes);
+        $css = '';
+        $prev_size = '';
+        foreach( $sizes as $size ) {
+            
+            // Split up the size string, into an array with [0]=>img_url, [1]=>size
+            $split = explode( " ", $size );
+            if( !isset( $split[0], $split[1] ) )
+                continue;
+            
+            if(in_category('blogi')){
+                $background_css = '#header-single {
+                    background-image: url(' . esc_url( $split[0] ) . ')
+                }';
+                
+            }else if (is_singular('smoy_service')) {
+                $background_css = '#header-service {
+                    background-image: url(' . esc_url( $split[0] ) . ')
+                }';
+                
+            }
+
+            // Grab the previous image size as the min-width and/or add the background css to the main css string
+            if( !empty( $prev_size ) ) {
+                $css .= '@media only screen and (min-width: ' . $prev_size . ') {';
+                $css .= $background_css;
+                $css .= "}\n";
+            } else {
+                $css .= $background_css;
+            }
+
+            // Set the current image size as the "previous image" size, for use with media queries
+            $prev_size = str_replace( "w", "px", $split[1] );
+        
+        }
+        // The final css, wrapped in a <style> tag
+        $css = !empty( $css ) ? '<style type="text/css">' . $css . '</style>' : '';
+        
+        echo $css;
+        
+        
+    }
+}
+
+
 add_filter('the_content', 'smoy_modify_single_content');
 
 function smoy_modify_single_content($content) {
@@ -740,8 +842,19 @@ function smoy_modify_single_content($content) {
         $content .= $keywordsContainer;
         return $content;
     }else if(is_singular() && in_category('blogi')){
-        $substring = substr($content, 0, strpos($content, '<h'));
-        $content = str_replace($substring, "<div class=\"blog-post-lead-paragraph\">".$substring."</div>", $content);
+        
+        $leadParagraphStart = strpos($content, '<p>');
+        $leadParagraphEnd = strpos($content, '</p>', $leadParagraphStart);
+        $leadParagraph = substr($content, $leadParagraphStart, $leadParagraphEnd - $leadParagraphStart + 4);
+        
+        if (strpos($leadParagraph, '&nbsp;') !== false) {
+            $leadParagraphStart = strpos($content, '<p>', $leadParagraphEnd);
+            $leadParagraphEnd = strpos($content, '</p>', $leadParagraphStart);
+            $leadParagraph = substr($content, $leadParagraphStart, $leadParagraphEnd - $leadParagraphStart + 4);
+        }
+        
+        $content = str_replace($leadParagraph, "<div class=\"blog-post-lead-paragraph\">".$leadParagraph."</div>", $content);
+        
         $sourcesString = 'Lähteet';
         $sourcesTitlePos = strrpos($content, $sourcesString);
 
@@ -753,6 +866,15 @@ function smoy_modify_single_content($content) {
     }else{
        return $content; 
     } 
+}
+
+
+
+add_action('generate_responsive_background_image', 'smoy_background_image_style');
+
+function smoy_background_image_style() {
+    
+    
 }
 
 
