@@ -544,6 +544,15 @@ function smoy_widgets_init() {
     
     register_widget('Smoy_Recent_Posts_Widget');
     
+    register_sidebar( array(
+		'name'          => 'Newsletter subscription sidebar',
+		'id'            => 'newsletter_subscription_sidebar',
+		'before_widget' => '<div class="newsletter-widget-container"><a href="javascript:void(0)" id="newsletter-box-close">×</a>',
+		'after_widget'  => '</div></div>',
+		'before_title'  => '<h2 class="newsletter-widget-title">',
+		'after_title'   => '</h2><div class="newsletter-widget-title-underline"></div><div class="newsletter-widget-wrapper">',
+	));
+    
 }
 
 

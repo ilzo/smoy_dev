@@ -22,6 +22,11 @@
 </div>  <!-- END OF PAGE WRAPPER -->
 <?php wp_footer(); ?>
 <script type="text/javascript"> 
+var $document = jQuery(document);
+var $window = jQuery(window);
+var windowHeight;
+var newsletterSidebar;
+var newsletterWidgetWrapper;
 var overlayHoles = document.getElementsByClassName('overlay-hole');
 var w = window.innerWidth
 || document.documentElement.clientWidth
@@ -31,15 +36,68 @@ var h = window.innerHeight
 || document.body.clientHeight;
     
 jQuery(function() {
+    windowHeight = $window.height();
+    documentHeight = $document.height();
+    var currentScrollPos = $window.scrollTop();
+    newsletterSidebar = jQuery('#newsletter-sidebar');
+    newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
     checkWidth(w);
     jQuery('.wpcf7-form span.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
-    jQuery("#about-us-contact").click(function() {
+    jQuery('#about-us-contact').click(function() {
     jQuery('html, body').animate({
             scrollTop: jQuery("#contact-wrapper").offset().top
         }, 1500);
     });
+    
+    
+    currentScrollPos + windowHeight == documentHeight
+    
+    if(newsletterSidebar){
+        
+        var startScrollPos = $window.scrollTop();
+        //console.log(startScrollPos);
+        $document.scroll(function() {
+          //console.log('scrolling');
+          currentScrollPos = $window.scrollTop();
+          if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + $window.height() >= $document.height() - 580) {
+                //console.log('scrolled');
+                setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 6000);
+                $document.unbind('scroll');
+          }
+        });
+        
+        
+       let textNode = jQuery(newsletterWidgetWrapper)[0].firstChild;
+       jQuery(textNode).wrap( "<div class='newsletter-widget-desc'></div>" );
+       //console.log(textNode);
+        
+       jQuery( '.newsletter-widget-container' ).click(function(e) {
+            e.stopPropagation();
+            openNewsletterBox(newsletterSidebar);
+        });
+
+        jQuery('#newsletter-box-close').click(function(e) {
+            e.stopPropagation();
+            closeNewsletterBox(newsletterSidebar);
+        });
+    }
+    
         
 });
+    
+function openNewsletterBox(newsletterSidebar) {
+    if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
+        jQuery(newsletterSidebar).animate({ 'right': '+=328px' }, 850);
+        jQuery(newsletterSidebar).addClass('newsletter-box-opened'); 
+    }   
+}    
+    
+function closeNewsletterBox(newsletterSidebar) {
+    if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
+        jQuery(newsletterSidebar[0]).removeClass('newsletter-box-opened');
+        jQuery(newsletterSidebar).animate({ 'right': '-=328px' }, 850);
+    }  
+}
 
 function delayedReplace(){
     jQuery('.wpcf7-form div.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');

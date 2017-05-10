@@ -395,6 +395,132 @@ button {
     outline: none;
 }
 
+
+#newsletter-sidebar {
+    position: fixed;
+    height: 100%;
+    width: auto;
+    top: 0;
+    right: -373px;
+    z-index: 9999;
+}
+
+.newsletter-widget-container {
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+    height: auto;
+    min-height: 225px;
+    position: relative;
+    top: 15%;
+    width: auto;
+    background-color: deeppink;
+    cursor: pointer;
+}
+
+#newsletter-box-close {
+    position: absolute;
+    top: -6px;
+    right: 12px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #f2f2f2;
+}
+
+.newsletter-widget-title {
+    position: relative;
+    float: left;
+    font-size: 1.3em;
+    color: #f2f2f2;
+    margin: 0px 0px 0px 0px;
+    padding: 0 10px 36px 0;
+    display: inline-block;
+    writing-mode: tb-rl;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+    white-space: nowrap;
+    bottom: 0;
+    width: 35px;
+    cursor: pointer;
+}
+
+
+.newsletter-box-opened .newsletter-widget-container, .newsletter-box-opened  .newsletter-widget-title {
+    cursor: default;
+}
+
+
+
+
+.newsletter-widget-title-underline {
+    position: relative;
+    display: inline-block;
+    width: 3px;
+    margin: 17px 20px 0px 0px;
+    height: 192px;
+    background-color: #f2f2f2;
+}
+
+.newsletter-widget-wrapper {
+    font-size: 17.5pt;
+    line-height: 1.12;
+    display: inline-block;
+    float: right;
+    width: 300px;
+    padding: 17px 0 0 5px;
+}
+
+.newsletter-widget-desc {
+    padding-right: 55px;
+}
+
+.tnp-widget {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin: 16px 0 0 0;
+}
+
+.tnp-field label {
+    font-family: 'MyriadProRegular', Fallback, sans-serif;
+}
+
+.tnp-widget .tnp-field {
+    display: inline-block;
+    margin-bottom: 10px;
+    border: 0;
+    padding: 0;
+}
+
+.tnp-field.tnp-field-email {
+    width: 65%;
+}
+
+.tnp-field.tnp-field-button {
+    margin-left: 2px;
+    width: 25%;
+}
+
+
+.tnp-widget input[type=text], .tnp-widget input[type=email], .tnp-widget input[type=submit], .tnp-widget select {
+    margin-top: 12px;
+}
+
+
+.tnp-field input.tnp-submit {
+    padding: 4px 5px 5px 5px !important;
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+    background-color: transparent !important;
+    border: solid 2px !important;
+}
+
+
+.tnp-field input.tnp-email {
+    padding: 7px !important;
+}
+
+
 #about-us {
     position: relative;
     max-width: 100%;
