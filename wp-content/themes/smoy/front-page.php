@@ -6,8 +6,6 @@
  */
 
 get_header(); ?>
-
-
 <?php get_sidebar('newsletter'); ?>
 <section id="about-us">
     <?php do_action('smoy_get_about_us'); ?>

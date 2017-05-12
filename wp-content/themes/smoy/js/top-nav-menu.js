@@ -53,17 +53,19 @@ function closeSecondaryNav(link) {
 }
     
 jQuery(function() {
-    var $root = jQuery('html, body');
+    let $root = jQuery('html, body');
+    let $document = jQuery(document);
+    var topNavMobile = jQuery('.top-nav-mobile');
     checkScreenWidth();
     var scroll_start = 0;
     var secondaryHeight;
     var navSecondary = document.getElementsByClassName('navigation-secondary');
     var palvelut_link = jQuery('#menu-item-2405 a')[0];
-    jQuery(document).scroll(function() {
+    $document.scroll(function() {
         secondaryHeight = navSecondary[0].clientHeight;
         if(secondaryHeight === 0) {
             scroll_start = jQuery(this).scrollTop();
-            if(scroll_start > 465) {
+            if(scroll_start > 180) {
                 jQuery('.navigation-top').css('background-color', 'black');
             } else {
                 jQuery('.navigation-top').css('background-color', 'transparent');
@@ -84,6 +86,13 @@ jQuery(function() {
     noRedirectLinks[0] = jQuery( "#top-menu a:contains('Referenssit')" )[0];
     noRedirectLinks[1] = jQuery( "#top-menu a:contains('Me')" )[0];
     noRedirectLinks[2] = jQuery( "#top-menu a:contains('Ota yhteyttä')" )[0];
+
+    console.log(topNavMobile);
+
+    if(topNavMobile.length > 0){
+        jQuery(noRedirectLinks[1]).parent().hide();
+    }
+    
     
     if ( window.location.pathname == '/' ){
         let linksArrayLength = noRedirectLinks.length;

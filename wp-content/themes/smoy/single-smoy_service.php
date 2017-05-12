@@ -8,6 +8,7 @@
  */
 
 get_header('service'); ?>
+<?php get_sidebar('newsletter'); ?>
 <main id="main" class="site-main" role="main">
     <?php
         while ( have_posts() ) : the_post();

@@ -22,11 +22,6 @@
 </div>  <!-- END OF PAGE WRAPPER -->
 <?php wp_footer(); ?>
 <script type="text/javascript"> 
-var $document = jQuery(document);
-var $window = jQuery(window);
-var windowHeight;
-var newsletterSidebar;
-var newsletterWidgetWrapper;
 var overlayHoles = document.getElementsByClassName('overlay-hole');
 var w = window.innerWidth
 || document.documentElement.clientWidth
@@ -36,11 +31,7 @@ var h = window.innerHeight
 || document.body.clientHeight;
     
 jQuery(function() {
-    windowHeight = $window.height();
-    documentHeight = $document.height();
-    var currentScrollPos = $window.scrollTop();
-    newsletterSidebar = jQuery('#newsletter-sidebar');
-    newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
+   
     checkWidth(w);
     jQuery('.wpcf7-form span.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
     jQuery('#about-us-contact').click(function() {
@@ -49,56 +40,9 @@ jQuery(function() {
         }, 1500);
     });
     
-    
-    currentScrollPos + windowHeight == documentHeight
-    
-    if(newsletterSidebar){
-        
-        var startScrollPos = $window.scrollTop();
-        //console.log(startScrollPos);
-        $document.scroll(function() {
-          //console.log('scrolling');
-          currentScrollPos = $window.scrollTop();
-          if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + $window.height() >= $document.height() - 580) {
-                //console.log('scrolled');
-                setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 6000);
-                $document.unbind('scroll');
-          }
-        });
-        
-        
-       let textNode = jQuery(newsletterWidgetWrapper)[0].firstChild;
-       jQuery(textNode).wrap( "<div class='newsletter-widget-desc'></div>" );
-       //console.log(textNode);
-        
-       jQuery( '.newsletter-widget-container' ).click(function(e) {
-            e.stopPropagation();
-            openNewsletterBox(newsletterSidebar);
-        });
-
-        jQuery('#newsletter-box-close').click(function(e) {
-            e.stopPropagation();
-            closeNewsletterBox(newsletterSidebar);
-        });
-    }
-    
-        
+         
 });
     
-function openNewsletterBox(newsletterSidebar) {
-    if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
-        jQuery(newsletterSidebar).animate({ 'right': '+=328px' }, 850);
-        jQuery(newsletterSidebar).addClass('newsletter-box-opened'); 
-    }   
-}    
-    
-function closeNewsletterBox(newsletterSidebar) {
-    if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
-        jQuery(newsletterSidebar[0]).removeClass('newsletter-box-opened');
-        jQuery(newsletterSidebar).animate({ 'right': '-=328px' }, 850);
-    }  
-}
-
 function delayedReplace(){
     jQuery('.wpcf7-form div.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
 }
@@ -156,6 +100,12 @@ function checkWidth(w) {
     }
     
     if(w <= 960) {
+        if(newsletterSidebar) {
+            if(jQuery(newsletterSidebar).is(':visible')) {  
+              jQuery(newsletterSidebar).hide();
+            }
+        }
+        
         for(let i = 1; i < 7; i++) {
             let thisService = jQuery('#service-'+i);
             let thisServiceTitle = jQuery('#service-'+i+' .service-title');
@@ -169,46 +119,18 @@ function checkWidth(w) {
                 thisServiceTitle.css('display', 'none');
                 thisServiceTitleMobile.css('display', 'block');
             }
-            
-            let contentPaddingTop = jQuery('#service-'+i+' .service-content').css('paddingTop');
-            
-            if(thisServiceTitleMobile.length > 0){
-                let titleHeight = jQuery(thisServiceTitle).height();
-                let mobiletitleHeight = jQuery(thisServiceTitleMobile).height();
-                
-                if(mobiletitleHeight > 20 && mobiletitleHeight < 50) {
-                    if (contentPaddingTop === '57px' || contentPaddingTop == '20px') {
-                        jQuery('#service-'+i+' .service-content').css('padding', '81px 0 0');
-                    }
-                }else if(mobiletitleHeight > 50  && mobiletitleHeight < 100){
-                    if (contentPaddingTop === '81px' || contentPaddingTop === '20px') {
-                        jQuery('#service-'+i+' .service-content').css('padding', '57px 0 0');
-                    }
-                }
-                         
-            }else{
-                let titleHeight = jQuery(thisServiceTitle).height();
-                if(titleHeight > 20  && titleHeight < 50) {
-                    if (contentPaddingTop === '57px' || contentPaddingTop === '20px') {
-                        jQuery('#service-'+i+' .service-content').css('padding', '81px 0 0');
-                    }
-                    
-                    
-                }else if(titleHeight > 50  && titleHeight < 100){
-                    if (contentPaddingTop === '81px' || contentPaddingTop === '20px') {
-                        jQuery('#service-'+i+' .service-content').css('padding', '57px 0 0');
-                    }   
-                }
-            }
                
         }
         
         jQuery('#services-wrapper').css('display', 'block');
         
     }else if(w > 960){
+        if(newsletterSidebar) {
+           if(!jQuery(newsletterSidebar).is(':visible')) { 
+              jQuery(newsletterSidebar).show();
+            }
+        }
         
-        
-         
         for(let i = 1; i < 7; i++) {
             let thisService = jQuery('#service-'+i);
             let thisServiceTitle = jQuery('#service-'+i+' .service-title');
@@ -224,10 +146,6 @@ function checkWidth(w) {
                 jQuery('#service-'+i+' .service-title').css('display', 'block');
             }
             
-            if(thisServiceContent.css('paddingTop') == '81px' || thisServiceContent.css('paddingTop') == '57px'){
-               thisServiceContent.css('padding', '20px 0 0 20px');
-            }
-           
         }
         
         jQuery('#services-wrapper').css('display', 'block');

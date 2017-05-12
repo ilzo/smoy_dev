@@ -243,6 +243,7 @@ function smoy_custom_css_input() {
 	echo '<textarea name="custom_css" id="custom_css" rows="5" cols="30" style="width:100%;">'.get_post_meta($post->ID,'_custom_css',true).'</textarea>';
 }
 function smoy_save_custom_css($post_id) {
+    if(!isset($_POST['custom_css_noncename'])) return $post_id;
 	if (!wp_verify_nonce($_POST['custom_css_noncename'], 'custom-css')) return $post_id;
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
 	$custom_css = $_POST['custom_css'];
@@ -359,6 +360,7 @@ final class Smoy_Service_Metabox {
         // Iterate through keywords metabox
         foreach( $_POST['service_keywords_meta_box_ids'] as $metabox_id ){
             // Verify thhe request to update this metabox
+            if(!isset($_POST[$metabox_id . '_nonce'])){ continue; }
             if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
 
             // Determine if the metabox contains any fields that need to be saved
@@ -375,6 +377,7 @@ final class Smoy_Service_Metabox {
         // Iterate through color scheme metabox
         foreach( $_POST['service_color_meta_box_ids'] as $metabox_id ){
             // Verify thhe request to update this metabox
+            if(!isset($_POST[$metabox_id . '_nonce'])){ continue; }
             if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
 
             // Determine if the metabox contains any fields that need to be saved
@@ -388,6 +391,7 @@ final class Smoy_Service_Metabox {
             }
         }
         
+        if(!isset($_POST['custom_css_noncename'])){ return; }
         if (!wp_verify_nonce($_POST['custom_css_noncename'], 'custom-css')) return;
         $custom_css = $_POST['custom_css'];
         update_post_meta($post_id, '_custom_css', $custom_css);
@@ -529,7 +533,7 @@ function smoy_replace_nav_placeholder_with_latest_post_link( $items, $menu, $arg
 }
 
 
-require_once('/inc/smoy-recent-posts-widget.php');
+require_once(get_template_directory() . '/inc/smoy-recent-posts-widget.php');
 add_action( 'widgets_init', 'smoy_widgets_init' );
 
 function smoy_widgets_init() {
@@ -581,6 +585,17 @@ function add_logo_to_nav( $items, $args )
 */
 
 
+
+function smoy_is_mobile_phone() {
+    require_once(get_template_directory() . '/inc/Mobile_Detect.php' );
+    $detect = new Mobile_Detect;
+    if( $detect->isMobile() && !$detect->isTablet() ){
+        return true;
+    }
+    return false;
+}
+
+
 function load_scripts()
 {
     
@@ -607,6 +622,8 @@ function load_scripts()
     wp_register_script( 'gsap-tweenmax', get_template_directory_uri() .'/js/TweenMax.min.js', array(), '1.19.1', false );
     
     wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery', 'gsap-tweenmax'), null, false);
+    
+    wp_register_script('newsletter-widget', get_template_directory_uri() .'/js/newsletter-widget.js', array('jquery'), null, false);
     
     //wp_register_script( 'gsap-tweenmax', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js', array(), '1.18.5', false );
     
@@ -647,6 +664,10 @@ function load_scripts()
     }
     
     
+    
+    if(is_home() || is_singular('smoy_service') || (is_singular() && in_category('blogi'))){
+        wp_enqueue_script( 'newsletter-widget' );
+    }
     
     /*
     if (!is_singular('smoy_project')) {
@@ -2379,7 +2400,7 @@ function smoy_refs_front_page_output() {
 add_action( 'smoy_get_content_section_header_people', 'smoy_section_header_people_output');
 
 function smoy_section_header_people_output() {
-    if(is_home()) {
+    if(is_home() && !wp_is_mobile()) {
         $this_section_header_id_prefix = 'staff';
         $smoy_section_header_title = get_theme_mod( 'smoy_people_header_title');
         $smoy_section_header_body = get_theme_mod( 'smoy_people_header_desc');
@@ -2403,7 +2424,7 @@ add_action('smoy_get_people', 'smoy_staff_front_page_output');
 
 function smoy_staff_front_page_output() {
     
-    if(is_home()){
+    if(is_home() && !wp_is_mobile()){
         
          class Smoy_Person {
              public $id;

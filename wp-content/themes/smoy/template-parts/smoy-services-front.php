@@ -1,5 +1,4 @@
-<div id="services-wrapper">
-    
+<div id="services-wrapper"> 
 <?php $i = 0; $j = 1;
 foreach($servicesArray as $smoy_service):
     if(!is_object($smoy_service)):  

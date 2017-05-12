@@ -14,14 +14,11 @@ var customerBoxMargin = '';
 var isInLastRow = 0;
 var isBottomLeftSide = 0;
 var isRightSide = 0;
-var testValue = 0;
 var cloneBoxWidthDouble = 0;
 var cloneBoxHeightDouble = 0;
 var customerBoxMargin = '';
 var customerBoxClone;
-//var customerBgResizeValues = [];
 var resizeDimensions = [];
-
 
 function calculateBgDimensions(){
     let bgResizeDimensions = [];
@@ -29,26 +26,10 @@ function calculateBgDimensions(){
     for (var i = 1; i < 13; i++) {
         
         let j = i - 1;
-        
-        //console.log(contentWrappers[i]);
-        //var thisWrapperId = jQuery(contentWrappers[i]).attr('id');
-        
         let thisElem = document.getElementById('customer-'+i);
-        
-        
-        //customerImg.src = window.getComputedStyle(thisElem).getPropertyValue("background-image").replace(/url\((['"])?(.*?)\1\)/gi, '$2').split(',')[0];
-        
-        
-        //var imageSrc = document.getElementById('customer-'+i).style.backgroundImage.replace(/url\((['"])?(.*?)\1\)/gi, '$2').split(',')[0];
-
-            
         let thisWidth = thisElem.getAttribute("data-width");
         let thisHeight = thisElem.getAttribute("data-height");
-        
-    
         let aspectRatio = thisHeight / thisWidth;
-        //let bgWidth = 240;
-        
         let bgWidth;
         let resizeWidth;
         if(aspectRatio > 0.90){
@@ -78,13 +59,8 @@ function calculateBgDimensions(){
         }
         
         let calculatedHeight = bgWidth * aspectRatio;
-        
         let calculatedResizeHeight = resizeWidth * aspectRatio;
-        
         let sizeObject = {width : resizeWidth, height : calculatedResizeHeight};
-            
-            
-        
         jQuery(thisElem).css('background-size', '240% '+calculatedHeight+'%');
         
         bgResizeDimensions[j] = sizeObject;
@@ -120,25 +96,19 @@ function calculateBgDimensions(){
 
 
 jQuery(function() {
+    let $window = jQuery(window);
     resizeDimensions = calculateBgDimensions();
     customersWrapper = jQuery("#customers-wrapper");
-    viewportWidth = jQuery(window).width();
+    viewportWidth = $window.width();
     onViewPortResize(viewportWidth);
-    //jQuery('.customer-content-wrapper').css('background-size', '240%');
-    
-    
-    jQuery(window).resize(function() {
+    $window.resize(function() {
         if(customersWrapper.find('.customer-cloned-box').length != 0){
             jQuery(".customer-cloned-box").remove();
         }
-        
-        viewportWidth = jQuery(window).width();
+        viewportWidth = $window.width();
         onViewPortResize(viewportWidth);
     });
     
-    //calculateBgDimensions(jQuery('.customer-content-wrapper'));
-    
-
     jQuery(".customer-box").click(function() {
         
         let customerWrapperHtml = jQuery('<div class="customer-content-wrapper customer-cloned-box"></div>');
@@ -158,8 +128,6 @@ jQuery(function() {
         customerBoxMargin = jQuery(this).css("margin");
         customerBoxNum = jQuery(".customer-box").index(this) + 1;
         
-        //var original = jQuery(this);
-        
         let thisCustomerContentWrapper = jQuery(this).find(".customer-content-wrapper");
         let thisCustomerLogoImg = jQuery(this).find("img");
         
@@ -168,14 +136,7 @@ jQuery(function() {
     
         
         if(typeof thisCustomerLogoImg[0] != "undefined"){
-            
-            
-            //var logoStyle = css_utility(jQuery(thisCustomerLogoImg[0]));
-           
             var thisLogoSrc = jQuery(thisCustomerLogoImg[0]).attr('src');
-            
-            //jQuery(customerLogoHtml).css('opacity', '1');
-            
             jQuery(customerLogoHtml).attr('src', thisLogoSrc);
             
             jQuery(customerLogoHtml).css({
@@ -189,41 +150,16 @@ jQuery(function() {
             
             
             
-            //jQuery(customerBoxCloneLogoImg[0]).css(logoStyle);
-            //jQuery(customerLogoHtml).css(logoStyle);
-            
-            
-           
-            
+            //jQuery(customerBoxCloneLogoImg[0]).css(logoStyle);   
             
         }
         
-        /*
-        
-        var bgUrlStr = jQuery(thisCustomerContentWrapper[0]).css('background-image');
-        
-        var slicedUrl = bgUrlStr.slice(5, -2);
-        
-        console.log("sliced: " + slicedUrl);
-        */
-        
-        
-        //var thisWrapperBgStyle = jQuery(thisCustomerContentWrapper[0]).css('background');
         jQuery(customerWrapperHtml).css({
             'background-image' : jQuery(thisCustomerContentWrapper[0]).css('background-image'),
             'background-size': jQuery(thisCustomerContentWrapper[0]).css('background-size')
         });
         
-        /*
-        console.log("heyya heyaa: " + jQuery(thisCustomerContentWrapper[0]).css('background-image'));
-        console.log('background-image is: ' + jQuery(customerWrapperHtml).css('background-image'));
-        console.log('background is: ' + jQuery(customerWrapperHtml).css('background'));
-        */
-        //jQuery(customerCloneContentWrapper).css("cssText", "height: " + cloneBoxHeightDouble + "px !important;");
-        
         customerBoxClone = customerWrapperHtml;
-        
-        
         
         if(isFourCols == 1) {
            customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);
@@ -232,23 +168,18 @@ jQuery(function() {
         }else if(isTwoCols == 1) {
            customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);      
         }
-        
-        //resizeCloneBox(customerBoxCloneContentWrapper[0] , customerBoxCloneLogoImg[0]);
         resizeCloneBox(customerBoxClone, idNum, customerOverlayWrapperHtml, customerLogoHtml);
-    
     });
-    
-    
     
 });
 
 
 function onViewPortResize(width) {
-    if(width >= 1200){
+    if(width >= 1280){
         isFourCols = 1;
         isThreeCols = 0;
         isTwoCols = 0;
-    }else if(960 <= width && width < 1200 ){
+    }else if(960 <= width && width < 1280 ){
         isThreeCols = 1;
         isFourCols = 0;
         isTwoCols = 0;
@@ -259,15 +190,13 @@ function onViewPortResize(width) {
     }
 }
 
-
 function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    
     jQuery(customerBoxClone).width(customerBoxWidth);
     jQuery(customerBoxClone).height(customerBoxHeight);
 
     if(5 <= customerBoxNum && customerBoxNum < 9){
         
-        customerBoxMarginTop = -2.5 + customerBoxHeight;
+        customerBoxMarginTop = -3 + customerBoxHeight;
 
         if(customerBoxNum == 7 || customerBoxNum == 8){
             isRightSide = 1;
@@ -281,7 +210,7 @@ function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customer
         isBottomLeftSide = 0;
     }else if(9 <= customerBoxNum){
       
-        customerBoxMarginTop = -2.5 + (2 * customerBoxHeight);
+        customerBoxMarginTop = -3 + (2 * customerBoxHeight);
         
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
         
@@ -296,7 +225,7 @@ function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customer
 
     }else{
         
-        var customerBoxMargin = '-2.5px -1.5px -2px -4.5px';
+        var customerBoxMargin = '-3px -1.5px -2px -4.5px';
         
         if(customerBoxNum == 3 || customerBoxNum == 4){
             isRightSide = 1;
@@ -340,7 +269,6 @@ function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customer
 
 
 function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    
     jQuery(customerBoxClone).width(customerBoxWidth);
     jQuery(customerBoxClone).height(customerBoxHeight);
 
@@ -415,10 +343,10 @@ function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, custome
         'margin' : customerBoxMargin,
         'left' : leftPos
     });
-
+    
     topPos = -1;
     leftPos = 2.5;
-
+    
     jQuery(customersWrapper).append(customerBoxClone);
 
     if(customerBoxNum == 12) { 
@@ -428,7 +356,6 @@ function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, custome
 
 
 function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    
     jQuery(customerBoxClone).width(customerBoxWidth);
     jQuery(customerBoxClone).height(customerBoxHeight);
     
@@ -458,32 +385,32 @@ function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerB
     
     if(customerBoxNum <= 2){
         
-        var customerBoxMargin = '-2.5px -1.5px -2px -4.5px';
+        var customerBoxMargin = '-3px -1.5px -2px -1.5px';
         
     }else if(2 < customerBoxNum && customerBoxNum <= 4){
         
-        customerBoxMarginTop = -2.5 + customerBoxHeight;
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
+        customerBoxMarginTop = -3 + customerBoxHeight;
+        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
        
         
     }else if(4 < customerBoxNum && customerBoxNum <= 6){
-        customerBoxMarginTop = -2.5 + (2 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
+        customerBoxMarginTop = -3 + (2 * customerBoxHeight);
+        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
         
     }else if(6 < customerBoxNum && customerBoxNum <= 8){
-        customerBoxMarginTop = -2.5 + (3 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
+        customerBoxMarginTop = -3 + (3 * customerBoxHeight);
+        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
         
     
     }else if(8 < customerBoxNum && customerBoxNum <= 10){
-        customerBoxMarginTop = -2.5 + (4 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
+        customerBoxMarginTop = -3 + (4 * customerBoxHeight);
+        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
         
     
     }else if(10 < customerBoxNum && customerBoxNum <= 12){
         
-        customerBoxMarginTop = -2.5 + (5 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
+        customerBoxMarginTop = -3 + (5 * customerBoxHeight);
+        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
         
     }
     
@@ -522,7 +449,6 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
     
     cloneBoxWidthDouble = 2 * customerBoxWidth;
     cloneBoxHeightDouble = 2 * customerBoxHeight;
-    testValue = 2 * cloneBoxHeightDouble;
 
     if(isInLastRow == 1){
 
@@ -636,5 +562,3 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
     }, 1250 );
     
 }
-
-

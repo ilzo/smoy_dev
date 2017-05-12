@@ -1,4 +1,3 @@
-<?php if ( !wp_is_mobile() ){ ?>
 <div id="about-body-text-wrapper">
     <div id="about-heading">
         <h1 id="about-main-title" class="heading-orange"><?php echo $smoy_about_section_title ?></h1>
@@ -46,14 +45,3 @@
 <rect id="about-us-overlay" width="100%" height="100%" mask="url(#filter-holes)" />
     
 </svg>
-
-<?php
-
-} else {
-
-
-}
- 
-?>
-       
-   
