@@ -1,0 +1,149 @@
+#fs-menu {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 68px;
+    height: 68px;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 21px;
+}
+
+.fs-menu-open-button {
+  background: black;
+  border-radius: 100%;
+  width: 68px;
+  height: 68px;
+  margin-left: -40px;
+  position: absolute;
+  text-align: center;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform ease-out 200ms;
+  transition: -webkit-transform ease-out 200ms;
+  transition: transform ease-out 200ms;
+  transition: transform ease-out 200ms, -webkit-transform ease-out 200ms;
+}
+
+.fs-menu-item {
+    color: #EEEEEE;
+    background: black;
+    border-radius: 100%;
+    width: 38px;
+    height: 38px;
+    margin-left: -25.5px;
+    position: absolute;
+    text-align: center;
+    line-height: 39px;
+    -webkit-transition: -webkit-transform ease-out 200ms;
+    transition: -webkit-transform ease-out 200ms;
+    transition: transform ease-out 200ms;
+    transition: transform ease-out 200ms, -webkit-transform ease-out 200ms;
+    
+}
+
+.fs-menu-open { display: none; }
+
+.fs-menu-item:hover {
+    background: #EEEEEE;
+    color: black;
+}
+
+.fs-menu-item:nth-child(3), 
+.fs-menu-item:nth-child(4), 
+.fs-menu-item:nth-child(5), 
+.fs-menu-item:nth-child(6), 
+.fs-menu-item:nth-child(7) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+
+.fs-menu-open-button {
+  z-index: 2;
+  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition-duration: 400ms;
+  transition-duration: 400ms;
+  -webkit-transform: scale(1.0009, 1.0009) translate3d(0, 0, 0);
+  transform: scale(1.0009, 1.0009) translate3d(0, 0, 0);
+  cursor: pointer;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0);
+}
+
+.fs-menu-open-button:hover {
+  -webkit-transform: scale(1.205, 1.205) translate3d(0, 0, 0);
+  transform: scale(1.205, 1.205) translate3d(0, 0, 0);
+}
+
+.fs-menu-open:checked + .fs-menu-open-button {
+  -webkit-transition-timing-function: linear;
+  transition-timing-function: linear;
+  -webkit-transition-duration: 200ms;
+  transition-duration: 200ms;
+  -webkit-transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+  transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+}
+
+.fs-menu-open:checked ~ .fs-menu-item {
+  -webkit-transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+  transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+}
+
+.fs-menu-open:checked ~ .fs-menu-item:nth-child(3) {
+  transition-duration: 180ms;
+  -webkit-transition-duration: 180ms;
+    -webkit-transform: translate3d(0, -45px, 0);
+    transform: translate3d(0, -45px, 0);
+}
+
+.fs-menu-open:checked ~ .fs-menu-item:nth-child(4) {
+  transition-duration: 280ms;
+  -webkit-transition-duration: 280ms;
+    -webkit-transform: translate3d(0px, -90px, 0);
+    transform: translate3d(0px, -90px, 0);
+}
+
+.fs-menu-open:checked ~ .fs-menu-item:nth-child(5) {
+  transition-duration: 380ms;
+  -webkit-transition-duration: 380ms;
+    -webkit-transform: translate3d(0px, -135px, 0);
+    transform: translate3d(0px, -135px, 0);
+    
+}
+
+.fs-menu-open:checked ~ .fs-menu-item:nth-child(6) {
+  transition-duration: 480ms;
+  -webkit-transition-duration: 480ms;
+    -webkit-transform: translate3d(0px, -180px, 0);
+    transform: translate3d(0px, -180px, 0);
+}
+
+.fs-menu-open:checked ~ .fs-menu-item:nth-child(7) {
+  transition-duration: 580ms;
+  -webkit-transition-duration: 580ms;
+    -webkit-transform: translate3d(0px, -225px, 0);
+    transform: translate3d(0px, -225px, 0);
+    
+}
+
+.fs-menu-open:checked ~ .fs-menu-item{ 
+    -webkit-transition: all 0.25s ease-out 0s;
+    -moz-transition: all 0.25s ease-out 0s;
+    -ms-transition: all 0.25s ease-out 0s;
+    -o-transition: all 0.25s ease-out 0s;
+    transition: all 0.25s ease-out 0s;
+}
+
+.fs-item-1, .fs-item-2, .fs-item-3, .fs-item-4 {
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.fs-menu-item:hover { 
+    color: black;
+    text-shadow: none;
+}

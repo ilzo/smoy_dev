@@ -1,3 +1,4 @@
+<?php get_sidebar('social'); ?>
 <footer id="footer">
 <div class="footer-container">
     <div id="footer-content-left">
