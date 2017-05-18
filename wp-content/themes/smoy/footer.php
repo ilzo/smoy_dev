@@ -22,7 +22,10 @@
 </footer>
 </div>  <!-- END OF PAGE WRAPPER -->
 <?php wp_footer(); ?>
-<script type="text/javascript"> 
+<script type="text/javascript">
+var $document = jQuery(document);
+var $window = jQuery(window);    
+var socialWidgetSidebar;    
 var overlayHoles = document.getElementsByClassName('overlay-hole');
 var w = window.innerWidth
 || document.documentElement.clientWidth
@@ -32,7 +35,6 @@ var h = window.innerHeight
 || document.body.clientHeight;
     
 jQuery(function() {
-   
     checkWidth(w);
     jQuery('.wpcf7-form span.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
     jQuery('#about-us-contact').click(function() {
@@ -41,8 +43,36 @@ jQuery(function() {
         }, 1500);
     });
     
-         
+    socialWidgetSidebar = jQuery('#social-sidebar');
+    if(jQuery(socialWidgetSidebar).length){
+        var startScrollPos = $window.scrollTop();
+        $document.bind('scroll', function() {
+            social_sidebar_detectScrollPos();
+        });
+    }     
 });
+    
+function social_sidebar_detectScrollPos () {
+    let currentScrollPos = $window.scrollTop();
+    let windowHeight = $window.height();
+    let documentHeight = $document.height();
+    if (currentScrollPos + windowHeight >= documentHeight - 380) {
+        if (!socialWidgetSidebar.hasClass('hidden')) {
+            socialWidgetSidebar.addClass('visuallyhidden');
+            socialWidgetSidebar.one('transitionend', function(e) {
+              socialWidgetSidebar.addClass('hidden');
+            });
+          }
+    }else{
+        if (socialWidgetSidebar.hasClass('hidden')) {
+            socialWidgetSidebar.removeClass('hidden');
+            setTimeout(function () {
+              socialWidgetSidebar.removeClass('visuallyhidden');
+            }, 20);
+        
+        }
+    }
+}
     
 function delayedReplace(){
     jQuery('.wpcf7-form div.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');

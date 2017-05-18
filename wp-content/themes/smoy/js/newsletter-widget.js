@@ -1,6 +1,5 @@
 var $document = jQuery(document);
 var $window = jQuery(window);
-var windowHeight;
 var newsletterSidebar;
 var newsletterWidgetWrapper;
 
@@ -19,9 +18,6 @@ function closeNewsletterBox(newsletterSidebar) {
 }
 
 jQuery(function() { 
-    windowHeight = $window.height();
-    documentHeight = $document.height();
-    var currentScrollPos = $window.scrollTop();
     newsletterSidebar = jQuery('#newsletter-sidebar');
     newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
     
@@ -29,26 +25,15 @@ jQuery(function() {
       console.log('ei ole sidebaria');
     }
     
-    
     if(jQuery(newsletterSidebar).length){
         
         var startScrollPos = $window.scrollTop();
-        
-        
         $document.bind('scroll.newsletterScrollHandler', function() {
-            detectScrollPos(startScrollPos);
+            newsletter_detectScrollPos(startScrollPos);
         });
-        
-        /*
-        $document.scroll(function() {
-            detectScrollPos(startScrollPos);                        
-        });
-        */
         
        let textNode = jQuery(newsletterWidgetWrapper)[0].firstChild;
        jQuery(textNode).wrap( "<div class='newsletter-widget-desc'></div>" );
-       //console.log(textNode);
-        
        jQuery( '.newsletter-widget-container' ).click(function(e) {
             e.stopPropagation();
             openNewsletterBox(newsletterSidebar);
@@ -63,12 +48,11 @@ jQuery(function() {
 
 });
 
-
-function detectScrollPos (startScrollPos) {
+function newsletter_detectScrollPos (startScrollPos) {
+    let windowHeight = $window.height();
+    let documentHeight = $document.height();
     let currentScrollPos = $window.scrollTop();
-    console.log(currentScrollPos);
-    if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + $window.height() >= $document.height() - 580) {
-        console.log('scrolled');
+    if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + windowHeight >= documentHeight - 580) {
         setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 6000);
         $document.unbind('scroll.newsletterScrollHandler');
     }

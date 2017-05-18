@@ -12,6 +12,7 @@ var customerBoxMarginTop = 0;
 var customerBoxMarginBottom = 0;
 var customerBoxMargin = '';
 var isInLastRow = 0;
+var isInFirstRow = 0;
 var isBottomLeftSide = 0;
 var isRightSide = 0;
 var cloneBoxWidthDouble = 0;
@@ -113,10 +114,12 @@ jQuery(function() {
         
         let customerWrapperHtml = jQuery('<div class="customer-content-wrapper customer-cloned-box"></div>');
         let customerOverlayWrapperHtml = jQuery('<div class="customer-overlay-wrapper-clicked"></div>');
+        let customerCloseLink =  jQuery('<a href="javascript:void(0)" class="customer-box-close" style="opacity:0;">&times;</a>');
         let customerContentHtml = jQuery('<div class="customer-content"></div>');
         let customerLogoHtml = jQuery('<img />');
         customerContentHtml.append(customerLogoHtml);
         customerOverlayWrapperHtml.append(customerContentHtml);
+        customerWrapperHtml.append(customerCloseLink);
         customerWrapperHtml.append(customerOverlayWrapperHtml);
         
         if(customersWrapper.find('.customer-cloned-box').length != 0){
@@ -141,117 +144,134 @@ jQuery(function() {
             
             jQuery(customerLogoHtml).css({
                 'opacity' : '1',
+                'height' : jQuery(thisCustomerLogoImg[0]).css('height'),
                 'min-width' : jQuery(thisCustomerLogoImg[0]).css('min-width'),
                 'max-width' : jQuery(thisCustomerLogoImg[0]).css('max-width'),
                 'min-height' : jQuery(thisCustomerLogoImg[0]).css('min-height'),
                 'max-height' : jQuery(thisCustomerLogoImg[0]).css('max-height')
             });
             
-            
-            
-            
-            //jQuery(customerBoxCloneLogoImg[0]).css(logoStyle);   
-            
         }
+        
+        let originalBgSize = jQuery(thisCustomerContentWrapper[0]).css('background-size');
         
         jQuery(customerWrapperHtml).css({
             'background-image' : jQuery(thisCustomerContentWrapper[0]).css('background-image'),
-            'background-size': jQuery(thisCustomerContentWrapper[0]).css('background-size')
+            'background-size': originalBgSize
         });
+        
+        
         
         customerBoxClone = customerWrapperHtml;
         
-        if(isFourCols == 1) {
+        if(isFourCols === 1) {
            customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);
-        }else if(isThreeCols == 1) {
+        }else if(isThreeCols === 1) {
            customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum); 
-        }else if(isTwoCols == 1) {
+        }else if(isTwoCols === 1) {
            customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);      
         }
-        resizeCloneBox(customerBoxClone, idNum, customerOverlayWrapperHtml, customerLogoHtml);
+        
+        let closeLink = customerCloseLink[0];
+        
+        jQuery(closeLink).one('click', function() {
+            //let closeLink = jQuery(this);
+            
+            reverseResizeCloneBox(originalBgSize, customerBoxClone, idNum, customerOverlayWrapperHtml, customerLogoHtml, closeLink)
+        });
+        resizeCloneBox(customerBoxClone, idNum, customerOverlayWrapperHtml, customerLogoHtml, closeLink);
     });
     
 });
 
-
 function onViewPortResize(width) {
-    if(width >= 1280){
+    if(1264 <= width){
         isFourCols = 1;
         isThreeCols = 0;
         isTwoCols = 0;
-    }else if(960 <= width && width < 1280 ){
+    }else if(944 <= width && width < 1264 ){
         isThreeCols = 1;
         isFourCols = 0;
         isTwoCols = 0;
-    }else{
+    }else if (width < 944){
         isTwoCols = 1;
         isFourCols = 0;
         isThreeCols = 0;
     }
+    
 }
 
 function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    jQuery(customerBoxClone).width(customerBoxWidth);
-    jQuery(customerBoxClone).height(customerBoxHeight);
-
+    
     if(5 <= customerBoxNum && customerBoxNum < 9){
-        
-        customerBoxMarginTop = -3 + customerBoxHeight;
-
-        if(customerBoxNum == 7 || customerBoxNum == 8){
+        customerBoxMarginTop = -4 + customerBoxHeight;
+        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
+        if(customerBoxNum === 7 || customerBoxNum === 8){
             isRightSide = 1;
         }else{
             isRightSide= 0;
         }
-        
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-
+        isInFirstRow = 0;
         isInLastRow = 0;
         isBottomLeftSide = 0;
     }else if(9 <= customerBoxNum){
-      
         customerBoxMarginTop = -3 + (2 * customerBoxHeight);
-        
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-        
         isInLastRow = 1;
-        if(customerBoxNum == 9 || customerBoxNum == 10){
+        if(customerBoxNum === 9 || customerBoxNum === 10){
             isBottomLeftSide = 1;
         }else{
             isBottomLeftSide = 0;
         }
-
+        isInFirstRow = 0;
         isRightSide= 0;
 
     }else{
         
-        var customerBoxMargin = '-3px -1.5px -2px -4.5px';
-        
-        if(customerBoxNum == 3 || customerBoxNum == 4){
+        var customerBoxMargin = '-4px -1.5px -2px -4.5px';
+        if(customerBoxNum === 3 || customerBoxNum === 4){
             isRightSide = 1;
         }else{
-            isRightSide= 0;
+            isRightSide = 0;
         }
-
+        
+        isInFirstRow = 1;
         isInLastRow = 0;
         isBottomLeftSide = 0;
     }
 
     var remainder = customerBoxNum % 4;
+    
+    let originalWidth = customerBoxWidth;
+    let originalHeight = customerBoxHeight;
+    let cloneWidth = originalWidth + 6;
+    let cloneHeight = originalHeight + 6;
 
     switch (remainder) {
         case 0:
-            leftPos += 3 * customerBoxWidth;
+            
+            leftPos += (3 * customerBoxWidth) + 1;
+            jQuery(customerBoxClone).width(cloneWidth);
+            jQuery(customerBoxClone).height(cloneHeight);
             break;
         case 3:
-            leftPos += 2 * customerBoxWidth;
+            leftPos += (2 * customerBoxWidth) - 1;
+            cloneWidth = originalWidth + 2;
+            cloneHeight = originalHeight + 2;
+            jQuery(customerBoxClone).width(cloneWidth);
+            jQuery(customerBoxClone).height(cloneHeight);
+            
             break;
         case 2:
             leftPos += customerBoxWidth;
+            jQuery(customerBoxClone).width(customerBoxWidth);
+            jQuery(customerBoxClone).height(customerBoxHeight);
             break;
-        case 1:     
+        case 1:
+            jQuery(customerBoxClone).width(customerBoxWidth);
+            jQuery(customerBoxClone).height(customerBoxHeight);
     }
-
+    
     jQuery(customerBoxClone).css({
         'margin' : customerBoxMargin,
         'left' : leftPos
@@ -262,61 +282,58 @@ function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customer
 
     jQuery(customersWrapper).append(customerBoxClone);
 
-    if(customerBoxNum == 12) { 
+    if(customerBoxNum === 12) { 
         isInLastCorner = 1;
     }
 }
 
-
 function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    jQuery(customerBoxClone).width(customerBoxWidth);
-    jQuery(customerBoxClone).height(customerBoxHeight);
-
+    
     if(customerBoxNum < 4){
-        if(customerBoxNum == 3){
+        if(customerBoxNum === 3){
            isRightSide = 1;
         }else{
            isRightSide= 0;
         }
         
-        var customerBoxMargin = '-2.5px -1.5px -2px -4.5px';
-        
+        var customerBoxMargin = '-4.5px -1.5px -2px -4.5px';
+        isInFirstRow = 1;
         isInLastRow = 0;
         isBottomLeftSide = 0;
         
     }else if(4 <= customerBoxNum && customerBoxNum <= 6){
-        if(customerBoxNum == 6){
+        if(customerBoxNum === 6){
            isRightSide = 1;
         }else{
-           isRightSide= 0;
+           isRightSide = 0;
         }
         
-        customerBoxMarginTop = -2.5 + customerBoxHeight;
+        customerBoxMarginTop = -4.5 + customerBoxHeight;
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-        
+        isInFirstRow = 0;
         isInLastRow = 0;
         isBottomLeftSide = 0;
     
     }else if(7 <= customerBoxNum && customerBoxNum <= 9){
         
-        if(customerBoxNum == 9){
+        if(customerBoxNum === 9){
            isRightSide = 1;
         }else{
            isRightSide= 0;
         }
         
-        customerBoxMarginTop = -2.5 + (2 * customerBoxHeight);
+        customerBoxMarginTop = -4.5 + (2 * customerBoxHeight);
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-
+        isInFirstRow = 0;
         isInLastRow = 0;
         isBottomLeftSide = 0;
     }else if(9 < customerBoxNum){
       
-        customerBoxMarginTop = -2.5 + (3 * customerBoxHeight);
+        customerBoxMarginTop = -3.5 + (3 * customerBoxHeight);
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-       
+        isInFirstRow = 0;
         isInLastRow = 1;
-        if(customerBoxNum == 10 || customerBoxNum == 11){
+        if(customerBoxNum === 10 || customerBoxNum === 11){
             isBottomLeftSide = 1;
         }else{
             isBottomLeftSide = 0;
@@ -327,16 +344,27 @@ function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, custome
     }
 
     var remainder = customerBoxNum % 3;
+    let originalWidth = customerBoxWidth;
+    let originalHeight = customerBoxHeight;
+    let cloneWidth = originalWidth + 6;
+    let cloneHeight = originalHeight + 6;
 
     switch (remainder) {
         case 0:
-            leftPos += 2 * customerBoxWidth;
+            leftPos += (2 * customerBoxWidth) - 1;
+            jQuery(customerBoxClone).width(cloneWidth);
+            jQuery(customerBoxClone).height(cloneHeight);
             break;
         case 2:
-            leftPos += customerBoxWidth;
+            leftPos += customerBoxWidth + 2;
+            cloneWidth = originalWidth + 2;
+            cloneHeight = originalHeight + 2;
+            jQuery(customerBoxClone).width(cloneWidth);
+            jQuery(customerBoxClone).height(cloneHeight);
             break;
         case 1:
-                
+            jQuery(customerBoxClone).width(customerBoxWidth);
+            jQuery(customerBoxClone).height(customerBoxHeight);            
     }
 
     jQuery(customerBoxClone).css({
@@ -349,26 +377,24 @@ function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, custome
     
     jQuery(customersWrapper).append(customerBoxClone);
 
-    if(customerBoxNum == 12) { 
+    if(customerBoxNum === 12) { 
         isInLastCorner = 1;
     }
 }
 
 
 function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    jQuery(customerBoxClone).width(customerBoxWidth);
-    jQuery(customerBoxClone).height(customerBoxHeight);
-    
-    if(customerBoxNum % 2 == 0){
+    isInFirstRow = 0;
+    if(customerBoxNum % 2 === 0){
        isRightSide = 1;
     }else{
        isRightSide= 0;
     }
     
-    if(customerBoxNum == 11 || customerBoxNum == 12){
+    if(customerBoxNum === 11 || customerBoxNum === 12){
         isInLastRow = 1;
         isRightSide= 0;
-        if(customerBoxNum == 11){
+        if(customerBoxNum === 11){
             isBottomLeftSide = 1;
             isInLastCorner = 0;
         }else{
@@ -382,36 +408,39 @@ function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerB
         isBottomLeftSide = 0;
     }
     
+    if(10 < customerBoxNum && customerBoxNum <= 12) {
+        let originalWidth = customerBoxWidth;
+        let originalHeight = customerBoxHeight;
+        
+        let cloneWidth = originalWidth + 1;
+        let cloneHeight = originalHeight + 1;
+        
+        jQuery(customerBoxClone).width(cloneWidth);
+        jQuery(customerBoxClone).height(cloneHeight);
+    }else{
+        jQuery(customerBoxClone).width(customerBoxWidth);
+        jQuery(customerBoxClone).height(customerBoxHeight);
+    }
+    
     
     if(customerBoxNum <= 2){
-        
-        var customerBoxMargin = '-3px -1.5px -2px -1.5px';
-        
+        isInFirstRow = 1;
+        var customerBoxMargin = '-4px -1.5px -2px -1.5px';
     }else if(2 < customerBoxNum && customerBoxNum <= 4){
-        
-        customerBoxMarginTop = -3 + customerBoxHeight;
+        customerBoxMarginTop = -4 + customerBoxHeight;
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-       
-        
     }else if(4 < customerBoxNum && customerBoxNum <= 6){
-        customerBoxMarginTop = -3 + (2 * customerBoxHeight);
+        customerBoxMarginTop = -4 + (2 * customerBoxHeight);
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-        
     }else if(6 < customerBoxNum && customerBoxNum <= 8){
-        customerBoxMarginTop = -3 + (3 * customerBoxHeight);
+        customerBoxMarginTop = -4 + (3 * customerBoxHeight);
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-        
-    
     }else if(8 < customerBoxNum && customerBoxNum <= 10){
-        customerBoxMarginTop = -3 + (4 * customerBoxHeight);
+        customerBoxMarginTop = -4 + (4 * customerBoxHeight);
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-        
-    
     }else if(10 < customerBoxNum && customerBoxNum <= 12){
-        
         customerBoxMarginTop = -3 + (5 * customerBoxHeight);
         var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-        
     }
     
     var remainder = customerBoxNum % 2;
@@ -437,22 +466,18 @@ function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerB
 
 }
 
-
-function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOverlay, customerCloneLogo) {
-    
+function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOverlay, customerCloneLogo, closeLink) {
     let whereToResize = resizeDimensions[clickedId].width+'% '+resizeDimensions[clickedId].height+'%';
-    
-    
     let customerTween = new TimelineMax({
         paused:true
     });
     
-    cloneBoxWidthDouble = 2 * customerBoxWidth;
-    cloneBoxHeightDouble = 2 * customerBoxHeight;
+    cloneBoxWidthLarge = (2 * customerBoxWidth) + 2;
+    cloneBoxHeightLarge = (2 * customerBoxHeight) + 2;
 
-    if(isInLastRow == 1){
+    if(isInLastRow === 1){
 
-        if(isBottomLeftSide == 1){
+        if(isBottomLeftSide === 1){
             var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
             /*
              jQuery(customerBoxClone).animate({
@@ -465,8 +490,8 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
             */
             
             customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
+                width: cloneBoxWidthLarge,
+                height: cloneBoxHeightLarge,
                 marginTop: cloneBoxNewMarginTop,
                 backgroundSize: whereToResize,
                 autoRound:false, 
@@ -491,8 +516,8 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
             */
             
             customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
+                width: cloneBoxWidthLarge,
+                height: cloneBoxHeightLarge,
                 marginLeft: cloneBoxNewMarginLeft,
                 marginTop: cloneBoxNewMarginTop,
                 backgroundSize: whereToResize,
@@ -522,8 +547,8 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
             
             
             customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
+                width: cloneBoxWidthLarge,
+                height: cloneBoxHeightLarge,
                 marginLeft: cloneBoxNewMarginLeft,
                 backgroundSize: whereToResize,
                 autoRound:false, 
@@ -541,8 +566,8 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
             */
             
             customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
+                width: cloneBoxWidthLarge,
+                height: cloneBoxHeightLarge,
                 backgroundSize: whereToResize,
                 autoRound:false, 
                 ease: Power1.ease0ut
@@ -553,12 +578,229 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
 
     }
     
+    jQuery(closeLink).animate({
+        opacity: '1',
+    }, 900); 
+    
+    
     jQuery(customerCloneOverlay).animate({
-                opacity: '0',
+        opacity: '0',
     }, 1250 );
     
     jQuery(customerCloneLogo).animate({
-                opacity: '0',
+        opacity: '0',
     }, 1250 );
     
 }
+
+
+
+function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clickedId, customerCloneOverlay, customerCloneLogo, closeLink) {
+    
+    let customerTween = new TimelineMax({
+        paused:true
+    });
+    
+    cloneBoxWidthLarge = (2 * customerBoxWidth) + 2;
+    cloneBoxHeightLarge = (2 * customerBoxHeight) + 2;
+    
+    
+    let toBeResizedWith = cloneBoxWidthLarge - (customerBoxWidth);
+    
+    let toBeResizedHeight = cloneBoxHeightLarge -( customerBoxHeight - 0.5);
+    
+    let toBeResizedMarginTop = customerBoxMarginTop - 2;
+    
+    var reverseResizeComplete = function () {
+        jQuery(customerCloneContentWrapper).remove();
+    };
+
+    if(isInLastRow === 1){
+
+        if(isBottomLeftSide === 1){
+            //var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
+            /*
+             jQuery(customerBoxClone).animate({
+                width: cloneBoxWidthDouble,
+                marginTop: cloneBoxNewMarginTop,
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
+            }, 1250 );
+            
+            */
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: toBeResizedWith,
+                height: toBeResizedHeight,
+                marginTop: toBeResizedMarginTop,
+                backgroundSize: originalBgSize,
+                autoRound:false, 
+                ease: Power1.ease0ut,
+                onComplete: reverseResizeComplete
+            }).play();
+            
+            
+        }else{
+
+
+            var toBeResizedMarginLeft = '-2px';
+            //var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
+            /*
+            jQuery(customerBoxClone).animate({
+                marginLeft: cloneBoxNewMarginLeft,
+                width: cloneBoxWidthDouble,
+                marginTop: cloneBoxNewMarginTop,
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
+            }, 1250 );
+            
+            */
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: toBeResizedWith,
+                height: toBeResizedHeight,
+                marginLeft: toBeResizedMarginLeft,
+                marginTop: toBeResizedMarginTop,
+                backgroundSize: originalBgSize,
+                autoRound:false, 
+                ease: Power1.ease0ut,
+                onComplete: reverseResizeComplete
+            }).play();
+            
+            
+        }
+
+    }else if(isInFirstRow === 1){
+        
+        if(isRightSide){
+
+            //var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
+            
+            /*
+            
+            jQuery(customerBoxClone).animate({
+                marginLeft: cloneBoxNewMarginLeft,
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
+            }, 1250 );
+            */
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: toBeResizedWith,
+                height: toBeResizedHeight,
+                marginTop: '-2px',
+                marginLeft: '-3.5px',
+                backgroundSize: originalBgSize,
+                autoRound:false, 
+                ease: Power1.ease0ut,
+                onComplete: reverseResizeComplete
+            }).play();
+            
+            
+        }else{
+            /*
+            jQuery(customerBoxClone).animate({
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
+            }, 1250 );
+            */
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: toBeResizedWith,
+                height: toBeResizedHeight,
+                marginTop: '-2.5px',
+                marginLeft: '-3.5px',
+                backgroundSize: originalBgSize,
+                autoRound:false, 
+                ease: Power1.ease0ut,
+                onComplete: reverseResizeComplete
+            }).play();
+            
+            
+        }
+        
+    }else{
+        
+        if(isRightSide){
+
+            //var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
+            
+            /*
+            
+            jQuery(customerBoxClone).animate({
+                marginLeft: cloneBoxNewMarginLeft,
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
+            }, 1250 );
+            */
+            toBeResizedMarginTop = customerBoxMarginTop + 0.5;
+            
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: toBeResizedWith,
+                height: toBeResizedHeight,
+                marginTop: toBeResizedMarginTop,
+                marginLeft: '-4px',
+                backgroundSize: originalBgSize,
+                autoRound:false, 
+                ease: Power1.ease0ut,
+                onComplete: reverseResizeComplete
+            }).play();
+            
+            
+        }else{
+            /*
+            jQuery(customerBoxClone).animate({
+                width: cloneBoxWidthDouble,
+                height: cloneBoxHeightDouble,
+                backgroundSize: '169%'
+            }, 1250 );
+            */
+            
+            
+            toBeResizedMarginTop = customerBoxMarginTop + 0.5;
+            
+            customerTween.to(customerCloneContentWrapper, 1.25, {
+                width: toBeResizedWith,
+                height: toBeResizedHeight,
+                marginTop: toBeResizedMarginTop,
+                marginLeft: '-5.5px',
+                backgroundSize: originalBgSize,
+                autoRound:false, 
+                ease: Power1.ease0ut,
+                onComplete: reverseResizeComplete
+            }).play();
+            
+            
+        }
+        
+        
+    }
+    
+    jQuery(customerCloneOverlay).removeClass('customer-overlay-wrapper-clicked');
+    jQuery(customerCloneOverlay).addClass('customer-overlay-wrapper-closed');
+    
+    jQuery(closeLink).animate({
+        opacity: '0',
+    }, 450, function() {
+        jQuery(closeLink[0]).css('display', 'none');
+    }); 
+    
+    jQuery(customerCloneOverlay).animate({
+                opacity: '1',
+    }, 1250 );
+    
+    jQuery(customerCloneLogo).animate({
+                opacity: '1',
+    }, 1250 );
+    
+    
+    
+}
+
+
+
+
+

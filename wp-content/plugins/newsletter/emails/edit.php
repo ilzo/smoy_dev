@@ -138,6 +138,12 @@ if ($controls->is_action('test') || $controls->is_action('save') || $controls->i
             $query .= ")";
         }
     }
+    
+    $res = Newsletter::instance()->save_email($email);
+    
+    $e = $module->get_email($email_id);
+    $e->options = maybe_unserialize($e->options);
+    $query = apply_filters('newsletter_emails_email_query', $query, $e);
 
     $email['query'] = $query;
     if ($email['status'] == 'sent') {
@@ -461,6 +467,8 @@ if ($email['editor'] == 0) {
                             </td>
                         </tr>
                     </table>
+                    
+                    <?php do_action('newsletter_emails_edit_target', $module->get_email($email_id), $controls) ?>
                 </div>
 
 

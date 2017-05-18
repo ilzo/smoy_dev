@@ -87,8 +87,6 @@ jQuery(function() {
     noRedirectLinks[1] = jQuery( "#top-menu a:contains('Me')" )[0];
     noRedirectLinks[2] = jQuery( "#top-menu a:contains('Ota yhteyttä')" )[0];
 
-    console.log(topNavMobile);
-
     if(topNavMobile.length > 0){
         jQuery(noRedirectLinks[1]).parent().hide();
     }

@@ -421,6 +421,11 @@ button {
     width: auto;
     height: 200px;
     z-index: 3;
+    -webkit-transition: visibility 0.25s, opacity 0.25s linear;
+    -moz-transition: visibility 0.25s, opacity 0.25s linear;
+    -ms-transition: visibility 0.25s, opacity 0.25s linear;
+    -o-transition: visibility 0.25s, opacity 0.25s linear;
+    transition: visibility 0.25s, opacity 0.25s linear;
 }
 
 .fs-menu-open-button p {
@@ -693,6 +698,8 @@ button {
 }
 
 
+/*
+
 #filler-shape-1.middle {
     top: 130px;
     left: 1026px;
@@ -804,6 +811,7 @@ button {
     width: 150px;
     border-radius: 75px;
 }
+*/
 
 #smoy-about-us-svg {
     position: absolute;
@@ -1546,13 +1554,20 @@ div.customer-stretchy-wrapper {
    background-color: rgba(233, 135, 38, 0.7);
 }
 
-.customer-overlay-wrapper-clicked {
+.customer-overlay-wrapper-clicked, .customer-overlay-wrapper-closed  {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
     margin: -1px;
+}
+
+.customer-overlay-wrapper-clicked { 
     background-color: rgba(233, 135, 38, 0.7);
 }
- 
+
+.customer-overlay-wrapper-closed  { 
+    background-color: rgba(4, 20, 30, 0.90);
+}
+
 .customer-content-wrapper {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
@@ -1581,6 +1596,25 @@ div.customer-stretchy-wrapper {
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+}
+
+.customer-box-close {
+    position: absolute;
+    top: 20px;
+    right: 55px;
+    font-size: 2.75em;
+    text-decoration: none;
+    color: #f2f2f2;
+    z-index: 1;
+    -webkit-transition: all 0.25s ease-out 0s;
+    -moz-transition: all 0.25s ease-out 0s;
+    -ms-transition: all 0.25s ease-out 0s;
+    -o-transition: all 0.25s ease-out 0s;
+    transition: all 0.25s ease-out 0s;
+}
+
+.customer-box-close:hover {
+    color: #ff8100;
 }
 
 
@@ -3568,6 +3602,10 @@ div.customer-stretchy-wrapper {
         height: auto;
         width: 30px;
     }
+    
+    #social-sidebar {
+        display: none;
+    }
 
 }
 
@@ -3657,7 +3695,9 @@ div.customer-stretchy-wrapper {
         top: -3px;
     }
     
-    
+    #social-sidebar {
+        display: none;
+    }
     
     
 }

@@ -1298,6 +1298,37 @@ function smoy_customize_register( $wp_customize ) {
            
     }
     
+    for ($i = 1; $i < 5; $i++) {
+        
+        $wp_customize->add_setting('smoy_about_quote_circle_content_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_about_quote_circle_radius_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'default' => '75',
+            'sanitize_callback' => 'absint'
+        ));
+        
+        $wp_customize->add_setting('smoy_about_quote_circle_content_margin_top_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'default' => '40',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_about_quote_circle_content_margin_sides_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'default' => '15',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+           
+    }
+    
     
     /* ------- Front-Page Services Section -------- */
     
@@ -1418,6 +1449,13 @@ function smoy_customize_register( $wp_customize ) {
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'absint'
+        ));
+        
+        $wp_customize->add_setting('smoy_customer_logo_height_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'default' => '5',
+            'sanitize_callback' => 'sanitize_text_field'
         ));
         
         $wp_customize->add_setting('smoy_customer_logo_min_height_'.$i, array(
@@ -1618,6 +1656,42 @@ function smoy_customize_register( $wp_customize ) {
         
     }
     
+
+    for ($i = 1; $i < 5; $i++) {
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_'.$i, array(
+          'label' => __( 'Circle '.$i.' content text', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_radius_'.$i, array(
+          'label' => __( 'Circle '.$i.' radius', 'smoy'),
+          'description' => __( 'Adjust the radius of circle '.$i.'. Use positive integer value somewhere around 50 - 150 (default 75)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_top_'.$i, array(
+          'label' => __( 'Circle '.$i.' text top margin', 'smoy'),
+          'description' => __( 'Specify the top margin of circle '.$i.' content text. Use a single integer value (default 40)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_sides_'.$i, array(
+          'label' => __( 'Circle '.$i.' text left and right margin', 'smoy'),
+          'description' => __( 'Specify the left and right margin of circle '.$i.' content text. Use a single integer value (default 15)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+    }
+    
     
     /* ------- Front-Page Services Section -------- */
     
@@ -1789,6 +1863,15 @@ function smoy_customize_register( $wp_customize ) {
                 )
             )
         );
+        
+        
+        $wp_customize->add_control( 'smoy_customer_logo_height_'.$i, array(
+          'label' => __( 'Logo '.$i.' height', 'smoy'),
+          'description' => __( 'Adjust the logo fluid height using a numeric value between 0-100 (default 5)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_customer_ref_section',
+          'active_callback' => 'is_front_page'
+        ));
         
         
         $wp_customize->add_control( 'smoy_customer_logo_min_height_'.$i, array(
@@ -2052,20 +2135,266 @@ function smoy_sanitize_radio( $input, $setting ) {
 }
 
 
+
+
+
+
+
+/*
+
+for ($i = 1; $i < 5; $i++) {
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_'.$i, array(
+          'label' => __( 'Circle '.$i.' content text', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_radius_'.$i, array(
+          'label' => __( 'Circle '.$i.' radius', 'smoy'),
+          'description' => __( 'Adjust the radius of circle '.$i.'. Use positive integer value somewhere around 50 - 150 (default 75)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_top_'.$i, array(
+          'label' => __( 'Circle '.$i.' text top margin', 'smoy'),
+          'description' => __( 'Specify the top margin of circle '.$i.' content text. Use a single integer value (default 40)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_sides_'.$i, array(
+          'label' => __( 'Circle '.$i.' text left and right margin', 'smoy'),
+          'description' => __( 'Specify the left and right margin of circle '.$i.' content text. Use a single integer value (default 15)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'is_front_page'
+        ));
+    
+    }
+    
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+add_action( 'wp_head', 'smoy_about_us_styles');
+
+function smoy_about_us_styles() {
+    
+    if(is_home()) {
+        
+        $quote_circle_middle_positions = array(
+              array(130, 1026),
+              array(247, 1158),
+              array(436, 1050),
+              array(608, 1170)
+        );
+        
+
+        $css = array();
+        $j = 1;
+        //$heightCss = array();
+        //$media_queries = array();
+        
+        
+        /*
+        $media_queries[0] = '@media screen and (max-width: 1280px) {';
+        $media_queries[1] = '@media screen and (max-width: 960px) {';
+        $media_queries[2] = '@media screen and (max-width: 630px) {';
+        */
+
+        for($i = 0; $i < 4; $i++){
+            
+            
+            //$this_quote_circle_content = get_theme_mod( 'smoy_about_quote_circle_content_'.$j);
+            $this_quote_circle_radius = get_theme_mod( 'smoy_about_quote_circle_radius_'.$j);
+            $this_quote_circle_content_margin_top = get_theme_mod( 'smoy_about_quote_circle_content_margin_top_'.$j);
+            $this_quote_circle_content_margin_sides = get_theme_mod( 'smoy_about_quote_circle_content_margin_sides_'.$j);
+
+            /*
+            $num = "20";
+            if ( (int)$num == $num && (int)$num > 0 )
+            */
+            
+            $this_vertical_pos_right = $quote_circle_middle_positions[$i][1] + 250;
+            
+            $this_vertical_pos_left = $quote_circle_middle_positions[$i][1] - 250;
+                
+                
+                
+            $css['#filler-shape-'.$j]['top'] = $quote_circle_middle_positions[$i][0] . 'px';
+            
+            $css['#filler-shape-'.$j.'.middle']['left'] = $quote_circle_middle_positions[$i][1] . 'px';
+            
+            $css['#filler-shape-'.$j.'.left']['left'] = $this_vertical_pos_left . 'px';
+            
+            $css['#filler-shape-'.$j.'.right']['left'] = $this_vertical_pos_right . 'px';
+                
+               
+            
+            
+            /*
+            if(!empty($this_quote_circle_content)){
+                $css['#customer-'.$j.' .customer-content img']['min-height'] = $this_customer_logo_min_height . 'px';
+            }
+            */
+            
+            
+            if(!empty($this_quote_circle_radius) && (int)$this_quote_circle_radius == $this_quote_circle_radius && (int)$this_quote_circle_radius > 0 ){
+                $this_quote_circle_radius = intval($this_quote_circle_radius);
+                $this_quote_circle_diameter = $this_quote_circle_radius * 2;
+                $css['#filler-shape-'.$j]['width'] = $this_quote_circle_diameter . 'px';
+                $css['#filler-shape-'.$j]['height'] = $this_quote_circle_diameter . 'px';
+                $css['#filler-shape-'.$j]['border-radius'] = $this_quote_circle_radius . 'px';
+            }else{
+                $css['#filler-shape-'.$j]['width'] = '150px';
+                $css['#filler-shape-'.$j]['height'] = '150px';
+                $css['#filler-shape-'.$j]['border-radius'] = '75px';
+            }
+            
+            if(!empty($this_quote_circle_content_margin_top) && is_numeric($this_quote_circle_content_margin_top)){
+                $css['#filler-shape-'.$j.' p']['margin-top'] = $this_quote_circle_content_margin_top . 'px';
+            }else{
+                $css['#filler-shape-'.$j.' p']['margin-top'] = '40px';
+            }
+
+            if(!empty($this_quote_circle_content_margin_sides) && is_numeric($this_quote_circle_content_margin_sides)){
+                $css['#filler-shape-'.$j.' p']['margin-left'] = $this_quote_circle_content_margin_sides . 'px';
+                $css['#filler-shape-'.$j.' p']['margin-right'] = $this_quote_circle_content_margin_sides . 'px';
+            }else{
+                $css['#filler-shape-'.$j.' p']['margin-left'] = '15px';
+                $css['#filler-shape-'.$j.' p']['margin-right'] = '15px';
+            }
+            
+            
+            
+            
+            
+            
+            
+            $j++;
+               
+        }
+        
+        $final_css = '<style type="text/css">';
+        foreach ( $css as $style => $style_array ) {
+            $final_css .= $style . '{';
+            foreach ( $style_array as $property => $value ) {
+                $final_css .= $property . ':' . $value . ';';
+            }
+            $final_css .= '}';
+        }
+        
+        /*
+        $media_queries_length = count($media_queries);
+        foreach ( $heightCss as $style => $style_array ) {
+            $prev_val = 0.0;
+            for($i = 0; $i < $media_queries_length; $i++) {
+                $final_css .= $media_queries[$i];
+                $final_css .= $style . '{';
+                foreach ( $style_array as $property => $value ) {
+
+                 $floatval = floatval($value);
+                 if($prev_val === 0.0) {
+                     $newval = $floatval * 1.25;
+                 }else{
+                     $newval = $prev_val * 1.25;
+                 }   
+                    $final_css .= $property . ':' . $newval . 'vw;';
+                }
+                $final_css .= '}';
+                $final_css .= '}';
+                $prev_val = $newval;
+            }
+        }
+        */
+        
+        $final_css .= '</style>';
+
+        echo $final_css;
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 add_action( 'smoy_get_about_us', 'smoy_about_us_output');
 
 function smoy_about_us_output() {
     if(is_home()) {
+        
+        $overlay_hole_middle_translate_positions = array(
+              array(1026, 130),
+              array(1158, 247),
+              array(1050, 436),
+              array(1170, 608)
+        );
+        
+        //print_r($overlay_hole_middle_translate_positions);
+        
         $smoy_about_section_title = get_theme_mod( 'smoy_about_section_title');
         $smoy_about_content_titles = array();
         $smoy_about_content_body_texts = array();
+        $smoy_about_quote_ball_body_texts = array();
+        $smoy_about_radius_array = array();
     
         for ($i = 0; $i < 3; $i++) {
             $j = $i + 1; 
             $smoy_about_content_titles[$i] = get_theme_mod( 'smoy_about_content_title_'.$j);
             $smoy_about_content_body_texts[$i] = get_theme_mod( 'smoy_about_content_body_'.$j);
         }
-
+        
+        for($i = 0; $i < 4; $i++){
+            $j = $i + 1;
+            $this_quote_circle_radius = get_theme_mod( 'smoy_about_quote_circle_radius_'.$j);
+            $smoy_about_quote_ball_body_texts[$i] = get_theme_mod( 'smoy_about_quote_circle_content_'.$j);
+            
+            if(!empty($this_quote_circle_radius) && (int)$this_quote_circle_radius == $this_quote_circle_radius && (int)$this_quote_circle_radius > 0 ){
+                $smoy_about_radius_array[$i] = $this_quote_circle_radius;
+                $overlay_hole_middle_translate_positions[$i][0] = $overlay_hole_middle_translate_positions[$i][0] + $this_quote_circle_radius;
+                $overlay_hole_middle_translate_positions[$i][1] = $overlay_hole_middle_translate_positions[$i][1] + $this_quote_circle_radius;
+            }else{
+                $smoy_about_radius_array[$i] = 75;
+                $overlay_hole_middle_translate_positions[$i][0] = $overlay_hole_middle_translate_positions[$i][0] + 75;
+                $overlay_hole_middle_translate_positions[$i][1] = $overlay_hole_middle_translate_positions[$i][1] + 75;
+            }
+              
+        }
+        
+        //print_r($overlay_hole_middle_translate_positions);
+        
         ob_start();
         require_once(get_template_directory() . '/template-parts/smoy-about-us.php' );
         $output = ob_get_clean();
@@ -2278,8 +2607,27 @@ function smoy_services_front_page_output() {
       
 }
 
+/*
+function multiKeyExists(array $arr, $key) {
 
+    // is in base array?
+    if (array_key_exists($key, $arr)) {
+        return true;
+    }
 
+    // check arrays contained in this array
+    foreach ($arr as $element) {
+        if (is_array($element)) {
+            if (multiKeyExists($element, $key)) {
+                return true;
+            }
+        }
+
+    }
+
+    return false;
+}
+*/
 
 add_action( 'wp_head', 'smoy_customer_references_styles');
 
@@ -2288,21 +2636,32 @@ function smoy_customer_references_styles() {
     if(is_home()) {
 
         $css = array();
+        $heightCss = array();
+        $media_queries = array();
         $j = 1;
+        
+        $media_queries[0] = '@media screen and (max-width: 1280px) {';
+        $media_queries[1] = '@media screen and (max-width: 960px) {';
+        $media_queries[2] = '@media screen and (max-width: 630px) {';
 
         for($i = 0; $i < 12; $i++){
             $bg_img = get_theme_mod( 'smoy_customer_bg_img_'.$j);
             
+            $this_customer_logo_height = get_theme_mod( 'smoy_customer_logo_height_'.$j);
             $this_customer_logo_min_height = get_theme_mod( 'smoy_customer_logo_min_height_'.$j);
             $this_customer_logo_max_height = get_theme_mod( 'smoy_customer_logo_max_height_'.$j);
 
-            
             if(!empty($bg_img)){
                 $bg_url = wp_get_attachment_url($bg_img);
                 $css['#customer-'.$j]['background-image'] = "url(\"".$bg_url."\")";
                 
             }
-
+            
+            if(!empty($this_customer_logo_height)){
+                $css['#customer-'.$j.' .customer-content img']['height'] = $this_customer_logo_height . 'vw';
+                $heightCss['#customer-'.$j.' .customer-content img']['height'] = $this_customer_logo_height . 'vw';
+            }
+        
             if(!empty($this_customer_logo_min_height)){
                 $css['#customer-'.$j.' .customer-content img']['min-height'] = $this_customer_logo_min_height . 'px';
             }
@@ -2323,7 +2682,29 @@ function smoy_customer_references_styles() {
             }
             $final_css .= '}';
         }
+        
+        $media_queries_length = count($media_queries);
+        foreach ( $heightCss as $style => $style_array ) {
+            $prev_val = 0.0;
+            for($i = 0; $i < $media_queries_length; $i++) {
+                $final_css .= $media_queries[$i];
+                $final_css .= $style . '{';
+                foreach ( $style_array as $property => $value ) {
 
+                 $floatval = floatval($value);
+                 if($prev_val === 0.0) {
+                     $newval = $floatval * 1.25;
+                 }else{
+                     $newval = $prev_val * 1.25;
+                 }   
+                    $final_css .= $property . ':' . $newval . 'vw;';
+                }
+                $final_css .= '}';
+                $final_css .= '}';
+                $prev_val = $newval;
+            }
+        }
+        
         $final_css .= '</style>';
 
         echo $final_css;

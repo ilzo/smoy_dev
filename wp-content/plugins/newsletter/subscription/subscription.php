@@ -288,7 +288,10 @@ class NewsletterSubscription extends NewsletterModule {
     function get_options($sub = '') {
         if ($sub == '') {
             // For compatibility the options are wrongly named
-            return get_option('newsletter', array());
+            $options = get_option('newsletter', array());
+            if (!is_array($options)) $options = array();
+            return $options;
+            
         }
         if ($sub == 'profile') {
             // For compatibility the options are wrongly named

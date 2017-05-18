@@ -29,7 +29,7 @@ class NewsletterStatistics extends NewsletterModule {
     
     function hook_admin_enqueue_scripts() {
         if (isset($_GET['page']) && (strpos($_GET['page'], 'newsletter_statistics') === 0 || strpos($_GET['page'], 'newsletter_reports') === 0)) {
-            wp_enqueue_style('newsletter-admin-statistics', plugins_url('newsletter') . '/statistics/css/tnp-statistics.css', array('newsletter-admin'), time());
+            wp_enqueue_style('newsletter-admin-statistics', plugins_url('newsletter') . '/statistics/css/tnp-statistics.css', array('tnp-admin'), time());
         }
     }
 
@@ -280,7 +280,7 @@ class NewsletterStatistics extends NewsletterModule {
             $email = $this->get_email($email->id);
         }
 
-        $count = $wpdb->get_var($wpdb->prepare("select count(*) from " . NEWSLETTER_SENT_TABLE . " where email_id=%d", $email_id));
+        $count = $wpdb->get_var($wpdb->prepare("select count(*) from " . NEWSLETTER_SENT_TABLE . " where email_id=%d", $email->id));
 
         if (!$count) {
             return;
@@ -290,7 +290,7 @@ class NewsletterStatistics extends NewsletterModule {
             $email->query = "select * from " . NEWSLETTER_USERS_TABLE . " where status='C'";
         }
 
-        $query .= $email->query . " and unix_timestamp(created)<" . $email->send_on;
+        $query = $email->query . " and unix_timestamp(created)<" . $email->send_on;
 
         $query = str_replace('*', 'id, ' . $email->id . ', ' . $email->send_on, $query);
         $wpdb->query("insert ignore into " . NEWSLETTER_SENT_TABLE . " (user_id, email_id, time) " . $query);

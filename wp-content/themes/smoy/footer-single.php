@@ -38,7 +38,38 @@ jQuery(function() {
     if(addToAnyContainer !== "undefined"){ 
         jQuery(addToAnyContainer).css('display', 'block');
     }
+    
+    socialWidgetSidebar = jQuery('#social-sidebar');
+    if(jQuery(socialWidgetSidebar).length){
+        var startScrollPos = $window.scrollTop();
+        $document.bind('scroll', function() {
+            social_sidebar_detectScrollPos();
+        });
+    }
 });
+    
+function social_sidebar_detectScrollPos () {
+    let currentScrollPos = $window.scrollTop();
+    let windowHeight = $window.height();
+    let documentHeight = $document.height();
+    if (currentScrollPos + windowHeight >= documentHeight - 380) {
+        if (!socialWidgetSidebar.hasClass('hidden')) {
+            socialWidgetSidebar.addClass('visuallyhidden');
+            socialWidgetSidebar.one('transitionend', function(e) {
+              socialWidgetSidebar.addClass('hidden');
+            });
+          }
+    }else{
+        if (socialWidgetSidebar.hasClass('hidden')) {
+            socialWidgetSidebar.removeClass('hidden');
+            setTimeout(function () {
+              socialWidgetSidebar.removeClass('visuallyhidden');
+            }, 20);
+        
+        }
+    }
+}    
+    
 </script>
 </body>
 </html>

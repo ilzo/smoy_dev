@@ -22,22 +22,25 @@ class Smoy_Floating_Social_Icons_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		echo $args['before_widget'];
-        /*
-		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
-		}
-        */
+        $iconArr = array();
+        $urlArr = array();
+        $j = 1;
+        for($i = 0; $i < 4; $i++) {
+            $iconArr[$i] = $instance['item_icon_'.$j];
+            $urlArr[$i] = $instance['item_url_'.$j];
+            $j++;
+        }
         ?>
         <nav id="fs-menu">
             <input type="checkbox" href="#" id="fs-menu-open" class="fs-menu-open" name="fs-menu-open" />
             <label class="fs-menu-open-button" for="fs-menu-open"><p>SMOY SOME</p></label>
-            <a target="_blank" href="<?php echo esc_url($instance['item_url_4']) ?>" class="fs-menu-item fs-item-4"><i class="icon-<?php echo $instance['item_icon_4']?>"></i></a>
-            <a target="_blank" href="<?php echo esc_url($instance['item_url_3']) ?>" class="fs-menu-item fs-item-3"><i class="icon-<?php echo $instance['item_icon_3']?>"></i></a>
-            <a target="_blank" href="<?php echo esc_url($instance['item_url_2']) ?>" class="fs-menu-item fs-item-2"><i class="icon-<?php echo $instance['item_icon_2']?>"></i></a>
-            <a target="_blank" href="<?php echo esc_url($instance['item_url_1']) ?>" class="fs-menu-item fs-item-1"> <i class="icon-<?php echo $instance['item_icon_1']?>"></i></a> 
+            <?php $j = 4; for($i = 3; $i >= 0; $i--): 
+                if(!empty($iconArr[$i]) && ( !empty($urlArr[$i]) && $urlArr[$i] !== '#')): ?>
+                    <a target="_blank" href="<?php echo esc_url($instance['item_url_'.$j]) ?>" class="fs-menu-item fs-item-<?php echo $j ?>"><i class="icon-<?php echo $instance['item_icon_'.$j]?>"></i></a>
+                <?php endif; ?>
+            <?php $j--; endfor; ?>
         </nav>
         <?php
-		//echo esc_html__( 'Hello, World!', 'text_domain' );
 		echo $args['after_widget'];
 	}
 
