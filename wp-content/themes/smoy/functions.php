@@ -1186,7 +1186,7 @@ function output_single_header_style() {
 
 
 
-
+/*
 function smoy_get_blog_attached_images() {
     global $post;
     $szPostContent = $post->post_content;
@@ -1195,11 +1195,37 @@ function smoy_get_blog_attached_images() {
     preg_match_all( $szSearchPattern, $szPostContent, $aPics );
     return $aPics[0];
 }
+*/
 
 
+function smoy_callback_is_eng_page() { return is_page( 'eng' ); }
 
+/*
+function smoy_callback_is_eng_page(){
+    
+}
+*/
+    
+    
+    /*
+function is_certain_page_template(){
+    // Get the page's template
+    $template = get_post_meta( get_the_ID(), '_wp_page_template', true );
+    $is_template = preg_match( '%fullwidth.php%', $template );
+    if ( $is_template == 0 ){
+        return false;
+    } else {
+        return true;
+    }
+}
+*/
 
-
+function smoy_callback_is_front_page_or_eng_page() { 
+    if(is_home() || is_page( 'eng' )){
+        return true;
+    }
+    return false;
+}
 
 
 add_action( 'customize_register', 'smoy_customize_register' );
@@ -1282,6 +1308,12 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_setting('smoy_about_section_title_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
     for ($i = 1; $i < 4; $i++) {
         
         $wp_customize->add_setting('smoy_about_content_title_'.$i, array(
@@ -1295,12 +1327,30 @@ function smoy_customize_register( $wp_customize ) {
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
+        
+        $wp_customize->add_setting('smoy_about_content_title_eng_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_about_content_body_eng_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
            
     }
     
     for ($i = 1; $i < 5; $i++) {
         
         $wp_customize->add_setting('smoy_about_quote_circle_content_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_about_quote_circle_content_eng_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
@@ -1326,6 +1376,20 @@ function smoy_customize_register( $wp_customize ) {
             'default' => '15',
             'sanitize_callback' => 'sanitize_text_field'
         ));
+        
+        $wp_customize->add_setting('smoy_about_quote_circle_content_margin_top_eng_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'default' => '40',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_about_quote_circle_content_margin_sides_eng_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'default' => '15',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
            
     }
     
@@ -1333,6 +1397,12 @@ function smoy_customize_register( $wp_customize ) {
     /* ------- Front-Page Services Section -------- */
     
         $wp_customize->add_setting('smoy_services_header_title', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_services_header_title_eng', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
@@ -1349,6 +1419,20 @@ function smoy_customize_register( $wp_customize ) {
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
+    
+    
+        $wp_customize->add_setting('smoy_services_header_desc_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_services_header_desc_max_width_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
     
         $wp_customize->add_setting( 'smoy_services_header_text_bg_color', array(
           'capability' => 'edit_theme_options',
@@ -1377,6 +1461,20 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'smoy_sanitize_checkbox' 
         ));
         
+        
+        $wp_customize->add_setting('smoy_service_title_front_eng_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_service_desc_body_eng_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+    
         /*
         
         $wp_customize->add_setting('smoy_service_content_body_'.$i, array(
@@ -1387,6 +1485,13 @@ function smoy_customize_register( $wp_customize ) {
         */
         
         $wp_customize->add_setting('smoy_service_body_max_width_'.$i, array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        
+        $wp_customize->add_setting('smoy_service_body_max_width_eng_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
@@ -1426,6 +1531,24 @@ function smoy_customize_register( $wp_customize ) {
         ));
     
         $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_customer_ref_header_title_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_customer_ref_header_desc_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width_eng', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
@@ -1523,6 +1646,24 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
         ));
     
+        $wp_customize->add_setting('smoy_contact_header_title_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_contact_header_desc_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_contact_header_desc_max_width_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
         $wp_customize->add_setting( 'smoy_contact_header_text_bg_color', array(
           'capability' => 'edit_theme_options',
           'default' => 'orange',
@@ -1543,6 +1684,12 @@ function smoy_customize_register( $wp_customize ) {
                 'capability' => 'edit_theme_options',
                 'sanitize_callback' => 'sanitize_text_field'
             ));
+            
+            $wp_customize->add_setting('smoy_contact_person_title_eng_'.$i, array(
+                'type' => 'theme_mod',
+                'capability' => 'edit_theme_options',
+                'sanitize_callback' => 'sanitize_text_field'
+            ));
 
             $wp_customize->add_setting('smoy_contact_person_phone_'.$i, array(
                 'type' => 'theme_mod',
@@ -1554,6 +1701,12 @@ function smoy_customize_register( $wp_customize ) {
     
     
     $wp_customize->add_setting('smoy_contact_form_shortcode', array(
+                'type' => 'theme_mod',
+                'capability' => 'edit_theme_options',
+                'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_contact_form_shortcode_eng', array(
                 'type' => 'theme_mod',
                 'capability' => 'edit_theme_options',
                 'sanitize_callback' => 'sanitize_text_field'
@@ -1638,6 +1791,13 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
     ));
     
+    $wp_customize->add_control( 'smoy_about_section_title_eng', array(
+          'label' => __( 'Section title (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+    
     for ($i = 1; $i < 4; $i++) {
         
         $wp_customize->add_control( 'smoy_about_content_title_'.$i, array(
@@ -1654,6 +1814,20 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
         
+        $wp_customize->add_control( 'smoy_about_content_title_eng_'.$i, array(
+          'label' => __( 'Paragraph '.$i.' heading (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_content_body_eng_'.$i, array(
+          'label' => __( 'Paragraph '.$i.' body text (in english)', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
     }
     
 
@@ -1666,12 +1840,19 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
         
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_eng_'.$i, array(
+          'label' => __( 'Circle '.$i.' content text (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
         $wp_customize->add_control( 'smoy_about_quote_circle_radius_'.$i, array(
           'label' => __( 'Circle '.$i.' radius', 'smoy'),
           'description' => __( 'Adjust the radius of circle '.$i.'. Use positive integer value somewhere around 50 - 150 (default 75)', 'smoy'),
           'type' => 'text',
           'section' => 'smoy_about_us_section',
-          'active_callback' => 'is_front_page'
+          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
         
         $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_top_'.$i, array(
@@ -1688,6 +1869,22 @@ function smoy_customize_register( $wp_customize ) {
           'type' => 'text',
           'section' => 'smoy_about_us_section',
           'active_callback' => 'is_front_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_top_eng_'.$i, array(
+          'label' => __( 'Circle '.$i.' text top margin', 'smoy'),
+          'description' => __( 'Specify the top margin of circle '.$i.' content text. Use a single integer value (default 40)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_sides_eng_'.$i, array(
+          'label' => __( 'Circle '.$i.' text left and right margin', 'smoy'),
+          'description' => __( 'Specify the left and right margin of circle '.$i.' content text. Use a single integer value (default 15)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_about_us_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
         ));
     
     }
@@ -1718,6 +1915,29 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
     
+    
+        $wp_customize->add_control( 'smoy_services_header_title_eng', array(
+          'label' => __( 'Header title (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_services_header_desc_eng', array(
+          'label' => __( 'Header description body (in english)', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_services_header_desc_max_width_eng', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+    
         $wp_customize->add_control( 'smoy_services_header_text_bg_color', array(
           'type' => 'radio',
           'section' => 'smoy_services_section', 
@@ -1727,7 +1947,7 @@ function smoy_customize_register( $wp_customize ) {
             'orange' => __( 'Orange', 'smoy'),
             'pink' => __( 'Pink' , 'smoy')
           ),
-          'active_callback' => 'is_front_page'
+          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
     
     
@@ -1739,7 +1959,6 @@ function smoy_customize_register( $wp_customize ) {
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
-        
         
         $wp_customize->add_control( 'smoy_service_mobile_title_'.$i, array(
           'label' => __( 'Service '.$i.' mobile heading', 'smoy'),
@@ -1755,6 +1974,21 @@ function smoy_customize_register( $wp_customize ) {
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
+        
+        $wp_customize->add_control( 'smoy_service_title_front_eng_'.$i, array(
+          'label' => __( 'Service '.$i.' front page heading (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_service_desc_body_eng_'.$i, array(
+          'label' => __( 'Service '.$i.' english description', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
         
         /*
         $wp_customize->add_control( 'smoy_service_content_body_'.$i, array(
@@ -1773,6 +2007,15 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
         
+        
+        $wp_customize->add_control( 'smoy_service_body_max_width_eng_'.$i, array(
+          'label' => __( 'Service '.$i.' body text max width', 'smoy'),
+          'description' => __( 'Adjust the body text max width. You can use normal css units, like px, em and % (default 60%)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_services_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
         /*
         
         $wp_customize->add_control( 
@@ -1788,15 +2031,16 @@ function smoy_customize_register( $wp_customize ) {
         */
         
         $wp_customize->add_control( 'smoy_service_bg_img_position_'.$i, array(
-          'type' => 'range',
-          'section' => 'smoy_services_section',
-          'label' => __( 'Service '.$i.' background image position', 'smoy'),
-          'description' => __( 'Adjust the background image horizontal position (default 50)', 'smoy'),
-          'input_attrs' => array(
+            'type' => 'range',
+            'section' => 'smoy_services_section',
+            'label' => __( 'Service '.$i.' background image position', 'smoy'),
+            'description' => __( 'Adjust the background image horizontal position (default 50)', 'smoy'),
+            'input_attrs' => array(
             'min' => 0,
             'max' => 100,
             'step' => 1,
           ),
+            'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
         
     }
@@ -1827,6 +2071,28 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
     
+        $wp_customize->add_control( 'smoy_customer_ref_header_title_eng', array(
+          'label' => __( 'Header title (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_customer_ref_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_customer_ref_header_desc_eng', array(
+          'label' => __( 'Header description body (in english)', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_customer_ref_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_customer_ref_header_desc_max_width_eng', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_customer_ref_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+    
         $wp_customize->add_control( 'smoy_customer_ref_header_text_bg_color', array(
           'type' => 'radio',
           'section' => 'smoy_customer_ref_section', 
@@ -1836,7 +2102,7 @@ function smoy_customize_register( $wp_customize ) {
             'orange' => __( 'Orange', 'smoy'),
             'pink' => __( 'Pink' , 'smoy')
           ),
-          'active_callback' => 'is_front_page'
+          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
     
     
@@ -1848,7 +2114,7 @@ function smoy_customize_register( $wp_customize ) {
                     'label' => __( 'Customer logo '.$i , 'smoy'),
                     'section' => 'smoy_customer_ref_section',
                     'mime_type' => 'image',
-                    'active_callback' => 'is_front_page'
+                    'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
                 )
             )
         );
@@ -1859,43 +2125,44 @@ function smoy_customize_register( $wp_customize ) {
                     'label' => __( 'Customer background image '.$i , 'smoy'),
                     'section' => 'smoy_customer_ref_section',
                     'mime_type' => 'image',
-                    'active_callback' => 'is_front_page'
+                    'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
                 )
             )
         );
-        
         
         $wp_customize->add_control( 'smoy_customer_logo_height_'.$i, array(
           'label' => __( 'Logo '.$i.' height', 'smoy'),
           'description' => __( 'Adjust the logo fluid height using a numeric value between 0-100 (default 5)', 'smoy'),
           'type' => 'text',
           'section' => 'smoy_customer_ref_section',
-          'active_callback' => 'is_front_page'
+          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
         
         
         $wp_customize->add_control( 'smoy_customer_logo_min_height_'.$i, array(
-          'type' => 'range',
-          'section' => 'smoy_customer_ref_section',
-          'label' => __( 'Logo '.$i.' min height', 'smoy'),
-          'description' => __( 'Adjust the logo minimun height (default 0)', 'smoy'),
-          'input_attrs' => array(
-            'min' => 0,
-            'max' => 200,
-            'step' => 1,
-          ),
+            'type' => 'range',
+            'section' => 'smoy_customer_ref_section',
+            'label' => __( 'Logo '.$i.' min height', 'smoy'),
+            'description' => __( 'Adjust the logo minimun height (default 0)', 'smoy'),
+            'input_attrs' => array(
+                'min' => 0,
+                'max' => 200,
+                'step' => 1,
+            ),
+            'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
         
         $wp_customize->add_control( 'smoy_customer_logo_max_height_'.$i, array(
-          'type' => 'range',
-          'section' => 'smoy_customer_ref_section',
-          'label' => __( 'Logo '.$i.' max height', 'smoy'),
-          'description' => __( 'Adjust the logo maximum height (default 200)', 'smoy'),
-          'input_attrs' => array(
-            'min' => 0,
-            'max' => 200,
-            'step' => 1,
-          ),
+            'type' => 'range',
+            'section' => 'smoy_customer_ref_section',
+            'label' => __( 'Logo '.$i.' max height', 'smoy'),
+            'description' => __( 'Adjust the logo maximum height (default 200)', 'smoy'),
+            'input_attrs' => array(
+                'min' => 0,
+                'max' => 200,
+                'step' => 1,
+            ),
+            'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
     
     }
@@ -1962,6 +2229,28 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
     
+        $wp_customize->add_control( 'smoy_contact_header_title_eng', array(
+          'label' => __( 'Header title (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_contact_header_desc_eng', array(
+          'label' => __( 'Header description body (in english)', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_contact_header_desc_max_width_eng', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+          'type' => 'text',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+    
         $wp_customize->add_control( 'smoy_contact_header_text_bg_color', array(
           'type' => 'radio',
           'section' => 'smoy_contact_section', 
@@ -1971,7 +2260,7 @@ function smoy_customize_register( $wp_customize ) {
             'orange' => __( 'Orange', 'smoy'),
             'pink' => __( 'Pink' , 'smoy')
           ),
-          'active_callback' => 'is_front_page'
+          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
     
     
@@ -1982,7 +2271,7 @@ function smoy_customize_register( $wp_customize ) {
               'label' => __( 'Contact person '.$i.' name', 'smoy'),
               'type' => 'text',
               'section' => 'smoy_contact_section',
-              'active_callback' => 'is_front_page'
+              'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
             ));
             
             $wp_customize->add_control('smoy_contact_person_title_'.$i, array(
@@ -1992,11 +2281,18 @@ function smoy_customize_register( $wp_customize ) {
               'active_callback' => 'is_front_page'
             ));
             
+            $wp_customize->add_control('smoy_contact_person_title_eng_'.$i, array(
+              'label' => __( 'Contact person '.$i.' title (in english)', 'smoy'),
+              'type' => 'text',
+              'section' => 'smoy_contact_section',
+              'active_callback' => 'smoy_callback_is_eng_page'
+            ));
+            
             $wp_customize->add_control('smoy_contact_person_phone_'.$i, array(
               'label' => __( 'Contact person '.$i.' phone number', 'smoy'),
               'type' => 'text',
               'section' => 'smoy_contact_section',
-              'active_callback' => 'is_front_page'
+              'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
             ));
              
         }
@@ -2007,6 +2303,14 @@ function smoy_customize_register( $wp_customize ) {
               'type' => 'text',
               'section' => 'smoy_contact_section',
               'active_callback' => 'is_front_page'
+    ));
+    
+    $wp_customize->add_control('smoy_contact_form_shortcode_eng', array(
+              'label' => __( 'Contact form shortcode for english page', 'smoy'),
+              'description' => __( 'Place the contact form shortcode here', 'smoy'),
+              'type' => 'text',
+              'section' => 'smoy_contact_section',
+              'active_callback' => 'smoy_callback_is_eng_page'
     ));
     
     
@@ -2196,7 +2500,7 @@ add_action( 'wp_head', 'smoy_about_us_styles');
 
 function smoy_about_us_styles() {
     
-    if(is_home()) {
+    if(is_home() || is_page( 'eng' )) {
         
         $quote_circle_middle_positions = array(
               array(130, 1026),
@@ -2223,8 +2527,15 @@ function smoy_about_us_styles() {
             
             //$this_quote_circle_content = get_theme_mod( 'smoy_about_quote_circle_content_'.$j);
             $this_quote_circle_radius = get_theme_mod( 'smoy_about_quote_circle_radius_'.$j);
-            $this_quote_circle_content_margin_top = get_theme_mod( 'smoy_about_quote_circle_content_margin_top_'.$j);
-            $this_quote_circle_content_margin_sides = get_theme_mod( 'smoy_about_quote_circle_content_margin_sides_'.$j);
+            
+            if(is_home()){
+                $this_quote_circle_content_margin_top = get_theme_mod( 'smoy_about_quote_circle_content_margin_top_'.$j);
+                $this_quote_circle_content_margin_sides = get_theme_mod( 'smoy_about_quote_circle_content_margin_sides_'.$j);
+            }else{
+                $this_quote_circle_content_margin_top = get_theme_mod( 'smoy_about_quote_circle_content_margin_top_eng_'.$j);
+                $this_quote_circle_content_margin_sides = get_theme_mod( 'smoy_about_quote_circle_content_margin_sides_eng_'.$j);
+            }
+            
 
             /*
             $num = "20";
@@ -2281,12 +2592,6 @@ function smoy_about_us_styles() {
                 $css['#filler-shape-'.$j.' p']['margin-right'] = '15px';
             }
             
-            
-            
-            
-            
-            
-            
             $j++;
                
         }
@@ -2332,28 +2637,11 @@ function smoy_about_us_styles() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 add_action( 'smoy_get_about_us', 'smoy_about_us_output');
 
 function smoy_about_us_output() {
-    if(is_home()) {
+    
+    if(is_home() || is_page( 'eng' )) {
         
         $overlay_hole_middle_translate_positions = array(
               array(1026, 130),
@@ -2363,23 +2651,39 @@ function smoy_about_us_output() {
         );
         
         //print_r($overlay_hole_middle_translate_positions);
+        if(is_home()){
+            $smoy_about_section_title = get_theme_mod( 'smoy_about_section_title');
+        }else{
+            $smoy_about_section_title = get_theme_mod( 'smoy_about_section_title_eng');
+        }
         
-        $smoy_about_section_title = get_theme_mod( 'smoy_about_section_title');
+        
         $smoy_about_content_titles = array();
         $smoy_about_content_body_texts = array();
         $smoy_about_quote_ball_body_texts = array();
         $smoy_about_radius_array = array();
     
         for ($i = 0; $i < 3; $i++) {
-            $j = $i + 1; 
-            $smoy_about_content_titles[$i] = get_theme_mod( 'smoy_about_content_title_'.$j);
-            $smoy_about_content_body_texts[$i] = get_theme_mod( 'smoy_about_content_body_'.$j);
+            $j = $i + 1;
+            if(is_home()){
+                $smoy_about_content_titles[$i] = get_theme_mod( 'smoy_about_content_title_'.$j);
+                $smoy_about_content_body_texts[$i] = get_theme_mod( 'smoy_about_content_body_'.$j);
+            }else{
+                $smoy_about_content_titles[$i] = get_theme_mod( 'smoy_about_content_title_eng_'.$j);
+                $smoy_about_content_body_texts[$i] = get_theme_mod( 'smoy_about_content_body_eng_'.$j);
+            }
+            
         }
         
         for($i = 0; $i < 4; $i++){
             $j = $i + 1;
             $this_quote_circle_radius = get_theme_mod( 'smoy_about_quote_circle_radius_'.$j);
-            $smoy_about_quote_ball_body_texts[$i] = get_theme_mod( 'smoy_about_quote_circle_content_'.$j);
+            
+            if(is_home()){
+                $smoy_about_quote_ball_body_texts[$i] = get_theme_mod( 'smoy_about_quote_circle_content_'.$j);
+            }else{
+                $smoy_about_quote_ball_body_texts[$i] = get_theme_mod( 'smoy_about_quote_circle_content_eng_'.$j);
+            }
             
             if(!empty($this_quote_circle_radius) && (int)$this_quote_circle_radius == $this_quote_circle_radius && (int)$this_quote_circle_radius > 0 ){
                 $smoy_about_radius_array[$i] = $this_quote_circle_radius;
@@ -2407,7 +2711,7 @@ function smoy_about_us_output() {
 add_action( 'wp_head', 'smoy_services_styles');
 
 function smoy_services_styles() { 
-    if(is_home()) {
+    if(is_home() || is_page( 'eng' )) {
         
         /*
         
@@ -2471,7 +2775,11 @@ function smoy_services_styles() {
                     }    
                 }
                 
-                $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_'.$j);
+                if(is_home()){
+                    $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_'.$j);
+                }else{
+                    $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_eng_'.$j);
+                }
                 
                 if(empty($body_text_max_width)) {
                     $css['#service-'.$j.' .service-body-text']['max-width'] = "60%";
@@ -2505,12 +2813,21 @@ function smoy_services_styles() {
 add_action( 'smoy_get_content_section_header_services', 'smoy_section_header_services_output');
 
 function smoy_section_header_services_output() {
-    if(is_home()) {
+    if(is_home() || is_page( 'eng' )) {
         $this_section_header_id_prefix = 'services';
-        $smoy_section_header_title = get_theme_mod( 'smoy_services_header_title');
-        $smoy_section_header_body = get_theme_mod( 'smoy_services_header_desc');
-        $smoy_section_header_body = trim($smoy_section_header_body);
-        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_services_header_desc_max_width' );
+    
+        if(is_home()){
+            $smoy_section_header_title = get_theme_mod( 'smoy_services_header_title');
+            $smoy_section_header_body = get_theme_mod( 'smoy_services_header_desc');
+            $smoy_section_header_body = trim($smoy_section_header_body);
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_services_header_desc_max_width' );
+        }else{
+            $smoy_section_header_title = get_theme_mod( 'smoy_services_header_title_eng');
+            $smoy_section_header_body = get_theme_mod( 'smoy_services_header_desc_eng');
+            $smoy_section_header_body = trim($smoy_section_header_body);
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_services_header_desc_max_width_eng' );
+        }
+        
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
         }
@@ -2535,16 +2852,18 @@ function smoy_services_front_page_output() {
              public $title = '';
              public $excerpt = '';
              public $url;
-             public $featured_img = null;
+             //public $featured_img = null;
 
-             public function __construct($id, $title, $excerpt, $url, $featured_img) {
+             public function __construct($id, $title, $excerpt, $url/*, $featured_img*/) {
                  $this->id = $id;
                  $this->title = $title;
                  $this->excerpt = $excerpt;
                  $this->url = $url;
+                 /*
                  if(!empty($featured_img)){
                     $this->featured_img = $featured_img;
                  }
+                 */
                  
              }
              
@@ -2582,11 +2901,11 @@ function smoy_services_front_page_output() {
             //$smoy_services_body_texts[$i] = get_theme_mod( 'smoy_service_content_body_'.$j);
             
             $this_service_permalink = esc_url(get_permalink($post));
-            $this_service_featured_img = get_the_post_thumbnail_url($post->ID, 'service-thumb');
+            //$this_service_featured_img = get_the_post_thumbnail_url($post->ID, 'service-thumb');
             
             
             
-            $this_service = new Smoy_Service($post->ID, $post->post_title, get_the_excerpt($post), $this_service_permalink, $this_service_featured_img);
+            $this_service = new Smoy_Service($post->ID, $post->post_title, get_the_excerpt($post), $this_service_permalink/*, $this_service_featured_img*/);
             $servicesArray[$i] = $this_service;
             $i++;
     
@@ -2601,6 +2920,24 @@ function smoy_services_front_page_output() {
         echo $output;
         
         wp_reset_postdata();     
+        
+    }else if(is_page( 'eng' )){
+        
+        
+        $j = 1;
+        for($i = 0; $i < 6; $i++) {
+            
+            $smoy_services_titles_front[$i] = get_theme_mod( 'smoy_service_title_front_eng_'.$j);
+            $smoy_services_desc_bodies_eng[$i] = get_theme_mod( 'smoy_service_desc_body_eng_'.$j);
+            
+            $j++;
+        }
+        
+        ob_start();
+        require_once(get_template_directory() . '/template-parts/smoy-services-front-eng.php' );
+        $output = ob_get_clean();
+        echo $output;
+        
         
     }
     
@@ -2633,7 +2970,7 @@ add_action( 'wp_head', 'smoy_customer_references_styles');
 
 function smoy_customer_references_styles() {
     
-    if(is_home()) {
+    if(is_home() || is_page( 'eng' )) {
 
         $css = array();
         $heightCss = array();
@@ -2718,13 +3055,23 @@ function smoy_customer_references_styles() {
 add_action( 'smoy_get_content_section_header_references', 'smoy_section_header_ref_output');
 
 function smoy_section_header_ref_output() {
-    if(is_home()) {
+    if(is_home() || is_page( 'eng' )) {
         
         $this_section_header_id_prefix = 'customers';
-        $smoy_section_header_title = get_theme_mod( 'smoy_customer_ref_header_title');
-        $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc');
-        $smoy_section_header_body = trim($smoy_section_header_body);
-        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_customer_ref_header_desc_max_width' );
+        
+        
+        if(is_home()) {
+            $smoy_section_header_title = get_theme_mod( 'smoy_customer_ref_header_title');
+            $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc');
+            $smoy_section_header_body = trim($smoy_section_header_body);
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_customer_ref_header_desc_max_width' );
+        }else{
+            $smoy_section_header_title = get_theme_mod( 'smoy_customer_ref_header_title_eng');
+            $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc_eng');
+            $smoy_section_header_body = trim($smoy_section_header_body);
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_customer_ref_header_desc_max_width_eng' );
+        }
+        
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
         }
@@ -2920,12 +3267,21 @@ function smoy_staff_front_page_output() {
 add_action( 'smoy_get_content_section_header_contact', 'smoy_section_header_contact_output');
 
 function smoy_section_header_contact_output() {
-    if(is_home()) {
+    if(is_home() || is_page( 'eng' )) {
         $this_section_header_id_prefix = 'contact';
-        $smoy_section_header_title = get_theme_mod( 'smoy_contact_header_title');
-        $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc');
-        $smoy_section_header_body = trim($smoy_section_header_body);
-        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_contact_header_desc_max_width' );
+        
+        if(is_home()) {
+            $smoy_section_header_title = get_theme_mod( 'smoy_contact_header_title');
+            $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc');
+            $smoy_section_header_body = trim($smoy_section_header_body);
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_contact_header_desc_max_width' );
+        }else{
+            $smoy_section_header_title = get_theme_mod( 'smoy_contact_header_title_eng');
+            $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc_eng');
+            $smoy_section_header_body = trim($smoy_section_header_body);
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_contact_header_desc_max_width_eng' );
+        }
+        
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
         }
@@ -2943,51 +3299,62 @@ function smoy_section_header_contact_output() {
 add_action('smoy_get_contact_form', 'smoy_contact_form_output');
 
 function smoy_contact_form_output() {
+    if(is_home() || is_page( 'eng' )) {
     
-    
-    class Smoy_Contact_Person {
-         public $name = '';
-         public $title = null;
-         public $phone = null;
+        class Smoy_Contact_Person {
+             public $name = '';
+             public $title = null;
+             public $phone = null;
 
-         public function __construct($name, $title, $phone) {
-             $this->name = $name;
-             if(!empty($title)){
-                 $this->title = $title;
+             public function __construct($name, $title, $phone) {
+                 $this->name = $name;
+                 if(!empty($title)){
+                     $this->title = $title;
+                 }
+
+                 if(!empty($phone)){
+                    $this->phone = $phone;
+                 }
+
              }
 
-             if(!empty($phone)){
-                $this->phone = $phone;
-             }
-
-         }
-             
-    }
-    
-    $contact_form_shortcode = get_theme_mod( 'smoy_contact_form_shortcode' );
-    
-    if(empty($contact_form_shortcode)) {
-        $contact_form_shortcode = '';
-    }
-    
-    $contact_ppl_array = array();
-
-    for ($i = 0; $i < 3; $i++) {
-        $j = $i + 1;
-        $thisPersonName = get_theme_mod( 'smoy_contact_person_name_'.$j);
-        $thisPersonTitle = get_theme_mod( 'smoy_contact_person_title_'.$j);
-        $thisPersonPhone = get_theme_mod( 'smoy_contact_person_phone_'.$j);
+        }
         
-        $thisPerson = new Smoy_Contact_Person($thisPersonName, $thisPersonTitle, $thisPersonPhone);
-        $contact_ppl_array[$i] = $thisPerson;
+        if(is_home()){
+            $contact_form_shortcode = get_theme_mod( 'smoy_contact_form_shortcode' );
+        }else{
+            $contact_form_shortcode = get_theme_mod( 'smoy_contact_form_shortcode_eng' );
+        }
+
+        if(empty($contact_form_shortcode)) {
+            $contact_form_shortcode = '';
+        }
+
+        $contact_ppl_array = array();
+
+        for ($i = 0; $i < 3; $i++) {
+            $j = $i + 1;
+            $thisPersonName = get_theme_mod( 'smoy_contact_person_name_'.$j);
+            if(is_home()){
+                $thisPersonTitle = get_theme_mod( 'smoy_contact_person_title_'.$j);
+            }else{
+                $thisPersonTitle = get_theme_mod( 'smoy_contact_person_title_eng_'.$j);
+            }
+            
+            $thisPersonPhone = get_theme_mod( 'smoy_contact_person_phone_'.$j);
+
+            $thisPerson = new Smoy_Contact_Person($thisPersonName, $thisPersonTitle, $thisPersonPhone);
+            $contact_ppl_array[$i] = $thisPerson;
+
+        }
+
+
+        ob_start();
+        require_once(get_template_directory() . '/template-parts/smoy-contact-form-front.php' );
+        $output = ob_get_clean();
+        echo $output;
         
     }
-    
-    
-    ob_start();
-    require_once(get_template_directory() . '/template-parts/smoy-contact-form-front.php' );
-    $output = ob_get_clean();
-    echo $output;
     
 
 }

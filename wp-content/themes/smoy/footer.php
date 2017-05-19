@@ -25,7 +25,8 @@
 <script type="text/javascript">
 var $document = jQuery(document);
 var $window = jQuery(window);    
-var socialWidgetSidebar;    
+var socialWidgetSidebar;
+var newsletterSidebar;
 var overlayHoles = document.getElementsByClassName('overlay-hole');
 var w = window.innerWidth
 || document.documentElement.clientWidth
@@ -44,6 +45,7 @@ jQuery(function() {
     });
     
     socialWidgetSidebar = jQuery('#social-sidebar');
+    newsletterSidebar = jQuery('#newsletter-sidebar');
     if(jQuery(socialWidgetSidebar).length){
         var startScrollPos = $window.scrollTop();
         $document.bind('scroll', function() {

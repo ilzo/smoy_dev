@@ -10,7 +10,11 @@
         <?php endfor; ?>  
     </div>
     <div class="contact-button-container">
-        <button id="about-us-contact" class="contact-us-button">Ota yhteyttä.</button>
+        <?php if(is_home()): ?>
+            <button id="about-us-contact" class="contact-us-button">Ota yhteyttä.</button>
+        <?php else: ?>
+            <button id="about-us-contact" class="contact-us-button">Contact us.</button>
+        <?php endif; ?>
     </div>
 </div>
 
