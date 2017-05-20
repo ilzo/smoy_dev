@@ -18,7 +18,7 @@ class NewsletterUsers extends NewsletterModule {
     }
 
     function __construct() {
-        parent::__construct('users', '1.0.7');
+        parent::__construct('users', '1.0.8');
         add_action('init', array($this, 'hook_init'));
     }
 
@@ -82,7 +82,7 @@ class NewsletterUsers extends NewsletterModule {
             $sql .= "`profile_$i` varchar(255) NOT NULL DEFAULT '',\n";
         }
         // Leave as last
-        $sql .= "`test` tinyint(4) NOT NULL DEFAULT '0')\n";
+        $sql .= "`test` tinyint(4) NOT NULL DEFAULT '0',\n";
         $sql .= "PRIMARY KEY (`id`),
     UNIQUE KEY `email` (`email`)
     ) ENGINE=MyISAM DEFAULT CHARSET=$charset_collate;";

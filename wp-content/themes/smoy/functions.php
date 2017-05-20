@@ -662,7 +662,7 @@ function load_scripts()
     
     
     
-    if(is_home()){
+    if(is_home() || is_page('eng')){
         wp_enqueue_script( 'gsap-tweenmax' );
         wp_enqueue_script( 'customer-references' );
     }
@@ -1411,7 +1411,7 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_setting('smoy_services_header_desc', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
+            'sanitize_callback' => 'sanitize_textarea_field'
         ));
     
         $wp_customize->add_setting('smoy_services_header_desc_max_width', array(
@@ -1424,7 +1424,7 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_setting('smoy_services_header_desc_eng', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
+            'sanitize_callback' => 'sanitize_textarea_field'
         ));
     
         $wp_customize->add_setting('smoy_services_header_desc_max_width_eng', array(
@@ -1527,7 +1527,7 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_setting('smoy_customer_ref_header_desc', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
+            'sanitize_callback' => 'sanitize_textarea_field'
         ));
     
         $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width', array(
@@ -1545,7 +1545,7 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_setting('smoy_customer_ref_header_desc_eng', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
+            'sanitize_callback' => 'sanitize_textarea_field'
         ));
     
         $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width_eng', array(
@@ -1609,7 +1609,7 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_setting('smoy_people_header_desc', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
+            'sanitize_callback' => 'sanitize_textarea_field'
         ));
     
         $wp_customize->add_setting('smoy_people_header_desc_max_width', array(
@@ -1637,7 +1637,7 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_setting('smoy_contact_header_desc', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
+            'sanitize_callback' => 'sanitize_textarea_field'
         ));
     
         $wp_customize->add_setting('smoy_contact_header_desc_max_width', array(
@@ -1655,7 +1655,7 @@ function smoy_customize_register( $wp_customize ) {
         $wp_customize->add_setting('smoy_contact_header_desc_eng', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
+            'sanitize_callback' => 'sanitize_textarea_field'
         ));
     
         $wp_customize->add_setting('smoy_contact_header_desc_max_width_eng', array(
@@ -2439,60 +2439,9 @@ function smoy_sanitize_radio( $input, $setting ) {
 }
 
 
-
-
-
-
-
-/*
-
-for ($i = 1; $i < 5; $i++) {
-        
-        $wp_customize->add_control( 'smoy_about_quote_circle_content_'.$i, array(
-          'label' => __( 'Circle '.$i.' content text', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_about_us_section',
-          'active_callback' => 'is_front_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_about_quote_circle_radius_'.$i, array(
-          'label' => __( 'Circle '.$i.' radius', 'smoy'),
-          'description' => __( 'Adjust the radius of circle '.$i.'. Use positive integer value somewhere around 50 - 150 (default 75)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_about_us_section',
-          'active_callback' => 'is_front_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_top_'.$i, array(
-          'label' => __( 'Circle '.$i.' text top margin', 'smoy'),
-          'description' => __( 'Specify the top margin of circle '.$i.' content text. Use a single integer value (default 40)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_about_us_section',
-          'active_callback' => 'is_front_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_about_quote_circle_content_margin_sides_'.$i, array(
-          'label' => __( 'Circle '.$i.' text left and right margin', 'smoy'),
-          'description' => __( 'Specify the left and right margin of circle '.$i.' content text. Use a single integer value (default 15)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_about_us_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-    }
-    
-    */
-
-
-
-
-
-
-
-
-
-
-
+function replace_textarea_linebreaks( $textarea ){
+    return str_replace("\n", '<span class="header-desc-linebreak"></span>', $textarea); 
+}
 
 
 
@@ -2819,14 +2768,15 @@ function smoy_section_header_services_output() {
         if(is_home()){
             $smoy_section_header_title = get_theme_mod( 'smoy_services_header_title');
             $smoy_section_header_body = get_theme_mod( 'smoy_services_header_desc');
-            $smoy_section_header_body = trim($smoy_section_header_body);
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_services_header_desc_max_width' );
         }else{
             $smoy_section_header_title = get_theme_mod( 'smoy_services_header_title_eng');
             $smoy_section_header_body = get_theme_mod( 'smoy_services_header_desc_eng');
-            $smoy_section_header_body = trim($smoy_section_header_body);
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_services_header_desc_max_width_eng' );
         }
+        
+        $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_body = replace_textarea_linebreaks($smoy_section_header_body);
         
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
@@ -3059,18 +3009,18 @@ function smoy_section_header_ref_output() {
         
         $this_section_header_id_prefix = 'customers';
         
-        
         if(is_home()) {
             $smoy_section_header_title = get_theme_mod( 'smoy_customer_ref_header_title');
             $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc');
-            $smoy_section_header_body = trim($smoy_section_header_body);
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_customer_ref_header_desc_max_width' );
         }else{
             $smoy_section_header_title = get_theme_mod( 'smoy_customer_ref_header_title_eng');
             $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc_eng');
-            $smoy_section_header_body = trim($smoy_section_header_body);
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_customer_ref_header_desc_max_width_eng' );
         }
+        
+        $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_body = replace_textarea_linebreaks($smoy_section_header_body);
         
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
@@ -3127,6 +3077,7 @@ function smoy_section_header_people_output() {
         $smoy_section_header_title = get_theme_mod( 'smoy_people_header_title');
         $smoy_section_header_body = get_theme_mod( 'smoy_people_header_desc');
         $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_body = replace_textarea_linebreaks($smoy_section_header_body);
         $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_people_header_desc_max_width' );
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
@@ -3273,14 +3224,15 @@ function smoy_section_header_contact_output() {
         if(is_home()) {
             $smoy_section_header_title = get_theme_mod( 'smoy_contact_header_title');
             $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc');
-            $smoy_section_header_body = trim($smoy_section_header_body);
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_contact_header_desc_max_width' );
         }else{
             $smoy_section_header_title = get_theme_mod( 'smoy_contact_header_title_eng');
             $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc_eng');
-            $smoy_section_header_body = trim($smoy_section_header_body);
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_contact_header_desc_max_width_eng' );
         }
+        
+        $smoy_section_header_body = trim($smoy_section_header_body);
+        $smoy_section_header_body = replace_textarea_linebreaks($smoy_section_header_body);
         
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';

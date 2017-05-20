@@ -893,7 +893,6 @@ button {
     background-position: center !important;
 }
 
-
 .content-header-wrapper {
     position: absolute;
     top: 50%;
@@ -928,6 +927,11 @@ button {
 
 #contact > .content-section-header {
     background: url("./img/background/ota_yhteytta.jpg");
+}
+
+.content-section-header .header-desc-linebreak {
+    display: block;
+    height: 10px;
 }
 
 /*
