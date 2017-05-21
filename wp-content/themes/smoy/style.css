@@ -87,7 +87,11 @@ body {
 }
 
 .visuallyhidden {
-  opacity: 0;
+    opacity: 0;
+}
+
+.visuallyvisible {
+    opacity: 100;
 }
 
 #header-home {
@@ -132,7 +136,7 @@ body {
 }
 
 
-.navigation-secondary {
+.navigation-sub {
     position: fixed;
     top: 56px;
     height: auto;
@@ -229,7 +233,7 @@ body {
     transition: all 0.25s ease-out 0s;
 }
 
-#top-menu li a:hover, #secondary-menu li a:hover{ 
+#top-menu li a:hover, #sub-menu li a:hover{ 
     color: #ff8100;
 }
 
@@ -238,7 +242,7 @@ body {
     pointer-events:none;
 }
 
-#secondary-menu {
+#sub-menu {
     height: auto;
     max-height: 0;
     overflow: hidden;
@@ -252,26 +256,26 @@ body {
 }
 
 
-#secondary-menu.second-menu-opened {
+#sub-menu.second-menu-opened {
     max-height: 395px;
 }
 
-#secondary-menu li:first-of-type {
+#sub-menu li:first-of-type {
     margin-top: 45px;
 }
 
-#secondary-menu li:last-of-type {
+#sub-menu li:last-of-type {
     margin-bottom: 45px;
 }
 
-#secondary-menu li {
+#sub-menu li {
     display: table;
     margin: 6px 0 0px 0;
     padding: 7px 15px 1px 15px;
     border: 2px solid #f2f2f2;
 }
 
-#secondary-menu li a{
+#sub-menu li a{
     display: table-cell;
     font-family: 'MyriadProRegular', Fallback, sans-serif;
     text-decoration: none;
@@ -287,7 +291,7 @@ body {
     
 }
 
-.secondary-link-double-angle {
+.sub-link-double-angle {
     position: relative;
     top: -1px;
     margin-right: 7px;
@@ -300,6 +304,66 @@ body {
 
 #nav-logo-container-inner {
     display: none;
+}
+
+.nav-right-container {
+    position: absolute;
+    width: auto;
+    top: 10px;
+    right: 65px;
+    -webkit-transition: all 0.25s ease-out 0s;
+    -moz-transition: all 0.25s ease-out 0s;
+    -ms-transition: all 0.25s ease-out 0s;
+    -o-transition: all 0.25s ease-out 0s;
+    transition: all 0.25s ease-out 0s;
+}
+
+
+#right-menu {
+    margin: 0;
+}
+
+#right-menu li {
+    margin: 0px 5px 0px 5px;
+}
+
+
+.nav-right-container .smoytalk-link,
+.nav-right-container .english-link {
+    display:none;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 35px;
+}
+
+
+.nav-right-container .smoytalk-link{
+    background-image: url(./img/icons/wht/smoytalk_wht_test_8.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 72% 58%;
+}
+
+.smoytalk-link a, .english-link a {
+    display: block;
+    margin: 0;
+}
+
+.smoytalk-link a {
+    height: 33px;
+    width: 44px;
+}
+
+.english-link a {
+    height: 34px;
+    width: 34px;
+}
+
+.nav-right-container .english-link {
+    background-image: url(./img/icons/wht/en_wht.png);
+    background-size: 98% 56%;
+    height: 30px;
+    width: 30px;
 }
 
 #top-menu-overlay {
@@ -316,7 +380,7 @@ body {
 
 /*
 
-#secondary-menu-overlay {
+#sub-menu-overlay {
     position: fixed;
     height: 0;
     z-index: 999;
@@ -338,7 +402,7 @@ body {
 }
 
 
-#top-menu-open, #top-menu-overlay .closebtn /*, .navigation-secondary*/ {
+#top-menu-open, #top-menu-overlay .closebtn /*, .navigation-sub*/ {
     -webkit-transition: all 0.25s ease-out 0s;
     -moz-transition: all 0.25s ease-out 0s;
     -ms-transition: all 0.25s ease-out 0s;
@@ -2497,7 +2561,12 @@ div.customer-stretchy-wrapper {
 }
 
 
-@media screen and (max-width: 1180px) { 
+@media screen and (max-width: 1180px) {
+    
+    #top-menu li {
+        margin: 15px 3.5% 15px 3.5%;
+    }
+    
     .about-mask, .overlay-hole {
         visibility: hidden;
     }
@@ -2611,7 +2680,7 @@ div.customer-stretchy-wrapper {
     }
     
     
-    .navigation-secondary {
+    .navigation-sub {
         /*
         top: 306px;
         height: 0;
@@ -2627,15 +2696,15 @@ div.customer-stretchy-wrapper {
         padding: 0;
     }
 
-    #secondary-menu {
+    #sub-menu {
         margin: 0;
     }
     
-    #secondary-menu.second-menu-opened {
+    #sub-menu.second-menu-opened {
         max-height: 500px;
     }
     
-    #secondary-menu li {
+    #sub-menu li {
         display: table;
         padding: 0 !important;
         margin: 20px auto 20px auto;
@@ -2643,15 +2712,15 @@ div.customer-stretchy-wrapper {
         border: 1px solid #f2f2f2;
     }
     
-    #secondary-menu li:first-of-type {
+    #sub-menu li:first-of-type {
         margin-top: 12px;
     }
 
-    #secondary-menu li:last-of-type {
+    #sub-menu li:last-of-type {
         margin-bottom: 12px;
     }
 
-    #secondary-menu li a {
+    #sub-menu li a {
         font-size: 13.8pt;
         padding: 15px 0 9px 0;
         margin: 0;
@@ -2661,7 +2730,7 @@ div.customer-stretchy-wrapper {
         width: 65px;
     }
     
-    .secondary-link-double-angle {
+    .sub-link-double-angle {
         float: left;
         left: 10px;
         font-size: 1.6em;
@@ -2695,6 +2764,53 @@ div.customer-stretchy-wrapper {
     
     #top-menu-overlay .closebtn {
         display: block;
+    }
+    
+    #right-menu {
+        margin: 0 0 0 -40px;
+    }
+
+    .nav-right-container {
+        right:0;
+        top: 15%;
+        width: 100%;
+        text-align: center;
+    }
+    
+    #right-menu li {
+        margin: 0px 10px 0px 10px;
+    }
+    
+    .nav-right-container .smoytalk-link {
+        height: 36px;
+    }
+    
+    .nav-right-container .english-link {
+        height: 50px;
+    }
+    
+    .nav-right-container .smoytalk-link {
+        background-size: 90% 75%;
+    }
+    
+    
+    .smoytalk-link a {
+        display: block;
+        height: 38px;
+        width: 49px;
+        margin: 0;
+    }
+    
+    .nav-right-container .english-link {
+        background-size: 100% 69%;
+        height: 31px;
+        width: 36px;
+    }
+    
+    .english-link a {
+        height: 42px;
+        width: 49px;
+        margin: 0;
     }
     
     
@@ -3318,16 +3434,16 @@ div.customer-stretchy-wrapper {
         display: inline-block;
     }
     
-    #secondary-menu li {
+    #sub-menu li {
         width: 95%;
     }
     
-    #secondary-menu li a {
+    #sub-menu li a {
         font-size: 8.8pt;
         padding: 8px 0 1px 0;
     }
     
-    .secondary-link-double-angle {
+    .sub-link-double-angle {
         font-size: 1.25em;
         max-height: 20px;
         top: -2px;
@@ -3618,7 +3734,7 @@ div.customer-stretchy-wrapper {
 @media screen and (max-height: 600px) and (max-width: 960px) {
     
     #top-menu {
-        top: 14%;
+        top: 25%;
     }
     
     #top-menu li {
@@ -3629,13 +3745,24 @@ div.customer-stretchy-wrapper {
         font-size: 13pt;
     }
     
-    #secondary-menu li {
+    #sub-menu li {
         margin: 2% auto 2% auto;
     }
     
-    #secondary-menu li a {
+    #sub-menu li a {
         font-size: 9pt;
         padding: 7px 0 0 0;
+    }
+    
+    #right-menu {
+        margin: 0 0 0 -45px;
+    }
+    
+    .nav-right-container {
+        text-align: initial;
+        left: 25px;
+        top: 6px;
+        width: 35%;
     }
     
 }
@@ -3661,7 +3788,7 @@ div.customer-stretchy-wrapper {
 
 
 
-@media screen and (max-height: 450px) {
+@media screen and (max-height: 450px) and (max-width: 960px) {
     #top-menu-overlay a {font-size: 20px}
     #top-menu-overlay .closebtn {
         font-size: 40px;
@@ -3677,24 +3804,24 @@ div.customer-stretchy-wrapper {
         font-size: 11pt;
     }
     
-    #secondary-menu li {
+    #sub-menu li {
         margin: 1% auto 1% auto;
     }
     
-    #secondary-menu li:first-of-type {
+    #sub-menu li:first-of-type {
         margin-top: 8px;
     }
     
-    #secondary-menu li:last-of-type {
+    #sub-menu li:last-of-type {
         margin-bottom: 8px;
     }
     
-    #secondary-menu li a {
+    #sub-menu li a {
         font-size: 8pt;
         padding: 8px 0 0 0;
     }
     
-    .secondary-link-double-angle {
+    .sub-link-double-angle {
         font-size: 1.3em;
         top: -3px;
     }
@@ -3703,7 +3830,7 @@ div.customer-stretchy-wrapper {
         display: none;
     }
     
-    
+
 }
 
 

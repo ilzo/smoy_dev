@@ -35,7 +35,7 @@
     <div class="navigation-top">
         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
     </div>
-    <div class="navigation-secondary">
-        <?php get_template_part( 'template-parts/navigation', 'secondary' ); ?>
+    <div class="navigation-sub">
+        <?php get_template_part( 'template-parts/navigation', 'sub' ); ?>
     </div>         
 </div>

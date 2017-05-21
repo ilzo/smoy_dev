@@ -504,8 +504,9 @@ add_action( 'init', 'smoy_register_menus' );
 function smoy_register_menus() {
   register_nav_menus(
     array('top' => __( 'Main menu', 'smoy' ),
-         'secondary' => __( 'Secondary menu', 'smoy' ))
-  );
+          'sub' => __( 'Sub menu', 'smoy' ),
+          'right' => __( 'Right menu', 'smoy' ))
+    );
 }
 
 

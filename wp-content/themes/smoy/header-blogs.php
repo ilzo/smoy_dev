@@ -33,7 +33,7 @@ $latest_blog_thumb_url = wp_get_attachment_image_src(get_post_thumbnail_id($post
     <div class="navigation-top">
         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
     </div>
-    <div class="navigation-secondary">
-        <?php get_template_part( 'template-parts/navigation', 'secondary' ); ?>
+    <div class="navigation-sub">
+        <?php get_template_part( 'template-parts/navigation', 'sub' ); ?>
     </div>          
 </div>

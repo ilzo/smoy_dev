@@ -33,9 +33,26 @@ if(wp_is_mobile()) {
         'menu_id'             => 'top-menu',
         'container'           => 'nav'
     ));  
-}   
+}
+    
+wp_nav_menu( array(
+        'theme_location'      => 'right',
+        'menu_id'             => 'right-menu',
+        'container'           => 'div',
+        'container_class'     => 'nav-right-container'
+));    
+    
+    
 ?>
+    
+    
+
+
+    
+    
+    
 </div>
+
 <div id="open-button-container">
     <span id="top-menu-open" class="dashicons dashicons-menu" onclick="openNav()"></span>
 </div>
