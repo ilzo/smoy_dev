@@ -18,7 +18,7 @@ class NewsletterUsers extends NewsletterModule {
     }
 
     function __construct() {
-        parent::__construct('users', '1.0.8');
+        parent::__construct('users', '1.0.9');
         add_action('init', array($this, 'hook_init'));
     }
 
@@ -85,7 +85,7 @@ class NewsletterUsers extends NewsletterModule {
         $sql .= "`test` tinyint(4) NOT NULL DEFAULT '0',\n";
         $sql .= "PRIMARY KEY (`id`),
     UNIQUE KEY `email` (`email`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=$charset_collate;";
+    ) ENGINE=MyISAM $charset_collate;";
 
         dbDelta($sql);
     $this->upgrade_query("alter table " . NEWSLETTER_USERS_TABLE . " convert to character set $charset_collate");

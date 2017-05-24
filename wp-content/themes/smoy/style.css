@@ -1590,14 +1590,25 @@ span.arrow-right {
 #customers-wrapper {
     position: relative;
     padding: 0;
-    margin: 0 0.001% -2px -2px;
+    margin: 0 0.001% -4px -2px;
 }
+
+/*
 
 .customer-box {
     display: inline-block;
     width: 25%;
     margin: -2px -1.5px -2px -2.5px; 
 }
+*/
+
+
+.customer-box {
+    display: inline-block;
+    width: 24.88%;
+    margin: -1px -1px -1px -1px;
+}
+
 
 div.customer-stretchy-wrapper {
     width: 100%;
@@ -2459,10 +2470,16 @@ div.customer-stretchy-wrapper {
         left: 73px;
     }
     
+    /*
     .customer-box {
         display: inline-block;
         width: 33.333%;
         margin: -2px -1.5px -2px -2.5px; 
+    }
+    */
+    
+    .customer-box {
+        width: 33.2%;
     }
     
     #contact-wrapper {
@@ -2640,10 +2657,16 @@ div.customer-stretchy-wrapper {
         min-height: 0;
     }
     
+    /*
     .customer-box {
         display: inline-block;
         width: 50%;
         margin: -2px -1.5px -2px -2.5px; 
+    }
+    */
+    
+    .customer-box {
+        width: 49.999%;
     }
     
     #top-menu {

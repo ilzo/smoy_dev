@@ -4,7 +4,7 @@
   Plugin Name: Newsletter
   Plugin URI: https://www.thenewsletterplugin.com/plugins/newsletter
   Description: Newsletter is a cool plugin to create your own subscriber list, to send newsletters, to build your business. <strong>Before update give a look to <a href="https://www.thenewsletterplugin.com/category/release">this page</a> to know what's changed.</strong>
-  Version: 4.9.5
+  Version: 4.9.6
   Author: Stefano Lissa & The Newsletter Team
   Author URI: https://www.thenewsletterplugin.com
   Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
@@ -14,7 +14,7 @@
  */
 
 // Used as dummy parameter on css and js links
-define('NEWSLETTER_VERSION', '4.9.5');
+define('NEWSLETTER_VERSION', '4.9.6');
 
 global $wpdb, $newsletter;
 
@@ -137,7 +137,7 @@ class Newsletter extends NewsletterModule {
         // Here because the upgrade is called by the parent constructor and uses the scheduler
         add_filter('cron_schedules', array($this, 'hook_cron_schedules'), 1000);
 
-        parent::__construct('main', '1.2.9');
+        parent::__construct('main', '1.3.0');
 
         $max = $this->options['scheduler_max'];
         if (!is_numeric($max)) {
@@ -330,22 +330,7 @@ class Newsletter extends NewsletterModule {
         wp_schedule_event(time() + 30, 'newsletter', 'newsletter');
 
         wp_clear_scheduled_hook('newsletter_extension_versions');
-        wp_schedule_event(time() + 30, 'newsletter_extension_versions', 'newsletter_weekly');
-
-        add_option('newsletter_extension_versions', array(), null, 'no');
-
-        wp_clear_scheduled_hook('newsletter_update');
-        wp_clear_scheduled_hook('newsletter_check_versions');
-
-        //wp_mkdir_p(WP_CONTENT_DIR . '/extensions/newsletter');
-        //wp_mkdir_p(WP_CONTENT_DIR . '/cache/newsletter');
-        //wp_clear_scheduled_hook('newsletter_updates_run');
-        wp_clear_scheduled_hook('newsletter_statistics_version_check');
-        wp_clear_scheduled_hook('newsletter_reports_version_check');
-        wp_clear_scheduled_hook('newsletter_feed_version_check');
-        wp_clear_scheduled_hook('newsletter_popup_version_check');
-
-
+        wp_schedule_event(time() + 30, 'daily', 'newsletter_extension_versions');
 
         // If the original options has already saved once
         if (isset($options['smtp_host'])) {
@@ -965,10 +950,10 @@ class Newsletter extends NewsletterModule {
             'interval' => NEWSLETTER_CRON_INTERVAL, // seconds
             'display' => 'Newsletter'
         );
-        $schedules['newsletter_weekly'] = array(
-            'interval' => 86400 * 7, // seconds
-            'display' => 'Newsletter Weekly'
-        );
+//        $schedules['newsletter_weekly'] = array(
+//            'interval' => 86400 * 7, // seconds
+//            'display' => 'Newsletter Weekly'
+//        );
         return $schedules;
     }
 
@@ -1340,7 +1325,7 @@ class Newsletter extends NewsletterModule {
         }
 
         $versions = json_decode(wp_remote_retrieve_body($response));
-        update_option('newsletter_extension_versions', $versions);
+        update_option('newsletter_extension_versions', $versions, false);
     }
 
     function get_extension_version($extension_id) {

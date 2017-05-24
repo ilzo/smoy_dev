@@ -1,25 +1,492 @@
 var viewportWidth;
-var topPos = -1;
-var leftPos = 2.5;
+//var topPos = -1;
+var topPos = -2;
+var topPos = 0;
+var leftPos = 0.0;
+
+
+/*
 var isFourCols = 0;
 var isThreeCols = 0;
 var isTwoCols = 0;
+*/
+
+
 var customersWrapper;
 var customerBoxNum = 0;
 var customerBoxWidth = 0;
 var customerBoxHeight = 0;
+
+
+
+
 var customerBoxMarginTop = 0;
 var customerBoxMarginBottom = 0;
+
+
+
+
+
 var customerBoxMargin = '';
-var isInLastRow = 0;
-var isInFirstRow = 0;
-var isBottomLeftSide = 0;
-var isRightSide = 0;
+
 var cloneBoxWidthDouble = 0;
 var cloneBoxHeightDouble = 0;
 var customerBoxMargin = '';
 var customerBoxClone;
 var resizeDimensions = [];
+
+
+var gridTracker = {
+    fourCols: 0,
+    threeCols: 0,
+    twoCols: 0,
+    /*
+    isInLastRow: 0,
+    isInFirstRow: 0,
+    isBottomLeftSide: 0,
+    isRightSide: 0,
+    */
+    clickedBoxPos: {top: 0, left: 0.0},
+    openDir: {up: 0, down: 0, left: 0, right: 0},
+    closeDir: {up: 0, down: 0, left: 0, right: 0},
+    openAnimPos: {top: '', left: ''},
+    closeAnimPos: {top: '', left: ''},
+    setFourCols: function () {
+        this.fourCols = 1; 
+        this.threeCols = 0; 
+        this.twoCols = 0;
+    },
+    setThreeCols: function () {
+        this.fourCols = 0; 
+        this.threeCols = 1; 
+        this.twoCols = 0;
+    },
+    setTwoCols: function () {
+        this.fourCols = 0; 
+        this.threeCols = 0; 
+        this.twoCols = 1;
+    },
+    isFourCols: function () {
+        if(this.fourCols === 1){
+           return 1;
+        }else{
+           return 0;
+        }
+    },
+    isThreeCols: function () {
+        if(this.threeCols === 1){
+           return 1;
+        }else{
+           return 0;
+        }
+    },
+    isTwoCols: function () {
+        if(this.twoCols === 1){
+           return 1;
+        }else{
+           return 0;
+        }
+    },
+    whichWayToOpen: function (num) {
+        this.openDir.up = 0;
+        this.openDir.down = 0;
+        this.openDir.left = 0;
+        this.openDir.right = 0;
+        
+        if(this.isFourCols() === 1){
+            if(num === 0 || num === 1 || num === 4 || num === 5){
+                this.openDir.down = 1;
+                this.openDir.right = 1;
+            }else if(num === 2 || num === 3 || num === 6 || num === 7) {
+                this.openDir.down = 1;
+                this.openDir.left = 1;     
+            }else if(num === 8 || num === 9 ) {
+                this.openDir.up = 1;
+                this.openDir.right = 1;
+            }else if(num === 10 || num === 11){
+                this.openDir.up = 1;
+                this.openDir.left = 1;
+            }
+            
+        }else if(this.isThreeCols() === 1){
+            if(num === 0 || num === 1 || num === 3 || num === 4 || num === 6 || num === 7){
+                this.openDir.down = 1;
+                this.openDir.right = 1;
+            }else if(num === 2 || num === 5 || num === 8) {
+                this.openDir.down = 1;
+                this.openDir.left = 1;     
+            }else if(num === 9 || num === 10 ) {
+                this.openDir.up = 1;
+                this.openDir.right = 1;
+            }else if(num === 11){
+                this.openDir.up = 1;
+                this.openDir.left = 1;
+            }
+            
+        }else if(this.isTwoCols() === 1){
+            if(num === 0 || num === 2 || num === 4 || num === 6 || num === 8){
+                this.openDir.down = 1;
+                this.openDir.right = 1;
+            }else if(num === 1 || num === 3 || num === 5 || num === 7 || num === 9) {
+                this.openDir.down = 1;
+                this.openDir.left = 1;     
+            }else if(num === 10 ) {
+                this.openDir.up = 1;
+                this.openDir.right = 1;
+            }else if(num === 11){
+                this.openDir.up = 1;
+                this.openDir.left = 1;
+            }     
+        }
+        
+        return this.openDir;
+        
+    },
+    whichWayToClose: function (num) {
+        this.closeDir.up = 0;
+        this.closeDir.down = 0;
+        this.closeDir.left = 0;
+        this.closeDir.right = 0;
+        
+        if(this.isFourCols() === 1){
+            if(num === 0 || num === 1 || num === 4 || num === 5){
+                this.closeDir.up = 1;
+                this.closeDir.left = 1;
+            }else if(num === 2 || num === 3 || num === 6 || num === 7) {
+                this.closeDir.up = 1;
+                this.closeDir.right = 1;     
+            }else if(num === 8 || num === 9 ) {
+                this.closeDir.down = 1;
+                this.closeDir.left = 1;
+            }else if(num === 10 || num === 11){
+                this.closeDir.down = 1;
+                this.closeDir.right = 1;
+            }
+            
+        }else if(this.isThreeCols() === 1){
+            if(num === 0 || num === 1 || num === 3 || num === 4 || num === 6 || num === 7){
+                this.closeDir.up = 1;
+                this.closeDir.left = 1;
+            }else if(num === 2 || num === 5 || num === 8) {
+                this.closeDir.up = 1;
+                this.closeDir.right = 1;     
+            }else if(num === 9 || num === 10 ) {
+                this.closeDir.down = 1;
+                this.closeDir.left = 1;
+            }else if(num === 11){
+                this.closeDir.down = 1;
+                this.closeDir.right = 1;
+            }
+            
+        }else if(this.isTwoCols() === 1){
+            if(num === 0 || num === 2 || num === 4 || num === 6 || num === 8){
+                this.closeDir.up = 1;
+                this.closeDir.left = 1;
+            }else if(num === 1 || num === 3 || num === 5 || num === 7 || num === 9) {
+                this.closeDir.up = 1;
+                this.closeDir.right = 1;     
+            }else if(num === 10 ) {
+                this.closeDir.down = 1;
+                this.closeDir.left = 1;
+            }else if(num === 11){
+                this.closeDir.down = 1;
+                this.closeDir.right = 1;
+            }     
+        }
+        
+        return this.closeDir;
+        
+    },
+    getClickedBoxPos: function (num, boxWidth, boxHeight) {
+        this.clickedBoxPos.top = 0;
+        this.clickedBoxPos.left = 0.0;
+        
+        if(this.isFourCols() === 1){
+            
+            if(5 <= num && num < 9){
+
+                this.clickedBoxPos.top = boxHeight + 1;
+
+            }else if(9 <= num){
+                this.clickedBoxPos.top = (2 * boxHeight) + 1;
+
+            }else{
+                this.clickedBoxPos.top = -1;
+
+            }
+
+            var remainder = num % 4;
+
+            switch (remainder) {
+                case 0:
+                    this.clickedBoxPos.left = 75.12;
+                    break;
+                case 3:
+                    this.clickedBoxPos.left = 50.12;
+                    break;
+                case 2:
+                    this.clickedBoxPos.left = 25.14;
+                    break;
+                case 1:
+                    this.clickedBoxPos.left = 0.12;
+            }
+            
+    
+        }else if(this.isThreeCols() === 1){
+            
+            if(num < 4){
+                this.clickedBoxPos.top = -2;
+            }else if(4 <= num && num <= 6){
+                this.clickedBoxPos.top = boxHeight;
+            
+            }else if(7 <= num && num <= 9){
+                this.clickedBoxPos.top = (2 * boxHeight) + 2.5;
+            }else if(9 < num){
+                this.clickedBoxPos.top = (3 * boxHeight) + 2.5;
+            
+            }
+
+            var remainder = num % 3;
+            
+            switch (remainder) {
+                case 0:
+                    this.clickedBoxPos.left = 66.62;
+                    break;
+                case 2:
+                    this.clickedBoxPos.left = 33.4468;
+                    break;
+                case 1:
+                    this.clickedBoxPos.left = 0;
+            }
+            
+        }else if(this.isTwoCols() === 1){
+            
+            
+            if(10 < num && num <= 12) {
+                /*
+                let originalWidth = customerBoxWidth;
+                let originalHeight = customerBoxHeight;
+
+                let cloneWidth = originalWidth + 1;
+                let cloneHeight = originalHeight + 1;
+
+                jQuery(customerBoxClone).width(cloneWidth);
+                jQuery(customerBoxClone).height(cloneHeight);
+                */
+            }else{
+                /*
+                jQuery(customerBoxClone).width(customerBoxWidth);
+                jQuery(customerBoxClone).height(customerBoxHeight);
+                */
+            }
+            
+            
+
+
+            if(num <= 2){
+                this.clickedBoxPos.top = -1.5;
+
+            }else if(2 < num && num <= 4){
+                this.clickedBoxPos.top = boxHeight + 1;
+                
+            }else if(4 < num && num <= 6){
+                this.clickedBoxPos.top = (2 * boxHeight) + 3;
+            
+            }else if(6 < num && num <= 8){
+                this.clickedBoxPos.top = (3 * boxHeight) + 5;
+                
+            }else if(8 < num && num <= 10){
+                this.clickedBoxPos.top = (4 * boxHeight) + 8;
+        
+            }else if(10 < num && num <= 12){
+                this.clickedBoxPos.top = (5 * boxHeight) + 8.5;
+                
+                
+            }
+
+            var remainder = num % 2;
+
+            switch (remainder) {
+                case 0:
+                    this.clickedBoxPos.left = 50.0;
+                    break;
+                case 1:
+                    this.clickedBoxPos.left = 0.0;
+            }
+            
+                 
+        }
+        
+        return this.clickedBoxPos;
+        
+    },
+    
+    getBoxOpenAnimPos: function (id) {
+        
+        this.openAnimPos.top = '';
+        this.openAnimPos.left = '';
+        var openDirection = this.whichWayToOpen(id);
+        
+        if(this.isFourCols() === 1){
+            
+            if(openDirection.down === 1 && openDirection.right === 1){
+
+            }else if(openDirection.down === 1 && openDirection.left === 1){
+
+                this.openAnimPos.left = '-=25%';
+
+            }else if(openDirection.up === 1 && openDirection.right === 1){
+
+                this.openAnimPos.top = '-=33.12%';
+
+
+            }else if(openDirection.up === 1 && openDirection.left === 1){
+
+                this.openAnimPos.left = '-=25%';
+                this.openAnimPos.top = '-=33.12%';
+            }
+            
+            
+        }else if(this.isThreeCols() === 1){
+            
+            if(openDirection.down === 1 && openDirection.right === 1){
+
+            }else if(openDirection.down === 1 && openDirection.left === 1){
+                
+                this.openAnimPos.top = '+=0.0%';
+                this.openAnimPos.left = '-=33.12%';
+
+            }else if(openDirection.up === 1 && openDirection.right === 1){
+
+                this.openAnimPos.top = '-=24.8%';
+                this.openAnimPos.left = '+=0.084%';
+
+            }else if(openDirection.up === 1 && openDirection.left === 1){
+
+                this.openAnimPos.left = '-=33%';
+                this.openAnimPos.top = '-=24.66%';
+            }
+            
+    
+            
+        }else if(this.isTwoCols() === 1){
+            
+            if(openDirection.down === 1 && openDirection.right === 1){
+
+            }else if(openDirection.down === 1 && openDirection.left === 1){
+                
+                this.openAnimPos.top = '+=0.0%';
+                this.openAnimPos.left = '-=50%';
+
+            }else if(openDirection.up === 1 && openDirection.right === 1){
+
+                this.openAnimPos.top = '-=16.58%';
+                this.openAnimPos.left = '+=0.084%';
+
+            }else if(openDirection.up === 1 && openDirection.left === 1){
+
+                this.openAnimPos.top = '-=16.58%';
+                this.openAnimPos.left = '-=50.0%';
+            }
+                 
+        }
+        
+        return this.openAnimPos;
+    },
+    getBoxCloseAnimPos: function (id) {
+        
+        this.closeAnimPos.top = '';
+        this.closeAnimPos.left = '';
+        
+        var closeDirection = this.whichWayToClose(id);
+        
+        if(this.isFourCols() === 1){
+            
+            if(closeDirection.down === 1 && closeDirection.right === 1){
+            
+                this.closeAnimPos.top = '+=33.33%';
+                this.closeAnimPos.left = '+=24.99%';
+
+
+            }else if(closeDirection.down === 1 && closeDirection.left === 1){
+
+                this.closeAnimPos.top = '+=33.33%';
+
+            }else if(closeDirection.up === 1 && closeDirection.right === 1){
+
+                this.closeAnimPos.top = '+=0.093%';
+                this.closeAnimPos.left = '+=24.96%';
+
+
+            }else if(closeDirection.up === 1 && closeDirection.left === 1){
+
+                this.closeAnimPos.top = '+=0.093%';
+                this.closeAnimPos.left = '-=0.025%';
+
+            }
+            
+        }else if(this.isThreeCols() === 1){
+            
+            if(closeDirection.down === 1 && closeDirection.right === 1){
+            
+                this.closeAnimPos.left = '+=33.25%';
+                this.closeAnimPos.top = '+=24.82%';
+
+
+            }else if(closeDirection.down === 1 && closeDirection.left === 1){
+
+                this.closeAnimPos.top = '+=25%';
+                this.closeAnimPos.left = '-=0.018%';
+
+            }else if(closeDirection.up === 1 && closeDirection.right === 1){
+
+                this.closeAnimPos.top = '+=0.10%';
+                this.closeAnimPos.left = '+=33.30%';
+
+
+            }else if(closeDirection.up === 1 && closeDirection.left === 1){
+
+                this.closeAnimPos.top = '+=0.12%';
+                this.closeAnimPos.left = '+=0.1%';
+
+            }
+            
+        }else if(this.isTwoCols() === 1){
+            
+            if(closeDirection.down === 1 && closeDirection.right === 1){
+            
+                this.closeAnimPos.top = '+=16.6%';
+                this.closeAnimPos.left = '+=50.42%';
+
+
+            }else if(closeDirection.down === 1 && closeDirection.left === 1){
+
+                this.closeAnimPos.top = '+=16.6%';
+                this.closeAnimPos.left = '-=0.018%';
+
+            }else if(closeDirection.up === 1 && closeDirection.right === 1){
+
+                this.closeAnimPos.top = '+=0.04%';
+                this.closeAnimPos.left = '+=50.3%';
+
+
+            }else if(closeDirection.up === 1 && closeDirection.left === 1){
+
+                this.closeAnimPos.top = '+=0.04%';
+                this.closeAnimPos.left = '+=0.018%';
+
+
+            }
+                 
+        }
+        
+        return this.closeAnimPos;
+    
+    }
+    
+  
+};
+
 
 function calculateBgDimensions(){
     let bgResizeDimensions = [];
@@ -160,18 +627,8 @@ jQuery(function() {
             'background-size': originalBgSize
         });
         
-        
-        
         customerBoxClone = customerWrapperHtml;
-        
-        if(isFourCols === 1) {
-           customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);
-        }else if(isThreeCols === 1) {
-           customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum); 
-        }else if(isTwoCols === 1) {
-           customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);      
-        }
-        
+        customerBoxClicked(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum);
         let closeLink = customerCloseLink[0];
         
         jQuery(closeLink).one('click', function() {
@@ -184,287 +641,33 @@ jQuery(function() {
     
 });
 
+
 function onViewPortResize(width) {
     if(1264 <= width){
-        isFourCols = 1;
-        isThreeCols = 0;
-        isTwoCols = 0;
+        gridTracker.setFourCols();
     }else if(944 <= width && width < 1264 ){
-        isThreeCols = 1;
-        isFourCols = 0;
-        isTwoCols = 0;
+        gridTracker.setThreeCols();
     }else if (width < 944){
-        isTwoCols = 1;
-        isFourCols = 0;
-        isThreeCols = 0;
+        gridTracker.setTwoCols();
     }
     
 }
 
-function customerBoxClickedFourCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
+function customerBoxClicked(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
     
-    if(5 <= customerBoxNum && customerBoxNum < 9){
-        customerBoxMarginTop = -4 + customerBoxHeight;
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-        if(customerBoxNum === 7 || customerBoxNum === 8){
-            isRightSide = 1;
-        }else{
-            isRightSide= 0;
-        }
-        isInFirstRow = 0;
-        isInLastRow = 0;
-        isBottomLeftSide = 0;
-    }else if(9 <= customerBoxNum){
-        customerBoxMarginTop = -3 + (2 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-        isInLastRow = 1;
-        if(customerBoxNum === 9 || customerBoxNum === 10){
-            isBottomLeftSide = 1;
-        }else{
-            isBottomLeftSide = 0;
-        }
-        isInFirstRow = 0;
-        isRightSide= 0;
-
-    }else{
-        
-        var customerBoxMargin = '-4px -1.5px -2px -4.5px';
-        if(customerBoxNum === 3 || customerBoxNum === 4){
-            isRightSide = 1;
-        }else{
-            isRightSide = 0;
-        }
-        
-        isInFirstRow = 1;
-        isInLastRow = 0;
-        isBottomLeftSide = 0;
-    }
-
-    var remainder = customerBoxNum % 4;
-    
-    let originalWidth = customerBoxWidth;
-    let originalHeight = customerBoxHeight;
-    let cloneWidth = originalWidth + 6;
-    let cloneHeight = originalHeight + 6;
-
-    switch (remainder) {
-        case 0:
-            
-            leftPos += (3 * customerBoxWidth) + 1;
-            jQuery(customerBoxClone).width(cloneWidth);
-            jQuery(customerBoxClone).height(cloneHeight);
-            break;
-        case 3:
-            leftPos += (2 * customerBoxWidth) - 1;
-            cloneWidth = originalWidth + 2;
-            cloneHeight = originalHeight + 2;
-            jQuery(customerBoxClone).width(cloneWidth);
-            jQuery(customerBoxClone).height(cloneHeight);
-            
-            break;
-        case 2:
-            leftPos += customerBoxWidth;
-            jQuery(customerBoxClone).width(customerBoxWidth);
-            jQuery(customerBoxClone).height(customerBoxHeight);
-            break;
-        case 1:
-            jQuery(customerBoxClone).width(customerBoxWidth);
-            jQuery(customerBoxClone).height(customerBoxHeight);
-    }
+    jQuery(customerBoxClone).width(customerBoxWidth);
+    jQuery(customerBoxClone).height(customerBoxHeight);
+    var pos = gridTracker.getClickedBoxPos(customerBoxNum, customerBoxWidth, customerBoxHeight);
     
     jQuery(customerBoxClone).css({
-        'margin' : customerBoxMargin,
-        'left' : leftPos
+        'top' : pos.top,
+        'left' : pos.left + '%'
     });
 
-    topPos = -1;
-    leftPos = 2.5;
-
     jQuery(customersWrapper).append(customerBoxClone);
-
-    if(customerBoxNum === 12) { 
-        isInLastCorner = 1;
-    }
+    
 }
 
-function customerBoxClickedThreeCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    
-    if(customerBoxNum < 4){
-        if(customerBoxNum === 3){
-           isRightSide = 1;
-        }else{
-           isRightSide= 0;
-        }
-        
-        var customerBoxMargin = '-4.5px -1.5px -2px -4.5px';
-        isInFirstRow = 1;
-        isInLastRow = 0;
-        isBottomLeftSide = 0;
-        
-    }else if(4 <= customerBoxNum && customerBoxNum <= 6){
-        if(customerBoxNum === 6){
-           isRightSide = 1;
-        }else{
-           isRightSide = 0;
-        }
-        
-        customerBoxMarginTop = -4.5 + customerBoxHeight;
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-        isInFirstRow = 0;
-        isInLastRow = 0;
-        isBottomLeftSide = 0;
-    
-    }else if(7 <= customerBoxNum && customerBoxNum <= 9){
-        
-        if(customerBoxNum === 9){
-           isRightSide = 1;
-        }else{
-           isRightSide= 0;
-        }
-        
-        customerBoxMarginTop = -4.5 + (2 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-        isInFirstRow = 0;
-        isInLastRow = 0;
-        isBottomLeftSide = 0;
-    }else if(9 < customerBoxNum){
-      
-        customerBoxMarginTop = -3.5 + (3 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -4.5px';
-        isInFirstRow = 0;
-        isInLastRow = 1;
-        if(customerBoxNum === 10 || customerBoxNum === 11){
-            isBottomLeftSide = 1;
-        }else{
-            isBottomLeftSide = 0;
-        }
-
-        isRightSide= 0;
-
-    }
-
-    var remainder = customerBoxNum % 3;
-    let originalWidth = customerBoxWidth;
-    let originalHeight = customerBoxHeight;
-    let cloneWidth = originalWidth + 6;
-    let cloneHeight = originalHeight + 6;
-
-    switch (remainder) {
-        case 0:
-            leftPos += (2 * customerBoxWidth) - 1;
-            jQuery(customerBoxClone).width(cloneWidth);
-            jQuery(customerBoxClone).height(cloneHeight);
-            break;
-        case 2:
-            leftPos += customerBoxWidth + 2;
-            cloneWidth = originalWidth + 2;
-            cloneHeight = originalHeight + 2;
-            jQuery(customerBoxClone).width(cloneWidth);
-            jQuery(customerBoxClone).height(cloneHeight);
-            break;
-        case 1:
-            jQuery(customerBoxClone).width(customerBoxWidth);
-            jQuery(customerBoxClone).height(customerBoxHeight);            
-    }
-
-    jQuery(customerBoxClone).css({
-        'margin' : customerBoxMargin,
-        'left' : leftPos
-    });
-    
-    topPos = -1;
-    leftPos = 2.5;
-    
-    jQuery(customersWrapper).append(customerBoxClone);
-
-    if(customerBoxNum === 12) { 
-        isInLastCorner = 1;
-    }
-}
-
-
-function customerBoxClickedTwoCols(customersWrapper, customerBoxWidth, customerBoxHeight, customerBoxNum) {
-    isInFirstRow = 0;
-    if(customerBoxNum % 2 === 0){
-       isRightSide = 1;
-    }else{
-       isRightSide= 0;
-    }
-    
-    if(customerBoxNum === 11 || customerBoxNum === 12){
-        isInLastRow = 1;
-        isRightSide= 0;
-        if(customerBoxNum === 11){
-            isBottomLeftSide = 1;
-            isInLastCorner = 0;
-        }else{
-           isInLastCorner = 1;
-           isBottomLeftSide = 0;
-        }
-        
-    }else{
-        isInLastRow = 0;
-        isInLastCorner = 0;
-        isBottomLeftSide = 0;
-    }
-    
-    if(10 < customerBoxNum && customerBoxNum <= 12) {
-        let originalWidth = customerBoxWidth;
-        let originalHeight = customerBoxHeight;
-        
-        let cloneWidth = originalWidth + 1;
-        let cloneHeight = originalHeight + 1;
-        
-        jQuery(customerBoxClone).width(cloneWidth);
-        jQuery(customerBoxClone).height(cloneHeight);
-    }else{
-        jQuery(customerBoxClone).width(customerBoxWidth);
-        jQuery(customerBoxClone).height(customerBoxHeight);
-    }
-    
-    
-    if(customerBoxNum <= 2){
-        isInFirstRow = 1;
-        var customerBoxMargin = '-4px -1.5px -2px -1.5px';
-    }else if(2 < customerBoxNum && customerBoxNum <= 4){
-        customerBoxMarginTop = -4 + customerBoxHeight;
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-    }else if(4 < customerBoxNum && customerBoxNum <= 6){
-        customerBoxMarginTop = -4 + (2 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-    }else if(6 < customerBoxNum && customerBoxNum <= 8){
-        customerBoxMarginTop = -4 + (3 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-    }else if(8 < customerBoxNum && customerBoxNum <= 10){
-        customerBoxMarginTop = -4 + (4 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-    }else if(10 < customerBoxNum && customerBoxNum <= 12){
-        customerBoxMarginTop = -3 + (5 * customerBoxHeight);
-        var customerBoxMargin = ''+customerBoxMarginTop+'px -1.5px -2px -1.5px';
-    }
-    
-    var remainder = customerBoxNum % 2;
-
-    switch (remainder) {
-        case 0:
-            leftPos += customerBoxWidth;
-            break;
-        case 1:          
-    }
-
-    jQuery(customerBoxClone).css({
-        'margin' : customerBoxMargin,
-        'left' : leftPos
-    });
-
-
-    topPos = -1;
-    leftPos = 2.5;
-
-
-    jQuery(customersWrapper).append(customerBoxClone);
-
-}
 
 function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOverlay, customerCloneLogo, closeLink) {
     let whereToResize = resizeDimensions[clickedId].width+'% '+resizeDimensions[clickedId].height+'%';
@@ -472,110 +675,56 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
         paused:true
     });
     
-    cloneBoxWidthLarge = (2 * customerBoxWidth) + 2;
-    cloneBoxHeightLarge = (2 * customerBoxHeight) + 2;
-
-    if(isInLastRow === 1){
-
-        if(isBottomLeftSide === 1){
-            var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
-            /*
-             jQuery(customerBoxClone).animate({
-                width: cloneBoxWidthDouble,
-                marginTop: cloneBoxNewMarginTop,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            
-            */
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthLarge,
-                height: cloneBoxHeightLarge,
-                marginTop: cloneBoxNewMarginTop,
-                backgroundSize: whereToResize,
-                autoRound:false, 
-                ease: Power1.ease0ut
-            }).play();
-            
-            
-        }else{
-
-
-            var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
-            var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
-            /*
-            jQuery(customerBoxClone).animate({
-                marginLeft: cloneBoxNewMarginLeft,
-                width: cloneBoxWidthDouble,
-                marginTop: cloneBoxNewMarginTop,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            
-            */
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthLarge,
-                height: cloneBoxHeightLarge,
-                marginLeft: cloneBoxNewMarginLeft,
-                marginTop: cloneBoxNewMarginTop,
-                backgroundSize: whereToResize,
-                autoRound:false, 
-                ease: Power1.ease0ut
-            }).play();
-            
-            
-        }
-
+    var cloneBoxWidthLarge = (2 * customerBoxWidth) + 2;
+    var cloneBoxHeightLarge = (2 * customerBoxHeight) + 2;
+    var topAndLeft = gridTracker.getBoxOpenAnimPos(clickedId);
+    //console.log('topAndLeft:');
+    //console.log(topAndLeft);
+    
+    if(topAndLeft.top !== '' && topAndLeft.left !== ''){
+       customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: cloneBoxWidthLarge,
+            height: cloneBoxHeightLarge,
+            left: topAndLeft.left,
+            top: topAndLeft.top,
+            backgroundSize: whereToResize,
+            autoRound:false, 
+            ease: Power1.ease0ut
+        }).play();
+        
+    }else if(topAndLeft.top !== '' && topAndLeft.left === '') {
+        customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: cloneBoxWidthLarge,
+            height: cloneBoxHeightLarge,
+            top: topAndLeft.top,
+            backgroundSize: whereToResize,
+            autoRound:false, 
+            ease: Power1.ease0ut
+        }).play();
+        
+        
+    }else if(topAndLeft.top === '' && topAndLeft.left !== ''){
+             
+        customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: cloneBoxWidthLarge,
+            height: cloneBoxHeightLarge,
+            left: topAndLeft.left,
+            backgroundSize: whereToResize,
+            autoRound:false, 
+            ease: Power1.ease0ut
+        }).play();
+       
     }else{
-
-        if(isRightSide){
-
-            var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
-            
-            /*
-            
-            jQuery(customerBoxClone).animate({
-                marginLeft: cloneBoxNewMarginLeft,
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            */
-            
-            
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthLarge,
-                height: cloneBoxHeightLarge,
-                marginLeft: cloneBoxNewMarginLeft,
-                backgroundSize: whereToResize,
-                autoRound:false, 
-                ease: Power1.ease0ut
-            }).play();
-            
-            
-        }else{
-            /*
-            jQuery(customerBoxClone).animate({
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            */
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: cloneBoxWidthLarge,
-                height: cloneBoxHeightLarge,
-                backgroundSize: whereToResize,
-                autoRound:false, 
-                ease: Power1.ease0ut
-            }).play();
-            
-            
-        }
-
+        
+        customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: cloneBoxWidthLarge,
+            height: cloneBoxHeightLarge,
+            backgroundSize: whereToResize,
+            autoRound:false, 
+            ease: Power1.ease0ut
+        }).play();
+        
+        
     }
     
     jQuery(closeLink).animate({
@@ -601,180 +750,67 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
         paused:true
     });
     
-    cloneBoxWidthLarge = (2 * customerBoxWidth) + 2;
-    cloneBoxHeightLarge = (2 * customerBoxHeight) + 2;
-    
-    
+    var cloneBoxWidthLarge = (2 * customerBoxWidth);
+    var cloneBoxHeightLarge = (2 * customerBoxHeight);
     let toBeResizedWith = cloneBoxWidthLarge - (customerBoxWidth);
-    
-    let toBeResizedHeight = cloneBoxHeightLarge -( customerBoxHeight - 0.5);
-    
-    let toBeResizedMarginTop = customerBoxMarginTop - 2;
+    let toBeResizedHeight = cloneBoxHeightLarge -( customerBoxHeight);
     
     var reverseResizeComplete = function () {
         jQuery(customerCloneContentWrapper).remove();
     };
-
-    if(isInLastRow === 1){
-
-        if(isBottomLeftSide === 1){
-            //var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
-            /*
-             jQuery(customerBoxClone).animate({
-                width: cloneBoxWidthDouble,
-                marginTop: cloneBoxNewMarginTop,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            
-            */
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: toBeResizedWith,
-                height: toBeResizedHeight,
-                marginTop: toBeResizedMarginTop,
-                backgroundSize: originalBgSize,
-                autoRound:false, 
-                ease: Power1.ease0ut,
-                onComplete: reverseResizeComplete
-            }).play();
-            
-            
-        }else{
-
-
-            var toBeResizedMarginLeft = '-2px';
-            //var cloneBoxNewMarginTop = customerBoxMarginTop - customerBoxHeight;
-            /*
-            jQuery(customerBoxClone).animate({
-                marginLeft: cloneBoxNewMarginLeft,
-                width: cloneBoxWidthDouble,
-                marginTop: cloneBoxNewMarginTop,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            
-            */
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: toBeResizedWith,
-                height: toBeResizedHeight,
-                marginLeft: toBeResizedMarginLeft,
-                marginTop: toBeResizedMarginTop,
-                backgroundSize: originalBgSize,
-                autoRound:false, 
-                ease: Power1.ease0ut,
-                onComplete: reverseResizeComplete
-            }).play();
-            
-            
-        }
-
-    }else if(isInFirstRow === 1){
+    
+   
+    var topAndLeft = gridTracker.getBoxCloseAnimPos(clickedId);
+    
+    //console.log('topAndLeft:');
+    //console.log(topAndLeft);
+    
+    if(topAndLeft.top !== '' && topAndLeft.left !== ''){
+       customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: toBeResizedWith,
+            height: toBeResizedHeight,
+            left: topAndLeft.left,
+            top: topAndLeft.top,
+            backgroundSize: originalBgSize,
+            autoRound:false, 
+            ease: Power1.ease0ut,
+            onComplete: reverseResizeComplete
+        }).play();
         
-        if(isRightSide){
-
-            //var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
-            
-            /*
-            
-            jQuery(customerBoxClone).animate({
-                marginLeft: cloneBoxNewMarginLeft,
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            */
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: toBeResizedWith,
-                height: toBeResizedHeight,
-                marginTop: '-2px',
-                marginLeft: '-3.5px',
-                backgroundSize: originalBgSize,
-                autoRound:false, 
-                ease: Power1.ease0ut,
-                onComplete: reverseResizeComplete
-            }).play();
-            
-            
-        }else{
-            /*
-            jQuery(customerBoxClone).animate({
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            */
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: toBeResizedWith,
-                height: toBeResizedHeight,
-                marginTop: '-2.5px',
-                marginLeft: '-3.5px',
-                backgroundSize: originalBgSize,
-                autoRound:false, 
-                ease: Power1.ease0ut,
-                onComplete: reverseResizeComplete
-            }).play();
-            
-            
-        }
+    }else if(topAndLeft.top !== '' && topAndLeft.left === '') {
+        customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: toBeResizedWith,
+            height: toBeResizedHeight,
+            top: topAndLeft.top,
+            backgroundSize: originalBgSize,
+            autoRound:false, 
+            ease: Power1.ease0ut,
+            onComplete: reverseResizeComplete
+        }).play();
         
+        
+    }else if(topAndLeft.top === '' && topAndLeft.left !== ''){
+             
+        customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: toBeResizedWith,
+            height: toBeResizedHeight,
+            left: topAndLeft.left,
+            backgroundSize: originalBgSize,
+            autoRound:false, 
+            ease: Power1.ease0ut,
+            onComplete: reverseResizeComplete
+        }).play();
+       
     }else{
         
-        if(isRightSide){
-
-            //var cloneBoxNewMarginLeft = -2.5 - customerBoxWidth;
-            
-            /*
-            
-            jQuery(customerBoxClone).animate({
-                marginLeft: cloneBoxNewMarginLeft,
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            */
-            toBeResizedMarginTop = customerBoxMarginTop + 0.5;
-            
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: toBeResizedWith,
-                height: toBeResizedHeight,
-                marginTop: toBeResizedMarginTop,
-                marginLeft: '-4px',
-                backgroundSize: originalBgSize,
-                autoRound:false, 
-                ease: Power1.ease0ut,
-                onComplete: reverseResizeComplete
-            }).play();
-            
-            
-        }else{
-            /*
-            jQuery(customerBoxClone).animate({
-                width: cloneBoxWidthDouble,
-                height: cloneBoxHeightDouble,
-                backgroundSize: '169%'
-            }, 1250 );
-            */
-            
-            
-            toBeResizedMarginTop = customerBoxMarginTop + 0.5;
-            
-            customerTween.to(customerCloneContentWrapper, 1.25, {
-                width: toBeResizedWith,
-                height: toBeResizedHeight,
-                marginTop: toBeResizedMarginTop,
-                marginLeft: '-5.5px',
-                backgroundSize: originalBgSize,
-                autoRound:false, 
-                ease: Power1.ease0ut,
-                onComplete: reverseResizeComplete
-            }).play();
-            
-            
-        }
+        customerTween.to(customerCloneContentWrapper, 1.25, {
+            width: toBeResizedWith,
+            height: toBeResizedHeight,
+            backgroundSize: originalBgSize,
+            autoRound:false, 
+            ease: Power1.ease0ut,
+            onComplete: reverseResizeComplete
+        }).play();
         
         
     }
@@ -796,11 +832,4 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
                 opacity: '1',
     }, 1250 );
     
-    
-    
 }
-
-
-
-
-
