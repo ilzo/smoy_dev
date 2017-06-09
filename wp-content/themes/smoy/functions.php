@@ -1619,6 +1619,24 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
         ));
     
+        $wp_customize->add_setting('smoy_people_header_title_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_setting('smoy_people_header_desc_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_textarea_field'
+        ));
+    
+        $wp_customize->add_setting('smoy_people_header_desc_max_width_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+    
         $wp_customize->add_setting( 'smoy_people_header_text_bg_color', array(
           'capability' => 'edit_theme_options',
           'default' => 'orange',
@@ -2192,6 +2210,28 @@ function smoy_customize_register( $wp_customize ) {
           'type' => 'text',
           'section' => 'smoy_people_section',
           'active_callback' => 'is_front_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_people_header_title_eng', array(
+          'label' => __( 'Header title (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_people_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+        
+        $wp_customize->add_control( 'smoy_people_header_desc_eng', array(
+          'label' => __( 'Header description body (in english)', 'smoy'),
+          'type' => 'textarea',
+          'section' => 'smoy_people_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+    
+        $wp_customize->add_control( 'smoy_people_header_desc_max_width_eng', array(
+          'label' => __( 'Header description max width', 'smoy'),
+          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+          'type' => 'text',
+          'section' => 'smoy_people_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
         ));
     
         $wp_customize->add_control( 'smoy_people_header_text_bg_color', array(
@@ -3073,18 +3113,25 @@ function smoy_refs_front_page_output() {
 add_action( 'smoy_get_content_section_header_people', 'smoy_section_header_people_output');
 
 function smoy_section_header_people_output() {
-    if(is_home() && !wp_is_mobile()) {
+    if((is_home() || is_page( 'eng' )) && !wp_is_mobile()) {
         $this_section_header_id_prefix = 'staff';
-        $smoy_section_header_title = get_theme_mod( 'smoy_people_header_title');
-        $smoy_section_header_body = get_theme_mod( 'smoy_people_header_desc');
+        if(is_home()){
+            $smoy_section_header_title = get_theme_mod( 'smoy_people_header_title');
+            $smoy_section_header_body = get_theme_mod( 'smoy_people_header_desc');
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_people_header_desc_max_width' );
+        }else{
+            $smoy_section_header_title = get_theme_mod( 'smoy_people_header_title_eng');
+            $smoy_section_header_body = get_theme_mod( 'smoy_people_header_desc_eng');
+            $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_people_header_desc_max_width_eng' );   
+        }
+        
         $smoy_section_header_body = trim($smoy_section_header_body);
         $smoy_section_header_body = replace_textarea_linebreaks($smoy_section_header_body);
-        $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_people_header_desc_max_width' );
+        
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
         }
-        $smoy_section_header_text_background = get_theme_mod( 'smoy_people_header_text_bg_color');
-        
+        $smoy_section_header_text_background = get_theme_mod( 'smoy_services_header_text_bg_color');
         ob_start();
         include get_template_directory() . '/template-parts/smoy-content-section-header.php';
         $output = ob_get_clean();
@@ -3093,12 +3140,11 @@ function smoy_section_header_people_output() {
     }
 }
 
-
 add_action('smoy_get_people', 'smoy_staff_front_page_output');
 
 function smoy_staff_front_page_output() {
     
-    if(is_home() && !wp_is_mobile()){
+    if((is_home() || is_page( 'eng' )) && !wp_is_mobile()){
         
          class Smoy_Person {
              public $id;

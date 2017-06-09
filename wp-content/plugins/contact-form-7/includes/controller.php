@@ -57,6 +57,7 @@ function wpcf7_enqueue_scripts() {
 	$wpcf7 = array(
 		'apiSettings' => array(
 			'root' => esc_url_raw( get_rest_url() ),
+			'namespace' => 'contact-form-7/v1',
 		),
 		'recaptcha' => array(
 			'messages' => array(

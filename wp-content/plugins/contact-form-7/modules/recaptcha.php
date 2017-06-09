@@ -271,9 +271,10 @@ var recaptchaCallback = function() {
 			if ( divs[ j ].className && divs[ j ].className.match( pattern ) && sitekey ) {
 				var params = {
 					'sitekey': sitekey,
-					'theme': divs[ j ].getAttribute( 'data-theme' ),
 					'type': divs[ j ].getAttribute( 'data-type' ),
 					'size': divs[ j ].getAttribute( 'data-size' ),
+					'theme': divs[ j ].getAttribute( 'data-theme' ),
+					'badge': divs[ j ].getAttribute( 'data-badge' ),
 					'tabindex': divs[ j ].getAttribute( 'data-tabindex' )
 				};
 
@@ -333,9 +334,12 @@ function wpcf7_recaptcha_form_tag_handler( $tag ) {
 
 	$recaptcha = WPCF7_RECAPTCHA::get_instance();
 	$atts['data-sitekey'] = $recaptcha->get_sitekey();
-	$atts['data-theme'] = $tag->get_option( 'theme', '(dark|light)', true );
 	$atts['data-type'] = $tag->get_option( 'type', '(audio|image)', true );
-	$atts['data-size'] = $tag->get_option( 'size', '(compact|normal)', true );
+	$atts['data-size'] = $tag->get_option(
+		'size', '(compact|normal|invisible)', true );
+	$atts['data-theme'] = $tag->get_option( 'theme', '(dark|light)', true );
+	$atts['data-badge'] = $tag->get_option(
+		'badge', '(bottomright|bottomleft|inline)', true );
 	$atts['data-tabindex'] = $tag->get_option( 'tabindex', 'int', true );
 	$atts['data-callback'] = $tag->get_option( 'callback', '', true );
 	$atts['data-expired-callback'] =
@@ -454,18 +458,6 @@ function wpcf7_tag_generator_recaptcha( $contact_form, $args = '' ) {
 <table class="form-table">
 <tbody>
 	<tr>
-	<th scope="row"><?php echo esc_html( __( 'Theme', 'contact-form-7' ) ); ?></th>
-	<td>
-		<fieldset>
-		<legend class="screen-reader-text"><?php echo esc_html( __( 'Theme', 'contact-form-7' ) ); ?></legend>
-		<label for="<?php echo esc_attr( $args['content'] . '-theme-light' ); ?>"><input type="radio" name="theme" class="option default" id="<?php echo esc_attr( $args['content'] . '-theme-light' ); ?>" value="light" checked="checked" /> <?php echo esc_html( __( 'Light', 'contact-form-7' ) ); ?></label>
-		<br />
-		<label for="<?php echo esc_attr( $args['content'] . '-theme-dark' ); ?>"><input type="radio" name="theme" class="option" id="<?php echo esc_attr( $args['content'] . '-theme-dark' ); ?>" value="dark" /> <?php echo esc_html( __( 'Dark', 'contact-form-7' ) ); ?></label>
-		</fieldset>
-	</td>
-	</tr>
-
-	<tr>
 	<th scope="row"><?php echo esc_html( __( 'Size', 'contact-form-7' ) ); ?></th>
 	<td>
 		<fieldset>
@@ -473,6 +465,18 @@ function wpcf7_tag_generator_recaptcha( $contact_form, $args = '' ) {
 		<label for="<?php echo esc_attr( $args['content'] . '-size-normal' ); ?>"><input type="radio" name="size" class="option default" id="<?php echo esc_attr( $args['content'] . '-size-normal' ); ?>" value="normal" checked="checked" /> <?php echo esc_html( __( 'Normal', 'contact-form-7' ) ); ?></label>
 		<br />
 		<label for="<?php echo esc_attr( $args['content'] . '-size-compact' ); ?>"><input type="radio" name="size" class="option" id="<?php echo esc_attr( $args['content'] . '-size-compact' ); ?>" value="compact" /> <?php echo esc_html( __( 'Compact', 'contact-form-7' ) ); ?></label>
+		</fieldset>
+	</td>
+	</tr>
+
+	<tr>
+	<th scope="row"><?php echo esc_html( __( 'Theme', 'contact-form-7' ) ); ?></th>
+	<td>
+		<fieldset>
+		<legend class="screen-reader-text"><?php echo esc_html( __( 'Theme', 'contact-form-7' ) ); ?></legend>
+		<label for="<?php echo esc_attr( $args['content'] . '-theme-light' ); ?>"><input type="radio" name="theme" class="option default" id="<?php echo esc_attr( $args['content'] . '-theme-light' ); ?>" value="light" checked="checked" /> <?php echo esc_html( __( 'Light', 'contact-form-7' ) ); ?></label>
+		<br />
+		<label for="<?php echo esc_attr( $args['content'] . '-theme-dark' ); ?>"><input type="radio" name="theme" class="option" id="<?php echo esc_attr( $args['content'] . '-theme-dark' ); ?>" value="dark" /> <?php echo esc_html( __( 'Dark', 'contact-form-7' ) ); ?></label>
 		</fieldset>
 	</td>
 	</tr>

@@ -279,10 +279,14 @@ class NewsletterStatistics extends NewsletterModule {
             $wpdb->query($wpdb->prepare("update " . NEWSLETTER_EMAILS_TABLE . " set send_on=unix_timestamp(created) where id=%d limit 1", $email->id));
             $email = $this->get_email($email->id);
         }
+        
+        if ($email->status == 'sending') {
+            return;
+        }
 
         $count = $wpdb->get_var($wpdb->prepare("select count(*) from " . NEWSLETTER_SENT_TABLE . " where email_id=%d", $email->id));
 
-        if (!$count) {
+        if ($count) {
             return;
         }
 

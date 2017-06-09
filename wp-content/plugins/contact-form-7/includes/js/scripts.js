@@ -30,67 +30,26 @@
 
 		$( 'div.wpcf7 > form' ).each( function() {
 			var $form = $( this );
-			var postId = $form.find( 'input[name="_wpcf7"]' ).val();
-
-			if ( ! $.isNumeric( postId ) ) {
-				return;
-			}
-
-			if ( wpcf7.cached ) {
-				$.ajax( {
-					type: 'GET',
-					url: wpcf7.apiSettings.root +
-						'contact-form-7/v1/contact-forms/' + postId + '/refill',
-					dataType: 'json'
-				} ).done( function( data, status, xhr ) {
-					wpcf7.refill( $form, data );
-				} );
-			}
 
 			$form.submit( function( event ) {
-				$form.find( '[placeholder].placeheld' ).each( function( i, n ) {
-					$( n ).val( '' );
-				} );
-
 				if ( typeof window.FormData !== 'function' ) {
 					return;
 				}
 
-				var formData = new FormData( this );
-
-				wpcf7.clearResponse( $form );
-
-				$form.find( '[aria-invalid]' ).attr( 'aria-invalid', 'false' );
-				$form.find( '.ajax-loader' ).addClass( 'is-active' );
-
-				$.ajax( {
-					type: 'POST',
-					url: wpcf7.apiSettings.root +
-						'contact-form-7/v1/contact-forms/' + postId + '/feedback',
-					data: formData,
-					dataType: 'json',
-					processData: false,
-					contentType: false
-				} ).done( function( data, status, xhr ) {
-					wpcf7.ajaxSuccess( data, status, xhr, $form );
-				} ).fail( function( xhr, status, error ) {
-					var e = $( '<div class="ajax-error"></div>' ).text( error.message );
-					$form.after( e );
-				} );
-
+				wpcf7.submit( $form );
 				event.preventDefault();
 			} );
 
-			$form.find( '.wpcf7-submit' ).after( '<span class="ajax-loader"></span>' );
+			$( '.wpcf7-submit', $form ).after( '<span class="ajax-loader"></span>' );
 
 			wpcf7.toggleSubmit( $form );
 
-			$form.find( '.wpcf7-acceptance' ).click( function() {
+			$form.on( 'click', '.wpcf7-acceptance', function() {
 				wpcf7.toggleSubmit( $form );
 			} );
 
 			// Exclusive Checkbox
-			$form.find( '.wpcf7-exclusive-checkbox input:checkbox' ).click( function() {
+			$( '.wpcf7-exclusive-checkbox', $form ).on( 'click', 'input:checkbox', function() {
 				var name = $( this ).attr( 'name' );
 				$form.find( 'input:checkbox[name="' + name + '"]' ).not( this ).prop( 'checked', false );
 			} );
@@ -106,7 +65,7 @@
 					$freetext.prop( 'disabled', true );
 				}
 
-				$( ':checkbox, :radio', $wrap ).change( function() {
+				$wrap.on( 'change', ':checkbox, :radio', function() {
 					var $cb = $( '.has-free-text', $wrap ).find( ':checkbox, :radio' );
 
 					if ( $cb.is( ':checked' ) ) {
@@ -117,8 +76,25 @@
 				} );
 			} );
 
+			// Placeholder Fallback
 			if ( ! wpcf7.supportHtml5.placeholder ) {
-				wpcf7.applyPlaceholderFallback( $form );
+				$( '[placeholder]', $form ).each( function() {
+					$( this ).val( $( this ).attr( 'placeholder' ) );
+					$( this ).addClass( 'placeheld' );
+
+					$( this ).focus( function() {
+						if ( $( this ).hasClass( 'placeheld' ) ) {
+							$( this ).val( '' ).removeClass( 'placeheld' );
+						}
+					} );
+
+					$( this ).blur( function() {
+						if ( '' === $( this ).val() ) {
+							$( this ).val( $( this ).attr( 'placeholder' ) );
+							$( this ).addClass( 'placeheld' );
+						}
+					} );
+				} );
 			}
 
 			if ( wpcf7.jqueryUi && ! wpcf7.supportHtml5.date ) {
@@ -141,9 +117,45 @@
 				} );
 			}
 
-			$form.find( '.wpcf7-character-count' ).wpcf7CharacterCount();
+			// Character Count
+			$( '.wpcf7-character-count', $form ).each( function() {
+				var $count = $( this );
+				var name = $count.attr( 'data-target-name' );
+				var down = $count.hasClass( 'down' );
+				var starting = parseInt( $count.attr( 'data-starting-value' ), 10 );
+				var maximum = parseInt( $count.attr( 'data-maximum-value' ), 10 );
+				var minimum = parseInt( $count.attr( 'data-minimum-value' ), 10 );
 
-			$form.find( '.wpcf7-validates-as-url' ).change( function() {
+				var updateCount = function( target ) {
+					var $target = $( target );
+					var length = $target.val().length;
+					var count = down ? starting - length : length;
+					$count.attr( 'data-current-value', count );
+					$count.text( count );
+
+					if ( maximum && maximum < length ) {
+						$count.addClass( 'too-long' );
+					} else {
+						$count.removeClass( 'too-long' );
+					}
+
+					if ( minimum && length < minimum ) {
+						$count.addClass( 'too-short' );
+					} else {
+						$count.removeClass( 'too-short' );
+					}
+				};
+
+				$( ':input[name="' + name + '"]', $form ).each( function() {
+					updateCount( this );
+
+					$( this ).keyup( function() {
+						updateCount( this );
+					} );
+				} );
+			} );
+
+			$form.on( 'change', '.wpcf7-validates-as-url', function() {
 				var val = $.trim( $( this ).val() );
 
 				// check the scheme part
@@ -154,108 +166,167 @@
 
 				$( this ).val( val );
 			} );
+
+			if ( wpcf7.cached ) {
+				wpcf7.refill( $form );
+			}
 		} );
 	} );
 
-	wpcf7.ajaxSuccess = function( data, status, xhr, $form ) {
-		var detail = {
-			id: $( data.into ).attr( 'id' ),
-			status: data.status,
-			inputs: []
-		};
+	wpcf7.getId = function( form ) {
+		return parseInt( $( 'input[name="_wpcf7"]', form ).val(), 10 );
+	};
 
-		$.each( $form.serializeArray(), function( i, field ) {
-			if ( '_wpcf7' == field.name ) {
-				detail.contactFormId = field.value;
-			} else if ( '_wpcf7_version' == field.name ) {
-				detail.pluginVersion = field.value;
-			} else if ( '_wpcf7_locale' == field.name ) {
-				detail.contactFormLocale = field.value;
-			} else if ( '_wpcf7_unit_tag' == field.name ) {
-				detail.unitTag = field.value;
-			} else if ( '_wpcf7_container_post' == field.name ) {
-				detail.containerPostId = field.value;
-			} else if ( field.name.match( /^_/ ) ) {
-				// do nothing
-			} else {
-				detail.inputs.push( field );
-			}
+	wpcf7.submit = function( form ) {
+		var $form = $( form );
+
+		$( '[placeholder].placeheld', $form ).each( function( i, n ) {
+			$( n ).val( '' );
 		} );
 
 		wpcf7.clearResponse( $form );
+		$( '.ajax-loader', $form ).addClass( 'is-active' );
 
-		var $responseOutput = $form.find( 'div.wpcf7-response-output' );
+		if ( typeof window.FormData !== 'function' ) {
+			return;
+		}
 
-		$form.find( '.wpcf7-form-control' ).removeClass( 'wpcf7-not-valid' );
-		$form.removeClass( 'invalid spam sent failed' );
+		var formData = new FormData( $form.get( 0 ) );
 
-		switch ( data.status ) {
-			case 'validation_failed':
-				$.each( data.invalidFields, function( i, n ) {
-					wpcf7.notValidTip( $( n.into, $form ), n.message );
-					$form.find( n.into ).find( '.wpcf7-form-control' ).addClass( 'wpcf7-not-valid' );
-					$form.find( n.into ).find( '[aria-invalid]' ).attr( 'aria-invalid', 'true' );
-				} );
+		var ajaxSuccess = function( data, status, xhr, $form ) {
+			var detail = {
+				id: $( data.into ).attr( 'id' ),
+				status: data.status,
+				inputs: []
+			};
 
-				$responseOutput.addClass( 'wpcf7-validation-errors' );
-				$form.addClass( 'invalid' );
+			$.each( $form.serializeArray(), function( i, field ) {
+				if ( '_wpcf7' == field.name ) {
+					detail.contactFormId = field.value;
+				} else if ( '_wpcf7_version' == field.name ) {
+					detail.pluginVersion = field.value;
+				} else if ( '_wpcf7_locale' == field.name ) {
+					detail.contactFormLocale = field.value;
+				} else if ( '_wpcf7_unit_tag' == field.name ) {
+					detail.unitTag = field.value;
+				} else if ( '_wpcf7_container_post' == field.name ) {
+					detail.containerPostId = field.value;
+				} else if ( field.name.match( /^_/ ) ) {
+					// do nothing
+				} else {
+					detail.inputs.push( field );
+				}
+			} );
 
-				wpcf7.triggerEvent( data.into, 'invalid', detail );
-				break;
-			case 'spam':
-				$responseOutput.addClass( 'wpcf7-spam-blocked' );
-				$form.addClass( 'spam' );
+			var $message = $( '.wpcf7-response-output', $form );
 
-				$form.find( '[name="g-recaptcha-response"]' ).each( function() {
-					if ( '' == $( this ).val() ) {
-						var $recaptcha = $( this ).closest( '.wpcf7-form-control-wrap' );
-						wpcf7.notValidTip( $recaptcha, wpcf7.recaptcha.messages.empty );
+			switch ( data.status ) {
+				case 'validation_failed':
+					$.each( data.invalidFields, function( i, n ) {
+						$( n.into, $form ).each( function() {
+							wpcf7.notValidTip( this, n.message );
+							$( '.wpcf7-form-control', this ).addClass( 'wpcf7-not-valid' );
+							$( '[aria-invalid]', this ).attr( 'aria-invalid', 'true' );
+						} );
+					} );
+
+					$message.addClass( 'wpcf7-validation-errors' );
+					$form.addClass( 'invalid' );
+
+					wpcf7.triggerEvent( data.into, 'invalid', detail );
+					break;
+				case 'spam':
+					$message.addClass( 'wpcf7-spam-blocked' );
+					$form.addClass( 'spam' );
+
+					$( '[name="g-recaptcha-response"]', $form ).each( function() {
+						if ( '' === $( this ).val() ) {
+							var $recaptcha = $( this ).closest( '.wpcf7-form-control-wrap' );
+							wpcf7.notValidTip( $recaptcha, wpcf7.recaptcha.messages.empty );
+						}
+					} );
+
+					wpcf7.triggerEvent( data.into, 'spam', detail );
+					break;
+				case 'mail_sent':
+					$message.addClass( 'wpcf7-mail-sent-ok' );
+					$form.addClass( 'sent' );
+
+					if ( data.onSentOk ) {
+						$.each( data.onSentOk, function( i, n ) { eval( n ) } );
 					}
+
+					wpcf7.triggerEvent( data.into, 'mailsent', detail );
+					break;
+				case 'mail_failed':
+				case 'acceptance_missing':
+				default:
+					$message.addClass( 'wpcf7-mail-sent-ng' );
+					$form.addClass( 'failed' );
+
+					wpcf7.triggerEvent( data.into, 'mailfailed', detail );
+			}
+
+			wpcf7.refill( $form, data );
+
+			if ( data.onSubmit ) {
+				$.each( data.onSubmit, function( i, n ) { eval( n ) } );
+			}
+
+			wpcf7.triggerEvent( data.into, 'submit', detail );
+
+			if ( 'mail_sent' == data.status ) {
+				$form.each( function() {
+					this.reset();
 				} );
+			}
 
-				wpcf7.triggerEvent( data.into, 'spam', detail );
-				break;
-			case 'mail_sent':
-				$responseOutput.addClass( 'wpcf7-mail-sent-ok' );
-				$form.addClass( 'sent' );
+			$form.find( '[placeholder].placeheld' ).each( function( i, n ) {
+				$( n ).val( $( n ).attr( 'placeholder' ) );
+			} );
 
-				if ( data.onSentOk ) {
-					$.each( data.onSentOk, function( i, n ) { eval( n ) } );
+			$message.append( data.message ).slideDown( 'fast' );
+			$message.attr( 'role', 'alert' );
+
+			$( '.screen-reader-response', $form.closest( '.wpcf7' ) ).each( function() {
+				var $response = $( this );
+				$response.html( '' ).attr( 'role', '' ).append( data.message );
+
+				if ( data.invalidFields ) {
+					var $invalids = $( '<ul></ul>' );
+
+					$.each( data.invalidFields, function( i, n ) {
+						if ( n.idref ) {
+							var $li = $( '<li></li>' ).append( $( '<a></a>' ).attr( 'href', '#' + n.idref ).append( n.message ) );
+						} else {
+							var $li = $( '<li></li>' ).append( n.message );
+						}
+
+						$invalids.append( $li );
+					} );
+
+					$response.append( $invalids );
 				}
 
-				wpcf7.triggerEvent( data.into, 'mailsent', detail );
-				break;
-			case 'mail_failed':
-			case 'acceptance_missing':
-			default:
-				$responseOutput.addClass( 'wpcf7-mail-sent-ng' );
-				$form.addClass( 'failed' );
-
-				wpcf7.triggerEvent( data.into, 'mailfailed', detail );
-		}
-
-		wpcf7.refill( $form, data );
-
-		if ( data.onSubmit ) {
-			$.each( data.onSubmit, function( i, n ) { eval( n ) } );
-		}
-
-		wpcf7.triggerEvent( data.into, 'submit', detail );
-
-		if ( 'mail_sent' == data.status ) {
-			$form.each( function() {
-				this.reset();
+				$response.attr( 'role', 'alert' ).focus();
 			} );
-		}
+		};
 
-		$form.find( '[placeholder].placeheld' ).each( function( i, n ) {
-			$( n ).val( $( n ).attr( 'placeholder' ) );
+		$.ajax( {
+			type: 'POST',
+			url: wpcf7.apiSettings.root + wpcf7.apiSettings.namespace +
+				'/contact-forms/' + wpcf7.getId( $form ) + '/feedback',
+			data: formData,
+			dataType: 'json',
+			processData: false,
+			contentType: false
+		} ).done( function( data, status, xhr ) {
+			ajaxSuccess( data, status, xhr, $form );
+			$( '.ajax-loader', $form ).removeClass( 'is-active' );
+		} ).fail( function( xhr, status, error ) {
+			var $e = $( '<div class="ajax-error"></div>' ).text( error.message );
+			$form.after( $e );
 		} );
-
-		$responseOutput.append( data.message ).slideDown( 'fast' );
-		$responseOutput.attr( 'role', 'alert' );
-
-		wpcf7.updateScreenReaderResponse( $form, data );
 	};
 
 	wpcf7.triggerEvent = function( target, name, detail ) {
@@ -274,176 +345,116 @@
 		$target.trigger( name + '.wpcf7', detail ); // deprecated
 	};
 
-	wpcf7.applyPlaceholderFallback = function( $form ) {
-		$form.find( '[placeholder]' ).each( function() {
-			$( this ).val( $( this ).attr( 'placeholder' ) );
-			$( this ).addClass( 'placeheld' );
+	wpcf7.toggleSubmit = function( form, state ) {
+		var $form = $( form );
+		var $submit = $( 'input:submit', $form );
 
-			$( this ).focus( function() {
-				if ( $( this ).hasClass( 'placeheld' ) ) {
-					$( this ).val( '' ).removeClass( 'placeheld' );
-				}
-			} );
+		if ( typeof state !== 'undefined' ) {
+			$submit.prop( 'disabled', ! state );
+			return;
+		}
 
-			$( this ).blur( function() {
-				if ( '' === $( this ).val() ) {
-					$( this ).val( $( this ).attr( 'placeholder' ) );
-					$( this ).addClass( 'placeheld' );
-				}
-			} );
-		} );
-	};
-
-	wpcf7.toggleSubmit = function( $form ) {
 		if ( $form.hasClass( 'wpcf7-acceptance-as-validation' ) ) {
 			return;
 		}
 
-		var $submit = $form.find( 'input:submit' );
-		var $acceptance = $form.find( 'input:checkbox.wpcf7-acceptance' );
+		$submit.prop( 'disabled', false );
 
-		if ( ! $submit.length || ! $acceptance.length ) {
-			return;
-		}
-
-		$submit.removeAttr( 'disabled' );
-
-		$acceptance.each( function() {
+		$( 'input:checkbox.wpcf7-acceptance', $form ).each( function() {
 			var $a = $( this );
 
 			if ( $a.hasClass( 'wpcf7-invert' ) && $a.is( ':checked' )
 			|| ! $a.hasClass( 'wpcf7-invert' ) && ! $a.is( ':checked' ) ) {
-				$submit.attr( 'disabled', 'disabled' );
+				$submit.prop( 'disabled', true );
 				return false;
 			}
 		} );
 	};
 
-	$.fn.wpcf7CharacterCount = function() {
-		return this.each( function() {
-			var $count = $( this );
-			var name = $count.attr( 'data-target-name' );
-			var down = $count.hasClass( 'down' );
-			var starting = parseInt( $count.attr( 'data-starting-value' ), 10 );
-			var maximum = parseInt( $count.attr( 'data-maximum-value' ), 10 );
-			var minimum = parseInt( $count.attr( 'data-minimum-value' ), 10 );
-
-			var updateCount = function( $target ) {
-				var length = $target.val().length;
-				var count = down ? starting - length : length;
-				$count.attr( 'data-current-value', count );
-				$count.text( count );
-
-				if ( maximum && maximum < length ) {
-					$count.addClass( 'too-long' );
-				} else {
-					$count.removeClass( 'too-long' );
-				}
-
-				if ( minimum && length < minimum ) {
-					$count.addClass( 'too-short' );
-				} else {
-					$count.removeClass( 'too-short' );
-				}
-			};
-
-			$count.closest( 'form' ).find( ':input[name="' + name + '"]' ).each( function() {
-				updateCount( $( this ) );
-
-				$( this ).keyup( function() {
-					updateCount( $( this ) );
-				} );
-			} );
-		} );
-	};
-
 	wpcf7.notValidTip = function( target, message ) {
-		var fadeOut = function( target ) {
-			$( target ).not( ':hidden' ).animate( {
-				opacity: 0
-			}, 'fast', function() {
-				$( this ).css( { 'z-index': -100 } );
-			} );
-		}
-
 		var $target = $( target );
-
-		$target.find( 'span.wpcf7-not-valid-tip' ).remove();
-		$target.append( '<span role="alert" class="wpcf7-not-valid-tip">' + message + '</span>' );
+		$( '.wpcf7-not-valid-tip', $target ).remove();
+		$( '<span role="alert" class="wpcf7-not-valid-tip"></span>' )
+			.text( message ).appendTo( $target );
 
 		if ( $target.is( '.use-floating-validation-tip *' ) ) {
-			$( '.wpcf7-not-valid-tip', $target ).mouseover( function() {
+			var fadeOut = function( target ) {
+				$( target ).not( ':hidden' ).animate( {
+					opacity: 0
+				}, 'fast', function() {
+					$( this ).css( { 'z-index': -100 } );
+				} );
+			}
+
+			$target.on( 'mouseover', '.wpcf7-not-valid-tip', function() {
 				fadeOut( this );
 			} );
 
-			$( ':input', $target ).focus( function() {
+			$target.on( 'focus', ':input', function() {
 				fadeOut( $( '.wpcf7-not-valid-tip', $target ) );
 			} );
 		}
 	}
 
-	wpcf7.refill = function( $form, data ) {
-		if ( data.captcha ) {
-			$.each( data.captcha, function( i, n ) {
+	wpcf7.refill = function( form, data ) {
+		var $form = $( form );
+
+		var refillCaptcha = function( $form, items ) {
+			$.each( items, function( i, n ) {
 				$form.find( ':input[name="' + i + '"]' ).val( '' );
 				$form.find( 'img.wpcf7-captcha-' + i ).attr( 'src', n );
 				var match = /([0-9]+)\.(png|gif|jpeg)$/.exec( n );
 				$form.find( 'input:hidden[name="_wpcf7_captcha_challenge_' + i + '"]' ).attr( 'value', match[ 1 ] );
 			} );
-		}
+		};
 
-		if ( data.quiz ) {
-			$.each( data.quiz, function( i, n ) {
+		var refillQuiz = function( $form, items ) {
+			$.each( items, function( i, n ) {
 				$form.find( ':input[name="' + i + '"]' ).val( '' );
 				$form.find( ':input[name="' + i + '"]' ).siblings( 'span.wpcf7-quiz-label' ).text( n[ 0 ] );
 				$form.find( 'input:hidden[name="_wpcf7_quiz_answer_' + i + '"]' ).attr( 'value', n[ 1 ] );
 			} );
-		}
-	};
+		};
 
-	wpcf7.clearResponse = function( $form ) {
-		var $responseOutput = $form.find( 'div.wpcf7-response-output' );
+		if ( typeof data === 'undefined' ) {
+			$.ajax( {
+				type: 'GET',
+				url: wpcf7.apiSettings.root + wpcf7.apiSettings.namespace +
+					'/contact-forms/' + wpcf7.getId( $form ) + '/refill',
+				dataType: 'json'
+			} ).done( function( data, status, xhr ) {
+				if ( data.captcha ) {
+					refillCaptcha( $form, data.captcha );
+				}
 
-		$responseOutput.hide().empty().removeAttr( 'role' );
+				if ( data.quiz ) {
+					refillQuiz( $form, data.quiz );
+				}
+			} );
 
-		var wpcf7Classes = [
-			'wpcf7-mail-sent-ok',
-			'wpcf7-mail-sent-ng',
-			'wpcf7-validation-errors',
-			'wpcf7-spam-blocked'
-		];
-
-		$responseOutput.removeClass( wpcf7Classes.join( ' ' ) );
-
-		$form.find( 'span.wpcf7-not-valid-tip' ).remove();
-		$form.find( '.ajax-loader' ).removeClass( 'is-active' );
-	};
-
-	wpcf7.updateScreenReaderResponse = function( $form, data ) {
-		$( '.wpcf7 .screen-reader-response' ).html( '' ).attr( 'role', '' );
-
-		if ( data.message ) {
-			var $response = $form.siblings( '.screen-reader-response' ).first();
-			$response.append( data.message );
-
-			if ( data.invalidFields ) {
-				var $invalids = $( '<ul></ul>' );
-
-				$.each( data.invalidFields, function( i, n ) {
-					if ( n.idref ) {
-						var $li = $( '<li></li>' ).append( $( '<a></a>' ).attr( 'href', '#' + n.idref ).append( n.message ) );
-					} else {
-						var $li = $( '<li></li>' ).append( n.message );
-					}
-
-					$invalids.append( $li );
-				} );
-
-				$response.append( $invalids );
+		} else {
+			if ( data.captcha ) {
+				refillCaptcha( $form, data.captcha );
 			}
 
-			$response.attr( 'role', 'alert' ).focus();
+			if ( data.quiz ) {
+				refillQuiz( $form, data.quiz );
+			}
 		}
+	};
+
+	wpcf7.clearResponse = function( form ) {
+		var $form = $( form );
+		$form.removeClass( 'invalid spam sent failed' );
+		$form.siblings( '.screen-reader-response' ).html( '' ).attr( 'role', '' );
+
+		$( '.wpcf7-not-valid-tip', $form ).remove();
+		$( '[aria-invalid]', $form ).attr( 'aria-invalid', 'false' );
+		$( '.wpcf7-form-control', $form ).removeClass( 'wpcf7-not-valid' );
+
+		$( '.wpcf7-response-output', $form )
+			.hide().empty().removeAttr( 'role' )
+			.removeClass( 'wpcf7-mail-sent-ok wpcf7-mail-sent-ng wpcf7-validation-errors wpcf7-spam-blocked' );
 	};
 
 } )( jQuery );

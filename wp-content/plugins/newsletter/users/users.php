@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) exit;
+
+if (!defined('ABSPATH'))
+    exit;
 
 require_once NEWSLETTER_INCLUDES_DIR . '/module.php';
 
@@ -70,7 +72,6 @@ class NewsletterUsers extends NewsletterModule {
   `country` varchar(4) NOT NULL DEFAULT '',
   `region` varchar(100) NOT NULL DEFAULT '',
   `city` varchar(100) NOT NULL DEFAULT '',
-  
   `unsub_email_id` int(11) NOT NULL DEFAULT '0',
   `unsub_time` int(11) NOT NULL DEFAULT '0',\n";
 
@@ -83,12 +84,10 @@ class NewsletterUsers extends NewsletterModule {
         }
         // Leave as last
         $sql .= "`test` tinyint(4) NOT NULL DEFAULT '0',\n";
-        $sql .= "PRIMARY KEY (`id`),
-    UNIQUE KEY `email` (`email`)
-    ) ENGINE=MyISAM $charset_collate;";
+        $sql .= "PRIMARY KEY (`id`), UNIQUE KEY `email` (`email`)) ENGINE=MyISAM $charset_collate;";
 
         dbDelta($sql);
-    $this->upgrade_query("alter table " . NEWSLETTER_USERS_TABLE . " convert to character set $charset_collate");
+        $this->upgrade_query("alter table " . NEWSLETTER_USERS_TABLE . " convert to character set $charset_collate");
     }
 
     function admin_menu() {

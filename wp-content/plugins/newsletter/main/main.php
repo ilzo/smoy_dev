@@ -71,7 +71,8 @@ if (!empty($controls->data['contract_key'])) {
         $controls->errors .= esc_html($response->get_error_code()) . ' - ' . esc_html($response->get_error_message());
         $controls->data['licence_expires'] = "";
     } else if ($response['response']['code'] != 200) {
-        $controls->errors .= 'The license seems expired or not valid, please check your <a href="https://www.thenewsletterplugin.com/account">license code and status</a>, thank you.';
+        $controls->errors .= '[' . $response['response']['code'] . '] The license seems expired or not valid, please check your <a href="https://www.thenewsletterplugin.com/account">license code and status</a>, thank you.';
+        $controls->errors .= '<br>You can anyway download the professional extension from https://www.thenewsletterplugin.com.';
         $controls->data['licence_expires'] = "";
     } elseif ($expires = json_decode(wp_remote_retrieve_body($response))) {
         $controls->data['licence_expires'] = $expires->expire;

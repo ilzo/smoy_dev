@@ -18,6 +18,10 @@ get_header(); ?>
     <?php do_action('smoy_get_content_section_header_references'); ?>
     <?php do_action('smoy_get_references'); ?>
 </section>
+<section id="our-staff" class="content-section-front">
+    <?php do_action('smoy_get_content_section_header_people'); ?>
+    <?php do_action('smoy_get_people'); ?> 
+</section>
 <section id="contact" class="content-section-front">
     <?php do_action('smoy_get_content_section_header_contact'); ?>
     <?php do_action('smoy_get_contact_form'); ?> 

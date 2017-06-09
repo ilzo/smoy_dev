@@ -87,8 +87,7 @@ class NewsletterSubscription extends NewsletterModule {
             // normal subscription
             case 's':
             case 'subscribe':
-                if (isset($this->options['antibot_disable']) || $this->antibot_form_check()) {
-
+                if (!empty($this->options['antibot_disable']) || $this->antibot_form_check()) {
                     $user = $this->subscribe();
 
                     if ($user->status == 'E')
@@ -100,7 +99,6 @@ class NewsletterSubscription extends NewsletterModule {
                     if ($user->status == 'S')
                         $this->show_message('confirmation', $user->id);
                 } else {
-
                     $this->request_to_antibot_form('Subscribe');
                 }
                 die();
