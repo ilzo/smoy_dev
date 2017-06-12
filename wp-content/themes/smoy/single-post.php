@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying all single blog
+ * The template for displaying a single blog post
  *
  * @package WordPress
  * @subpackage smoy

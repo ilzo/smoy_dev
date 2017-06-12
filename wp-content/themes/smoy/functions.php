@@ -836,6 +836,18 @@ function smoy_generate_responsive_background_image_styles() {
 }
 
 
+add_action( 'template_redirect', 'smoy_redirect_to_latest_blog_post' );
+
+function smoy_redirect_to_latest_blog_post() {
+    if(!is_page('blogi') )
+        return;
+    $latest = get_posts( 'post_type=post&category_name=blogi&numberposts=1');
+    $permalink = get_permalink( $latest[0]->ID );
+    wp_safe_redirect( $permalink, 307 );
+    exit;
+}
+
+
 add_filter('the_content', 'smoy_modify_single_content');
 
 function smoy_modify_single_content($content) {

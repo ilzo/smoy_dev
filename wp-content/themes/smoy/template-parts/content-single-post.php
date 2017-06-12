@@ -6,10 +6,6 @@
  * @subpackage smoy
  *
  */
-
-
-
-
 ?>
 
 <article id="service-<?php echo get_the_ID() ?>" <?php post_class('single-post-article'); ?>>

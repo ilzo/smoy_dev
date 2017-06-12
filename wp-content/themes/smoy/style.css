@@ -527,7 +527,6 @@ body {
     color: white;
 }
 
-
 #top-menu-overlay .closebtn {
     display: none;
     position: absolute;
@@ -542,15 +541,14 @@ body {
     color: #ff8100;
 }
 
-
-#menu-item-2405 a:after {
+#top-menu-overlay .menu-ylavalikko-container .menu-item a:after {
 	content: '';
 	display: block;
 	margin: auto;
 	height: 2px;
 	width: 0px;
 	background: transparent;
-	//transition: width .25s ease, background-color .25s ease;
+	/*transition: width .25s ease, background-color .25s ease;*/
     -webkit-transition: all 0.25s ease-out 0s;
     -moz-transition: all 0.25s ease-out 0s;
     -ms-transition: all 0.25s ease-out 0s;
@@ -558,11 +556,10 @@ body {
     transition: all 0.25s ease-out 0s;
 }
 
-#menu-item-2405 a:first-of-type.active-link:after {
-	width: 75%;
+#top-menu-overlay .menu-ylavalikko-container .menu-item a.active-link:after {
+    width: 75%;
 	background: #ff8100;
 }
-
 
 img {
     height: 100%;
@@ -576,7 +573,6 @@ img {
 button {
     outline: none;
 }
-
 
 #newsletter-sidebar {
     position: fixed;
@@ -2934,7 +2930,7 @@ div.customer-stretchy-wrapper {
         margin: 0;
     }
     
-    #menu-item-2405 a:first-of-type.active-link:after {
+    #top-menu-overlay .menu-ylavalikko-container .menu-item a.active-link:after {
         width: 65px;
     }
     
@@ -2945,7 +2941,6 @@ div.customer-stretchy-wrapper {
         max-height: 18pt;
         top: -6px;
     }
-    
     
     .nav-logo-container {
         display: block;

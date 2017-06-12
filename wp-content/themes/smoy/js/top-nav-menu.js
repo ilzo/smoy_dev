@@ -86,7 +86,6 @@ jQuery(function() {
     var englishLink = jQuery('#right-menu .english-link a')[0];
     var finnishLink = jQuery('#right-menu .finnish-link a')[0];
     var palvelut_link = jQuery('#menu-item-2405 a')[0];
-    
     if(smoytalkLink[0]){
         jQuery(smoytalkLink[0]).html('');
         jQuery('#right-menu .smoytalk-link').css('display', 'inline-block'); 
@@ -138,16 +137,12 @@ jQuery(function() {
           
     }
     
-    
     var translatedLinkTexts;
-    
-    
+
     if ( window.location.pathname === '/' ){
-        
         noRedirectLinks[0] = jQuery( "#top-menu a:contains('Referenssit')" )[0];
         noRedirectLinks[1] = jQuery( "#top-menu a:contains('Me')" )[0];
         noRedirectLinks[2] = jQuery( "#top-menu a:contains('Ota yhteyttä')" )[0];
-        
     }else if (window.location.pathname === '/eng/') {
         
         let blogi_link = jQuery( "#top-menu a:contains('Blogi')" )[0];
@@ -163,12 +158,16 @@ jQuery(function() {
         translatedLinkTexts[2] = 'Contact';
         translatedLinkTexts[3] = 'Services';
         
-        
         noRedirectLinks[0] = jQuery( "#top-menu a:contains('Referenssit')" )[0];
         noRedirectLinks[1] = jQuery( "#top-menu a:contains('Me')" )[0]; 
         noRedirectLinks[2] = jQuery( "#top-menu a:contains('Ota yhteyttä')" )[0];
         noRedirectLinks[3] = jQuery( "#top-menu a:contains('Palvelut')" )[0];
             
+    }else if (window.location.href.indexOf('blogi') > -1){
+        let blogi_link = jQuery('#menu-item-2438 a')[0];
+        if(blogi_link && !jQuery(blogi_link).hasClass('active-link')) { 
+            jQuery(blogi_link).addClass('active-link');
+        }
     }
     
     let linksArrayLength = noRedirectLinks.length;
