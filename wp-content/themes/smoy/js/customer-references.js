@@ -1,51 +1,24 @@
 var viewportWidth;
-//var topPos = -1;
 var topPos = -2;
 var topPos = 0;
 var leftPos = 0.0;
-
-
-/*
-var isFourCols = 0;
-var isThreeCols = 0;
-var isTwoCols = 0;
-*/
-
-
 var customersWrapper;
 var customerBoxNum = 0;
 var customerBoxWidth = 0;
 var customerBoxHeight = 0;
-
-
-
-
 var customerBoxMarginTop = 0;
 var customerBoxMarginBottom = 0;
-
-
-
-
-
 var customerBoxMargin = '';
-
 var cloneBoxWidthDouble = 0;
 var cloneBoxHeightDouble = 0;
 var customerBoxMargin = '';
 var customerBoxClone;
 var resizeDimensions = [];
 
-
 var gridTracker = {
     fourCols: 0,
     threeCols: 0,
     twoCols: 0,
-    /*
-    isInLastRow: 0,
-    isInFirstRow: 0,
-    isBottomLeftSide: 0,
-    isRightSide: 0,
-    */
     clickedBoxPos: {top: 0, left: 0.0},
     openDir: {up: 0, down: 0, left: 0, right: 0},
     closeDir: {up: 0, down: 0, left: 0, right: 0},
@@ -92,7 +65,6 @@ var gridTracker = {
         this.openDir.down = 0;
         this.openDir.left = 0;
         this.openDir.right = 0;
-        
         if(this.isFourCols() === 1){
             if(num === 0 || num === 1 || num === 4 || num === 5){
                 this.openDir.down = 1;
@@ -107,7 +79,6 @@ var gridTracker = {
                 this.openDir.up = 1;
                 this.openDir.left = 1;
             }
-            
         }else if(this.isThreeCols() === 1){
             if(num === 0 || num === 1 || num === 3 || num === 4 || num === 6 || num === 7){
                 this.openDir.down = 1;
@@ -122,7 +93,6 @@ var gridTracker = {
                 this.openDir.up = 1;
                 this.openDir.left = 1;
             }
-            
         }else if(this.isTwoCols() === 1){
             if(num === 0 || num === 2 || num === 4 || num === 6 || num === 8){
                 this.openDir.down = 1;
@@ -138,9 +108,7 @@ var gridTracker = {
                 this.openDir.left = 1;
             }     
         }
-        
-        return this.openDir;
-        
+        return this.openDir; 
     },
     whichWayToClose: function (num) {
         this.closeDir.up = 0;
@@ -193,9 +161,7 @@ var gridTracker = {
                 this.closeDir.right = 1;
             }     
         }
-        
         return this.closeDir;
-        
     },
     getClickedBoxPos: function (num, boxWidth, boxHeight) {
         this.clickedBoxPos.top = 0;
@@ -216,7 +182,6 @@ var gridTracker = {
             }
 
             var remainder = num % 4;
-
             switch (remainder) {
                 case 0:
                     this.clickedBoxPos.left = 75.12;
@@ -231,7 +196,6 @@ var gridTracker = {
                     this.clickedBoxPos.left = 0.12;
             }
             
-    
         }else if(this.isThreeCols() === 1){
             
             if(num < 4){
@@ -260,8 +224,6 @@ var gridTracker = {
             }
             
         }else if(this.isTwoCols() === 1){
-            
-            
             if(10 < num && num <= 12) {
                 /*
                 let originalWidth = customerBoxWidth;
@@ -280,9 +242,6 @@ var gridTracker = {
                 */
             }
             
-            
-
-
             if(num <= 2){
                 this.clickedBoxPos.top = -1.5;
 
@@ -299,9 +258,7 @@ var gridTracker = {
                 this.clickedBoxPos.top = (4 * boxHeight) + 8;
         
             }else if(10 < num && num <= 12){
-                this.clickedBoxPos.top = (5 * boxHeight) + 8.5;
-                
-                
+                this.clickedBoxPos.top = (5 * boxHeight) + 8.5;  
             }
 
             var remainder = num % 2;
@@ -312,13 +269,9 @@ var gridTracker = {
                     break;
                 case 1:
                     this.clickedBoxPos.left = 0.0;
-            }
-            
-                 
+            }       
         }
-        
         return this.clickedBoxPos;
-        
     },
     
     getBoxOpenAnimPos: function (id) {
@@ -474,23 +427,15 @@ var gridTracker = {
 
                 this.closeAnimPos.top = '+=0.04%';
                 this.closeAnimPos.left = '+=0.018%';
-
-
-            }
-                 
+            }     
         }
-        
         return this.closeAnimPos;
-    
     }
     
-  
 };
-
 
 function calculateBgDimensions(){
     let bgResizeDimensions = [];
-    
     for (var i = 1; i < 13; i++) {
         
         let j = i - 1;

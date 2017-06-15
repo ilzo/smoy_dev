@@ -20,11 +20,6 @@ function closeNewsletterBox(newsletterSidebar) {
 jQuery(function() { 
     newsletterSidebar = jQuery('#newsletter-sidebar');
     newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
-    
-    if(!jQuery(newsletterSidebar).length){ 
-      console.log('ei ole sidebaria');
-    }
-    
     if(jQuery(newsletterSidebar).length){
         
         var startScrollPos = $window.scrollTop();
@@ -33,7 +28,7 @@ jQuery(function() {
         });
         
        let textNode = jQuery(newsletterWidgetWrapper)[0].firstChild;
-       jQuery(textNode).wrap( "<div class='newsletter-widget-desc'></div>" );
+       jQuery(textNode).wrap( '<div class="newsletter-widget-desc"></div>' );
        jQuery( '.newsletter-widget-container' ).click(function(e) {
             e.stopPropagation();
             openNewsletterBox(newsletterSidebar);
@@ -44,6 +39,14 @@ jQuery(function() {
             closeNewsletterBox(newsletterSidebar);
         });
     }
+    
+    let footerWidgetDescNode = jQuery( '#newsletter-footer .footer-newsletter-widget-wrapper' ).contents().get(0);
+    jQuery(footerWidgetDescNode).wrap('<div class="footer-newsletter-widget-desc"></div>');
+    
+    jQuery( '#footer #newsletter-button' ).click(function() {
+      jQuery( this ).toggleClass( 'active-button' );
+    });
+    
 
 
 });

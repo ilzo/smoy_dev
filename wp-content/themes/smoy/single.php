@@ -8,7 +8,6 @@
  */
 
 get_header('single'); ?>
-
 <div id="primary" class="content-area">
 	<main id="main" class="site-main" role="main">
 		<?php
@@ -23,15 +22,10 @@ get_header('single'); ?>
 				comments_template();
 			}
 
-			
-
 			// End of the loop.
 		endwhile;
         wp_reset_postdata();
 		?>
-
 	</main><!-- .site-main -->
-
 </div><!-- .content-area -->
-
 <?php get_footer('single'); ?>

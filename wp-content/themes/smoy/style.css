@@ -589,12 +589,20 @@ button {
     bottom: 0;
     width: auto;
     height: 200px;
-    z-index: 3;
+    z-index: 5;
     -webkit-transition: visibility 0.25s, opacity 0.25s linear;
     -moz-transition: visibility 0.25s, opacity 0.25s linear;
     -ms-transition: visibility 0.25s, opacity 0.25s linear;
     -o-transition: visibility 0.25s, opacity 0.25s linear;
     transition: visibility 0.25s, opacity 0.25s linear;
+}
+
+#newsletter-footer {
+    position: absolute;
+    width: 100%;
+    height: 280px;
+    bottom: 344px;
+    z-index: 2;
 }
 
 .fs-menu-open-button p {
@@ -611,24 +619,44 @@ button {
             user-select: none;
 }
 
-.newsletter-widget-container {
+.newsletter-widget-container, .footer-newsletter-widget-container {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
-    height: auto;
-    min-height: 225px;
+    background-color: deeppink;
     position: relative;
+    height: auto;
+} 
+
+.newsletter-widget-container {
+    min-height: 225px;
     top: 15%;
     width: auto;
-    background-color: deeppink;
     cursor: pointer;
 }
 
-#newsletter-box-close {
+.footer-newsletter-widget-container {
+    height: 98%;
+    width: 320px;
+    margin: auto;
+    padding: 20px 0px 0 22px;
+}
+
+#newsletter-box-close, #footer-newsletter-box-close {
     position: absolute;
+    text-decoration: none;
+    color: #f2f2f2;
+}
+
+#newsletter-box-close {
     top: -6px;
     right: 12px;
-    text-decoration: none;
     font-size: 36px;
-    color: #f2f2f2;
+}
+
+#footer-newsletter-box-close {
+    top: -5px;
+    right: 16px;
+    font-size: 40px;
+    z-index: 4;
 }
 
 .newsletter-widget-title {
@@ -651,13 +679,18 @@ button {
     cursor: pointer;
 }
 
+.footer-newsletter-widget-title {
+    display: block;
+    position: relative;
+    font-size: 1.4em;
+    color: #f2f2f2;
+    padding-left: 7px;
+}
+
 
 .newsletter-box-opened .newsletter-widget-container, .newsletter-box-opened  .newsletter-widget-title {
     cursor: default;
 }
-
-
-
 
 .newsletter-widget-title-underline {
     position: relative;
@@ -668,17 +701,42 @@ button {
     background-color: #f2f2f2;
 }
 
-.newsletter-widget-wrapper {
+.footer-newsletter-widget-title-underline {
+    display: block;
+    position: relative;
+    height: 3px;
+    width: 51.25%;
+    background-color: #f2f2f2;
+    margin: 7px 0 20px 0;
+    margin-left: 7px;
+}
+
+
+.newsletter-widget-wrapper, .footer-newsletter-widget-wrapper {
     font-size: 17.5pt;
     line-height: 1.12;
+}
+
+.newsletter-widget-wrapper {
     display: inline-block;
     float: right;
     width: 300px;
     padding: 17px 0 0 5px;
 }
 
+.footer-newsletter-widget-wrapper {
+    display: block;
+    height: auto;
+    width: auto;
+}
+
 .newsletter-widget-desc {
     padding-right: 55px;
+}
+
+.footer-newsletter-widget-desc {
+    padding-right: 55px;
+    margin-bottom: 26px;
 }
 
 .tnp-widget {
@@ -772,6 +830,66 @@ button {
     padding: 7px !important;
 }
 
+#newsletter-footer .tnp-widget {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin: 16px 0 0 0;
+}
+
+#newsletter-footer .tnp-field label {
+    font-family: 'MyriadProRegular', Fallback, sans-serif;
+}
+
+
+#newsletter-footer .tnp-widget .tnp-field {
+    display: inline;
+    margin-bottom: 10px;
+    border: 0;
+    padding: 0;
+}
+
+#newsletter-footer .tnp-field.tnp-field-email {
+    width: 65%;
+    float: left;
+}
+
+#newsletter-footer .tnp-field.tnp-field-button {
+    width: 25%;
+    float: right;
+    margin: 15px 22px 0 0; 
+}
+
+#newsletter-footer .tnp-widget input[type=text], 
+#newsletter-footer .tnp-widget input[type=email], 
+#newsletter-footer .tnp-widget input[type=submit], 
+#newsletter-footer .tnp-widget select {
+    margin-top: 16px;
+}
+
+#newsletter-footer .tnp-field input.tnp-submit {
+    padding: 4px 5px 5px 5px !important;
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+    background-color: transparent !important;
+    border: solid 2px !important;
+}
+
+/*
+
+@-moz-document url-prefix() {
+    #newsletter-footer .tnp-field.tnp-field-button {
+        margin: 15px 22px 0 0;
+    }
+    
+    #newsletter-footer .tnp-field input.tnp-submit {
+        padding: 5px 5px 6px 5px !important;
+    }
+}
+*/
+
+#newsletter-footer .tnp-field input.tnp-email {
+    padding: 7px !important;
+}
 
 #about-us {
     position: relative;
@@ -1023,6 +1141,16 @@ button {
     cursor: hand;
 }
 
+/*
+#newsletter-button {
+    -webkit-animation: buttonFromPinkToTransparent .25s forwards;
+       -moz-animation: buttonFromPinkToTransparent .25s forwards;
+        -ms-animation: buttonFromPinkToTransparent .25s forwards;
+         -o-animation: buttonFromPinkToTransparent .25s forwards;
+            animation: buttonFromPinkToTransparent .25s forwards;
+}
+*/
+
 #newsletter-button-mobile {
     display: none;
     font-size: 12pt;
@@ -1036,6 +1164,15 @@ button {
         -ms-animation: buttonorange .25s forwards;
          -o-animation: buttonorange .25s forwards;
             animation: buttonorange .25s forwards;
+}
+
+
+#newsletter-button.active-button {
+    -webkit-animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
+       -moz-animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
+        -ms-animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
+         -o-animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
+            animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
 }
 
 #services {
@@ -2186,6 +2323,26 @@ div.customer-stretchy-wrapper {
     to {background-color:rgba(255, 129, 0, 1);}
 }
 
+@keyframes buttonFromOrangeToPink {
+    from {background-color:rgba(255, 129, 0, 1);}
+    to {background-color:rgba(255, 20, 147, 1);}
+}
+
+@keyframes buttonBorderFromOrangeToPink {
+    from {border-color:rgba(255, 129, 0, 1);}
+    to {border-color:rgba(255, 20, 147, 1);}
+}
+
+@keyframes buttonFromPinkToOrange {
+    from {background-color:rgba(255, 20, 147, 1);}
+    to {background-color:rgba(255, 129, 0, 1);}
+}
+
+@keyframes buttonFromPinkToTransparent {
+    from {background-color:rgba(255, 20, 147, 1);}
+    to {background-color:rgba(0, 0, 0, 0);}
+}
+
 .wpcf7-response-output {
     position: absolute;
     margin: auto !important;
@@ -2404,6 +2561,7 @@ div.customer-stretchy-wrapper {
     right: 0;
     background-color: #0c0c0c;
     margin-top: -2px;
+    z-index: 3;
 }
 
 #footer {
@@ -2847,7 +3005,8 @@ div.customer-stretchy-wrapper {
     
     
     .customer-box {
-        width: 49.999%;
+        /* width: 49.999%; */
+        width: 49.89%;
     }
     
     #top-menu {

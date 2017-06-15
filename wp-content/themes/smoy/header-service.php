@@ -26,9 +26,8 @@ if($color_value === 'orange'): ?>
     <div id="page-wrapper-service" class="service-pink">
 <?php elseif(empty($color_value)): ?>
     <div id="page-wrapper-service" class="service-orange">
-<?php 
-endif; endwhile;  ?>    
-<div id="header-service">  
+<?php endif; endwhile; ?>  
+<div id="header-service"> 
     <div class="navigation-top">
         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
     </div>

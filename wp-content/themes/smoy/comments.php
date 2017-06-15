@@ -57,8 +57,8 @@ if ( post_password_required() ) {
 		</ol>
 
 		<?php the_comments_pagination( array(
-			'prev_text' => /*twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . */ '<span class="screen-reader-text">' . __( 'Previous', 'smoy' ) . '</span>',
-			'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'smoy' ) . '</span>' /*. twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) )*/,
+			'prev_text' => '<span class="screen-reader-text">' . __( 'Previous', 'smoy' ) . '</span>',
+			'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'smoy' ) . '</span>',
 		) );
 
 	endif; // Check for have_comments().

@@ -37,10 +37,9 @@ function smoy_setup() {
     /* Set the image size by cropping the image */
     //add_image_size('test-thumbnail', 500, 326, true);
     //add_image_size( 'test-big', 3000, 9999);
-    
-    add_image_size( 'background-small', 640);
-    add_image_size( 'background-medium', 1280);
-    add_image_size( 'background-large', 1600);
+    add_image_size( 'service-background-small', 640);
+    add_image_size( 'service-background-medium', 1280);
+    add_image_size( 'service-background-large', 1600);
     add_image_size( 'service-thumb', 1600, 9999);
     //add_image_size( 'background-large', 2400);
     //add_image_size( 'background-x-large', 3000);
@@ -60,17 +59,6 @@ function smoy_setup() {
     
     
     add_image_size( 'front-bg-small-crop', 1200, 800, true);
-    */
-    
-    /* Some predefined image sizes for front-page masonry-grid */
-    
-    /*
-    add_image_size( 'works-test-1', 450, 300, true );
-    add_image_size( 'works-test-2', 280, 345, true );
-    add_image_size( 'works-test-3', 300, 450, true );
-    add_image_size( 'works-test-4', 400, 520, true );
-    add_image_size( 'works-test-5', 600, 320, true );
-    
     */
     
     
@@ -129,7 +117,7 @@ function smoy_setup() {
 }
 
 
-add_filter( 'jpeg_quality', create_function( '', 'return 80;' ) );
+/*add_filter( 'jpeg_quality', create_function( '', 'return 80;' ) );*/
 
 
 add_action('init', 'smoy_services');
@@ -559,6 +547,15 @@ function smoy_widgets_init() {
 		'after_title'   => '</h2><div class="newsletter-widget-title-underline"></div><div class="newsletter-widget-wrapper">',
 	));
     
+    register_sidebar( array(
+		'name'          => 'Newsletter subscription footer',
+		'id'            => 'newsletter_subscription_footer',
+		'before_widget' => '<div class="footer-newsletter-widget-container"><a href="javascript:void(0)" id="footer-newsletter-box-close">×</a>',
+		'after_widget'  => '</div></div>',
+		'before_title'  => '<h2 class="footer-newsletter-widget-title">',
+		'after_title'   => '</h2><div class="footer-newsletter-widget-title-underline"></div><div class="footer-newsletter-widget-wrapper">',
+	));
+    
     
     register_sidebar( array(
 		'name'          => 'Social icons widget sidebar',
@@ -761,6 +758,8 @@ function modify_single_content($content)
 
 */
 
+
+
 add_action( 'wp_head', 'smoy_service_add_html_meta_tags' , 2 );
 
 function smoy_service_add_html_meta_tags() {
@@ -779,11 +778,54 @@ function smoy_service_add_html_meta_tags() {
 }
 
 
+add_filter( 'smoy_get_service_or_blog_post_featured_img_path', 'post_featured_img_path');
+
+function post_featured_img_path() {
+    if ( is_singular('smoy_service') || (is_singular() && in_category('blogi'))) {
+        global $post;
+        $latest_post_thumb_url = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full', true);
+        $latest_post_thumb_url_esc = esc_url($latest_post_thumb_url[0]);
+        return $latest_post_thumb_url_esc;
+    }
+}
+
+
+
+
+add_filter('intermediate_image_sizes_advanced', 'smoy_set_image_sizes_by_post_type');
+    
+function smoy_set_image_sizes_by_post_type($sizes) {
+    $type = get_post_type($_REQUEST['post_id']);
+    
+    if ( $type === "smoy_service") {
+        /*add_image_size('custom_size_img', 165, 249, true);*/
+        unset( $sizes['thumbnail']);
+        unset( $sizes['medium']);
+        unset( $sizes['large']);    
+    }else{
+        unset( $sizes['service-background-small']);
+        unset( $sizes['service-background-medium']);
+        unset( $sizes['service-background-large']);
+        unset( $sizes['service-thumb']);
+    }
+
+    return $sizes;       
+}
+    
+    
 add_action( 'wp_head', 'smoy_generate_responsive_background_image_styles');
 
+/*
+*
+*
+* Generate responsive background image styles function -
+* This function generates CSS media query breakpoints to serve different sized background images (widths 640, 1280, 1600 and full have been tested )
+* based on the screen size of the client. Function has been tested for blog post and service page background images. 
+*
+*/
 function smoy_generate_responsive_background_image_styles() {
     
-    if ( is_singular() ) {
+    if ( is_singular('smoy_service') ) {
         global $post;
         $image_id = get_post_thumbnail_id($post->ID); // set or grab your image id
         $img_srcset = wp_get_attachment_image_srcset( $image_id, 'full' );
@@ -801,6 +843,8 @@ function smoy_generate_responsive_background_image_styles() {
             if( !isset( $split[0], $split[1] ) )
                 continue;
             
+            /*
+            
             if(in_category('blogi')){
                 $background_css = '#header-single {
                     background-image: url(' . esc_url( $split[0] ) . ')
@@ -812,6 +856,11 @@ function smoy_generate_responsive_background_image_styles() {
                 }';
                 
             }
+            */
+            
+            $background_css = '#header-service {
+                    background-image: url(' . esc_url( $split[0] ) . ')
+            }';
 
             // Grab the previous image size as the min-width and/or add the background css to the main css string
             if( !empty( $prev_size ) ) {
@@ -2947,27 +2996,6 @@ function smoy_services_front_page_output() {
       
 }
 
-/*
-function multiKeyExists(array $arr, $key) {
-
-    // is in base array?
-    if (array_key_exists($key, $arr)) {
-        return true;
-    }
-
-    // check arrays contained in this array
-    foreach ($arr as $element) {
-        if (is_array($element)) {
-            if (multiKeyExists($element, $key)) {
-                return true;
-            }
-        }
-
-    }
-
-    return false;
-}
-*/
 
 add_action( 'wp_head', 'smoy_customer_references_styles');
 
@@ -3052,8 +3080,6 @@ function smoy_customer_references_styles() {
     }
 }
 
-
-//'smoy_get_content_section_header_references'
 
 add_action( 'smoy_get_content_section_header_references', 'smoy_section_header_ref_output');
 
@@ -3230,10 +3256,7 @@ function smoy_staff_front_page_output() {
               
         }
         
-        
-        //print_r($pplArray);
-        //var_dump($metaArray);
-        
+
         ob_start();
         require_once(get_template_directory() . '/template-parts/smoy-people.php' );
         $output = ob_get_clean();
