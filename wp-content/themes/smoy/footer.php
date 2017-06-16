@@ -8,12 +8,13 @@
         </div>
         <?php do_action('smoy_get_footer_contact_info') ?>
     </div>
-    <div id="footer-content-center">
-        <?php do_action('smoy_get_footer_social_icons') ?>
+    <!--<div id="footer-content-center"> -->
         <div id="footer-button-container">
             <button id="newsletter-button" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
         </div>
-    </div>
+        <?php do_action('smoy_get_footer_social_icons') ?>
+        
+    <!--</div> -->
     <div id="footer-content-right">
         <img src="<?php echo get_template_directory_uri(); ?>/img/logo/asml-logo.png" width="102px" height="38px" />
         <img src="<?php echo get_template_directory_uri(); ?>/img/logo/mtl-jasentunnus.png" width="105px" height="105px"/>

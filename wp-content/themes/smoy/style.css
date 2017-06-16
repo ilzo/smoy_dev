@@ -601,7 +601,8 @@ button {
     position: absolute;
     width: 100%;
     height: 280px;
-    bottom: 344px;
+    /*bottom: 344px;*/
+    bottom: 47px;
     z-index: 2;
 }
 
@@ -636,7 +637,7 @@ button {
 .footer-newsletter-widget-container {
     height: 98%;
     width: 320px;
-    margin: auto;
+    margin: 0 0 0 27.5em;
     padding: 20px 0px 0 22px;
 }
 
@@ -1167,7 +1168,7 @@ button {
 }
 
 
-#newsletter-button.active-button {
+#newsletter-button.active-button, #newsletter-button-mobile.active-button {
     -webkit-animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
        -moz-animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
         -ms-animation: buttonFromOrangeToPink .25s forwards, buttonBorderFromOrangeToPink .25s forwards;
@@ -2576,12 +2577,15 @@ div.customer-stretchy-wrapper {
     text-align: left;
 }
 
+/*
+
 #footer-content-center {
     display: inline-block;
     width: 50%;
     max-width: 990px;
     padding: 0 2.2em 3.5em 2.2em;
 }
+*/
 
 #footer-content-right {
     display: inline-block;
@@ -2590,8 +2594,14 @@ div.customer-stretchy-wrapper {
 }
 
 #footer-social-icons-container {
+    /*
     display: inline-block;
     float: right;
+    padding-top: 7px;
+    */
+    display: inline-block;
+    position: absolute;
+    left: 60%;
     padding-top: 7px;
 }
 
@@ -2622,9 +2632,14 @@ div.customer-stretchy-wrapper {
 }
 
 #footer-button-container {
+    /*
     display: inline-block;
     float: left;
     margin: 0 0 0 15%;
+    */
+    display: inline-block;
+    position: absolute;
+    left: 32em;
 }
 
 #newsletter-button {
@@ -2704,12 +2719,26 @@ div.customer-stretchy-wrapper {
         letter-spacing: 0;
     }
     
+    /*
+    
     #footer-content-center {
         width: 55%;
     }
+    */
+    
+    /*
     
     #footer-button-container {
         margin: 0 0 0 3em;
+    }
+    */
+    
+    #footer-button-container {
+        left: 26em;
+    }
+    
+    .footer-newsletter-widget-container {
+        margin: 0 0 0 21.6em;
     }
     
     #footer-social-icons-container {
@@ -2811,10 +2840,12 @@ div.customer-stretchy-wrapper {
         padding: 4.25em 2.5% 4.25em 2.5%;
     }
     
+    /*
     #footer-content-center {
         width: 54%;
         padding: 0 2em 3.5em 2em;
     }
+    */
     
     #footer-content-left-title {
         font-size: 1.15em;
@@ -2827,7 +2858,8 @@ div.customer-stretchy-wrapper {
     }
     
     #footer-button-container {
-        margin: 0 0 0 5%;
+        /*margin: 0 0 0 5%;*/
+        left: 22em;
     }
     
     #newsletter-button {
@@ -2846,6 +2878,15 @@ div.customer-stretchy-wrapper {
     #footer-content-right img {
         height: auto;
         max-width: 90%;
+    }
+    
+    #newsletter-footer {
+        /*bottom: 332px;*/
+        bottom: 36px;
+    }
+    
+    .footer-newsletter-widget-container {
+        margin: 0 0 0 16.8em;
     }
     
     
@@ -3416,12 +3457,15 @@ div.customer-stretchy-wrapper {
         letter-spacing: 5px;
     }
     
+    /*
+    
     #footer-content-center {
         width: 50%;
         position: absolute;
         padding: 0;
         text-align: center;
     }
+    */
     
     #footer-content-right {
         width: auto;
@@ -3431,27 +3475,46 @@ div.customer-stretchy-wrapper {
         margin-bottom: 19px;
     }
     
+    /*
+    
     #footer-button-container, #footer-social-icons-container {
         display: block;
         float: none;
         margin: 0;
     }
+    */
+    
+    #footer-button-container {
+        left: 18em;
+    }
     
     #footer-social-icons-container {
-        margin-bottom: 59px;
+        left: 70%;
+        margin: -12px 0 0 0;
+        padding: 0;
     }
     
     #newsletter-button {
-        padding: 15px 20%;
+        padding: 15px 22px;
     }
     
     .footer-social-link img, #footer-content-right img {
         height: auto;
         max-width: 100%;
     }
-    
+    /*
     .footer-social-link {
         margin: 0 4% 0 4%;
+    }
+    */
+    
+    .footer-social-link {
+        display: block;
+        margin: 8px 0 8px 0;
+    }
+    
+    .footer-newsletter-widget-container {
+        margin: 0 0 0 12.89em;
     }
     
      
@@ -3626,22 +3689,25 @@ div.customer-stretchy-wrapper {
     #footer-content-left p {
         font-size: 11pt;
     }
-
+    
+    /*
     #footer-content-center {
         width: 35%;
         position: absolute;
         padding: 0;
         text-align: right;
     }
+    */
     
     #footer-content-right {
         display: none;
     }
 
     #footer-social-icons-container {
-        margin: 4px 0 0 0;
+        left: 84%;
+        margin: -2px 0 0 0;
+        padding: 0;
     }
-
 
     .footer-social-link {
         display: block;
@@ -3657,6 +3723,77 @@ div.customer-stretchy-wrapper {
     #footer-content-right img:first-of-type {
         margin-bottom: 12px;
     }
+    
+    
+    #newsletter-footer {
+        max-width: 100%;
+        height: 360px;
+        /*bottom: 448px;*/
+        bottom: 51px;
+    }
+    
+    .footer-newsletter-widget-container {
+        height: 100%;
+        width: auto;
+        margin: 0;
+        padding: 35px 35px 0 38px;
+    }
+    
+    .footer-newsletter-widget-wrapper {
+        text-align: center;
+    }
+    
+    #footer-newsletter-box-close {
+        top: -5px;
+        right: 24px;
+        font-size: 50px;
+    }
+    
+    .footer-newsletter-widget-title {
+        font-size: 1.8em;
+        padding: 0;
+        text-align: center;
+    }
+    
+    .footer-newsletter-widget-title-underline {
+        width: 13.5em;
+        margin: 7px auto 20px auto;
+    }
+    
+    .footer-newsletter-widget-desc {
+        padding: 0;
+        margin-bottom: 50px;
+    }
+    
+    #newsletter-footer .tnp-field.tnp-field-button {
+        margin: 20px 0 0 0;
+    }
+    
+    #newsletter-footer .tnp-widget .tnp-field {
+        border: 0;
+        padding: 0;
+    }
+    
+    #newsletter-footer .tnp-field label {
+        font-size: 18px;
+        text-align: left;
+    }
+    
+    #newsletter-footer .tnp-field input.tnp-email {
+        padding: 12px !important;
+    }
+    
+    #newsletter-footer .tnp-field input.tnp-submit {
+        font-size: 20px;
+        padding: 7px 7px 7px 7px !important;
+        border: solid 3px !important;
+        letter-spacing: 1.5px;
+    }
+     
+    .tnp-widget input[type=email] {
+        font-size: 17px !important; 
+    }
+    
     
 }
 
@@ -3833,6 +3970,8 @@ div.customer-stretchy-wrapper {
         font-size: 13.8pt;
     }
     
+    /*
+    
     .footer-social-link {
         margin: 0 0 22px 0;
     }
@@ -3841,6 +3980,7 @@ div.customer-stretchy-wrapper {
         height: auto;
         width: 38px;
     }
+    */
     
 
 }
@@ -3893,6 +4033,61 @@ div.customer-stretchy-wrapper {
 }
 
 */
+
+@media screen and (max-width: 511px) {  
+
+    #newsletter-footer {
+        /*bottom: 479px;*/
+        bottom: 83px;
+    }
+
+}
+
+@media screen and (max-width: 460px) {
+    
+    #newsletter-footer {
+        /* bottom: 463px; */
+        bottom: 120px;
+        height: 323px;
+    }
+    
+    .footer-newsletter-widget-container {
+        padding: 20px 20px 0 18px;
+    }
+    
+    .footer-newsletter-widget-title {
+        font-size: 1.4em;
+        padding: 0;
+        text-align: left;
+    }
+    
+    .footer-newsletter-widget-title-underline {
+        width: 10.35em;
+        margin: 12px 0 26px 0;
+    }
+    
+    .footer-newsletter-widget-wrapper {
+        font-size: 15pt;
+        line-height: 1.12;
+        text-align: left;
+    }
+    
+    .footer-newsletter-widget-desc {
+        padding: 0;
+        margin-bottom: 50px;
+    }
+    
+    
+    #newsletter-footer .tnp-field label {
+        position: absolute;
+    }
+    
+    .tnp-widget input[type=email] {
+        margin-top: 36px !important;
+    }
+    
+
+}
 
 
 @media screen and (max-width: 450px) { 
@@ -4169,6 +4364,12 @@ div.customer-stretchy-wrapper {
         margin-top: -5px;
     }
     
+    #newsletter-footer {
+        height: 314px;
+        /*bottom: 355px;*/
+        bottom: 20px; 
+    }
+    
        
 }
 
@@ -4180,6 +4381,17 @@ div.customer-stretchy-wrapper {
         background-position: -12px 10% !important;
     }
 
+
+}
+
+
+
+@media screen and (max-width: 387px) {  
+
+    #newsletter-footer {
+        /*bottom: 370px;*/
+        bottom: 35px;
+    }
 
 }
 
@@ -4213,6 +4425,199 @@ div.customer-stretchy-wrapper {
     #social-sidebar {
         display: none;
     }
+    
+    #newsletter-footer {
+        /*bottom: 320px;*/
+        bottom: 20px;
+        height: 290px;
+    }
+    
+    .footer-newsletter-widget-container {
+        padding: 12px 12px 0 12px;
+    }
+    
+    .footer-newsletter-widget-title {
+        font-size: 1.2em;
+    }
+    
+    .footer-newsletter-widget-title-underline {
+        width: 8.9em;
+        margin: 8px 0 20px 0;
+        height: 2px;
+    }
+    
+    .footer-newsletter-widget-wrapper {
+        font-size: 13pt;
+        line-height: 1.4;
+    }
+    
+    .footer-newsletter-widget-desc {
+        margin-bottom: 45px;
+    }
+    
+    #newsletter-footer .tnp-field.tnp-field-email {
+        width: 63%;
+    }
+    
+    #newsletter-footer .tnp-field label {
+        font-size: 15px;
+    }
+    
+    #newsletter-footer .tnp-field.tnp-field-button {
+        width: 27%;
+    }
+    
+    #newsletter-footer .tnp-field input.tnp-submit {
+        font-size: 16px;
+        padding: 9px 9px 9px 9px !important;
+    }
+    
+    
+
+}
+
+
+@media screen and (max-width: 300px) {
+    
+    #newsletter-footer {
+        /*bottom: 330px;*/
+        bottom: 38px;
+        height: 280px;
+    }
+    
+    .footer-newsletter-widget-container {
+        padding: 9px 9px 0 9px;
+    }
+    
+    
+    #footer-newsletter-box-close {
+        top: -7px;
+        right: 20px;
+        font-size: 42px;
+    }
+    
+    .footer-newsletter-widget-title {
+        font-size: 1em;
+    }
+    
+    .footer-newsletter-widget-title-underline {
+        width: 7.4em;
+        margin: 5px 0 14px 0;
+        height: 2px;
+    }
+    
+    .footer-newsletter-widget-wrapper {
+        font-size: 11.5pt;
+        line-height: 1.4;
+    }
+    
+    .footer-newsletter-widget-desc {
+        margin-bottom: 25px;
+    }
+    
+    #newsletter-footer .tnp-field.tnp-field-email {
+        width: 65%;
+    }
+    
+    #newsletter-footer .tnp-field label {
+        font-size: 13px;
+    }
+    
+    .tnp-widget input[type=email] {
+        font-size: 14px !important;
+    }
+    
+    #newsletter-footer .tnp-field.tnp-field-button {
+        width: 30%;
+    }
+    
+    #newsletter-footer .tnp-field input.tnp-submit {
+        font-size: 12px;
+        padding: 11px 4px 11px 4px !important;
+        border: solid 2px !important;
+        letter-spacing: 1.25px;
+    }
+    
+}
+
+
+@media screen and (max-width: 260px) {
+    
+    #newsletter-footer {
+        /*bottom: 350px;*/
+        bottom: 102px;
+        height: 240px;
+    }
+    
+    .footer-newsletter-widget-wrapper {
+        font-size: 10pt;
+    }
+    
+    .footer-newsletter-widget-desc {
+        max-width: 190px;
+    }
+    
+    #newsletter-footer .tnp-field label {
+        font-size: 12px;
+    }
+    
+    
+
+
+}
+
+
+@media screen and (max-width: 223px) {
+    
+    #newsletter-footer {
+        /*bottom: 368px;*/
+        bottom: 149px;
+        height: 210px;
+    }
+    
+    #footer-newsletter-box-close {
+        top: -5px;
+        right: 12px;
+        font-size: 34px;
+    }
+    
+    .footer-newsletter-widget-title {
+        font-size: 0.85em;
+    }
+    
+    .footer-newsletter-widget-title-underline {
+        width: 6.4em;
+        margin: 3px 0 9px 0;
+        height: 2px;
+    }
+    
+    .footer-newsletter-widget-wrapper {
+        font-size: 8.25pt;
+    }
+    
+    .footer-newsletter-widget-desc {
+        max-width: 130px;
+        margin-bottom: 15px;
+    }
+    
+    #newsletter-footer .tnp-field label {
+        font-size: 10.5px;
+    }
+    
+    #newsletter-footer .tnp-widget input[type=email] {
+        margin-top: 27px !important;
+    }
+    
+    #newsletter-footer .tnp-field.tnp-field-button {
+        margin: 20px 0 0 0;
+    }
+    
+    #newsletter-footer .tnp-widget input[type=submit] {
+        margin-top: 7px;
+    }
+    
+    
+    
 
 }
 

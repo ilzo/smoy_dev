@@ -1,7 +1,10 @@
 var $document = jQuery(document);
 var $window = jQuery(window);
 var newsletterSidebar;
+var newsletterFooter;
 var newsletterWidgetWrapper;
+var newsletterBottomValues = ['47px', '36px', '51px', '83px', '120px', '20px', '35px', '20px', '38px', '102px', '149px'];
+var newsLetterTransitionValues = ['297', '296', '397', '396', '343', '335', '335', '300', '292', '248', '219'];
 
 function openNewsletterBox(newsletterSidebar) {
     if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
@@ -17,11 +20,11 @@ function closeNewsletterBox(newsletterSidebar) {
     }  
 }
 
-jQuery(function() { 
+jQuery(function() {
     newsletterSidebar = jQuery('#newsletter-sidebar');
+    newsletterFooter = document.getElementById('newsletter-footer');
     newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
     if(jQuery(newsletterSidebar).length){
-        
         var startScrollPos = $window.scrollTop();
         $document.bind('scroll.newsletterScrollHandler', function() {
             newsletter_detectScrollPos(startScrollPos);
@@ -38,16 +41,32 @@ jQuery(function() {
             e.stopPropagation();
             closeNewsletterBox(newsletterSidebar);
         });
+           
     }
     
     let footerWidgetDescNode = jQuery( '#newsletter-footer .footer-newsletter-widget-wrapper' ).contents().get(0);
     jQuery(footerWidgetDescNode).wrap('<div class="footer-newsletter-widget-desc"></div>');
-    
-    jQuery( '#footer #newsletter-button' ).click(function() {
-      jQuery( this ).toggleClass( 'active-button' );
+    jQuery( '#newsletter-button, #newsletter-button-mobile, #footer-newsletter-box-close' ).click(function() {
+      let viewportWidth = Math.max( jQuery(window).width(), window.innerWidth);
+      jQuery('#newsletter-button, #newsletter-button-mobile').toggleClass( 'active-button' );
+      if(this.id === 'newsletter-button' || this.id === 'newsletter-button-mobile') {
+         if(!jQuery(newsletterSidebar).hasClass('newsletter-sidebar-disabled')){
+             if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')){
+                jQuery(newsletterSidebar).animate({ 'right': '-=45px' }, 850);
+             }else{
+                jQuery(newsletterSidebar).animate({ 'right': '-=373px' }, 850);
+             }
+             jQuery(newsletterSidebar).addClass('newsletter-sidebar-disabled');   
+         } 
+      }
+      toggleFooterNewsletterBox (newsletterFooter, viewportWidth);
     });
     
-
+    $window.resize(function() {
+        let viewportWidth = Math.max( jQuery(window).width(), window.innerWidth);
+        initNewsletterFooterBottomValue(newsletterFooter, viewportWidth);
+    });
+    
 
 });
 
@@ -60,4 +79,91 @@ function newsletter_detectScrollPos (startScrollPos) {
         $document.unbind('scroll.newsletterScrollHandler');
     }
     
+}
+
+
+function toggleFooterNewsletterBox (newsletterFooter, width) {
+    let transVal = '';
+    if(1280 < width) {
+        transVal = newsLetterTransitionValues[0];
+    }else if(840 < width && width <= 1280 ) {
+        transVal = newsLetterTransitionValues[1];
+    }else if (511 < width && width <= 840) {
+        transVal = newsLetterTransitionValues[2];
+    }else if(460 < width && width <= 511) {
+        transVal = newsLetterTransitionValues[3];   
+    }else if(450 < width && width <= 460) {
+        transVal = newsLetterTransitionValues[4];
+    }else if(387 < width && width <= 450) {
+        transVal = newsLetterTransitionValues[5];     
+    }else if(360 < width && width <= 387) {
+        transVal = newsLetterTransitionValues[6];
+    }else if(300 < width && width <= 360) { 
+        transVal = newsLetterTransitionValues[7];
+    }else if(260 < width && width <= 300) { 
+        transVal = newsLetterTransitionValues[8];
+    }else if(223 < width && width <= 260) { 
+        transVal = newsLetterTransitionValues[9];
+    }else if(width <= 223) { 
+        transVal = newsLetterTransitionValues[10];
+    }
+    
+    if(!jQuery(newsletterFooter).hasClass('footer-newsletter-box-opened')) {
+        jQuery(newsletterFooter).animate({ 'bottom': '+='+transVal+'px' }, 850);
+        jQuery(newsletterFooter).addClass('footer-newsletter-box-opened'); 
+    }else{
+        jQuery(newsletterFooter).removeClass('footer-newsletter-box-opened');
+        jQuery(newsletterFooter).animate({ 'bottom': '-='+transVal+'px' }, 850);     
+    }
+
+}
+
+function initNewsletterFooterBottomValue (newsletterFooter, width) { 
+    let newsletterFooterBottom = newsletterFooter.style.bottom;
+    if(1280 < width) {
+        if(newsletterFooterBottom !== newsletterBottomValues[0]){
+           newsletterFooter.style.bottom = newsletterBottomValues[0];
+        }
+    }else if(840 < width && width <= 1280 ) {
+        if(newsletterFooterBottom !== newsletterBottomValues[1]){
+           newsletterFooter.style.bottom = newsletterBottomValues[1];
+        }
+    }else if (511 < width && width <= 840) {
+        if(newsletterFooterBottom !== newsletterBottomValues[2]){
+           newsletterFooter.style.bottom = newsletterBottomValues[2];
+        }
+    }else if(460 < width && width <= 511) {
+        if(newsletterFooterBottom !== newsletterBottomValues[3]){
+           newsletterFooter.style.bottom = newsletterBottomValues[3];
+        }   
+    }else if(450 < width && width <= 460) {
+        if(newsletterFooterBottom !== newsletterBottomValues[4]){
+           newsletterFooter.style.bottom = newsletterBottomValues[4];
+        }
+    }else if(387 < width && width <= 450) {
+        if(newsletterFooterBottom !== newsletterBottomValues[5]){
+           newsletterFooter.style.bottom = newsletterBottomValues[5];
+        }     
+    }else if(360 < width && width <= 387) {
+        if(newsletterFooterBottom !== newsletterBottomValues[6]){
+           newsletterFooter.style.bottom = newsletterBottomValues[6];
+        }
+    }else if(300 < width && width <= 360) { 
+        if(newsletterFooterBottom !== newsletterBottomValues[7]){
+           newsletterFooter.style.bottom = newsletterBottomValues[7];
+        }
+    }else if(260 < width && width <= 300) { 
+        if(newsletterFooterBottom !== newsletterBottomValues[8]){
+           newsletterFooter.style.bottom = newsletterBottomValues[8];
+        }
+    }else if(223 < width && width <= 260) { 
+        if(newsletterFooterBottom !== newsletterBottomValues[9]){
+           newsletterFooter.style.bottom = newsletterBottomValues[9];
+        }
+    }else if(width <= 223) { 
+        if(newsletterFooterBottom !== newsletterBottomValues[10]){
+           newsletterFooter.style.bottom = newsletterBottomValues[10];
+        }
+    }
+
 }
