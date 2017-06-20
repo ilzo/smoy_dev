@@ -97,6 +97,15 @@ body {
 #header-home {
     height: 100vh;
     width: 100%;
+    background: url(./img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg);
+    background-repeat-x: no-repeat !important;
+    background-repeat-y: no-repeat !important;
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+    background-position: 50% 50% !important;
+    padding: 0;
 }
 
 #home-hero {
@@ -104,11 +113,24 @@ body {
     height: 100%;
     width: 100%;
     text-align: center;
-    background: url(./img/background/smoy_home_header.jpg);
+    /*background: url(./img/background/smoy_home_header.jpg);*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 0;
     padding: 0;
+}
+
+
+#header-home video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    
 }
 
 #header-logo-container {
@@ -1865,7 +1887,7 @@ div.customer-stretchy-wrapper {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
     margin: -1px;
-    background-color: rgba(4, 20, 30, 0.90);
+    background-color: rgba(4, 20, 30, 0.95);
      -webkit-transition: all 0.25s ease-out 0s;
     -moz-transition: all 0.25s ease-out 0s;
     -ms-transition: all 0.25s ease-out 0s;
@@ -2654,6 +2676,115 @@ div.customer-stretchy-wrapper {
 }
 
 
+#newsletter-page-content {
+    position: relative;
+    min-height: 800px;
+    height: 100%;
+    width: 100%;
+    background: url("./img/background/uutiskirje.jpg");
+    background-position: 0 0 !important;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+}
+
+#newsletter-subscription-message-container {
+    position: absolute;
+    height: 300px;
+    width: 300px;
+    background-color: deeppink;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    padding: 46px;
+}
+
+#subscription-message-title, #subscription-message-body, #subscription-message-bottom {
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+}
+
+#subscription-message-title {
+    color: #f2f2f2;
+    font-size: 18pt;
+}
+
+#subscription-message-title-underline {
+    display: block;
+    position: relative;
+    height: 2px;
+    width: 74px;
+    background-color: #f2f2f2;
+    margin: 4px auto 30px 112px;
+}
+
+#subscription-message-body, #subscription-message-bottom { 
+    color: #0c0c0c;
+}
+
+#subscription-message-body {
+    font-size: 18pt;
+    line-height: 1.08;
+    margin-bottom: 30px;
+}
+
+#subscription-message-bottom {
+    max-width: 190px;
+    margin: 0 auto;
+    line-height: 1.26;
+}
+
+
+#subscription-message-social-container {
+    position: absolute;
+    bottom: 58px;
+    left: 43px;
+}
+
+.newsletter-social-icon-border {
+    color: #f2f2f2;
+    display: inline-block;
+    border: 2px white solid;
+    height: 28px;
+    width: 46px;
+    border-radius: 40px;
+    padding: 10px 0 8px 0;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+
+.newsletter-social-icon-border:first-of-type {
+    margin-left: 0;
+}
+
+.newsletter-social-icon-border:last-of-type {
+    margin-right: 0;
+}
+
+#subscription-message-social-container .newsletter-social-link {
+    color: #f2f2f2;
+    font-size: 26px;
+}
+
+#linkedin-logo-border .newsletter-social-link {
+    font-size: 24px;
+}
+
+#linkedin-logo-border {
+    margin-top: -2px;
+    height: 26px;
+    width: 46px;
+    padding: 11px 0 9px 0;
+}
+
+
 
 
 
@@ -2667,6 +2798,13 @@ div.customer-stretchy-wrapper {
 
 
 
+@media screen and (max-aspect-ratio: 1550/920) {
+    
+    #smoy-home-video {
+        display: none;
+    }
+
+}
 
 
 @media screen and (max-width: 1380px) {
@@ -2894,6 +3032,10 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1220px) {
     
+    #smoy-home-video {
+        display: none;
+    }
+    
     #about-us {
         background-position: 40%; 
     }
@@ -2987,6 +3129,11 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 960px) {
+    
+    
+    #header-home {
+        background: url(./img/background/Smoy_mutkattomasti_tuloksia_still_mobile_680x720.jpg);
+    }
     
     /*
     #home-hero {

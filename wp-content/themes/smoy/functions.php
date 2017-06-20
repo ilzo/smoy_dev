@@ -487,6 +487,80 @@ function smoy_person_title( $input ) {
 }
 
 
+           
+            
+final class Smoy_Newsletter_Metabox {
+
+    public function __construct() {
+        add_action( 'add_meta_boxes', array( $this, 'create_newsletter_social_meta_box' ) );
+        add_filter( 'save_post', array( $this, 'save_newsletter_meta_boxes' ), 10, 2 );
+    }
+
+    public function create_newsletter_social_meta_box() {
+        global $post;
+        if(!empty($post)) {
+            if($post->post_type === 'page' && $post->ID === '2936'){
+                add_meta_box(
+                    'newsletter_social_meta_box',
+                    __( 'Sosiaalisen median linkit', 'smoy' ),
+                    array( $this, 'print_newsletter_meta_boxes' ),
+                    'page',
+                    'normal',
+                    'high'
+                );
+
+            }
+
+        }
+
+    }
+
+    public function print_newsletter_meta_boxes( $post, $metabox ) {
+        ?>
+            <input type="hidden" name="meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
+            <?php wp_nonce_field( 'save_' . $metabox['id'], $metabox['id'] . '_nonce' ); ?>
+            <table class="form-table">
+            <tr><th><label for="newsletter_facebook"><?php _e( 'Facebook-linkki', 'smoy' ); ?></label></th>
+            <td><input name="newsletter_facebook" type="text" id="newsletter_facebook" value="<?php echo get_post_meta($post->ID, 'newsletter_facebook', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="newsletter_twitter"><?php _e( 'Twitter-linkki', 'smoy' ); ?></label></th>
+            <td><input name="newsletter_twitter" type="text" id="newsletter_twitter" value="<?php echo get_post_meta($post->ID, 'newsletter_twitter', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="newsletter_instagram"><?php _e( 'Instagram-linkki', 'smoy' ); ?></label></th>
+            <td><input name="newsletter_instagram" type="text" id="newsletter_instagram" value="<?php echo get_post_meta($post->ID, 'newsletter_instagram', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="newsletter_pinterest"><?php _e( 'Pinterest-linkki', 'smoy' ); ?></label></th>
+            <td><input name="newsletter_pinterest" type="text" id="newsletter_pinterest" value="<?php echo get_post_meta($post->ID, 'newsletter_pinterest', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="newsletter_linkedin"><?php _e( 'Linkedin-linkki', 'smoy' ); ?></label></th>
+            <td><input name="newsletter_linkedin" type="text" id="newsletter_linkedin" value="<?php echo get_post_meta($post->ID, 'newsletter_linkedin', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="newsletter_youtube"><?php _e( 'Youtube-linkki', 'smoy' ); ?></label></th>
+            <td><input name="newsletter_youtube" type="text" id="newsletter_youtube" value="<?php echo get_post_meta($post->ID, 'newsletter_youtube', true); ?>" class="regular-text"></td></tr>
+            </table>
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_facebook" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_twitter" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_instagram" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_pinterest" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_linkedin" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_youtube" />
+        <?php
+    }
+
+    public function save_newsletter_meta_boxes( $post_id, $post ) {
+        if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
+        if( empty( $_POST['meta_box_ids'] ) ){ return; }
+        foreach( $_POST['meta_box_ids'] as $metabox_id ){
+            if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
+            if( count( $_POST[ $metabox_id . '_fields' ] ) == 0 ){ continue; }       
+            foreach( $_POST[ $metabox_id . '_fields' ] as $field_id ){
+                update_post_meta($post_id, $field_id, $_POST[ $field_id ]);
+            }
+        }
+        return $post;
+    }
+}
+
+
+$smoy_newsletter_metabox = new Smoy_Newsletter_Metabox();
+            
+            
+            
 add_action( 'init', 'smoy_register_menus' );
 
 function smoy_register_menus() {
@@ -594,6 +668,15 @@ function add_logo_to_nav( $items, $args )
 */
 
 
+function smoy_is_mobile() {
+    require_once(get_template_directory() . '/inc/Mobile_Detect.php' );
+    $detect = new Mobile_Detect;
+    if( $detect->isMobile() || $detect->isTablet() ){
+        return true;
+    }
+    return false;
+}
+
 
 function smoy_is_mobile_phone() {
     require_once(get_template_directory() . '/inc/Mobile_Detect.php' );
@@ -699,7 +782,9 @@ function load_scripts()
 }
 
 function smoy_styles() {
-    wp_enqueue_style( 'floating_social_icons_widget_styles', get_stylesheet_directory_uri() . '/css/floating-social-icons-widget.css');
+    if(!is_page('uutiskirje')){
+        wp_enqueue_style( 'floating_social_icons_widget_styles', get_stylesheet_directory_uri() . '/css/floating-social-icons-widget.css');
+    }
     wp_enqueue_style( 'fontello', get_stylesheet_directory_uri() . '/css/fontello.css');  
 }
 
@@ -894,6 +979,18 @@ function smoy_redirect_to_latest_blog_post() {
     $permalink = get_permalink( $latest[0]->ID );
     wp_safe_redirect( $permalink, 307 );
     exit;
+}
+
+
+add_action( 'template_redirect', 'smoy_redirect_from_newsletter_page' );
+
+function smoy_redirect_from_newsletter_page() {
+    if(!is_page('uutiskirje') )
+        return;
+    if( !isset($_GET['nm']) || !isset($_GET['nk']) || $_GET['nm'] !== 'confirmed'){
+         wp_safe_redirect( home_url(), 307 );
+         exit;
+    }
 }
 
 
@@ -2547,6 +2644,31 @@ function replace_textarea_linebreaks( $textarea ){
 
 
 
+add_action( 'smoy_get_front_page_header_video_markup', 'smoy_front_page_header_video_output');
+
+
+function smoy_front_page_header_video_output() {
+    if(is_home()) {
+    
+    
+        if(!smoy_is_mobile()) {
+            
+            ?>
+            <video id="smoy-home-video" poster="/wp-content/themes/smoy/img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg" autoplay="true" loop muted>
+                <source src="/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.mp4" type="video/mp4" />
+                <source src="/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.webm" type="video/webm" />
+            </video>
+            <?php
+
+        }
+        
+        
+    }
+    
+}
+
+
+
 add_action( 'wp_head', 'smoy_about_us_styles');
 
 function smoy_about_us_styles() {
@@ -3464,6 +3586,54 @@ function smoy_footer_social_icons_output() {
     echo $output;
     
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+add_action('smoy_get_newsletter_social_icons', 'smoy_newsletter_social_icons_output');
+
+function smoy_newsletter_social_icons_output() {
+    
+    if(is_page( 'uutiskirje' )){
+        $smoy_newsletter_query = new WP_Query( array( 'post_type' => 'page', 'page_id' => '2936') );
+        
+        $posts = $smoy_newsletter_query->posts;
+        
+        $newsletter_facebook = get_post_meta($posts[0]->ID, 'newsletter_facebook');
+        $newsletter_twitter = get_post_meta($posts[0]->ID, 'newsletter_twitter');
+        $newsletter_instagram = get_post_meta($posts[0]->ID, 'newsletter_instagram');
+        $newsletter_pinterest = get_post_meta($posts[0]->ID, 'newsletter_pinterest');
+        $newsletter_linkedin = get_post_meta($posts[0]->ID, 'newsletter_linkedin');
+        $newsletter_youtube = get_post_meta($posts[0]->ID, 'newsletter_youtube');
+    
+        $social_icons = array('facebook', 'twitter', 'instagram', 'pinterest', 'linkedin', 'youtube-play');
+        $newsletter_social_links = array($newsletter_facebook[0], $newsletter_twitter[0], $newsletter_instagram[0], $newsletter_pinterest[0], $newsletter_linkedin[0], $newsletter_youtube[0]);
+        
+        $iconArrLength = count($social_icons);
+        for($i = 0; $i < $iconArrLength; $i++) {
+            if(!empty($newsletter_social_links[$i]) && $newsletter_social_links[$i] !== '#') {
+                ?>
+                <div id="<?php echo $social_icons[$i] ?>-logo-border" class="newsletter-social-icon-border"><a target="_blank" href="<?php echo esc_url($newsletter_social_links[$i]) ?>" class="newsletter-social-link"><i class="icon-<?php echo $social_icons[$i]?>"></i></a></div>
+                <?php     
+            }
+               
+        }
+        
+        wp_reset_postdata();     
+        
+    }
+    
+    
 }
 
 

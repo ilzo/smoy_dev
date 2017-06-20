@@ -28,6 +28,7 @@ var $document = jQuery(document);
 var $window = jQuery(window);    
 var socialWidgetSidebar;
 var newsletterSidebar;
+var smoy_video;
 var overlayHoles = document.getElementsByClassName('overlay-hole');
 var w = window.innerWidth
 || document.documentElement.clientWidth
@@ -37,7 +38,31 @@ var h = window.innerHeight
 || document.body.clientHeight;
     
 jQuery(function() {
+    smoy_video = jQuery('#smoy-home-video');
     checkWidth(w);
+    // onload
+    
+    
+    
+    
+    /*
+    
+    if(document.body.clientWidth >= 870) {
+        jQuery(smoy_video)[0].play();
+    }
+
+    // If you want to autoplay when the window is resized wider than 780px 
+    // after load, you can add this:
+
+    jQuery(window).resize(function() {
+        if(document.body.clientWidth >= 870) {
+            jQuery(smoy_video)[0].play();
+        }
+    });
+    */
+    
+    
+    
     jQuery('.wpcf7-form span.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
     jQuery('#about-us-contact').click(function() {
     jQuery('html, body').animate({
@@ -134,6 +159,11 @@ function checkWidth(w) {
     }
     
     if(w <= 960) {
+        
+        if(smoy_video){
+           jQuery(smoy_video).remove();    
+        }
+        
         if(newsletterSidebar) {
             if(jQuery(newsletterSidebar).is(':visible')) {  
               jQuery(newsletterSidebar).hide();
