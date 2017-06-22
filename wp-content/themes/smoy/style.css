@@ -2199,6 +2199,7 @@ div.customer-stretchy-wrapper {
 }
 
 #contact-wrapper {
+    position: relative;
     padding: 15em 25em 15em 15%;
     background-attachment:fixed;
     min-height: 100%;
@@ -2747,7 +2748,22 @@ div.customer-stretchy-wrapper {
     left: 43px;
 }
 
-.newsletter-social-icon-border {
+#subscription-message-social-container a.newsletter-social-link {
+    color: #f2f2f2;
+    font-size: 26px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#subscription-message-social-container a.newsletter-social-link:first-of-type {
+    margin-left: 0;
+}
+
+#subscription-message-social-container a.newsletter-social-link:last-of-type {
+    margin-right: 0;
+}
+
+#subscription-message-social-container .newsletter-social-icon-border {
     color: #f2f2f2;
     display: inline-block;
     border: 2px white solid;
@@ -2755,34 +2771,42 @@ div.customer-stretchy-wrapper {
     width: 46px;
     border-radius: 40px;
     padding: 10px 0 8px 0;
-    margin-right: 5px;
-    margin-left: 5px;
+}
+
+#subscription-message-social-container .newsletter-social-icon-border i{
+    position: relative;
 }
 
 
-.newsletter-social-icon-border:first-of-type {
-    margin-left: 0;
+#footer.footer-newsletter-page {
+    min-height: 350px;
 }
 
-.newsletter-social-icon-border:last-of-type {
-    margin-right: 0;
+@-moz-document url-prefix() {
+   #subscription-message-social-container .newsletter-social-icon-border i {
+        top: -2px;
+    }
 }
 
-#subscription-message-social-container .newsletter-social-link {
-    color: #f2f2f2;
-    font-size: 26px;
-}
 
+/*
+#linkedin-logo-border {
+    margin-top: 0;
+    height: 26px;
+    width: 46px;
+    padding: 12px 0 8px 0;
+}
+*/
+
+/*
 #linkedin-logo-border .newsletter-social-link {
     font-size: 24px;
 }
+*/
 
-#linkedin-logo-border {
-    margin-top: -2px;
-    height: 26px;
-    width: 46px;
-    padding: 11px 0 9px 0;
-}
+
+
+
 
 
 
@@ -4233,6 +4257,83 @@ div.customer-stretchy-wrapper {
         margin-top: 36px !important;
     }
     
+    
+    /*
+    
+    #subscription-message-social-container {
+        position: absolute;
+        bottom: 58px;
+        left: 86px;
+    }
+    
+    
+    #subscription-message-social-container a.newsletter-social-link {
+        color: #f2f2f2;
+        font-size: 13px;
+        margin-right: 3px;
+        margin-left: 3px;
+    }
+    
+    #subscription-message-social-container .newsletter-social-icon-border {
+        border: 1px white solid;
+        height: 14px;
+        width: 23px;
+        border-radius: 20px;
+        padding: 5px 0 4px 0;
+    }
+    */
+    
+    #newsletter-subscription-message-container {
+        height: 54%;
+        max-width: 70%;
+        padding: 12px;
+    }
+    
+    #subscription-message-title {
+        font-size: 12pt;
+    }
+    
+    #subscription-message-title-underline {
+        width: 51px;
+        margin: 5px auto 20px auto;
+    }
+    
+    #subscription-message-body {
+        font-size: 13pt;
+        line-height: 1.2;
+        margin-bottom: 15px;
+    }
+    
+    #subscription-message-bottom {
+        font-size: 9.25pt;
+        max-width: 190px;
+        line-height: 1.45;
+    }
+    
+    #subscription-message-social-container {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        margin: 20px 42.25% 0 43.25%;
+    }
+    
+    #subscription-message-social-container a.newsletter-social-link {
+        margin: 0;
+        font-size: 17px;
+    }
+    
+    #subscription-message-social-container .newsletter-social-icon-border {
+        display: block;
+        height: 20px;
+        width: 38px;
+        /*padding: 10px 0 8px 0;*/
+    }
+    
+    #subscription-message-social-container a.newsletter-social-link:not(:last-child) .newsletter-social-icon-border {
+        margin-bottom: 8px;
+    }
+    
+    
 
 }
 
@@ -4683,6 +4784,12 @@ div.customer-stretchy-wrapper {
         padding: 11px 4px 11px 4px !important;
         border: solid 2px !important;
         letter-spacing: 1.25px;
+    }
+    
+    #newsletter-subscription-message-container {
+        height: 54%;
+        max-width: 96%;
+        padding: 4px;
     }
     
 }

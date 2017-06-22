@@ -1,4 +1,4 @@
-<footer id="footer">
+<footer id="footer" class="footer-newsletter-page">
 <div class="footer-container">
     <div id="footer-content-left">
         <?php do_action('smoy_get_footer_contact_info') ?>

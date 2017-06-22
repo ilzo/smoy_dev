@@ -985,12 +985,14 @@ function smoy_redirect_to_latest_blog_post() {
 add_action( 'template_redirect', 'smoy_redirect_from_newsletter_page' );
 
 function smoy_redirect_from_newsletter_page() {
+    /*
     if(!is_page('uutiskirje') )
         return;
     if( !isset($_GET['nm']) || !isset($_GET['nk']) || $_GET['nm'] !== 'confirmed'){
          wp_safe_redirect( home_url(), 307 );
          exit;
     }
+    */
 }
 
 
@@ -3623,7 +3625,7 @@ function smoy_newsletter_social_icons_output() {
         for($i = 0; $i < $iconArrLength; $i++) {
             if(!empty($newsletter_social_links[$i]) && $newsletter_social_links[$i] !== '#') {
                 ?>
-                <div id="<?php echo $social_icons[$i] ?>-logo-border" class="newsletter-social-icon-border"><a target="_blank" href="<?php echo esc_url($newsletter_social_links[$i]) ?>" class="newsletter-social-link"><i class="icon-<?php echo $social_icons[$i]?>"></i></a></div>
+                <a target="_blank" href="<?php echo esc_url($newsletter_social_links[$i]) ?>" class="newsletter-social-link"><div id="<?php echo $social_icons[$i] ?>-logo-border" class="newsletter-social-icon-border"><i class="icon-<?php echo $social_icons[$i]?>"></i></div></a>
                 <?php     
             }
                
