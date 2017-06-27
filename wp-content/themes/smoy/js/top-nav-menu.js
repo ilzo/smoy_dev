@@ -74,8 +74,8 @@ function closeSubNav(link) {
 }
     
 jQuery(function() {
-    let $root = jQuery('html, body');
-    let $document = jQuery(document);
+    var $root = jQuery('html, body');
+    var $document = jQuery(document);
     var topNavMobile = jQuery('.top-nav-mobile');
     checkScreenWidth();
     navRightContainer = jQuery('.nav-right-container')[0];
@@ -86,6 +86,14 @@ jQuery(function() {
     var englishLink = jQuery('#right-menu .english-link a')[0];
     var finnishLink = jQuery('#right-menu .finnish-link a')[0];
     var palvelut_link = jQuery('#menu-item-2405 a')[0];
+    var homepage_down_arrow = jQuery('#home-page-header-down-arrow');
+    
+    jQuery(homepage_down_arrow).click(function() {
+        $root.animate({
+            scrollTop: jQuery("#about-us").offset().top
+        }, 1000);
+    });
+    
     if(smoytalkLink[0]){
         jQuery(smoytalkLink[0]).html('');
         jQuery('#right-menu .smoytalk-link').css('display', 'inline-block'); 
@@ -96,16 +104,26 @@ jQuery(function() {
         if(subHeight === 0) {
             scroll_start = jQuery(this).scrollTop();
             if(scroll_start > 180) {
-                jQuery('.navigation-top').removeClass('nav-transparent');
-                jQuery('.navigation-top').addClass('nav-black');
-            } else {
-                jQuery('.navigation-top').removeClass('nav-black');
-                jQuery('.navigation-top').addClass('nav-transparent');
+                if( window.location.pathname === '/' ){
+                    jQuery('.navigation-top').removeClass('nav-hidden');
+                    jQuery('.navigation-top').addClass('nav-black');
+                }else{
+                    jQuery('.navigation-top').removeClass('nav-transparent');
+                    jQuery('.navigation-top').addClass('nav-black');
+                }
+                
+            }else{
+                if( window.location.pathname === '/' ){
+                    jQuery('.navigation-top').removeClass('nav-black');
+                    jQuery('.navigation-top').addClass('nav-hidden');
+                }else{
+                    jQuery('.navigation-top').removeClass('nav-black');
+                    jQuery('.navigation-top').addClass('nav-transparent');
+                    
+                }    
             }
        } 
     });
-    
-    
     
     jQuery(window).resize(checkScreenWidth);
     
@@ -230,7 +248,21 @@ jQuery(function() {
     });
     
     //jQuery('.navigation-top').addClass('nav-transparent');
-    setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600);
+    
+    if( window.location.pathname !== '/' ){
+        setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600); 
+    }else{
+        setTimeout(function(){ 
+            jQuery('.navigation-top').addClass('nav-ready nav-hidden');
+        }, 600); 
+        
+    }
+    
+    
+    
+    
+    
+    
     
 });
 

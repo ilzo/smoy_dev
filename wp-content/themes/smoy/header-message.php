@@ -16,8 +16,8 @@
 <?php wp_head(); ?>
 </head>
 <body>
-<div id="page-wrapper-uutiskirje">
-<div id="header-uutiskirje"> 
+<div id="page-wrapper-message">
+<div id="header-message"> 
     <div class="navigation-top">
         <?php get_template_part( 'template-parts/navigation', 'top' ); ?>
     </div>
@@ -25,3 +25,4 @@
         <?php get_template_part( 'template-parts/navigation', 'sub' ); ?>
     </div>            
 </div>
+<div id="message-page-content">

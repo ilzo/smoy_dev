@@ -26,4 +26,7 @@ get_header(); ?>
     <?php do_action('smoy_get_content_section_header_contact'); ?>
     <?php do_action('smoy_get_contact_form'); ?> 
 </section>
+<section id="location" onclick="document.getElementById('smoy-front-page-map').style.pointerEvents='auto'">
+    <?php do_action('smoy_get_front_page_google_map'); ?>
+</section>
 <?php get_footer(); ?>

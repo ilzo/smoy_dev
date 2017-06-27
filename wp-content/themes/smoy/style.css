@@ -94,34 +94,31 @@ body {
     opacity: 100;
 }
 
-#header-home {
+
+#header-home, #header-eng {
     height: 100vh;
     width: 100%;
-    background: url(./img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg);
-    background-repeat-x: no-repeat !important;
-    background-repeat-y: no-repeat !important;
+    background-repeat: no-repeat;
     -webkit-background-size: cover !important;
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
-    background-position: 50% 50% !important;
     padding: 0;
 }
 
-#home-hero {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    /*background: url(./img/background/smoy_home_header.jpg);*/
-    background-size: cover;
-    background-repeat: no-repeat;
+#header-home {
+    background: url(./img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg);
+    background-position: 50% 50% !important;
+}
+
+#header-eng {
+    background: url(./img/background/smoy_home_header.jpg);
     background-position: 0;
-    padding: 0;
 }
 
 
 #header-home video {
+    /*
     position: fixed;
     top: 50%;
     left: 50%;
@@ -130,7 +127,35 @@ body {
     min-height: 100%;
     width: auto;
     height: auto;
+    */
     
+    position: relative;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    top: 35%;
+    transform: translateY(-35%);
+    
+}
+/*
+#home-page-header-down-arrow {
+    position: relative;
+    display: block;
+    margin: auto;
+    top: 90%;
+    cursor: pointer;
+}
+*/
+#home-page-header-down-arrow {
+    position: absolute;
+    display: block;
+    top: 88vh;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
 }
 
 #header-logo-container {
@@ -156,7 +181,6 @@ body {
     -o-transition: visibility 0s linear 0.25s, opacity 0.25s;
     transition: visibility 0s linear 0.25s, opacity 0.25s;
     
-    
 }
 
 .nav-ready {
@@ -169,23 +193,30 @@ body {
     transition: visibility 0s linear 0s, opacity 0.25s;
 }
 
-.nav-transparent {
-    background-color: transparent;
+.nav-transparent, .nav-black, .navigation-sub {
     -webkit-transition: background 0.5s ease-out 0s;
     -moz-transition: background 0.5s ease-out 0s;
     -ms-transition: background 0.5s ease-out 0s;
     -o-transition: background 0.5s ease-out 0s;
     transition: background 0.5s ease-out 0s;
-    
+}
+
+.nav-hidden {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    -webkit-transition: visibility 0.25s linear 0.25s, opacity 0.25s, background 0.25s ease-out 0s;
+    -moz-transition: visibility 0.25s linear 0.25s, opacity 0.25s, background 0.25s ease-out 0s;
+    -ms-transition: visibility 0.25s linear 0.25s, opacity 0.25s, background 0.25s ease-out 0s;
+    -o-transition: visibility 0.25s linear 0.25s, opacity 0.25s, background 0.25s ease-out 0s;
+    transition: visibility 0.25s linear 0.25s, opacity 0.25s, background 0.25s ease-out 0s;
+}
+
+.nav-transparent {
+    background-color: transparent;
 }
 
 .nav-black {
     background-color: black;
-    -webkit-transition: background 0.5s ease-out 0s;
-    -moz-transition: background 0.5s ease-out 0s;
-    -ms-transition: background 0.5s ease-out 0s;
-    -o-transition: background 0.5s ease-out 0s;
-    transition: background 0.5s ease-out 0s;
 }
 
 .navigation-sub {
@@ -196,11 +227,6 @@ body {
     z-index: 5;
     background-color: black;
     overflow: hidden;
-    -webkit-transition: background 0.5s ease-out 0s;
-    -moz-transition: background 0.5s ease-out 0s;
-    -ms-transition: background 0.5s ease-out 0s;
-    -o-transition: background 0.5s ease-out 0s;
-    transition: background 0.5s ease-out 0s;
 }
 
 /*
@@ -611,7 +637,7 @@ button {
     bottom: 0;
     width: auto;
     height: 200px;
-    z-index: 5;
+    z-index: 4;
     -webkit-transition: visibility 0.25s, opacity 0.25s linear;
     -moz-transition: visibility 0.25s, opacity 0.25s linear;
     -ms-transition: visibility 0.25s, opacity 0.25s linear;
@@ -622,9 +648,14 @@ button {
 #newsletter-footer {
     position: absolute;
     width: 100%;
+    /*
     height: 280px;
-    /*bottom: 344px;*/
     bottom: 47px;
+    */
+    
+    height: 300px;
+    bottom: 27px;
+    
     z-index: 2;
 }
 
@@ -657,6 +688,7 @@ button {
 }
 
 .footer-newsletter-widget-container {
+    display: none;
     height: 98%;
     width: 320px;
     margin: 0 0 0 27.5em;
@@ -1338,7 +1370,7 @@ button {
 }
 */
 
-.service-box {
+.service-box, .service-box-eng {
     display: inline-block;
     width: 33.333%;
     margin: -2px -4px -2px 0px; 
@@ -1541,6 +1573,19 @@ div.service-stretchy-wrapper {
 .service-box:hover .service-body-text{
    opacity: 1;
 }
+
+
+#location {
+    width: 100%;
+    height: 40vh;
+    min-height: 230px;
+}
+
+
+#location iframe {
+    pointer-events: none;
+}
+
 
 .single-service-title {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
@@ -2624,7 +2669,7 @@ div.customer-stretchy-wrapper {
     */
     display: inline-block;
     position: absolute;
-    left: 60%;
+    left: 58%;
     padding-top: 7px;
 }
 
@@ -2677,7 +2722,7 @@ div.customer-stretchy-wrapper {
 }
 
 
-#newsletter-page-content {
+#message-page-content {
     position: relative;
     min-height: 800px;
     height: 100%;
@@ -2693,30 +2738,44 @@ div.customer-stretchy-wrapper {
     background-position: center;
 }
 
-#newsletter-subscription-message-container {
+#smoy-message-container {
     position: absolute;
-    height: 300px;
-    width: 300px;
     background-color: deeppink;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
+    padding: 46px; 
     text-align: center;
-    padding: 46px;
 }
 
-#subscription-message-title, #subscription-message-body, #subscription-message-bottom {
+.newsletter-subscription-message-container {
+    height: 310px;
+    width: 310px;
+    
+}
+
+.error-message-container {
+    width: 390px;
+    height: 300px;
+}
+
+#subscription-message-title, 
+#subscription-message-body, 
+#subscription-message-bottom, 
+#error-message-title, 
+#error-message-body, 
+#error-message-bottom {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
 }
 
-#subscription-message-title {
+#subscription-message-title, #error-message-title {
     color: #f2f2f2;
     font-size: 18pt;
 }
 
-#subscription-message-title-underline {
+#message-title-underline {
     display: block;
     position: relative;
     height: 2px;
@@ -2725,45 +2784,53 @@ div.customer-stretchy-wrapper {
     margin: 4px auto 30px 112px;
 }
 
-#subscription-message-body, #subscription-message-bottom { 
+
+#message-title-underline.error-page-title-underline {
+    width: 70px;
+    margin: 4px auto 30px 159px;
+}
+
+#subscription-message-body, #subscription-message-bottom, #error-message-body, #error-message-bottom { 
     color: #0c0c0c;
 }
 
-#subscription-message-body {
+#subscription-message-body, #error-message-body{
     font-size: 18pt;
     line-height: 1.08;
     margin-bottom: 30px;
 }
 
-#subscription-message-bottom {
+#error-message-body a{
+    color: #f2f2f2;
+}
+
+#subscription-message-bottom, #error-message-bottom {
     max-width: 190px;
     margin: 0 auto;
     line-height: 1.26;
 }
 
-
-#subscription-message-social-container {
-    position: absolute;
-    bottom: 58px;
-    left: 43px;
+#message-page-social-container {
+    position: relative;
+    margin: 30px auto 0 auto;
 }
 
-#subscription-message-social-container a.newsletter-social-link {
+#message-page-social-container a.message-page-social-link {
     color: #f2f2f2;
     font-size: 26px;
     margin-right: 5px;
     margin-left: 5px;
 }
 
-#subscription-message-social-container a.newsletter-social-link:first-of-type {
+#message-page-social-container a.message-page-social-link:first-of-type {
     margin-left: 0;
 }
 
-#subscription-message-social-container a.newsletter-social-link:last-of-type {
+#message-page-social-container a.message-page-social-link:last-of-type {
     margin-right: 0;
 }
 
-#subscription-message-social-container .newsletter-social-icon-border {
+#message-page-social-container .message-page-social-icon-border {
     color: #f2f2f2;
     display: inline-block;
     border: 2px white solid;
@@ -2773,17 +2840,27 @@ div.customer-stretchy-wrapper {
     padding: 10px 0 8px 0;
 }
 
-#subscription-message-social-container .newsletter-social-icon-border i{
+#message-page-social-container .message-page-social-icon-border i{
     position: relative;
 }
 
+/*
+#message-page-social-container.error-message-social-container .message-page-social-icon-border i{
+    left: 5px;
+}
 
-#footer.footer-newsletter-page {
+#message-page-social-container.error-message-social-container .message-page-social-icon-border i.icon-facebook{
+    left: 4px;
+}
+*/
+
+
+#footer.footer-message-page {
     min-height: 350px;
 }
 
 @-moz-document url-prefix() {
-   #subscription-message-social-container .newsletter-social-icon-border i {
+   #message-page-social-container .message-page-social-icon-border i {
         top: -2px;
     }
 }
@@ -2821,11 +2898,30 @@ div.customer-stretchy-wrapper {
 /********************************************/
 
 
-
+/*
 @media screen and (max-aspect-ratio: 1550/920) {
     
     #smoy-home-video {
         display: none;
+    }
+
+}
+*/
+
+@media screen and (max-aspect-ratio: 1280/725) {
+    
+    #smoy-home-video {
+        display: none;
+    }
+
+}
+
+
+@media screen and (min-aspect-ratio: 1280/600) {
+    
+    #smoy-home-video {
+        /* top: 35%; */
+        transform: translateY(-40%) !important;
     }
 
 }
@@ -2904,7 +3000,7 @@ div.customer-stretchy-wrapper {
     }
     
     #footer-social-icons-container {
-        margin-right: 2em;
+        left: 56%;
     }
     
     /*
@@ -2925,12 +3021,12 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 1280px) and (max-height: 1000px) {
-    /*
-    #home-hero {
+    
+    #header-eng {
         background-position: 48%;
         background-size: 135%;
     }
-    */
+    
     
     
 }
@@ -2938,7 +3034,7 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1280px) {
     
-    .service-box {
+    .service-box, .service-box-eng {
         width: 50%;
     }
     
@@ -3021,7 +3117,8 @@ div.customer-stretchy-wrapper {
     
     #footer-button-container {
         /*margin: 0 0 0 5%;*/
-        left: 22em;
+        /*left: 22em;*/
+        left: 20.25em;
     }
     
     #newsletter-button {
@@ -3043,12 +3140,14 @@ div.customer-stretchy-wrapper {
     }
     
     #newsletter-footer {
+        /*height: 280px;*/
         /*bottom: 332px;*/
-        bottom: 36px;
+        /*bottom: 36px;*/
+        bottom: 16px;
     }
     
     .footer-newsletter-widget-container {
-        margin: 0 0 0 16.8em;
+        margin: 0 0 0 14.98em;
     }
     
     
@@ -3095,12 +3194,12 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1100px) {
     
-    /*
-    #home-hero {
+    
+    #header-eng {
         background-position: 63%;
         background-size: 160%;
     }
-    */
+    
     
     /*
     #about-us {
@@ -3638,6 +3737,10 @@ div.customer-stretchy-wrapper {
     }
     */
     
+    .footer-eng-page {
+        min-height: 415px;
+    }
+    
     #footer-content-right {
         width: auto;
     }
@@ -3693,22 +3796,23 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 930px) {
-    
+    /*
     #home-hero {
         background-position: 20%;
     }
+    */
     
     #about-us {
         background-position: 55%;
     }
     
-    /*
     
-    #home-hero {
+    
+    #header-eng {
         background-size: cover;
         background-position: 74.5%;
     }
-    */
+    
     
     /*
 
@@ -3850,7 +3954,7 @@ div.customer-stretchy-wrapper {
 
     #footer-content-left {
         max-width: 90%;
-        width: 53%;
+        /*width: 53%;*/
     }
 
     #footer-content-left-title {
@@ -3876,7 +3980,7 @@ div.customer-stretchy-wrapper {
 
     #footer-social-icons-container {
         left: 84%;
-        margin: -2px 0 0 0;
+        margin: -23px 0 0 0;
         padding: 0;
     }
 
@@ -3900,7 +4004,7 @@ div.customer-stretchy-wrapper {
         max-width: 100%;
         height: 360px;
         /*bottom: 448px;*/
-        bottom: 51px;
+        bottom: 50px;
     }
     
     .footer-newsletter-widget-container {
@@ -4054,14 +4158,14 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 630px) {
     
-    /*
     
-    #home-hero {
+    
+    #header-eng {
         background-size: cover;
         background-position: 59.5%;
     }
     
-     */
+     
     
     #about-us {
         /*background-position: 14%;*/
@@ -4209,7 +4313,8 @@ div.customer-stretchy-wrapper {
 
     #newsletter-footer {
         /*bottom: 479px;*/
-        bottom: 83px;
+        /*bottom: 83px;*/
+        bottom: 50px;
     }
 
 }
@@ -4218,7 +4323,8 @@ div.customer-stretchy-wrapper {
     
     #newsletter-footer {
         /* bottom: 463px; */
-        bottom: 120px;
+        /*bottom: 120px;*/
+        bottom: 90px;
         height: 323px;
     }
     
@@ -4283,53 +4389,53 @@ div.customer-stretchy-wrapper {
     }
     */
     
-    #newsletter-subscription-message-container {
+    #smoy-message-container {
         height: 54%;
         max-width: 70%;
         padding: 12px;
     }
     
-    #subscription-message-title {
+    #subscription-message-title, #error-message-title {
         font-size: 12pt;
     }
     
-    #subscription-message-title-underline {
-        width: 51px;
-        margin: 5px auto 20px auto;
+    #message-title-underline {
+        width: 51px !important;
+        margin: 5px auto 20px auto !important;
     }
     
-    #subscription-message-body {
+    #subscription-message-body, #error-message-body {
         font-size: 13pt;
         line-height: 1.2;
         margin-bottom: 15px;
     }
     
-    #subscription-message-bottom {
+    #subscription-message-bottom, #error-message-bottom {
         font-size: 9.25pt;
         max-width: 190px;
         line-height: 1.45;
     }
     
-    #subscription-message-social-container {
+    #message-page-social-container {
         position: relative;
         bottom: auto;
         left: auto;
         margin: 20px 42.25% 0 43.25%;
     }
     
-    #subscription-message-social-container a.newsletter-social-link {
+    #message-page-social-container a.message-page-social-link {
         margin: 0;
         font-size: 17px;
     }
     
-    #subscription-message-social-container .newsletter-social-icon-border {
+    #message-page-social-container .message-page-social-icon-border {
         display: block;
         height: 20px;
         width: 38px;
         /*padding: 10px 0 8px 0;*/
     }
     
-    #subscription-message-social-container a.newsletter-social-link:not(:last-child) .newsletter-social-icon-border {
+    #message-page-social-container a.message-page-social-link:not(:last-child) .message-page-social-icon-border {
         margin-bottom: 8px;
     }
     
@@ -4584,8 +4690,13 @@ div.customer-stretchy-wrapper {
 
     }
     
+    .footer-eng-page {
+        min-height: 358px;
+    }
+    
     .footer-container {
-        padding: 3.25em 2.5% 3.25em 2.5%;
+        /*padding: 3.25em 2.5% 3.25em 2.5%;*/
+        padding: 3.8em 2.5% 3.8em 2.5%;
     }
     
     
@@ -4610,6 +4721,15 @@ div.customer-stretchy-wrapper {
         position: relative;
         float: right;
         margin-top: -5px;
+    }
+    
+    #footer-social-icons-container {
+        margin: -9px 0 0 0;
+    }
+    
+    .footer-social-link img {
+        height: auto;
+        width: 30px;
     }
     
     #newsletter-footer {
@@ -4663,11 +4783,6 @@ div.customer-stretchy-wrapper {
     #footer-content-center {
         width: 20%;
         margin-top: -10px;
-    }
-    
-    .footer-social-link img {
-        height: auto;
-        width: 30px;
     }
     
     #social-sidebar {
@@ -4726,6 +4841,10 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 300px) {
+    
+    .footer-container {
+        padding: 4.2em 2.5% 4.2em 2.5%;
+    }
     
     #newsletter-footer {
         /*bottom: 330px;*/
@@ -4786,7 +4905,7 @@ div.customer-stretchy-wrapper {
         letter-spacing: 1.25px;
     }
     
-    #newsletter-subscription-message-container {
+    #smoy-message-container {
         height: 54%;
         max-width: 96%;
         padding: 4px;
@@ -4799,7 +4918,8 @@ div.customer-stretchy-wrapper {
     
     #newsletter-footer {
         /*bottom: 350px;*/
-        bottom: 102px;
+        /*bottom: 102px;*/
+        bottom: 95px;
         height: 240px;
     }
     
@@ -4825,7 +4945,7 @@ div.customer-stretchy-wrapper {
     
     #newsletter-footer {
         /*bottom: 368px;*/
-        bottom: 149px;
+        bottom: 124px;
         height: 210px;
     }
     
@@ -4916,7 +5036,7 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-aspect-ratio: 556/780) {
     
-    #home-hero {
+    #header-eng {
         background-position: 40%;
     }
 

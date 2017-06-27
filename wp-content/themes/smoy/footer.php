@@ -1,17 +1,25 @@
 </div>  <!-- END OF SITE CONTENT -->
 <?php get_sidebar('social'); ?>
-<footer id="footer">  
+<?php if(is_home()): ?>
+<footer id="footer">
+<?php else: ?>
+<footer id="footer" class="footer-eng-page">    
+<?php endif; ?>
 <div class="footer-container">
     <div id="footer-content-left">
+        <?php if(is_home()): ?>
         <div id="footer-mobile-button-container">
             <button id="newsletter-button-mobile" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
         </div>
+        <?php endif; ?>
         <?php do_action('smoy_get_footer_contact_info') ?>
     </div>
     <!--<div id="footer-content-center"> -->
+        <?php if(is_home()): ?>
         <div id="footer-button-container">
             <button id="newsletter-button" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
         </div>
+        <?php endif; ?>
         <?php do_action('smoy_get_footer_social_icons') ?>
         
     <!--</div> -->
@@ -28,41 +36,25 @@ var $document = jQuery(document);
 var $window = jQuery(window);    
 var socialWidgetSidebar;
 var newsletterSidebar;
-var smoy_video;
 var overlayHoles = document.getElementsByClassName('overlay-hole');
+var serviceClass = ''; 
 var w = window.innerWidth
 || document.documentElement.clientWidth
 || document.body.clientWidth;
+/*
 var h = window.innerHeight
 || document.documentElement.clientHeight
 || document.body.clientHeight;
+*/
     
 jQuery(function() {
-    smoy_video = jQuery('#smoy-home-video');
-    checkWidth(w);
-    // onload
-    
-    
-    
-    
-    /*
-    
-    if(document.body.clientWidth >= 870) {
-        jQuery(smoy_video)[0].play();
+    if(window.location.pathname === '/eng/') { 
+        serviceClass = 'service-box-eng';
+    }else if(window.location.pathname === '/') {
+        serviceClass = 'service-box';     
     }
-
-    // If you want to autoplay when the window is resized wider than 780px 
-    // after load, you can add this:
-
-    jQuery(window).resize(function() {
-        if(document.body.clientWidth >= 870) {
-            jQuery(smoy_video)[0].play();
-        }
-    });
-    */
     
-    
-    
+    checkWidth(w);
     jQuery('.wpcf7-form span.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
     jQuery('#about-us-contact').click(function() {
     jQuery('html, body').animate({
@@ -72,19 +64,39 @@ jQuery(function() {
     
     socialWidgetSidebar = jQuery('#social-sidebar');
     newsletterSidebar = jQuery('#newsletter-sidebar');
+    
+    
     if(jQuery(socialWidgetSidebar).length){
-        var startScrollPos = $window.scrollTop();
         $document.bind('scroll', function() {
             social_sidebar_detectScrollPos();
         });
-    }     
+    }
+    
+    var timerInit;
+    window.onresize = function(){
+        clearTimeout(timerInit);
+        timerInit = setTimeout(delayedReplace, 600);
+
+        w = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+        
+        /*
+        h = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+        */
+        checkWidth(w);
+
+    }
+     
 });
     
-function social_sidebar_detectScrollPos () {
+function social_sidebar_detectScrollPos() {
     let currentScrollPos = $window.scrollTop();
     let windowHeight = $window.height();
     let documentHeight = $document.height();
-    if (currentScrollPos + windowHeight >= documentHeight - 380) {
+    if (currentScrollPos + windowHeight >= documentHeight - 380 || currentScrollPos < 300) {
         if (!socialWidgetSidebar.hasClass('hidden')) {
             socialWidgetSidebar.addClass('visuallyhidden');
             socialWidgetSidebar.one('transitionend', function(e) {
@@ -99,31 +111,17 @@ function social_sidebar_detectScrollPos () {
             }, 20);
         
         }
-    }
+    }   
 }
     
+ 
 function delayedReplace(){
     jQuery('.wpcf7-form div.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
 }
 
-var timerInit;
-window.onresize = function(){
-    clearTimeout(timerInit);
-    timerInit = setTimeout(delayedReplace, 600);
-    
-    w = window.innerWidth
-    || document.documentElement.clientWidth
-    || document.body.clientWidth;
-    
-    h = window.innerHeight
-    || document.documentElement.clientHeight
-    || document.body.clientHeight;
-    
-    checkWidth(w);
-     
-}
-
 function checkWidth(w) {
+    
+    
     let thisTranslateValues;
     let thisLeftTranslateValue;
     let thisTopTranslateValue;
@@ -159,11 +157,6 @@ function checkWidth(w) {
     }
     
     if(w <= 960) {
-        
-        if(smoy_video){
-           jQuery(smoy_video).remove();    
-        }
-        
         if(newsletterSidebar) {
             if(jQuery(newsletterSidebar).is(':visible')) {  
               jQuery(newsletterSidebar).hide();
@@ -174,8 +167,8 @@ function checkWidth(w) {
             let thisService = jQuery('#service-'+i);
             let thisServiceTitle = jQuery('#service-'+i+' .service-title');
             let thisServiceTitleMobile = jQuery('#service-'+i+' .service-title-mobile');
-            if(thisService.hasClass('service-box')){
-                thisService.removeClass('service-box');
+            if(thisService.hasClass(serviceClass)){
+                thisService.removeClass(serviceClass);
             }
             thisService.addClass('service-box-mobile');
             
@@ -203,8 +196,7 @@ function checkWidth(w) {
             if(thisService.hasClass('service-box-mobile')){
                 thisService.removeClass('service-box-mobile');
             }
-            thisService.addClass('service-box');
-            
+            thisService.addClass(serviceClass);
             if(jQuery('#service-'+i+' .service-title-mobile').length > 0) {
                 jQuery('#service-'+i+' .service-title-mobile').css('display', 'none');
                 jQuery('#service-'+i+' .service-title').css('display', 'block');
@@ -217,10 +209,9 @@ function checkWidth(w) {
     
 }
     
-function changeOverlayHoleLeftTrans (amount) {
+function changeOverlayHoleLeftTrans(amount) {
     for(var i = 0; i < overlayHoles.length; i++){
         thisTranslateValues = overlayHoles[i].getAttribute('transform').replace(/[^\/\d]/g,'');
-        
         if(thisTranslateValues.length > 6){
             thisLeftTranslateValue = parseInt(thisTranslateValues.substring(0, 4));
             thisTopTranslateValue = thisTranslateValues.substring(4, 7);
@@ -233,7 +224,8 @@ function changeOverlayHoleLeftTrans (amount) {
         thisLeftTranslateValue = String(thisLeftTranslateValue);
         overlayHoles[i].setAttribute('transform', 'translate('+thisLeftTranslateValue+','+thisTopTranslateValue+')');        
     }
-}    
+}
+   
 </script>
 </body>
 </html>    

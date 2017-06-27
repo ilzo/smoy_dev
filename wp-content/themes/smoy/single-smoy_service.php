@@ -16,4 +16,4 @@ get_header('service'); ?>
         endwhile;
     ?>
 </main><!-- .site-main -->
-<?php get_footer(); ?>
+<?php get_footer('service'); ?>

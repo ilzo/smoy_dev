@@ -37,9 +37,9 @@ function smoy_setup() {
     /* Set the image size by cropping the image */
     //add_image_size('test-thumbnail', 500, 326, true);
     //add_image_size( 'test-big', 3000, 9999);
-    add_image_size( 'service-background-small', 640);
-    add_image_size( 'service-background-medium', 1280);
-    add_image_size( 'service-background-large', 1600);
+    add_image_size( 'single-background-small', 640);
+    add_image_size( 'single-background-medium', 1280);
+    add_image_size( 'single-background-large', 1600);
     add_image_size( 'service-thumb', 1600, 9999);
     //add_image_size( 'background-large', 2400);
     //add_image_size( 'background-x-large', 3000);
@@ -474,8 +474,6 @@ final class Smoy_Person_Metabox {
 
 $smoy_person_metabox = new Smoy_Person_Metabox();
 
-
-
 add_filter( 'enter_title_here', 'smoy_person_title' );
 
 function smoy_person_title( $input ) {
@@ -485,64 +483,58 @@ function smoy_person_title( $input ) {
 
     return $input;
 }
-
-
-           
-            
-final class Smoy_Newsletter_Metabox {
+      
+final class Smoy_Message_Page_Metabox {
 
     public function __construct() {
-        add_action( 'add_meta_boxes', array( $this, 'create_newsletter_social_meta_box' ) );
-        add_filter( 'save_post', array( $this, 'save_newsletter_meta_boxes' ), 10, 2 );
+        add_action( 'add_meta_boxes', array( $this, 'create_message_page_social_meta_box' ) );
+        add_filter( 'save_post', array( $this, 'save_message_page_meta_boxes' ), 10, 2 );
     }
 
-    public function create_newsletter_social_meta_box() {
+    public function create_message_page_social_meta_box() {
         global $post;
         if(!empty($post)) {
             if($post->post_type === 'page' && $post->ID === '2936'){
                 add_meta_box(
-                    'newsletter_social_meta_box',
+                    'message_page_social_meta_box',
                     __( 'Sosiaalisen median linkit', 'smoy' ),
-                    array( $this, 'print_newsletter_meta_boxes' ),
+                    array( $this, 'print_message_page_meta_boxes' ),
                     'page',
                     'normal',
                     'high'
                 );
-
             }
-
         }
-
     }
-
-    public function print_newsletter_meta_boxes( $post, $metabox ) {
+    
+    public function print_message_page_meta_boxes( $post, $metabox ) {
         ?>
             <input type="hidden" name="meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
             <?php wp_nonce_field( 'save_' . $metabox['id'], $metabox['id'] . '_nonce' ); ?>
             <table class="form-table">
-            <tr><th><label for="newsletter_facebook"><?php _e( 'Facebook-linkki', 'smoy' ); ?></label></th>
-            <td><input name="newsletter_facebook" type="text" id="newsletter_facebook" value="<?php echo get_post_meta($post->ID, 'newsletter_facebook', true); ?>" class="regular-text"></td></tr>
-            <tr><th><label for="newsletter_twitter"><?php _e( 'Twitter-linkki', 'smoy' ); ?></label></th>
-            <td><input name="newsletter_twitter" type="text" id="newsletter_twitter" value="<?php echo get_post_meta($post->ID, 'newsletter_twitter', true); ?>" class="regular-text"></td></tr>
-            <tr><th><label for="newsletter_instagram"><?php _e( 'Instagram-linkki', 'smoy' ); ?></label></th>
-            <td><input name="newsletter_instagram" type="text" id="newsletter_instagram" value="<?php echo get_post_meta($post->ID, 'newsletter_instagram', true); ?>" class="regular-text"></td></tr>
-            <tr><th><label for="newsletter_pinterest"><?php _e( 'Pinterest-linkki', 'smoy' ); ?></label></th>
-            <td><input name="newsletter_pinterest" type="text" id="newsletter_pinterest" value="<?php echo get_post_meta($post->ID, 'newsletter_pinterest', true); ?>" class="regular-text"></td></tr>
-            <tr><th><label for="newsletter_linkedin"><?php _e( 'Linkedin-linkki', 'smoy' ); ?></label></th>
-            <td><input name="newsletter_linkedin" type="text" id="newsletter_linkedin" value="<?php echo get_post_meta($post->ID, 'newsletter_linkedin', true); ?>" class="regular-text"></td></tr>
-            <tr><th><label for="newsletter_youtube"><?php _e( 'Youtube-linkki', 'smoy' ); ?></label></th>
-            <td><input name="newsletter_youtube" type="text" id="newsletter_youtube" value="<?php echo get_post_meta($post->ID, 'newsletter_youtube', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="message_page_facebook"><?php _e( 'Facebook-linkki', 'smoy' ); ?></label></th>
+            <td><input name="message_page_facebook" type="text" id="message_page_facebook" value="<?php echo get_post_meta($post->ID, 'message_page_facebook', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="message_page_twitter"><?php _e( 'Twitter-linkki', 'smoy' ); ?></label></th>
+            <td><input name="message_page_twitter" type="text" id="message_page_twitter" value="<?php echo get_post_meta($post->ID, 'message_page_twitter', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="message_page_instagram"><?php _e( 'Instagram-linkki', 'smoy' ); ?></label></th>
+            <td><input name="message_page_instagram" type="text" id="message_page_instagram" value="<?php echo get_post_meta($post->ID, 'message_page_instagram', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="message_page_pinterest"><?php _e( 'Pinterest-linkki', 'smoy' ); ?></label></th>
+            <td><input name="message_page_pinterest" type="text" id="message_page_pinterest" value="<?php echo get_post_meta($post->ID, 'message_page_pinterest', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="message_page_linkedin"><?php _e( 'Linkedin-linkki', 'smoy' ); ?></label></th>
+            <td><input name="message_page_linkedin" type="text" id="message_page_linkedin" value="<?php echo get_post_meta($post->ID, 'message_page_linkedin', true); ?>" class="regular-text"></td></tr>
+            <tr><th><label for="message_page_youtube"><?php _e( 'Youtube-linkki', 'smoy' ); ?></label></th>
+            <td><input name="message_page_youtube" type="text" id="message_page_youtube" value="<?php echo get_post_meta($post->ID, 'message_page_youtube', true); ?>" class="regular-text"></td></tr>
             </table>
-            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_facebook" />
-            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_twitter" />
-            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_instagram" />
-            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_pinterest" />
-            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_linkedin" />
-            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="newsletter_youtube" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="message_page_facebook" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="message_page_twitter" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="message_page_instagram" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="message_page_pinterest" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="message_page_linkedin" />
+            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="message_page_youtube" />
         <?php
     }
 
-    public function save_newsletter_meta_boxes( $post_id, $post ) {
+    public function save_message_page_meta_boxes( $post_id, $post ) {
         if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
         if( empty( $_POST['meta_box_ids'] ) ){ return; }
         foreach( $_POST['meta_box_ids'] as $metabox_id ){
@@ -557,10 +549,8 @@ final class Smoy_Newsletter_Metabox {
 }
 
 
-$smoy_newsletter_metabox = new Smoy_Newsletter_Metabox();
-            
-            
-            
+$smoy_message_page_metabox = new Smoy_Message_Page_Metabox();
+                
 add_action( 'init', 'smoy_register_menus' );
 
 function smoy_register_menus() {
@@ -694,6 +684,8 @@ function load_scripts()
     
     wp_register_script('top-nav-menu', get_template_directory_uri() .'/js/top-nav-menu.js', array('jquery'), null, true);
     
+    wp_register_script('front-page-video', get_template_directory_uri() .'/js/front-page-video.js', array('jquery'), null, true);
+    
     //wp_register_script( 'freewall', get_template_directory_uri() . '/js/freewall.js', array( 'jquery'), '1.0.6', false);
     
     
@@ -741,6 +733,10 @@ function load_scripts()
     
     //wp_enqueue_script( 'nav-menu');
     
+    
+    if(is_home()){
+        wp_enqueue_script( 'front-page-video' );
+    }
     
     
     if(is_home() || is_page('eng')){
@@ -880,9 +876,13 @@ function post_featured_img_path() {
 add_filter('intermediate_image_sizes_advanced', 'smoy_set_image_sizes_by_post_type');
     
 function smoy_set_image_sizes_by_post_type($sizes) {
-    $type = get_post_type($_REQUEST['post_id']);
+    $post_id = $_REQUEST['post_id'];
     
-    if ( $type === "smoy_service") {
+    $type = get_post_type($post_id);
+    
+    $category = get_the_category($post_id);
+    
+    if ( $type === "smoy_service" || $category === 'blogi') {
         /*add_image_size('custom_size_img', 165, 249, true);*/
         unset( $sizes['thumbnail']);
         unset( $sizes['medium']);
@@ -910,7 +910,7 @@ add_action( 'wp_head', 'smoy_generate_responsive_background_image_styles');
 */
 function smoy_generate_responsive_background_image_styles() {
     
-    if ( is_singular('smoy_service') ) {
+    if ( is_singular('smoy_service') || in_category('blogi') ) {
         global $post;
         $image_id = get_post_thumbnail_id($post->ID); // set or grab your image id
         $img_srcset = wp_get_attachment_image_srcset( $image_id, 'full' );
@@ -943,9 +943,7 @@ function smoy_generate_responsive_background_image_styles() {
             }
             */
             
-            $background_css = '#header-service {
-                    background-image: url(' . esc_url( $split[0] ) . ')
-            }';
+            $background_css = '#header-single { background-image: url(' . esc_url( $split[0] ) . ') !important;}';
 
             // Grab the previous image size as the min-width and/or add the background css to the main css string
             if( !empty( $prev_size ) ) {
@@ -985,14 +983,12 @@ function smoy_redirect_to_latest_blog_post() {
 add_action( 'template_redirect', 'smoy_redirect_from_newsletter_page' );
 
 function smoy_redirect_from_newsletter_page() {
-    /*
     if(!is_page('uutiskirje') )
         return;
     if( !isset($_GET['nm']) || !isset($_GET['nk']) || $_GET['nm'] !== 'confirmed'){
          wp_safe_redirect( home_url(), 307 );
          exit;
-    }
-    */
+    } 
 }
 
 
@@ -1424,7 +1420,6 @@ function smoy_customize_register( $wp_customize ) {
     ));
     
     
-    
     /* ------------- Front-Page People ------------ */
     
     $wp_customize->add_section( 'smoy_people_section', array(
@@ -1432,7 +1427,6 @@ function smoy_customize_register( $wp_customize ) {
       'description' => __( 'Edit people section here.', 'smoy' ),
       'capability' => 'edit_theme_options'
     ));
-    
     
     
     /* ------------ Front-Page Contact ------------ */
@@ -1443,6 +1437,14 @@ function smoy_customize_register( $wp_customize ) {
       'capability' => 'edit_theme_options'
     ));
     
+    
+    /* ------------ Front-Page Location ------------ */
+    
+    $wp_customize->add_section( 'smoy_location_section', array(
+      'title' => __( 'Location', 'smoy' ),
+      'description' => __( 'Edit location section here.', 'smoy' ),
+      'capability' => 'edit_theme_options'
+    ));
     
     
     /* ----------------- Footer ------------------- */
@@ -1629,11 +1631,13 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
         ));
         
+        /*
         $wp_customize->add_setting('smoy_service_desc_body_eng_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
+        */
         
     
         /*
@@ -1652,11 +1656,13 @@ function smoy_customize_register( $wp_customize ) {
         ));
         
         
+        /*
         $wp_customize->add_setting('smoy_service_body_max_width_eng_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
+        */
         
         
         /*
@@ -1893,6 +1899,17 @@ function smoy_customize_register( $wp_customize ) {
     
     
     
+    /* ------------ Front-Page Location ------------- */
+    
+    
+    $wp_customize->add_setting('smoy_location_map', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    
+    
     /* ------------------- Footer ------------------ */
     
     
@@ -1927,7 +1944,7 @@ function smoy_customize_register( $wp_customize ) {
     ));
     
     
-    for($i = 1; $i < 5; $i++) {
+    for($i = 1; $i < 6; $i++) {
         
         $wp_customize->add_setting('smoy_footer_social_icon_'.$i, array(
             'type' => 'theme_mod',
@@ -2101,7 +2118,7 @@ function smoy_customize_register( $wp_customize ) {
           'section' => 'smoy_services_section',
           'active_callback' => 'smoy_callback_is_eng_page'
         ));
-        
+    
         $wp_customize->add_control( 'smoy_services_header_desc_eng', array(
           'label' => __( 'Header description body (in english)', 'smoy'),
           'type' => 'textarea',
@@ -2161,12 +2178,14 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'smoy_callback_is_eng_page'
         ));
         
+        /*
         $wp_customize->add_control( 'smoy_service_desc_body_eng_'.$i, array(
           'label' => __( 'Service '.$i.' english description', 'smoy'),
           'type' => 'textarea',
           'section' => 'smoy_services_section',
           'active_callback' => 'smoy_callback_is_eng_page'
         ));
+        */
         
         
         /*
@@ -2186,7 +2205,7 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'is_front_page'
         ));
         
-        
+        /*
         $wp_customize->add_control( 'smoy_service_body_max_width_eng_'.$i, array(
           'label' => __( 'Service '.$i.' body text max width', 'smoy'),
           'description' => __( 'Adjust the body text max width. You can use normal css units, like px, em and % (default 60%)', 'smoy'),
@@ -2194,6 +2213,7 @@ function smoy_customize_register( $wp_customize ) {
           'section' => 'smoy_services_section',
           'active_callback' => 'smoy_callback_is_eng_page'
         ));
+        */
         
         /*
         
@@ -2515,6 +2535,19 @@ function smoy_customize_register( $wp_customize ) {
     ));
     
     
+    /* ------------------ Location -------------------- */
+    
+    
+    $wp_customize->add_control( 'smoy_location_map', array(
+          'label' => __( 'Google map iframe url', 'smoy'),
+          'description' => __( 'Place the contents of the embedded google map url attribute here. You can get the embedded google map url for a given location from maps.google.com', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_location_section',
+          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
+    
+    
+    
     /* ------------------ Footer -------------------- */
     
      $wp_customize->add_control( 'smoy_footer_contact_building', array(
@@ -2547,7 +2580,7 @@ function smoy_customize_register( $wp_customize ) {
           'section' => 'smoy_footer_section'
     ));
     
-    for ($i = 1; $i < 5; $i++) {
+    for ($i = 1; $i < 6; $i++) {
         
         $wp_customize->add_control( 
             new WP_Customize_Media_Control(
@@ -2622,6 +2655,21 @@ function smoy_customer_references_styles(){
 }
 */
 
+/*
+add_shortcode('googlemap', 'smoy_google_maps_iframe_markup');
+
+function smoy_google_maps_iframe_markup( $atts ) {
+   extract(shortcode_atts(array(
+      'src' => ''
+   ), $atts));
+   return '<iframe src="'.$src.'&amp;output=embed" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="border:0" allowfullscreen></iframe>';
+}
+*/
+
+/*
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d681.8225615488669!2d24.944558429841454!3d60.164272390996295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46920bc905c8395b%3A0x1ead66bd8bb052bf!2sPieni+Roobertinkatu+9%2C+00101+Helsinki!5e0!3m2!1sfi!2sfi!4v1498540101772" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+*/
+
 
 function smoy_sanitize_checkbox( $input ) {
 	return ( $input === true ) ? true : false;
@@ -2644,32 +2692,27 @@ function replace_textarea_linebreaks( $textarea ){
     return str_replace("\n", '<span class="header-desc-linebreak"></span>', $textarea); 
 }
 
-
-
 add_action( 'smoy_get_front_page_header_video_markup', 'smoy_front_page_header_video_output');
-
 
 function smoy_front_page_header_video_output() {
     if(is_home()) {
-    
-    
         if(!smoy_is_mobile()) {
-            
             ?>
-            <video id="smoy-home-video" poster="/wp-content/themes/smoy/img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg" autoplay="true" loop muted>
+            <video id="smoy-home-video" poster="/wp-content/themes/smoy/img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg" autoplay="true" loop muted preload="none">
                 <source src="/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.mp4" type="video/mp4" />
                 <source src="/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.webm" type="video/webm" />
             </video>
             <?php
-
         }
-        
-        
-    }
-    
+        ?>
+        <svg id="home-page-header-down-arrow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 129 129" enable-background="new 0 0 129 129" width="64px" height="64px">
+          <g>
+            <path d="m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z" fill="#ff8100" fill-opacity="0.9"/>
+          </g>
+        </svg>
+        <?php
+    } 
 }
-
-
 
 add_action( 'wp_head', 'smoy_about_us_styles');
 
@@ -2885,7 +2928,8 @@ function smoy_about_us_output() {
 
 add_action( 'wp_head', 'smoy_services_styles');
 
-function smoy_services_styles() { 
+function smoy_services_styles() {
+    
     if(is_home() || is_page( 'eng' )) {
         
         /*
@@ -2950,11 +2994,15 @@ function smoy_services_styles() {
                     }    
                 }
                 
+                $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_'.$j);
+                
+                /*
                 if(is_home()){
                     $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_'.$j);
                 }else{
                     $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_eng_'.$j);
                 }
+                */
                 
                 if(empty($body_text_max_width)) {
                     $css['#service-'.$j.' .service-body-text']['max-width'] = "60%";
@@ -3104,7 +3152,7 @@ function smoy_services_front_page_output() {
         for($i = 0; $i < 6; $i++) {
             
             $smoy_services_titles_front[$i] = get_theme_mod( 'smoy_service_title_front_eng_'.$j);
-            $smoy_services_desc_bodies_eng[$i] = get_theme_mod( 'smoy_service_desc_body_eng_'.$j);
+            //$smoy_services_desc_bodies_eng[$i] = get_theme_mod( 'smoy_service_desc_body_eng_'.$j);
             
             $j++;
         }
@@ -3538,6 +3586,18 @@ function smoy_footer_contact_output() {
 }
 
 
+add_action('smoy_get_front_page_google_map', 'smoy_front_page_google_map_output');
+
+function smoy_front_page_google_map_output() {
+    if(is_home() || is_page( 'eng' )) {
+        $smoy_google_map_url = get_theme_mod('smoy_location_map');
+        //echo do_shortcode($smoy_location_map);
+        ?>
+        <iframe id="smoy-front-page-map" src="<?php echo esc_url($smoy_google_map_url) ?>" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="border:0" allowfullscreen></iframe>
+        <?php
+    } 
+}
+
 
 add_action('smoy_get_footer_social_icons', 'smoy_footer_social_icons_output');
 
@@ -3551,11 +3611,13 @@ function smoy_footer_social_icons_output() {
     $iconArr[1] = get_theme_mod('smoy_footer_social_icon_2');
     $iconArr[2] = get_theme_mod('smoy_footer_social_icon_3');
     $iconArr[3] = get_theme_mod('smoy_footer_social_icon_4');
+    $iconArr[4] = get_theme_mod('smoy_footer_social_icon_5');
     
     $linkArr[0] = get_theme_mod('smoy_footer_social_icon_link_1');
     $linkArr[1] = get_theme_mod('smoy_footer_social_icon_link_2');
     $linkArr[2] = get_theme_mod('smoy_footer_social_icon_link_3');
     $linkArr[3] = get_theme_mod('smoy_footer_social_icon_link_4');
+    $linkArr[4] = get_theme_mod('smoy_footer_social_icon_link_5');
     
     $iconArrLength = count($iconArr);
     
@@ -3592,49 +3654,35 @@ function smoy_footer_social_icons_output() {
 
 
 
+add_action('smoy_get_message_page_social_icons', 'smoy_message_page_social_icons_output');
 
-
-
-
-
-
-
-
-
-
-add_action('smoy_get_newsletter_social_icons', 'smoy_newsletter_social_icons_output');
-
-function smoy_newsletter_social_icons_output() {
-    
-    if(is_page( 'uutiskirje' )){
-        $smoy_newsletter_query = new WP_Query( array( 'post_type' => 'page', 'page_id' => '2936') );
+function smoy_message_page_social_icons_output() {
+    if(is_page( 'uutiskirje' ) || is_404()){
+        $smoy_message_social_query = new WP_Query( array( 'post_type' => 'page', 'page_id' => '2936') );
+        $posts = $smoy_message_social_query->posts;
         
-        $posts = $smoy_newsletter_query->posts;
-        
-        $newsletter_facebook = get_post_meta($posts[0]->ID, 'newsletter_facebook');
-        $newsletter_twitter = get_post_meta($posts[0]->ID, 'newsletter_twitter');
-        $newsletter_instagram = get_post_meta($posts[0]->ID, 'newsletter_instagram');
-        $newsletter_pinterest = get_post_meta($posts[0]->ID, 'newsletter_pinterest');
-        $newsletter_linkedin = get_post_meta($posts[0]->ID, 'newsletter_linkedin');
-        $newsletter_youtube = get_post_meta($posts[0]->ID, 'newsletter_youtube');
+        $message_page_facebook = get_post_meta($posts[0]->ID, 'message_page_facebook');
+        $message_page_twitter = get_post_meta($posts[0]->ID, 'message_page_twitter');
+        $message_page_instagram = get_post_meta($posts[0]->ID, 'message_page_instagram');
+        $message_page_pinterest = get_post_meta($posts[0]->ID, 'message_page_pinterest');
+        $message_page_linkedin = get_post_meta($posts[0]->ID, 'message_page_linkedin');
+        $message_page_youtube = get_post_meta($posts[0]->ID, 'message_page_youtube');
     
         $social_icons = array('facebook', 'twitter', 'instagram', 'pinterest', 'linkedin', 'youtube-play');
-        $newsletter_social_links = array($newsletter_facebook[0], $newsletter_twitter[0], $newsletter_instagram[0], $newsletter_pinterest[0], $newsletter_linkedin[0], $newsletter_youtube[0]);
+        $message_page_social_links = array($message_page_facebook[0], $message_page_twitter[0], $message_page_instagram[0], $message_page_pinterest[0], $message_page_linkedin[0], $message_page_youtube[0]);
         
         $iconArrLength = count($social_icons);
         for($i = 0; $i < $iconArrLength; $i++) {
-            if(!empty($newsletter_social_links[$i]) && $newsletter_social_links[$i] !== '#') {
+            if(!empty($message_page_social_links[$i]) && $message_page_social_links[$i] !== '#') {
                 ?>
-                <a target="_blank" href="<?php echo esc_url($newsletter_social_links[$i]) ?>" class="newsletter-social-link"><div id="<?php echo $social_icons[$i] ?>-logo-border" class="newsletter-social-icon-border"><i class="icon-<?php echo $social_icons[$i]?>"></i></div></a>
+                <a target="_blank" href="<?php echo esc_url($message_page_social_links[$i]) ?>" class="message-page-social-link"><div id="<?php echo $social_icons[$i] ?>-logo-border" class="message-page-social-icon-border"><i class="icon-<?php echo $social_icons[$i]?>"></i></div></a>
                 <?php     
             }
                
         }
         
         wp_reset_postdata();     
-        
     }
-    
     
 }
 

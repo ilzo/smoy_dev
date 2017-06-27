@@ -3,8 +3,17 @@ var $window = jQuery(window);
 var newsletterSidebar;
 var newsletterFooter;
 var newsletterWidgetWrapper;
+/*
 var newsletterBottomValues = ['47px', '36px', '51px', '83px', '120px', '20px', '35px', '20px', '38px', '102px', '149px'];
-var newsLetterTransitionValues = ['297', '296', '397', '396', '343', '335', '335', '300', '292', '248', '219'];
+var newsLetterTransitionValues = ['295', '296', '397', '396', '343', '335', '335', '300', '292', '248', '219'];
+*/
+/*
+var newsletterBottomValues = ['27px', '16px', '51px', '83px', '120px', '20px', '35px', '20px', '38px', '102px', '149px'];
+var newsLetterTransitionValues = ['315', '315', '397', '396', '343', '335', '335', '300', '292', '248', '219'];
+*/
+
+var newsletterBottomValues = ['27px', '16px', '50px', '50px', '90px', '20px', '35px', '20px', '38px', '95px', '124px'];
+var newsLetterTransitionValues = ['315', '315', '397', '396', '343', '335', '335', '315', '292', '241', '214'];
 
 function openNewsletterBox(newsletterSidebar) {
     if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
@@ -62,11 +71,23 @@ jQuery(function() {
       toggleFooterNewsletterBox (newsletterFooter, viewportWidth);
     });
     
+    var timeOutVar;
     $window.resize(function() {
         let viewportWidth = Math.max( jQuery(window).width(), window.innerWidth);
-        initNewsletterFooterBottomValue(newsletterFooter, viewportWidth);
+        hideFooterNewsletterBox(newsletterFooter, viewportWidth);
+        clearTimeout(timeOutVar);
+        timeOutVar = setTimeout(function(){
+            initNewsletterFooterBottomValue(newsletterFooter, viewportWidth);
+            if(jQuery(newsletterFooter).is(':hidden')){
+                jQuery(newsletterFooter).show();
+            }
+        }, 380);
     });
     
+    let footerWidgetContainer = document.getElementsByClassName('footer-newsletter-widget-container')[0];
+    setTimeout(function(){
+        footerWidgetContainer.style.display = 'block';
+    }, 450);
 
 });
 
@@ -83,6 +104,33 @@ function newsletter_detectScrollPos (startScrollPos) {
 
 
 function toggleFooterNewsletterBox (newsletterFooter, width) {
+    let transVal = getTransitionValue(width);
+    if(!jQuery(newsletterFooter).hasClass('footer-newsletter-box-opened')) {
+        jQuery(newsletterFooter).animate({ 'bottom': '+='+transVal+'px' }, 850);
+        jQuery(newsletterFooter).addClass('footer-newsletter-box-opened'); 
+    }else{
+        jQuery(newsletterFooter).removeClass('footer-newsletter-box-opened');
+        jQuery(newsletterFooter).animate({ 'bottom': '-='+transVal+'px' }, 850);     
+    }
+
+}
+
+function hideFooterNewsletterBox (newsletterFooter, width) {
+    let transVal = getTransitionValue(width);
+    if(jQuery('#newsletter-button, #newsletter-button-mobile').hasClass('active-button')){
+       jQuery('#newsletter-button, #newsletter-button-mobile').removeClass( 'active-button' );
+    }
+    if(jQuery(newsletterFooter).hasClass('footer-newsletter-box-opened')) {
+        jQuery(newsletterFooter).removeClass('footer-newsletter-box-opened');
+    }
+    
+    if(jQuery(newsletterFooter).is(':visible')){
+       jQuery(newsletterFooter).hide();
+    }
+           
+}
+
+function getTransitionValue (width) {
     let transVal = '';
     if(1280 < width) {
         transVal = newsLetterTransitionValues[0];
@@ -107,15 +155,7 @@ function toggleFooterNewsletterBox (newsletterFooter, width) {
     }else if(width <= 223) { 
         transVal = newsLetterTransitionValues[10];
     }
-    
-    if(!jQuery(newsletterFooter).hasClass('footer-newsletter-box-opened')) {
-        jQuery(newsletterFooter).animate({ 'bottom': '+='+transVal+'px' }, 850);
-        jQuery(newsletterFooter).addClass('footer-newsletter-box-opened'); 
-    }else{
-        jQuery(newsletterFooter).removeClass('footer-newsletter-box-opened');
-        jQuery(newsletterFooter).animate({ 'bottom': '-='+transVal+'px' }, 850);     
-    }
-
+    return transVal;
 }
 
 function initNewsletterFooterBottomValue (newsletterFooter, width) { 
@@ -165,5 +205,4 @@ function initNewsletterFooterBottomValue (newsletterFooter, width) {
            newsletterFooter.style.bottom = newsletterBottomValues[10];
         }
     }
-
 }

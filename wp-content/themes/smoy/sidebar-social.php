@@ -10,7 +10,7 @@
  */
 if ( is_active_sidebar( 'social_widget_sidebar' )) : 
 ?>
-<div id="social-sidebar" class="widget-area" role="secondary">
+<div id="social-sidebar" class="widget-area hidden visuallyhidden" role="secondary">
     <?php dynamic_sidebar( 'social_widget_sidebar' ); ?>
 </div>
 <?php endif; ?>
