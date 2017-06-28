@@ -1245,6 +1245,7 @@ button {
     position: relative;
     height: 80vh;
     min-height: 560px;
+    max-height: 890px;
     background-repeat-x: no-repeat !important;
     background-repeat-y: no-repeat !important;
     -webkit-background-size: cover !important;
@@ -1268,7 +1269,8 @@ button {
 
 #services > .content-section-header {
     background: url("./img/background/palvelut.jpg");
-    background-position: 0 0 !important;
+    /*background-position: 0 0 !important;*/
+    background-position: 0 41% !important;
 }
 
 #our-customers > .content-section-header {
@@ -3294,6 +3296,7 @@ div.customer-stretchy-wrapper {
     .content-section-header {
         height: 66vh;
         min-height: 440px;
+        max-height: 560px;
     }
     
     
@@ -3310,212 +3313,14 @@ div.customer-stretchy-wrapper {
     
     #services > .content-section-header {
         height: 66vh;
-        min-height: 420px;
-        background-position: 0 15% !important;
+        min-height: 440px;
+        /*background-position: 0 15% !important;*/
     }
     
     
     .customer-box {
         /* width: 49.999%; */
         width: 49.89%;
-    }
-    
-    #top-menu {
-        position: absolute;
-        top: 25%;
-        text-align: center;
-        padding: 0;
-        margin: 0;
-    }
-    
-    #top-menu li {
-        display: block;
-        padding: 0;
-        color: #818181;
-    }
-    
-    #top-menu-overlay {
-        margin: 0;
-        height: 0;
-        width: 100%;
-        position: fixed; 
-        z-index: 9999;
-        left: 0;
-        top: 0;
-        background-color: rgb(0,0,0); 
-        background-color: rgba(0,0,0, 0.9); 
-        overflow: hidden; 
-        transition: 0.5s; 
-
-    }
-    
-    #nav-logo-container-inner {
-        display: block;
-    }
-    
-    
-    .navigation-sub {
-        /*
-        top: 306px;
-        height: 0;
-        width: 100%;
-        */
-        background-color: transparent;
-        text-align: center;
-    }
-    
-    #top-menu ul {
-        list-style-type: none;
-        text-align: center;
-        padding: 0;
-    }
-
-    #sub-menu {
-        margin: 0;
-    }
-    
-    #sub-menu.second-menu-opened {
-        max-height: 500px;
-    }
-    
-    #sub-menu li {
-        display: table;
-        padding: 0 !important;
-        margin: 20px auto 20px auto;
-        width: 95%;
-        border: 1px solid #f2f2f2;
-    }
-    
-    #sub-menu li:first-of-type {
-        margin-top: 12px;
-    }
-
-    #sub-menu li:last-of-type {
-        margin-bottom: 12px;
-    }
-
-    #sub-menu li a {
-        font-size: 13.8pt;
-        padding: 15px 0 9px 0;
-        margin: 0;
-    }
-    
-    #top-menu-overlay .menu-ylavalikko-container .menu-item a.active-link:after {
-        width: 65px;
-    }
-    
-    .sub-link-double-angle {
-        float: left;
-        left: 10px;
-        font-size: 1.6em;
-        max-height: 18pt;
-        top: -6px;
-    }
-    
-    .nav-logo-container {
-        display: block;
-        float: none;
-        margin: 15px auto 6px auto;
-        text-align: center;
-        width: 100%;
-    }
-    
-    #open-button-container {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        min-width: 55px;
-        margin: 0 6px 0 0;
-    }
-    
-    #top-menu-open {
-        display: inline-block;
-        float: left;
-        opacity: 100;
-    }
-    
-    #top-menu-overlay .closebtn {
-        display: block;
-    }
-    
-    #right-menu {
-        margin: 0 0 0 -40px;
-    }
-
-    .nav-right-container {
-        right:0;
-        top: 15%;
-        width: 100%;
-        text-align: center;
-    }
-    
-    #right-menu li {
-        margin: 0px 10px 0px 10px;
-    }
-    
-    .nav-right-container .smoytalk-link {
-        height: 34px;
-    }
-    
-    .nav-right-container .english-link {
-        height: 50px;
-    }
-    
-    .nav-right-container .finnish-link {
-        height: 50px;
-    }
-    
-    /*
-    
-    .nav-right-container .smoytalk-link {
-        background-size: 90% 75%;
-    }
-    */
-    
-    .nav-right-container .smoytalk-link {
-        background-size: 82% 70%;
-    }
-    
-    .smoytalk-link a {
-        display: block;
-        height: 38px;
-        width: 49px;
-        margin: 0;
-    }
-    
-    /*
-    .nav-right-container .english-link {
-        background-size: 100% 69%;
-        height: 31px;
-        width: 36px;
-    }
-    */
-    
-    .nav-right-container .english-link, .nav-right-container .finnish-link {
-        background-size: 100% 69%;
-    }
-    
-    .nav-right-container .english-link {
-        height: 33px;
-        width: 57px;
-    }
-    
-    .nav-right-container .finnish-link {
-        height: 40px;
-        width: 34px;
-    }
-    
-    .english-link a {
-        height: 33px;
-        width: 49px;
-        margin: 0;
-    }
-    
-    .finnish-link a {
-        height: 40px;
-        width: 40px;
-        margin: 0;
     }
     
     /*
@@ -3538,6 +3343,18 @@ div.customer-stretchy-wrapper {
     
     .service-image-wrapper {
         height: 25vw;
+    }
+    
+    #service-1.service-box-mobile .service-image-wrapper {
+        height: 36vw;
+    }
+    
+    #service-2.service-box-mobile .service-image-wrapper {
+        height: 31vw;
+    }
+    
+    #service-4.service-box-mobile .service-image-wrapper {
+        height: 38vw;
     }
     
     /*
@@ -3793,6 +3610,235 @@ div.customer-stretchy-wrapper {
     
      
 }
+
+
+
+
+@media screen and (max-width: 960px) and (min-height: 360px) { 
+
+    /* ---------- TOP MOBILE NAV MENU START ---------- */
+    
+    #top-menu {
+        position: absolute;
+        top: 22.5%;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+    }
+    
+    #top-menu li {
+        display: block;
+        padding: 0;
+        color: #818181;
+    }
+    
+    #top-menu-overlay {
+        margin: 0;
+        height: 0;
+        width: 100%;
+        position: fixed; 
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        background-color: rgb(0,0,0); 
+        background-color: rgba(0,0,0, 0.9); 
+        overflow: hidden; 
+        transition: 0.5s; 
+
+    }
+    
+    #nav-logo-container-inner {
+        display: block;
+    }
+    
+    
+    .navigation-sub {
+        /*
+        top: 306px;
+        height: 0;
+        width: 100%;
+        */
+        background-color: transparent;
+        text-align: center;
+    }
+    
+    #top-menu ul {
+        list-style-type: none;
+        text-align: center;
+        padding: 0;
+    }
+
+    #sub-menu {
+        margin: 0;
+    }
+    
+    #sub-menu.second-menu-opened {
+        max-height: 500px;
+    }
+    
+    #sub-menu li {
+        display: table;
+        padding: 0 !important;
+        margin: 10px auto 10px auto;
+        width: 95%;
+        border: 1px solid #f2f2f2;
+    }
+    
+    #sub-menu li:first-of-type {
+        margin-top: 12px;
+    }
+
+    #sub-menu li:last-of-type {
+        margin-bottom: 12px;
+    }
+
+    #sub-menu li a {
+        font-size: 9.75pt;
+        letter-spacing: 1.5pt;
+        padding: 18px 0 5px 0;
+        margin: 0;
+    }
+    
+    #top-menu-overlay .menu-ylavalikko-container .menu-item a.active-link:after {
+        width: 65px;
+    }
+    
+    .sub-link-double-angle {
+        float: left;
+        left: 10px;
+        font-size: 1.6em;
+        max-height: 18pt;
+        top: -6px;
+    }
+    
+    .nav-logo-container {
+        display: block;
+        float: none;
+        margin: 15px auto 6px auto;
+        text-align: center;
+        width: 100%;
+    }
+    
+    #open-button-container {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 55px;
+        margin: 0 6px 0 0;
+    }
+    
+    #top-menu-open {
+        display: inline-block;
+        float: left;
+        opacity: 100;
+    }
+    
+    #top-menu-overlay .closebtn {
+        display: block;
+    }
+    
+    #right-menu {
+        margin: 0 0 0 -40px;
+    }
+
+    .nav-right-container {
+        right:0;
+        top: 15%;
+        width: 100%;
+        text-align: center;
+    }
+    
+    #right-menu li {
+        margin: 0px 10px 0px 10px;
+    }
+    
+    .nav-right-container .smoytalk-link {
+        height: 34px;
+    }
+    
+    .nav-right-container .english-link {
+        height: 50px;
+    }
+    
+    .nav-right-container .finnish-link {
+        height: 50px;
+    }
+    
+    /*
+    
+    .nav-right-container .smoytalk-link {
+        background-size: 90% 75%;
+    }
+    */
+    
+    .nav-right-container .smoytalk-link {
+        background-size: 82% 70%;
+    }
+    
+    .smoytalk-link a {
+        display: block;
+        height: 38px;
+        width: 49px;
+        margin: 0;
+    }
+    
+    /*
+    .nav-right-container .english-link {
+        background-size: 100% 69%;
+        height: 31px;
+        width: 36px;
+    }
+    */
+    
+    .nav-right-container .english-link, .nav-right-container .finnish-link {
+        background-size: 100% 69%;
+    }
+    
+    .nav-right-container .english-link {
+        height: 33px;
+        width: 57px;
+    }
+    
+    .nav-right-container .finnish-link {
+        height: 40px;
+        width: 34px;
+    }
+    
+    .english-link a {
+        height: 33px;
+        width: 49px;
+        margin: 0;
+    }
+    
+    .finnish-link a {
+        height: 40px;
+        width: 40px;
+        margin: 0;
+    }
+    
+    
+    /* ---------- TOP MOBILE NAV MENU END ---------- */
+
+}
+
+
+@media screen and (max-width: 960px) and (max-height: 359px) {
+    
+    #top-menu-overlay {
+        margin-left: 120px; 
+    }
+    
+    #top-menu li {
+        width: 5%;
+        margin: 0px 5% 0px 5%;
+    }
+    
+}
+
+
+
+
 
 
 @media screen and (max-width: 930px) {
@@ -4113,13 +4159,14 @@ div.customer-stretchy-wrapper {
     
     .content-section-header {
         height: 44vh;
-        min-height: 348px;
+        min-height: 320px;
+        max-height: 440px;
     }
     
     #services > .content-section-header {
         height: 44vh;
-        min-height: 348px;
-        background-position: 0 25% !important;
+        min-height: 320px;
+        background-position: 0 35% !important;
     }
     
     .heading-orange, .heading-pink, .heading-black {
@@ -4130,7 +4177,8 @@ div.customer-stretchy-wrapper {
         max-width: 85% !important;
         padding: 12px 3.25% 12px 3.25%;
         float: left;
-        font-size: 1.08em;
+        /*font-size: 1.08em;*/
+        font-size: 0.95em;
         line-height: 1.35;
     }
     
@@ -4285,7 +4333,7 @@ div.customer-stretchy-wrapper {
     }
     
     #blog > .content-section-header {
-        background-position: 80% 83% !important;
+        background-position: 80% 82% !important;
         background-size: 145% !important;
     }
     
@@ -4320,6 +4368,21 @@ div.customer-stretchy-wrapper {
 }
 
 @media screen and (max-width: 460px) {
+    
+    #sub-menu li {
+        width: 95%;
+    }
+    
+    #sub-menu li a {
+        font-size: 8.25pt;
+        padding: 10px 10px 5px 0px;
+    }
+    
+    .sub-link-double-angle {
+        font-size: 1.25em;
+        max-height: 20px;
+        top: -2px;
+    }
     
     #newsletter-footer {
         /* bottom: 463px; */
@@ -4453,21 +4516,6 @@ div.customer-stretchy-wrapper {
         display: inline-block;
     }
     
-    #sub-menu li {
-        width: 95%;
-    }
-    
-    #sub-menu li a {
-        font-size: 8.8pt;
-        padding: 8px 0 1px 0;
-    }
-    
-    .sub-link-double-angle {
-        font-size: 1.25em;
-        max-height: 20px;
-        top: -2px;
-    }
-    
     #about-us {
         padding: 3em 1.25em 3em 1.25em;
         /*background-position: 17.5%;*/
@@ -4488,9 +4536,9 @@ div.customer-stretchy-wrapper {
         padding: 15px 15px;
     }
     
-    
     .heading-orange, .heading-pink, .heading-black {
-        font-size: 1.45em;
+        /*font-size: 1.45em;*/
+        font-size: 2.25em;
         padding: 0 10px 0 10px;
     }
     
@@ -4764,7 +4812,17 @@ div.customer-stretchy-wrapper {
 }
 
 @media screen and (max-width: 360px) {
-
+    
+    #our-customers > .content-section-header {
+        background-position: 66% 83% !important;
+        background-size: 160% !important;
+    }
+    
+    #blog > .content-section-header {
+        background-position: 81% 83% !important;
+        background-size: 253% !important;
+    }
+    
     #footer-content-left-title {
         font-size: 0.75em;
     }
@@ -4839,9 +4897,26 @@ div.customer-stretchy-wrapper {
 
 }
 
+@media screen and (max-width: 320px) { 
+    
+    .content-section-header {
+        min-height: 240px;
+        max-height: 280px;
+    }
+    
+    .content-header-wrapper {
+        bottom: 15px;
+        width: 99%;
+        left: 0;
+        right: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+}
+
 
 @media screen and (max-width: 300px) {
-    
     .footer-container {
         padding: 4.2em 2.5% 4.2em 2.5%;
     }
@@ -4995,7 +5070,7 @@ div.customer-stretchy-wrapper {
 
 }
 
-
+/*
 
 @media screen and (max-height: 600px) and (max-width: 960px) {
     
@@ -5024,6 +5099,8 @@ div.customer-stretchy-wrapper {
         margin: 0 0 0 -45px;
     }
     
+    
+    
     .nav-right-container {
         text-align: initial;
         left: 25px;
@@ -5031,7 +5108,10 @@ div.customer-stretchy-wrapper {
         width: 35%;
     }
     
+    
 }
+
+*/
 
 
 @media screen and (max-aspect-ratio: 556/780) {
@@ -5067,6 +5147,7 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-height: 450px) and (max-width: 960px) {
+    
     #top-menu-overlay a {font-size: 20px}
     #top-menu-overlay .closebtn {
         font-size: 40px;
@@ -5074,9 +5155,11 @@ div.customer-stretchy-wrapper {
         right: 35px;
     }
     
+    /*
     #top-menu {
         top: 13.5%;
     }
+    */
     
     #top-menu li a {
         font-size: 11pt;
@@ -5104,6 +5187,7 @@ div.customer-stretchy-wrapper {
         top: -3px;
     }
     
+    
     #social-sidebar {
         display: none;
     }
@@ -5112,14 +5196,15 @@ div.customer-stretchy-wrapper {
 }
 
 
+
 /*------------- LARGE SCREENS ------------- */
 
 
 @media only screen  and (min-width : 1280px) {
     #services > .content-section-header {
         height: 80vh;
-        min-height: 770px;
-        background-position: 0 25% !important;
+        min-height: 700px;
+        background-position: 0 30% !important;
     }
     
 }

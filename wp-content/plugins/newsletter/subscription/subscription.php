@@ -1849,7 +1849,7 @@ class NewsletterSubscription extends NewsletterModule {
             // Compatibility check
             if (stripos($message, '<form') !== false) {
                 $message .= $module->get_form_javascript();
-                $message = str_ireplace('<form', '<form method="post" action="' . plugins_url('newsletter/do/subscribe.php') . '" onsubmit="return newsletter_check(this)"', $message);
+                $message = str_ireplace('<form', '<form method="post" action="' . esc_attr(home_url('/')) . '?na=s" onsubmit="return newsletter_check(this)"', $message);
             } else {
 
                 if (strpos($message, '{subscription_form') === false) {

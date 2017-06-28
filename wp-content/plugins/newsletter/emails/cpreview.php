@@ -9,7 +9,8 @@ $module = NewsletterEmails::instance();
 // Always required
 $email = Newsletter::instance()->get_email((int) $_GET['id'], ARRAY_A);
 $email['options'] = maybe_unserialize($email['options']);
-if (!is_array($email['options'])) $email['options'] = array();
+if (!is_array($email['options']))
+    $email['options'] = array();
 
 // TNP Composer style
 wp_enqueue_style('tnpc-style', plugins_url('/tnp-composer/_css/newsletter-builder.css', __FILE__));
@@ -34,9 +35,20 @@ if (!$controls->is_action()) {
     $controls->data = array_merge($controls->data, $email['options']);
 
     foreach ($email['options'] as $name => $value) {
-            $controls->data['options_' . $name] = $value;
-        }
+        $controls->data['options_' . $name] = $value;
     }
+}
+
+if ($controls->is_action('change-private')) {
+    $data = array();
+    $data['private'] = $controls->data['private'] ? 0 : 1;
+    $data['id'] = $email['id'];
+    Newsletter::instance()->save_email($data);
+    $controls->add_message_saved();
+    $controls->data = $email;
+    $controls->data['private'] = $data['private'];
+}
+
 
 if ($controls->is_action('test') || $controls->is_action('save') || $controls->is_action('send') || $controls->is_action('editor')) {
 
@@ -63,7 +75,7 @@ if ($controls->is_action('test') || $controls->is_action('save') || $controls->i
     if (isset($controls->data['sex'])) {
         $email['options']['sex'] = $controls->data['sex'];
     } else {
-        $email['options']['sex'] = array();        
+        $email['options']['sex'] = array();
     }
 
     foreach ($controls->data as $name => $value) {
@@ -139,11 +151,11 @@ if ($controls->is_action('test') || $controls->is_action('save') || $controls->i
     }
 
     $res = Newsletter::instance()->save_email($email);
-    
+
     $e = $module->get_email($email_id);
     $e->options = maybe_unserialize($e->options);
     $query = apply_filters('newsletter_emails_email_query', $query, $e);
-    
+
     $email['query'] = $query;
     if ($email['status'] == 'sent') {
         $email['total'] = $email['sent'];
@@ -327,9 +339,9 @@ if ($controls->is_action('test')) {
                             }, 500);
                         </script>
 
-                        <?php } else { ?>
-                            <?php include __DIR__ . '/edit-html.php'; ?>
-                        <?php } ?>
+                    <?php } else { ?>
+                        <?php include __DIR__ . '/edit-html.php'; ?>
+                    <?php } ?>
 
                 </div>
 
@@ -401,7 +413,7 @@ if ($controls->is_action('test')) {
                             <td>
                                 <?php
                                 if ($email['status'] != 'sent') {
-                                echo $wpdb->get_var(str_replace('*', 'count(*)', $email['query']));
+                                    echo $wpdb->get_var(str_replace('*', 'count(*)', $email['query']));
                                 } else {
                                     echo $email['sent'];
                                 }
@@ -412,7 +424,7 @@ if ($controls->is_action('test')) {
                             </td>
                         </tr>
                     </table>
-                    
+
                     <?php do_action('newsletter_emails_edit_target', $module->get_email($email_id), $controls) ?>
                 </div>
 
@@ -423,6 +435,9 @@ if ($controls->is_action('test')) {
                             <th><?php _e('Keep private', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('private'); ?>
+                                <?php if ($email['status'] == 'sent') { ?>
+                                <?php $controls->button('change-private', __('Toggle'))?>
+                                <?php } ?>
                                 <p class="description">
                                     <?php _e('Hide/show from public sent newsletter list.', 'newsletter') ?>
                                     <?php _e('Required', 'newsletter') ?>: <a href="" target="_blank">Newsletter Archive Extension</a>

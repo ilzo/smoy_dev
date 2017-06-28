@@ -234,6 +234,8 @@
 #tnp-body .button-primary.tnp-button-white, #tnp-body .tnp-button.tnp-button-white {
     color: #444!important;
     background-color: #fff!important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
 }
 
 /* Form tables correction */

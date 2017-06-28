@@ -203,7 +203,8 @@ jQuery(function() {
         
        jQuery(noRedirectLinks[3]).click(function() {
             let windowWidth = window.innerWidth;
-            if(windowWidth <= 960){
+            let windowHeight = window.innerHeight;
+            if(windowWidth <= 960 && windowHeight < 360){
                 closeNav();
             }
             $root.animate({
@@ -217,7 +218,8 @@ jQuery(function() {
     jQuery(noRedirectLinks[0]).click(function() {
         closeSubNav(palvelut_link);
         let windowWidth = window.innerWidth;
-        if(windowWidth <= 960){
+        let windowHeight = window.innerHeight;
+        if(windowWidth <= 960 && windowHeight < 360){
             closeNav();
         }
         $root.animate({
@@ -228,7 +230,8 @@ jQuery(function() {
     jQuery(noRedirectLinks[1]).click(function() {
         closeSubNav(palvelut_link);
         let windowWidth = window.innerWidth;
-        if(windowWidth <= 960){
+        let windowHeight = window.innerHeight;
+        if(windowWidth <= 960 && windowHeight < 360){
             closeNav();
         }
         $root.animate({
@@ -239,7 +242,8 @@ jQuery(function() {
     jQuery(noRedirectLinks[2]).click(function() {
         closeSubNav(palvelut_link);
         let windowWidth = window.innerWidth;
-        if(windowWidth <= 960){
+        let windowHeight = window.innerHeight;
+        if(windowWidth <= 960 && windowHeight < 360){
             closeNav();
         }
         $root.animate({
@@ -268,6 +272,7 @@ jQuery(function() {
 
 function checkScreenWidth(){
     let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
     let servicesMenuItem = jQuery('#menu-item-2405');
     let palvelut_link = jQuery('#menu-item-2405 a')[0];
     let ulSubMenu = jQuery('#sub-menu')[0];
@@ -279,56 +284,61 @@ function checkScreenWidth(){
     
     let overlayHeight = document.getElementById('top-menu-overlay').style.height;
     
-    if(windowWidth > 960){
-        
-        if(jQuery(navRightContainer).hasClass('visuallyhidden')){
-           jQuery(navRightContainer).removeClass('visuallyhidden');
-        }
-        
-        if(jQuery(palvelut_link).hasClass('active-link')) {
-            closeSubNav(palvelut_link);
-        }
-        
-        if(jQuery(servicesMenuItem).hasClass('services-link-mobile')){
-            jQuery(servicesMenuItem).removeClass('services-link-mobile');
-        }
-        
-        if(jQuery(servicesMenuItem).has( '#sub-menu' )){
-            jQuery(ulSubMenu).appendTo(menuAlavalikkoContainer);
-        }
+    if(windowHeight >= 360) {
+    
+        if(windowWidth > 960){
 
-        document.getElementById('top-menu-overlay').style.height = 'auto';
-        if(topMenuOpenDisplay == 'inline-block'){
-           document.getElementById('top-menu-open').style.display = 'none';
-        }
-        if(topMenuCloseDisplay == 'block'){
-           document.getElementById('top-menu-overlay-close').style.display = 'none';
-        }
-    }else{
-        if(jQuery(palvelut_link).hasClass('active-link')) {
-            closeSubNav(palvelut_link);
-        }
-        
-        if(topMenuOpenOpacity == '0'){
-           document.getElementById('top-menu-open').style.opacity = '100';
-        }
-        
-        if(overlayHeight == '100%'){
-           document.getElementById('top-menu-open').style.opacity = '0';
-        }
-        
-        if(!jQuery('#menu-item-2405').hasClass('services-link-mobile')){
-            jQuery('#menu-item-2405').addClass('services-link-mobile');
-            jQuery(ulSubMenu).appendTo("#menu-item-2405");
-        }
+            if(jQuery(navRightContainer).hasClass('visuallyhidden')){
+               jQuery(navRightContainer).removeClass('visuallyhidden');
+            }
 
-        if(overlayHeight == 'auto'){
-           document.getElementById("top-menu-overlay").style.height = '0%';
+            if(jQuery(palvelut_link).hasClass('active-link')) {
+                closeSubNav(palvelut_link);
+            }
+
+            if(jQuery(servicesMenuItem).hasClass('services-link-mobile')){
+                jQuery(servicesMenuItem).removeClass('services-link-mobile');
+            }
+
+            if(jQuery(servicesMenuItem).has( '#sub-menu' )){
+                jQuery(ulSubMenu).appendTo(menuAlavalikkoContainer);
+            }
+
+            document.getElementById('top-menu-overlay').style.height = 'auto';
+            if(topMenuOpenDisplay == 'inline-block'){
+               document.getElementById('top-menu-open').style.display = 'none';
+            }
+            if(topMenuCloseDisplay == 'block'){
+               document.getElementById('top-menu-overlay-close').style.display = 'none';
+            }
+        }else{
+            if(jQuery(palvelut_link).hasClass('active-link')) {
+                closeSubNav(palvelut_link);
+            }
+
+            if(topMenuOpenOpacity == '0'){
+               document.getElementById('top-menu-open').style.opacity = '100';
+            }
+
+            if(overlayHeight == '100%'){
+               document.getElementById('top-menu-open').style.opacity = '0';
+            }
+
+            if(!jQuery('#menu-item-2405').hasClass('services-link-mobile')){
+                jQuery('#menu-item-2405').addClass('services-link-mobile');
+                jQuery(ulSubMenu).appendTo("#menu-item-2405");
+            }
+
+            if(overlayHeight == 'auto'){
+               document.getElementById("top-menu-overlay").style.height = '0%';
+            }
+
+            if(topMenuOpenDisplay == 'none' && overlayHeight == '0%'){
+               document.getElementById('top-menu-open').style.display = 'inline-block';
+            }
+
         }
-        
-        if(topMenuOpenDisplay == 'none' && overlayHeight == '0%'){
-           document.getElementById('top-menu-open').style.display = 'inline-block';
-        }
-        
+    
     }
+
 }
