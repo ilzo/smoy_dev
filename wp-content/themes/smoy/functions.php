@@ -928,22 +928,13 @@ function smoy_generate_responsive_background_image_styles() {
             if( !isset( $split[0], $split[1] ) )
                 continue;
             
-            /*
-            
             if(in_category('blogi')){
-                $background_css = '#header-single {
-                    background-image: url(' . esc_url( $split[0] ) . ')
-                }';
-                
+                $background_css = '#header-single { background-image: url(' . esc_url( $split[0] ) . ') !important;}';
             }else if (is_singular('smoy_service')) {
-                $background_css = '#header-service {
-                    background-image: url(' . esc_url( $split[0] ) . ')
-                }';
-                
+                $background_css = '#header-service { background-image: url(' . esc_url( $split[0] ) . ') !important;}';
             }
-            */
             
-            $background_css = '#header-single { background-image: url(' . esc_url( $split[0] ) . ') !important;}';
+            //$background_css = '#header-single { background-image: url(' . esc_url( $split[0] ) . ') !important;}';
 
             // Grab the previous image size as the min-width and/or add the background css to the main css string
             if( !empty( $prev_size ) ) {

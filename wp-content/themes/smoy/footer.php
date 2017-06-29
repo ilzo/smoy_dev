@@ -1,5 +1,7 @@
 </div>  <!-- END OF SITE CONTENT -->
-<?php get_sidebar('social'); ?>
+<?php if(!smoy_is_mobile()): ?>
+    <?php get_sidebar('social'); ?>
+<?php endif; ?> 
 <?php if(is_home()): ?>
 <footer id="footer">
 <?php else: ?>
@@ -9,7 +11,7 @@
     <div id="footer-content-left">
         <?php if(is_home()): ?>
         <div id="footer-mobile-button-container">
-            <button id="newsletter-button-mobile" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
+            <button id="newsletter-button-mobile" class="newsletter-subscribe-button hover">Tilaa uutiskirje</button>
         </div>
         <?php endif; ?>
         <?php do_action('smoy_get_footer_contact_info') ?>
@@ -89,6 +91,14 @@ jQuery(function() {
         checkWidth(w);
 
     }
+    
+    /*
+    
+    jQuery('.hover').bind('touchstart', function(e) {
+        //e.preventDefault();
+        jQuery(this).toggleClass('hover_effect');
+    });
+    */
      
 });
     

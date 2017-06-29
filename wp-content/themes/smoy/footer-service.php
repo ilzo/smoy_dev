@@ -1,4 +1,6 @@
-<?php get_sidebar('social'); ?>
+<?php if(!smoy_is_mobile()): ?>
+    <?php get_sidebar('social'); ?>
+<?php endif; ?>
 <footer id="footer">
 <div class="footer-container">
     <div id="footer-content-left">
