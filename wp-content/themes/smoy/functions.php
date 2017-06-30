@@ -974,12 +974,27 @@ function smoy_redirect_to_latest_blog_post() {
 add_action( 'template_redirect', 'smoy_redirect_from_newsletter_page' );
 
 function smoy_redirect_from_newsletter_page() {
+    
     if(!is_page('uutiskirje') )
         return;
     if( !isset($_GET['nm']) || !isset($_GET['nk']) || $_GET['nm'] !== 'confirmed'){
+        
+        status_header( 404 );
+        nocache_headers();
+        include( get_query_template( '404' ) );
+        die();
+        
+        
+        
+        
+        
+        /*
          wp_safe_redirect( home_url(), 307 );
          exit;
+         */
     } 
+    
+    
 }
 
 

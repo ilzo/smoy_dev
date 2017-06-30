@@ -17,10 +17,10 @@ get_header('single'); ?>
     ?>
 <div class="single-navigation">
     <div class="single-previous">
-    <?php previous_post_link('%link', '<span class="arrow-left">&#x2190;</span>edellinen', true); ?>
+    <?php previous_post_link('%link', '<span class="arrow-left">&lsaquo;</span>edellinen', true); ?>
     </div>
     <div class="single-next">
-        <?php next_post_link('%link', 'seuraava<span class="arrow-right">&#x2192;</span>', true); ?>
+        <?php next_post_link('%link', 'seuraava<span class="arrow-right">&rsaquo;</span>', true); ?>
     </div>
 </div>
 </main><!-- .site-main -->

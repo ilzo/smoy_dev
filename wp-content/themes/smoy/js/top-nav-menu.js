@@ -187,27 +187,22 @@ jQuery(function() {
         jQuery('#right-menu .smoytalk-link').css('display', 'inline-block'); 
     }
     
+    
     $document.scroll(function() {
         subHeight = navSub[0].clientHeight;
         if(subHeight === 0) {
             scroll_start = jQuery(this).scrollTop();
             if(scroll_start > 180) {
                 if( window.location.pathname === '/' ){
-                    jQuery('.navigation-top').removeClass('nav-hidden');
-                    jQuery('.navigation-top').addClass('nav-black');
+                    jQuery('.navigation-top').addClass('nav-black').removeClass('nav-hidden');
                 }else{
-                    jQuery('.navigation-top').removeClass('nav-transparent');
-                    jQuery('.navigation-top').addClass('nav-black');
+                    jQuery('.navigation-top').addClass('nav-black').removeClass('nav-transparent');
                 }
-                
             }else{
                 if( window.location.pathname === '/' ){
-                    jQuery('.navigation-top').removeClass('nav-black');
-                    jQuery('.navigation-top').addClass('nav-hidden');
+                    jQuery('.navigation-top').addClass('nav-hidden').removeClass('nav-black');
                 }else{
-                    jQuery('.navigation-top').removeClass('nav-black');
-                    jQuery('.navigation-top').addClass('nav-transparent');
-                    
+                    jQuery('.navigation-top').addClass('nav-transparent').removeClass('nav-black');
                 }    
             }
        } 
@@ -370,10 +365,19 @@ jQuery(function() {
     if( window.location.pathname !== '/' ){
         setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600); 
     }else{
-        setTimeout(function(){ 
-            jQuery('.navigation-top').addClass('nav-ready nav-hidden');
-        }, 600); 
         
+        if($document.scrollTop() > 180) { 
+            setTimeout(function(){ 
+                jQuery('.navigation-top').addClass('nav-ready');
+            }, 600);
+        
+        }else{
+            setTimeout(function(){ 
+                jQuery('.navigation-top').addClass('nav-ready nav-hidden');
+            }, 600); 
+            
+        }
+         
     }
     
     

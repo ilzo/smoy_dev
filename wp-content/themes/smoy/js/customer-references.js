@@ -224,6 +224,8 @@ var gridTracker = {
             }
             
         }else if(this.isTwoCols() === 1){
+            
+            
             if(10 < num && num <= 12) {
                 /*
                 let originalWidth = customerBoxWidth;
@@ -246,16 +248,16 @@ var gridTracker = {
                 this.clickedBoxPos.top = -1.5;
 
             }else if(2 < num && num <= 4){
-                this.clickedBoxPos.top = boxHeight + 1;
+                this.clickedBoxPos.top = boxHeight + 0;
                 
             }else if(4 < num && num <= 6){
-                this.clickedBoxPos.top = (2 * boxHeight) + 3;
+                this.clickedBoxPos.top = (2 * boxHeight) + 2;
             
             }else if(6 < num && num <= 8){
-                this.clickedBoxPos.top = (3 * boxHeight) + 5;
+                this.clickedBoxPos.top = (3 * boxHeight) + 4;
                 
             }else if(8 < num && num <= 10){
-                this.clickedBoxPos.top = (4 * boxHeight) + 8;
+                this.clickedBoxPos.top = (4 * boxHeight) + 6;
         
             }else if(10 < num && num <= 12){
                 this.clickedBoxPos.top = (5 * boxHeight) + 8.5;  
@@ -265,10 +267,10 @@ var gridTracker = {
 
             switch (remainder) {
                 case 0:
-                    this.clickedBoxPos.left = 50.0;
+                    this.clickedBoxPos.left = 50.1;
                     break;
                 case 1:
-                    this.clickedBoxPos.left = 0.0;
+                    this.clickedBoxPos.left = 0.1;
             }       
         }
         return this.clickedBoxPos;
@@ -281,69 +283,40 @@ var gridTracker = {
         var openDirection = this.whichWayToOpen(id);
         
         if(this.isFourCols() === 1){
-            
             if(openDirection.down === 1 && openDirection.right === 1){
-
             }else if(openDirection.down === 1 && openDirection.left === 1){
-
                 this.openAnimPos.left = '-=25%';
-
             }else if(openDirection.up === 1 && openDirection.right === 1){
-
                 this.openAnimPos.top = '-=33.12%';
-
-
             }else if(openDirection.up === 1 && openDirection.left === 1){
-
                 this.openAnimPos.left = '-=25%';
                 this.openAnimPos.top = '-=33.12%';
             }
-            
-            
         }else if(this.isThreeCols() === 1){
-            
             if(openDirection.down === 1 && openDirection.right === 1){
-
             }else if(openDirection.down === 1 && openDirection.left === 1){
-                
                 this.openAnimPos.top = '+=0.0%';
                 this.openAnimPos.left = '-=33.12%';
-
             }else if(openDirection.up === 1 && openDirection.right === 1){
-
                 this.openAnimPos.top = '-=24.8%';
                 this.openAnimPos.left = '+=0.084%';
-
             }else if(openDirection.up === 1 && openDirection.left === 1){
-
                 this.openAnimPos.left = '-=33%';
                 this.openAnimPos.top = '-=24.66%';
             }
-            
-    
-            
         }else if(this.isTwoCols() === 1){
-            
             if(openDirection.down === 1 && openDirection.right === 1){
-
             }else if(openDirection.down === 1 && openDirection.left === 1){
-                
                 this.openAnimPos.top = '+=0.0%';
                 this.openAnimPos.left = '-=50%';
-
             }else if(openDirection.up === 1 && openDirection.right === 1){
-
                 this.openAnimPos.top = '-=16.58%';
                 this.openAnimPos.left = '+=0.084%';
-
             }else if(openDirection.up === 1 && openDirection.left === 1){
-
                 this.openAnimPos.top = '-=16.58%';
                 this.openAnimPos.left = '-=50.0%';
-            }
-                 
+            }     
         }
-        
         return this.openAnimPos;
     },
     getBoxCloseAnimPos: function (id) {
