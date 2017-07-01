@@ -13,16 +13,38 @@ jQuery(function() {
     
     
     domManager = {
-        navRightContainer: jQuery('.nav-right-container')[0],
-        servicesMenuItem: jQuery('#menu-item-2405'),
-        ulSubMenu: jQuery('#sub-menu')[0],
+        isDesktop : 0,
+        isMobilePortrait : 0,
+        isMobileLandscape : 0,
+        navRightContainer : jQuery('.nav-right-container')[0],
+        servicesMenuItem : jQuery('#menu-item-2405'),
+        ulSubMenu : jQuery('#sub-menu')[0],
         menuAlavalikkoContainer: jQuery('.menu-alavalikko-container')[0],
-        topNavMobile: jQuery('.top-nav-mobile'),
-        palvelut_link: jQuery('#menu-item-2405 a')[0],
-        smoytalk_link: jQuery('#right-menu .smoytalk-link a')[0],
+        topNavMobile : jQuery('.top-nav-mobile'),
+        palvelut_link : jQuery('#menu-item-2405 a')[0],
+        smoytalk_link : jQuery('#right-menu .smoytalk-link a')[0],
         english_link : jQuery('#right-menu .english-link a')[0],
         finnish_link : jQuery('#right-menu .finnish-link a')[0],
-        topMenuOverlayStyleProps : {topMenuOpenDisplay: '', topMenuCloseDisplay: '', topMenuOpenOpacity: '', topMenuCloseOpacity: '', overlayHeight: ''},  
+        mobileLandscapeOverlay : jQuery('#mobile-landscape-overlay')[0],
+        topMenuOverlayStyleProps : {topMenuOpenDisplay : '', topMenuCloseDisplay : '', topMenuOpenOpacity : '', topMenuCloseOpacity : '', overlayHeight : ''},
+        
+        setFlagsDesktop: function () {
+            this.isDesktop = 1;
+            this.isMobilePortrait = 0;
+            this.isMobileLandscape = 0;
+        },
+        
+        setFlagsMobilePortrait: function () {
+            this.isDesktop = 0;
+            this.isMobilePortrait = 1;
+            this.isMobileLandscape = 0;
+        },
+        
+        setFlagsMobileLandscape: function () {
+            this.isDesktop = 0;
+            this.isMobilePortrait = 0;
+            this.isMobileLandscape = 1;
+        },
       
         setOverlayStyleProps: function () {
             this.topMenuOverlayStyleProps.topMenuOpenDisplay = document.getElementById('top-menu-open').style.display;
@@ -50,10 +72,46 @@ jQuery(function() {
             document.getElementById('top-menu-overlay-close').style.display = 'none';
             
             if ( window.location.pathname === '/' ){ 
-                handleSubNavClose(this.palvelut_link);
+                closeSubNav(this.palvelut_link);
             }
             
         },
+        
+        
+        
+        openMobileLandscapeOverlay: function () {
+            
+            console.log('hello from landscape overlay open');
+            /*
+            if(jQuery(this.navRightContainer).hasClass('visuallyhidden')){
+               jQuery(this.navRightContainer).removeClass('visuallyhidden');
+            }
+            */
+            
+            document.getElementById('mobile-landscape-overlay').style.height = '100%';
+            //document.getElementById('top-menu-open').style.opacity = '0';
+            document.getElementById('mobile-landscape-overlay-close').style.display = 'block';
+            
+        },
+        
+        
+        closeMobileLandscapeOverlay: function () {
+            
+            console.log('hello from landscape overlay close');
+            /*
+            if(!jQuery(this.navRightContainer).hasClass('visuallyhidden')){
+               jQuery(this.navRightContainer).addClass('visuallyhidden');
+            }
+            */
+            document.getElementById('mobile-landscape-overlay').style.height = '0%';
+            document.getElementById('mobile-landscape-overlay-close').style.display = 'none';
+            
+            closeSubNav(this.palvelut_link);
+            
+            
+        },
+        
+        /*
         
         openSubNav: function () {
             if(!jQuery(this.palvelut_link).hasClass('active-link')) { 
@@ -76,6 +134,7 @@ jQuery(function() {
                 }, 250);
             }
         },
+        */
         
         
         changeToDesktopStyles: function () {
@@ -83,9 +142,13 @@ jQuery(function() {
                jQuery(this.navRightContainer).removeClass('visuallyhidden');
             }
             
+            if(jQuery(this.ulSubMenu).hasClass('second-menu-landscape')){
+               jQuery(this.ulSubMenu).removeClass('second-menu-landscape');
+            }
+            
             /*
             if(jQuery(this.palvelut_link).hasClass('active-link')) {
-                handleSubNavClose(this.palvelut_link);
+                closeSubnav(this.palvelut_link);
             }
             */
 
@@ -93,7 +156,7 @@ jQuery(function() {
                 jQuery(this.servicesMenuItem).removeClass('services-link-mobile');
             }
 
-            if(jQuery(this.servicesMenuItem).has( '#sub-menu' )){
+            if(jQuery(this.servicesMenuItem).has(this.ulSubMenu) || jQuery(this.mobileLandscapeOverlay).has(this.ulSubMenu)){
                 jQuery(this.ulSubMenu).appendTo(this.menuAlavalikkoContainer);
             }
 
@@ -106,12 +169,17 @@ jQuery(function() {
             }
         },
         
-        changeToMobileStyles: function () {
+        changeToMobileStylesPortrait: function () {
+            console.log('portrait');
             /*
             if(jQuery(this.palvelut_link).hasClass('active-link')) {
-                handleSubNavClose(this.palvelut_link);
+                closeSubNav(this.palvelut_link);
             }
             */
+            
+            if(jQuery(this.ulSubMenu).hasClass('second-menu-landscape')){
+               jQuery(this.ulSubMenu).removeClass('second-menu-landscape');
+            }
 
             if(this.topMenuOverlayStyleProps.topMenuOpenOpacity == '0'){
                document.getElementById('top-menu-open').style.opacity = '100';
@@ -120,11 +188,24 @@ jQuery(function() {
             if(this.topMenuOverlayStyleProps.overlayHeight == '100%'){
                document.getElementById('top-menu-open').style.opacity = '0';
             }
+            
+            if(jQuery(this.mobileLandscapeOverlay ).has(this.ulSubMenu) || jQuery(this.menuAlavalikkoContainer).has(this.ulSubMenu)){
+                
+                if(!jQuery(this.servicesMenuItem).hasClass('services-link-mobile')){
+                    jQuery(this.servicesMenuItem).addClass('services-link-mobile');
+                }
+                
+                jQuery(this.ulSubMenu).appendTo(this.servicesMenuItem);
+            }
+            
+            
+            /*
 
             if(!jQuery('#menu-item-2405').hasClass('services-link-mobile')){
                 jQuery('#menu-item-2405').addClass('services-link-mobile');
                 jQuery(this.ulSubMenu).appendTo("#menu-item-2405");
             }
+            */
 
             if(this.topMenuOverlayStyleProps.overlayHeight == 'auto'){
                document.getElementById("top-menu-overlay").style.height = '0%';
@@ -133,6 +214,50 @@ jQuery(function() {
             if(this.topMenuOverlayStyleProps.topMenuOpenDisplay == 'none' && this.topMenuOverlayStyleProps.overlayHeight == '0%'){
                document.getElementById('top-menu-open').style.display = 'inline-block';
             }
+        },
+        
+        
+        changeToMobileStylesLandscape: function () {
+            console.log('landscape');
+            
+            
+            if(jQuery(this.servicesMenuItem).has(this.ulSubMenu) || jQuery(this.menuAlavalikkoContainer).has(this.ulSubMenu)){
+                
+                if(!jQuery(this.servicesMenuItem).hasClass('services-link-mobile')){
+                    jQuery(this.servicesMenuItem).addClass('services-link-mobile');
+                }
+                
+                jQuery(this.ulSubMenu).appendTo(this.mobileLandscapeOverlay);
+            }
+            
+            /*
+            if(!jQuery('#menu-item-2405').hasClass('services-link-mobile')){
+                //jQuery('#menu-item-2405').addClass('services-link-mobile');
+                jQuery(this.ulSubMenu).appendTo(this.mobileLandscapeOverlay);
+            }
+            */
+            
+            if(jQuery(this.ulSubMenu).hasClass('second-menu-opened')){
+               jQuery(this.ulSubMenu).removeClass('second-menu-opened');
+            }
+            
+            
+            if(!jQuery(this.ulSubMenu).hasClass('second-menu-landscape')){
+               jQuery(this.ulSubMenu).addClass('second-menu-landscape');
+            }
+            
+            /*
+            setTimeout(function(){
+                jQuery('#sub-menu').addClass('second-menu-opened');
+            }, 180);
+            */
+            
+            /*
+            setTimeout(function(){
+                jQuery('#sub-menu').addClass('second-menu-opened');
+            }, 180);
+            */
+        
         }
         
         
@@ -225,7 +350,7 @@ jQuery(function() {
         jQuery(domManager.palvelut_link).click(function(e) {
             e.preventDefault();
             let palvelut_link = jQuery(this);
-            handleSubNavOpen(palvelut_link);
+            openSubNav(palvelut_link);
         });
         
         
@@ -300,7 +425,7 @@ jQuery(function() {
        jQuery(noRedirectLinks[3]).click(function() {
             let windowWidth = window.innerWidth;
             let windowHeight = window.innerHeight;
-            if(windowWidth <= 960 && windowHeight >= 360){
+            if(windowWidth <= 960 /*&& windowHeight >= 360*/){
                 domManager.closeNav();
             }
             $root.animate({
@@ -312,10 +437,10 @@ jQuery(function() {
     
     jQuery(noRedirectLinks[0]).click(function() {
 
-        domManager.closeSubNav();
+        closeSubNav(domManager.palvelut_link);
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
-        if(windowWidth <= 960 && windowHeight >= 360){
+        if(windowWidth <= 960 /*&& windowHeight >= 360*/){
             domManager.closeNav();
         }
         $root.animate({
@@ -329,10 +454,10 @@ jQuery(function() {
            jQuery(noRedirectLinks[1]).parent().remove(); 
         }else{
             jQuery(noRedirectLinks[1]).click(function() {
-                domManager.closeSubNav();
+                closeSubNav(domManager.palvelut_link);
                 let windowWidth = window.innerWidth;
                 let windowHeight = window.innerHeight;
-                if(windowWidth <= 960 && windowHeight >= 360){
+                if(windowWidth <= 960 /*&& windowHeight >= 360*/){
                     domManager.closeNav();
                 }
                 $root.animate({
@@ -348,10 +473,10 @@ jQuery(function() {
 
     
     jQuery(noRedirectLinks[2]).click(function() {
-        domManager.closeSubNav();
+        closeSubNav(domManager.palvelut_link);
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
-        if(windowWidth <= 960 && windowHeight >= 360){
+        if(windowWidth <= 960 /*&& windowHeight >= 360*/){
             domManager.closeNav();
         }
         $root.animate({
@@ -465,6 +590,90 @@ function closeSubNav(link) {
 
 */
 
+
+
+
+
+function openSubNav(link) {
+    if(!jQuery(link).hasClass('active-link')) { 
+        jQuery(link).addClass('active-link');
+        
+        jQuery('.navigation-top').removeClass('nav-transparent');
+        jQuery('.navigation-top').addClass('nav-black');
+        
+        
+        
+        if(domManager.isMobileLandscape === 1) {
+            
+            console.log('mobile landscape: must open landscape overlay');
+            domManager.openMobileLandscapeOverlay();
+            
+            
+        }else{
+            
+            setTimeout(function(){
+                jQuery('#sub-menu').addClass('second-menu-opened');
+            }, 180);
+            
+            jQuery(link).unbind('click');
+            
+            jQuery(link).click(function(e) {
+                e.preventDefault();
+                let palvelut_link = jQuery(this);
+                closeSubNav(palvelut_link);                                        
+            });
+            
+         }
+         
+        
+        
+            
+            
+       
+
+        
+    
+    }
+    
+    
+}
+
+function closeSubNav(link) {
+    if(jQuery(link).hasClass('active-link')) {
+        jQuery(link).removeAttr('class');
+        jQuery('#sub-menu').removeClass('second-menu-opened');
+        setTimeout(function(){
+            
+            jQuery('.navigation-top').removeClass('nav-transparent');
+            jQuery('.navigation-top').addClass('nav-black');
+            
+             //jQuery('.navigation-top').css('background-color', 'black');
+            
+            
+        }, 250);
+        
+        jQuery(link).unbind('click');
+        jQuery(link).click(function(e) {
+            e.preventDefault();
+            let palvelut_link = jQuery(this);
+            openSubNav(palvelut_link);
+
+        });
+     
+    }   
+    
+}
+
+
+
+
+
+
+
+
+
+/*
+
 function handleSubNavOpen(link) {
     domManager.openSubNav();
     jQuery(link).unbind('click');
@@ -485,20 +694,72 @@ function handleSubNavClose(link) {
         handleSubNavOpen(palvelut_link);
     });
      
-}   
+}
+*/
 
 
 function checkScreenWidth(){
     let windowWidth = window.innerWidth;
     let windowHeight = window.innerHeight;
     domManager.setOverlayStyleProps();
+    
+    if(windowWidth > 960) {
+       domManager.setFlagsDesktop();
+       domManager.changeToDesktopStyles();
+       
+    }else{
+        if(windowHeight >= 360) {
+            domManager.setFlagsMobilePortrait();
+            domManager.changeToMobileStylesPortrait();
+        }else{
+            domManager.setFlagsMobileLandscape();
+            domManager.changeToMobileStylesLandscape(); 
+        }
+         
+    }
+    
+    
+
+    /*
     if(windowHeight >= 360) {
+        
         if(windowWidth > 960){
             domManager.changeToDesktopStyles();
         }else{
-            domManager.changeToMobileStyles(); 
+            domManager.changeToMobileStylesPortrait(); 
         }
+        
+        
+        
     }else{
-        domManager.changeToDesktopStyles();
+        
+        if(windowWidth > 960){
+            domManager.changeToDesktopStyles();
+        }else{
+            domManager.changeToMobileStylesLandscape(); 
+        }
+        
+       
     }
+    */
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
