@@ -94,6 +94,13 @@ body {
     opacity: 100;
 }
 
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
 
 #header-home, #header-eng {
     height: 100vh;
@@ -547,7 +554,11 @@ body {
     bottom: 0;
     background-color: rgb(31, 4, 37);
     overflow: hidden;
-    transition: 0.5s;
+    -webkit-transition: all 0.35s;
+    -moz-transition: all 0.35s;
+    -ms-transition: all 0.35s;
+    -o-transition: all 0.35s;
+    transition: all 0.35s;
 }
 
 /*
@@ -602,7 +613,7 @@ body {
 
 
 #mobile-landscape-overlay .closebtn {
-    display: none;
+    display: block;
     position: absolute;
     top: -5px;
     right: 22px;

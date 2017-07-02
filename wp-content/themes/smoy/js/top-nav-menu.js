@@ -26,6 +26,7 @@ jQuery(function() {
         english_link : jQuery('#right-menu .english-link a')[0],
         finnish_link : jQuery('#right-menu .finnish-link a')[0],
         mobileLandscapeOverlay : jQuery('#mobile-landscape-overlay')[0],
+        topMenuOverlayElems : {topMenuOverlay : document.getElementById('top-menu-overlay'), topMenuOpen : document.getElementById('top-menu-open'), topMenuClose : document.getElementById('top-menu-overlay-close')},
         topMenuOverlayStyleProps : {topMenuOpenDisplay : '', topMenuCloseDisplay : '', topMenuOpenOpacity : '', topMenuCloseOpacity : '', overlayHeight : ''},
         
         setFlagsDesktop: function () {
@@ -45,31 +46,86 @@ jQuery(function() {
             this.isMobilePortrait = 0;
             this.isMobileLandscape = 1;
         },
-      
-        setOverlayStyleProps: function () {
-            this.topMenuOverlayStyleProps.topMenuOpenDisplay = document.getElementById('top-menu-open').style.display;
-            this.topMenuOverlayStyleProps.topMenuCloseDisplay = document.getElementById('top-menu-overlay-close').style.display;
-            this.topMenuOverlayStyleProps.topMenuOpenOpacity = document.getElementById('top-menu-open').style.opacity;
-            this.topMenuOverlayStyleProps.topMenuCloseOpacity = document.getElementById('top-menu-overlay-close').style.opacity;
-            this.topMenuOverlayStyleProps.overlayHeight = document.getElementById('top-menu-overlay').style.height;
+        
+        
+        initOverlayStyleProps: function () {
+            this.topMenuOverlayStyleProps.topMenuOpenDisplay = window.getComputedStyle(document.getElementById('top-menu-open'),null).getPropertyValue('display');
+            this.topMenuOverlayStyleProps.topMenuCloseDisplay = window.getComputedStyle(document.getElementById('top-menu-overlay-close'),null).getPropertyValue('display');
+            this.topMenuOverlayStyleProps.topMenuOpenOpacity = window.getComputedStyle(document.getElementById('top-menu-open'),null).getPropertyValue('opacity');
+            this.topMenuOverlayStyleProps.topMenuCloseOpacity = window.getComputedStyle(document.getElementById('top-menu-overlay-close'),null).getPropertyValue('opacity');
+            this.topMenuOverlayStyleProps.overlayHeight = window.getComputedStyle(document.getElementById('top-menu-overlay'),null).getPropertyValue('height'); 
         },
+        
+        
+        setTopMenuOpenDisplay: function (val) {
+            this.topMenuOverlayElems.topMenuOpen.style.display = val;
+            this.topMenuOverlayStyleProps.topMenuOpenDisplay = val;
+        },
+        
+        setTopMenuCloseDisplay: function (val) {
+            this.topMenuOverlayElems.topMenuClose.style.display = val;
+            this.topMenuOverlayStyleProps.topMenuCloseDisplay = val;
+        },
+        
+        setTopMenuOpenOpacity: function (val) {
+            this.topMenuOverlayElems.topMenuOpen.style.opacity = val;
+            this.topMenuOverlayStyleProps.topMenuOpenOpacity = val;
+        },
+        
+        setTopMenuCloseOpacity: function (val) {
+            this.topMenuOverlayElems.topMenuClose.style.opacity = val;
+            this.topMenuOverlayStyleProps.topMenuCloseOpacity = val;
+        },
+        
+        setOverlayHeight: function (val) {
+            this.topMenuOverlayElems.topMenuOverlay.style.height = val;
+            this.topMenuOverlayStyleProps.overlayHeight = val;
+        },
+        
+        initMobileLandscapeOverlay: function () {
+            // Clean way to temporary disable css transitions on element
+            jQuery(this.mobileLandscapeOverlay).addClass('notransition'); // Disable transitions
+            this.mobileLandscapeOverlay.style.height = '0%'; // Do the required style changes
+            this.mobileLandscapeOverlay.offsetHeight; // Trigger a reflow, flushing the CSS changes
+            jQuery(this.mobileLandscapeOverlay).removeClass('notransition'); // Re-enable transitions
+        },    
+        
         
         openNav: function () {
             if(jQuery(this.navRightContainer).hasClass('visuallyhidden')){
                jQuery(this.navRightContainer).removeClass('visuallyhidden');
             }
-            document.getElementById('top-menu-overlay').style.height = '100%';
-            document.getElementById('top-menu-open').style.opacity = '0';
-            document.getElementById('top-menu-overlay-close').style.display = 'block';
+            
+            this.setOverlayHeight('100%');
+            //document.getElementById('top-menu-overlay').style.height = '100%';
+            
+            this.setTopMenuOpenOpacity('0');
+            
+            //document.getElementById('top-menu-open').style.opacity = '0';
+            
+            
+            this.setTopMenuCloseDisplay('block');
+            
+            //document.getElementById('top-menu-overlay-close').style.display = 'block';
         },
         
         closeNav: function () {
             if(!jQuery(this.navRightContainer).hasClass('visuallyhidden')){
                jQuery(this.navRightContainer).addClass('visuallyhidden');
             }
-            document.getElementById('top-menu-overlay').style.height = '0%';
-            document.getElementById('top-menu-open').style.opacity = '100';
-            document.getElementById('top-menu-overlay-close').style.display = 'none';
+            
+            
+            this.setOverlayHeight('0%');
+            //document.getElementById('top-menu-overlay').style.height = '0%';
+            
+            this.setTopMenuOpenOpacity('1');
+            //document.getElementById('top-menu-open').style.opacity = '1';
+            
+            this.setTopMenuCloseDisplay('none');
+            //document.getElementById('top-menu-overlay-close').style.display = 'none';
+            
+            
+            
             
             if ( window.location.pathname === '/' ){ 
                 closeSubNav(this.palvelut_link);
@@ -81,30 +137,33 @@ jQuery(function() {
         
         openMobileLandscapeOverlay: function () {
             
-            console.log('hello from landscape overlay open');
             /*
             if(jQuery(this.navRightContainer).hasClass('visuallyhidden')){
                jQuery(this.navRightContainer).removeClass('visuallyhidden');
             }
             */
             
-            document.getElementById('mobile-landscape-overlay').style.height = '100%';
+            this.mobileLandscapeOverlay.style.height = '100%';
+            
+            
             //document.getElementById('top-menu-open').style.opacity = '0';
-            document.getElementById('mobile-landscape-overlay-close').style.display = 'block';
+            //document.getElementById('mobile-landscape-overlay-close').style.display = 'block';
             
         },
         
         
         closeMobileLandscapeOverlay: function () {
             
-            console.log('hello from landscape overlay close');
             /*
             if(!jQuery(this.navRightContainer).hasClass('visuallyhidden')){
                jQuery(this.navRightContainer).addClass('visuallyhidden');
             }
             */
-            document.getElementById('mobile-landscape-overlay').style.height = '0%';
-            document.getElementById('mobile-landscape-overlay-close').style.display = 'none';
+            
+            this.mobileLandscapeOverlay.style.height = '0%';
+            
+            
+            //document.getElementById('mobile-landscape-overlay-close').style.display = 'none';
             
             closeSubNav(this.palvelut_link);
             
@@ -138,6 +197,18 @@ jQuery(function() {
         
         
         changeToDesktopStyles: function () {
+            
+            
+            if(this.topMenuOverlayStyleProps.overlayHeight !== 'auto'){
+               this.setOverlayHeight('auto');
+               this.setTopMenuCloseDisplay('none');
+            }
+            
+            
+            if(this.topMenuOverlayStyleProps.topMenuOpenOpacity === '1'){
+                this.setTopMenuOpenOpacity('0');
+            }
+            
             if(jQuery(this.navRightContainer).hasClass('visuallyhidden')){
                jQuery(this.navRightContainer).removeClass('visuallyhidden');
             }
@@ -146,11 +217,11 @@ jQuery(function() {
                jQuery(this.ulSubMenu).removeClass('second-menu-landscape');
             }
             
-            /*
+            
             if(jQuery(this.palvelut_link).hasClass('active-link')) {
-                closeSubnav(this.palvelut_link);
+                closeSubNav(this.palvelut_link);
             }
-            */
+            
 
             if(jQuery(this.servicesMenuItem).hasClass('services-link-mobile')){
                 jQuery(this.servicesMenuItem).removeClass('services-link-mobile');
@@ -159,18 +230,24 @@ jQuery(function() {
             if(jQuery(this.servicesMenuItem).has(this.ulSubMenu) || jQuery(this.mobileLandscapeOverlay).has(this.ulSubMenu)){
                 jQuery(this.ulSubMenu).appendTo(this.menuAlavalikkoContainer);
             }
+            
+            
 
-            document.getElementById('top-menu-overlay').style.height = 'auto';
-            if(this.topMenuOverlayStyleProps.topMenuOpenDisplay == 'inline-block'){
-               document.getElementById('top-menu-open').style.display = 'none';
+            //document.getElementById('top-menu-overlay').style.height = 'auto';
+            
+            if(this.topMenuOverlayStyleProps.topMenuOpenDisplay === 'inline-block'){
+                
+                this.setTopMenuOpenDisplay('none');
+               //document.getElementById('top-menu-open').style.display = 'none';
             }
-            if(this.topMenuOverlayStyleProps.topMenuCloseDisplay == 'block'){
-               document.getElementById('top-menu-overlay-close').style.display = 'none';
-            }
+            
+            //this.closeMobileLandscapeOverlay();
+            this.initMobileLandscapeOverlay();
+            
+            
         },
         
         changeToMobileStylesPortrait: function () {
-            console.log('portrait');
             /*
             if(jQuery(this.palvelut_link).hasClass('active-link')) {
                 closeSubNav(this.palvelut_link);
@@ -180,20 +257,44 @@ jQuery(function() {
             if(jQuery(this.ulSubMenu).hasClass('second-menu-landscape')){
                jQuery(this.ulSubMenu).removeClass('second-menu-landscape');
             }
-
-            if(this.topMenuOverlayStyleProps.topMenuOpenOpacity == '0'){
-               document.getElementById('top-menu-open').style.opacity = '100';
+            
+            
+            if(this.topMenuOverlayStyleProps.topMenuOpenOpacity === '0'){
+                this.setTopMenuOpenOpacity('1');
+                //this.setTopMenuCloseDisplay('none');
+               //document.getElementById('top-menu-open').style.opacity = '100';
+            }
+            
+            
+            if(this.topMenuOverlayStyleProps.overlayHeight === '100%'){
+                this.setTopMenuOpenOpacity('0');
+                this.setTopMenuCloseDisplay('block');
+            }else if(this.topMenuOverlayStyleProps.overlayHeight === 'auto'){
+                this.setTopMenuOpenOpacity('1');
+            }
+            
+            
+            
+            if(this.topMenuOverlayStyleProps.overlayHeight === 'auto'){
+                this.setOverlayHeight('0%');
+               //document.getElementById("top-menu-overlay").style.height = '0%';
             }
 
-            if(this.topMenuOverlayStyleProps.overlayHeight == '100%'){
-               document.getElementById('top-menu-open').style.opacity = '0';
+            if(this.topMenuOverlayStyleProps.topMenuOpenDisplay === 'none' && this.topMenuOverlayStyleProps.overlayHeight === '0%'){
+                this.setTopMenuOpenDisplay('inline-block');
+               //document.getElementById('top-menu-open').style.display = 'inline-block'; 
             }
+            
+            
+            
+            
             
             if(jQuery(this.mobileLandscapeOverlay ).has(this.ulSubMenu) || jQuery(this.menuAlavalikkoContainer).has(this.ulSubMenu)){
                 
                 if(!jQuery(this.servicesMenuItem).hasClass('services-link-mobile')){
                     jQuery(this.servicesMenuItem).addClass('services-link-mobile');
                 }
+                this.closeMobileLandscapeOverlay();
                 
                 jQuery(this.ulSubMenu).appendTo(this.servicesMenuItem);
             }
@@ -206,19 +307,17 @@ jQuery(function() {
                 jQuery(this.ulSubMenu).appendTo("#menu-item-2405");
             }
             */
+            this.initMobileLandscapeOverlay();
 
-            if(this.topMenuOverlayStyleProps.overlayHeight == 'auto'){
-               document.getElementById("top-menu-overlay").style.height = '0%';
-            }
-
-            if(this.topMenuOverlayStyleProps.topMenuOpenDisplay == 'none' && this.topMenuOverlayStyleProps.overlayHeight == '0%'){
-               document.getElementById('top-menu-open').style.display = 'inline-block';
-            }
+            
         },
         
         
         changeToMobileStylesLandscape: function () {
-            console.log('landscape');
+            
+            if(jQuery(this.palvelut_link).hasClass('active-link')) {
+                closeSubNav(this.palvelut_link);
+            }
             
             
             if(jQuery(this.servicesMenuItem).has(this.ulSubMenu) || jQuery(this.menuAlavalikkoContainer).has(this.ulSubMenu)){
@@ -246,6 +345,17 @@ jQuery(function() {
                jQuery(this.ulSubMenu).addClass('second-menu-landscape');
             }
             
+            
+            if(this.topMenuOverlayStyleProps.overlayHeight === 'auto'){
+                this.setOverlayHeight('0%');
+               //document.getElementById("top-menu-overlay").style.height = '0%';
+            }
+            
+            if(this.topMenuOverlayStyleProps.topMenuOpenOpacity === '0'){
+                this.setTopMenuOpenOpacity('1');
+               //document.getElementById('top-menu-open').style.opacity = '100';
+            }
+            
             /*
             setTimeout(function(){
                 jQuery('#sub-menu').addClass('second-menu-opened');
@@ -270,10 +380,11 @@ jQuery(function() {
     let topMenuOpenOpacity = document.getElementById('top-menu-open').style.opacity;
     let topMenuCloseOpacity = document.getElementById('top-menu-overlay-close').style.opacity;
     */
-    
+
     
     var $root = jQuery('html, body');
     var $document = jQuery(document);
+    domManager.initOverlayStyleProps();
     //var topNavMobile = jQuery('.top-nav-mobile');
     checkScreenWidth();
     
@@ -601,14 +712,8 @@ function openSubNav(link) {
         jQuery('.navigation-top').removeClass('nav-transparent');
         jQuery('.navigation-top').addClass('nav-black');
         
-        
-        
         if(domManager.isMobileLandscape === 1) {
-            
-            console.log('mobile landscape: must open landscape overlay');
             domManager.openMobileLandscapeOverlay();
-            
-            
         }else{
             
             setTimeout(function(){
@@ -701,48 +806,25 @@ function handleSubNavClose(link) {
 function checkScreenWidth(){
     let windowWidth = window.innerWidth;
     let windowHeight = window.innerHeight;
-    domManager.setOverlayStyleProps();
-    
+    //domManager.setOverlayStyleProps();
     if(windowWidth > 960) {
-       domManager.setFlagsDesktop();
-       domManager.changeToDesktopStyles();
-       
+        if(domManager.isDesktop === 0) {
+            domManager.changeToDesktopStyles();
+            domManager.setFlagsDesktop();
+        }
     }else{
         if(windowHeight >= 360) {
-            domManager.setFlagsMobilePortrait();
-            domManager.changeToMobileStylesPortrait();
+            if(domManager.isMobilePortrait === 0) {
+                domManager.changeToMobileStylesPortrait();
+                domManager.setFlagsMobilePortrait();
+            }
         }else{
-            domManager.setFlagsMobileLandscape();
-            domManager.changeToMobileStylesLandscape(); 
-        }
-         
-    }
-    
-    
-
-    /*
-    if(windowHeight >= 360) {
-        
-        if(windowWidth > 960){
-            domManager.changeToDesktopStyles();
-        }else{
-            domManager.changeToMobileStylesPortrait(); 
-        }
-        
-        
-        
-    }else{
-        
-        if(windowWidth > 960){
-            domManager.changeToDesktopStyles();
-        }else{
-            domManager.changeToMobileStylesLandscape(); 
-        }
-        
-       
-    }
-    */
-    
+            if(domManager.isMobileLandscape === 0) {
+                domManager.changeToMobileStylesLandscape();
+                domManager.setFlagsMobileLandscape();
+            }
+        }     
+    }  
 }
 
 
