@@ -25,7 +25,7 @@ jQuery(function() {
         smoytalk_link : jQuery('#right-menu .smoytalk-link a')[0],
         english_link : jQuery('#right-menu .english-link a')[0],
         finnish_link : jQuery('#right-menu .finnish-link a')[0],
-        mobileLandscapeOverlay : jQuery('#mobile-landscape-overlay')[0],
+        mobileLandscapeSubmenuClose : jQuery('<a href="javascript:void(0)" id="mobile-landscape-submenu-close" class="closebtn" onclick="domManager.closeMobileLandscapeSubmenu()">&times;</a>'),
         topMenuOverlayElems : {topMenuOverlay : document.getElementById('top-menu-overlay'), topMenuOpen : document.getElementById('top-menu-open'), topMenuClose : document.getElementById('top-menu-overlay-close')},
         topMenuOverlayStyleProps : {topMenuOpenDisplay : '', topMenuCloseDisplay : '', topMenuOpenOpacity : '', topMenuCloseOpacity : '', overlayHeight : ''},
         
@@ -82,13 +82,16 @@ jQuery(function() {
             this.topMenuOverlayStyleProps.overlayHeight = val;
         },
         
+        /*
+        
         initMobileLandscapeOverlay: function () {
             // Clean way to temporary disable css transitions on element
             jQuery(this.mobileLandscapeOverlay).addClass('notransition'); // Disable transitions
             this.mobileLandscapeOverlay.style.height = '0%'; // Do the required style changes
             this.mobileLandscapeOverlay.offsetHeight; // Trigger a reflow, flushing the CSS changes
             jQuery(this.mobileLandscapeOverlay).removeClass('notransition'); // Re-enable transitions
-        },    
+        },
+        */
         
         
         openNav: function () {
@@ -135,7 +138,7 @@ jQuery(function() {
         
         
         
-        openMobileLandscapeOverlay: function () {
+        openMobileLandscapeSubmenu: function () {
             
             /*
             if(jQuery(this.navRightContainer).hasClass('visuallyhidden')){
@@ -143,7 +146,13 @@ jQuery(function() {
             }
             */
             
-            this.mobileLandscapeOverlay.style.height = '100%';
+        
+            //this.mobileLandscapeOverlay.style.height = '100%';
+            
+            jQuery(this.ulSubMenu).prepend(this.mobileLandscapeSubmenuClose);
+            
+            
+            jQuery(this.ulSubMenu).addClass('test-class');
             
             
             //document.getElementById('top-menu-open').style.opacity = '0';
@@ -152,7 +161,7 @@ jQuery(function() {
         },
         
         
-        closeMobileLandscapeOverlay: function () {
+        closeMobileLandscapeSubmenu: function () {
             
             /*
             if(!jQuery(this.navRightContainer).hasClass('visuallyhidden')){
@@ -160,8 +169,11 @@ jQuery(function() {
             }
             */
             
-            this.mobileLandscapeOverlay.style.height = '0%';
+            //this.mobileLandscapeOverlay.style.height = '0%';
             
+            
+            jQuery(this.ulSubMenu).removeClass('test-class');
+            jQuery(this.mobileLandscapeSubmenuClose).remove();
             
             //document.getElementById('mobile-landscape-overlay-close').style.display = 'none';
             
@@ -214,6 +226,7 @@ jQuery(function() {
             }
             
             if(jQuery(this.ulSubMenu).hasClass('second-menu-landscape')){
+               this.closeMobileLandscapeSubmenu();
                jQuery(this.ulSubMenu).removeClass('second-menu-landscape');
             }
             
@@ -226,10 +239,19 @@ jQuery(function() {
             if(jQuery(this.servicesMenuItem).hasClass('services-link-mobile')){
                 jQuery(this.servicesMenuItem).removeClass('services-link-mobile');
             }
+            
+            /*
 
             if(jQuery(this.servicesMenuItem).has(this.ulSubMenu) || jQuery(this.mobileLandscapeOverlay).has(this.ulSubMenu)){
                 jQuery(this.ulSubMenu).appendTo(this.menuAlavalikkoContainer);
             }
+            */
+            
+            if(jQuery(this.servicesMenuItem).has(this.ulSubMenu) || jQuery(this.topMenuOverlayElems.topMenuOverlay).has(this.ulSubMenu)){
+                jQuery(this.ulSubMenu).appendTo(this.menuAlavalikkoContainer);
+            }
+            
+            
             
             
 
@@ -242,7 +264,8 @@ jQuery(function() {
             }
             
             //this.closeMobileLandscapeOverlay();
-            this.initMobileLandscapeOverlay();
+            
+            //this.initMobileLandscapeOverlay();
             
             
         },
@@ -255,6 +278,7 @@ jQuery(function() {
             */
             
             if(jQuery(this.ulSubMenu).hasClass('second-menu-landscape')){
+               this.closeMobileLandscapeSubmenu();
                jQuery(this.ulSubMenu).removeClass('second-menu-landscape');
             }
             
@@ -288,7 +312,7 @@ jQuery(function() {
             
             
             
-            
+            /*
             if(jQuery(this.mobileLandscapeOverlay ).has(this.ulSubMenu) || jQuery(this.menuAlavalikkoContainer).has(this.ulSubMenu)){
                 
                 if(!jQuery(this.servicesMenuItem).hasClass('services-link-mobile')){
@@ -298,6 +322,19 @@ jQuery(function() {
                 
                 jQuery(this.ulSubMenu).appendTo(this.servicesMenuItem);
             }
+            */
+            
+            if(jQuery(this.topMenuOverlayElems.topMenuOverlay).has(this.ulSubMenu) || jQuery(this.menuAlavalikkoContainer).has(this.ulSubMenu)){
+                
+                if(!jQuery(this.servicesMenuItem).hasClass('services-link-mobile')){
+                    jQuery(this.servicesMenuItem).addClass('services-link-mobile');
+                }
+                
+                jQuery(this.ulSubMenu).appendTo(this.servicesMenuItem);
+            }
+            
+            
+            
             
             
             /*
@@ -307,7 +344,7 @@ jQuery(function() {
                 jQuery(this.ulSubMenu).appendTo("#menu-item-2405");
             }
             */
-            this.initMobileLandscapeOverlay();
+            //this.initMobileLandscapeOverlay();
 
             
         },
@@ -326,7 +363,12 @@ jQuery(function() {
                     jQuery(this.servicesMenuItem).addClass('services-link-mobile');
                 }
                 
-                jQuery(this.ulSubMenu).appendTo(this.mobileLandscapeOverlay);
+                
+                jQuery( this.topMenuOverlayElems.topMenuOverlay ).after(this.ulSubMenu);
+                
+                
+                
+                //jQuery(this.ulSubMenu).appendTo(this.mobileLandscapeOverlay);
             }
             
             /*
@@ -713,7 +755,7 @@ function openSubNav(link) {
         jQuery('.navigation-top').addClass('nav-black');
         
         if(domManager.isMobileLandscape === 1) {
-            domManager.openMobileLandscapeOverlay();
+            domManager.openMobileLandscapeSubmenu();
         }else{
             
             setTimeout(function(){
@@ -806,7 +848,6 @@ function handleSubNavClose(link) {
 function checkScreenWidth(){
     let windowWidth = window.innerWidth;
     let windowHeight = window.innerHeight;
-    //domManager.setOverlayStyleProps();
     if(windowWidth > 960) {
         if(domManager.isDesktop === 0) {
             domManager.changeToDesktopStyles();

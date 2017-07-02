@@ -549,17 +549,95 @@ body {
     height: 0;
     width: 100%;
     position: fixed;
-    z-index: 9999;
     left: 0;
     bottom: 0;
-    background-color: rgb(31, 4, 37);
-    overflow: hidden;
+    background-color: transparent;
+    /*
+    z-index: 9999;
+    */
+    
+    /*
     -webkit-transition: all 0.35s;
     -moz-transition: all 0.35s;
     -ms-transition: all 0.35s;
     -o-transition: all 0.35s;
     transition: all 0.35s;
+    */
+    
 }
+
+
+#sub-menu.second-menu-landscape {
+    /*
+        position: absolute;
+    */
+        position: fixed;
+        top: 0;
+        width: 100%;
+        max-height: 0;
+        padding: 10px 0 0 14px;
+        background-color: rgb(31, 4, 37);
+        overflow: hidden;
+        z-index: 9999;
+        
+        /*
+        height: auto;
+        
+        min-height: 99%;
+        bottom: 0;
+        left: 10px;
+        */
+    -webkit-transition: max-height 0.15s ease-out;
+    -moz-transition: max-height 0.15s ease-out;
+    -o-transition: max-height 0.15s ease-out;
+    transition: max-height 0.15s ease-out;
+}
+
+
+#sub-menu.second-menu-landscape.test-class {
+    max-height: 360px;
+    height: 100vh;
+    -webkit-transition: max-height 0.25s ease-in;
+    -moz-transition: max-height 0.25s ease-in;
+    -o-transition: max-height 0.25s ease-in;
+    transition: max-height 0.25s ease-in;
+    
+}
+
+
+
+
+/*
+#menu {
+  background-color: cyan;
+}
+
+
+#menu #list {
+    max-height: 0;
+    -webkit-transition: max-height 0.15s ease-out;
+    -moz-transition: max-height 0.15s ease-out;
+    -o-transition: max-height 0.15s ease-out;
+    transition: max-height 0.15s ease-out;
+    
+    overflow: hidden;
+    background: #d5d5d5;
+}
+
+#menu:hover #list {
+    max-height: 500px;
+    -webkit-transition: max-height 0.25s ease-in;
+    -moz-transition: max-height 0.25s ease-in;
+    -o-transition: max-height 0.25s ease-in;
+    transition: max-height 0.25s ease-in;
+}
+*/
+
+
+
+
+
+
 
 /*
 
@@ -611,16 +689,28 @@ body {
     color: #f2f2f2;
 }
 
-
+/*
 #mobile-landscape-overlay .closebtn {
     display: block;
     position: absolute;
-    top: -5px;
+    top: 49px;
     right: 22px;
     font-size: 2.75em;
     text-decoration: none;
     color: #f2f2f2;
 }
+*/
+
+#sub-menu.second-menu-landscape .closebtn {
+    display: block;
+    position: absolute;
+    top: -2px;
+    right: 25px;
+    font-size: 2.75em;
+    text-decoration: none;
+    color: #f2f2f2;
+}
+
 
 
 #top-menu-overlay .closebtn:hover {
@@ -3435,7 +3525,7 @@ div.customer-stretchy-wrapper {
     }
     
     
-    
+    /*
     #sub-menu.second-menu-landscape {
         position: absolute;
         height: auto;
@@ -3444,13 +3534,14 @@ div.customer-stretchy-wrapper {
         bottom: 0;
         left: 10px;
     }
-    
+    */
     
     
     #sub-menu.second-menu-landscape li {
         display: block;
         margin: 2vh 0 2vh 0;
         padding: 1.5vh 0 1.5vh 0;
+        width: 80%;
         height: auto;
     }
     
