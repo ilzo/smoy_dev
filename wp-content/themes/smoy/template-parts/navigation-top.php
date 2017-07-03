@@ -40,12 +40,6 @@ wp_nav_menu( array(
     
 ?> 
 </div>
-<!--
-<div id="mobile-landscape-overlay">
-<a href="javascript:void(0)" id="mobile-landscape-overlay-close" class="closebtn" onclick="domManager.closeMobileLandscapeOverlay()">&times;</a>
-</div>
--->
-
 <div id="open-button-container">
     <span id="top-menu-open" class="dashicons dashicons-menu" onclick="domManager.openNav()"></span>
 </div>
