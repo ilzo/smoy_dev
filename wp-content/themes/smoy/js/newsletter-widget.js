@@ -71,17 +71,24 @@ jQuery(function() {
       toggleFooterNewsletterBox (newsletterFooter, viewportWidth);
     });
     
+    
+    
+    var viewportWidth = Math.max( $window.width(), window.innerWidth);
     var timeOutVar;
     $window.resize(function() {
-        let viewportWidth = Math.max( jQuery(window).width(), window.innerWidth);
-        hideFooterNewsletterBox(newsletterFooter, viewportWidth);
-        clearTimeout(timeOutVar);
-        timeOutVar = setTimeout(function(){
-            initNewsletterFooterBottomValue(newsletterFooter, viewportWidth);
-            if(jQuery(newsletterFooter).is(':hidden')){
-                jQuery(newsletterFooter).show();
-            }
-        }, 380);
+       let currentWidth = Math.max( $window.width(), window.innerWidth);
+       if(currentWidth !== viewportWidth){
+            viewportWidth = currentWidth;
+            hideFooterNewsletterBox(newsletterFooter, viewportWidth);
+           
+            clearTimeout(timeOutVar);
+            timeOutVar = setTimeout(function(){
+                initNewsletterFooterBottomValue(newsletterFooter, viewportWidth);
+                if(jQuery(newsletterFooter).is(':hidden')){
+                    jQuery(newsletterFooter).show();
+                }
+            }, 380);  
+       }
     });
     
     let footerWidgetContainer = document.getElementsByClassName('footer-newsletter-widget-container')[0];

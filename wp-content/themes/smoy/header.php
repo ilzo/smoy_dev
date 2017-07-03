@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body>
 <div class="page-wrapper">
 <?php if(is_home()): ?>
 <header id="header-home">

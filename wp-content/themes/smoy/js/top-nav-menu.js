@@ -82,17 +82,6 @@ jQuery(function() {
             this.topMenuOverlayStyleProps.overlayHeight = val;
         },
         
-        /*
-        
-        initMobileLandscapeOverlay: function () {
-            // Clean way to temporary disable css transitions on element
-            jQuery(this.mobileLandscapeOverlay).addClass('notransition'); // Disable transitions
-            this.mobileLandscapeOverlay.style.height = '0%'; // Do the required style changes
-            this.mobileLandscapeOverlay.offsetHeight; // Trigger a reflow, flushing the CSS changes
-            jQuery(this.mobileLandscapeOverlay).removeClass('notransition'); // Re-enable transitions
-        },
-        */
-        
         
         openNav: function () {
             if(jQuery(this.navRightContainer).hasClass('visuallyhidden')){
@@ -152,7 +141,7 @@ jQuery(function() {
             jQuery(this.ulSubMenu).prepend(this.mobileLandscapeSubmenuClose);
             
             
-            jQuery(this.ulSubMenu).addClass('test-class');
+            jQuery(this.ulSubMenu).addClass('landscape-menu-opened');
             
             
             //document.getElementById('top-menu-open').style.opacity = '0';
@@ -172,7 +161,7 @@ jQuery(function() {
             //this.mobileLandscapeOverlay.style.height = '0%';
             
             
-            jQuery(this.ulSubMenu).removeClass('test-class');
+            jQuery(this.ulSubMenu).removeClass('landscape-menu-opened');
             jQuery(this.mobileLandscapeSubmenuClose).remove();
             
             //document.getElementById('mobile-landscape-overlay-close').style.display = 'none';
@@ -209,6 +198,10 @@ jQuery(function() {
         
         
         changeToDesktopStyles: function () {
+            
+            if(jQuery(this.palvelut_link).hasClass('no-hover-color')) {
+               jQuery(this.palvelut_link).removeClass('no-hover-color');
+            }
             
             
             if(this.topMenuOverlayStyleProps.overlayHeight !== 'auto'){
@@ -265,12 +258,15 @@ jQuery(function() {
             
             //this.closeMobileLandscapeOverlay();
             
-            //this.initMobileLandscapeOverlay();
-            
-            
+    
         },
         
         changeToMobileStylesPortrait: function () {
+            
+            if(!jQuery(this.palvelut_link).hasClass('no-hover-color')) {
+               jQuery(this.palvelut_link).addClass('no-hover-color');
+            }
+            
             /*
             if(jQuery(this.palvelut_link).hasClass('active-link')) {
                 closeSubNav(this.palvelut_link);
@@ -344,7 +340,6 @@ jQuery(function() {
                 jQuery(this.ulSubMenu).appendTo("#menu-item-2405");
             }
             */
-            //this.initMobileLandscapeOverlay();
 
             
         },
@@ -354,6 +349,10 @@ jQuery(function() {
             
             if(jQuery(this.palvelut_link).hasClass('active-link')) {
                 closeSubNav(this.palvelut_link);
+            }
+            
+            if(!jQuery(this.palvelut_link).hasClass('no-hover-color')) {
+               jQuery(this.palvelut_link).addClass('no-hover-color');
             }
             
             
@@ -770,15 +769,7 @@ function openSubNav(link) {
                 closeSubNav(palvelut_link);                                        
             });
             
-         }
-         
-        
-        
-            
-            
-       
-
-        
+         }   
     
     }
     
@@ -787,7 +778,8 @@ function openSubNav(link) {
 
 function closeSubNav(link) {
     if(jQuery(link).hasClass('active-link')) {
-        jQuery(link).removeAttr('class');
+        //jQuery(link).removeAttr('class');
+        jQuery(link).removeClass('active-link');
         jQuery('#sub-menu').removeClass('second-menu-opened');
         setTimeout(function(){
             
