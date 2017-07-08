@@ -6,7 +6,6 @@
  * @subpackage smoy
  * 
  */
-
 get_header('single'); ?>
 <?php get_sidebar('newsletter'); ?>
 <main id="single-main" class="site-main" role="main">
@@ -23,5 +22,5 @@ get_header('single'); ?>
         <?php next_post_link('%link', 'seuraava<span class="arrow-right">&rsaquo;</span>', true); ?>
     </div>
 </div>
-</main><!-- .site-main -->
+</main>
 <?php get_footer('single'); ?>

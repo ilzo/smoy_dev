@@ -1414,8 +1414,10 @@ button {
 .content-section-header {
     position: relative;
     height: 80vh;
+    /*
     min-height: 560px;
     max-height: 890px;
+    */
     background-repeat-x: no-repeat !important;
     background-repeat-y: no-repeat !important;
     -webkit-background-size: cover !important;
@@ -1423,6 +1425,15 @@ button {
     -o-background-size: cover !important;
     background-size: cover !important;
     background-position: center !important;
+}
+
+.content-section-header:before {
+    content: "";
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    z-index: -1;
+    will-change: transform;
+    
 }
 
 .content-header-wrapper {
@@ -2946,14 +2957,17 @@ div.customer-stretchy-wrapper {
 
 #subscription-message-title, 
 #subscription-message-body, 
-#subscription-message-bottom, 
+#subscription-message-bottom,
+#unsubscription-message-title, 
+#unsubscription-message-body, 
+#unsubscription-message-bottom,
 #error-message-title, 
 #error-message-body, 
 #error-message-bottom {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
 }
 
-#subscription-message-title, #error-message-title {
+#subscription-message-title, #unsubscription-message-title, #error-message-title {
     color: #f2f2f2;
     font-size: 18pt;
 }
@@ -2977,7 +2991,7 @@ div.customer-stretchy-wrapper {
     color: #0c0c0c;
 }
 
-#subscription-message-body, #error-message-body{
+#subscription-message-body, #unsubscription-message-body, #error-message-body{
     font-size: 18pt;
     line-height: 1.08;
     margin-bottom: 30px;
@@ -2987,10 +3001,18 @@ div.customer-stretchy-wrapper {
     color: #f2f2f2;
 }
 
-#subscription-message-bottom, #error-message-bottom {
-    max-width: 190px;
+
+#subscription-message-bottom, #unsubscription-message-bottom, #error-message-bottom {
     margin: 0 auto;
     line-height: 1.26;
+}
+
+#subscription-message-bottom, #error-message-bottom {
+    max-width: 190px;
+}
+
+#unsubscription-message-bottom {
+    max-width: 230px;
 }
 
 #message-page-social-container {
@@ -3217,6 +3239,10 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1280px) {
     
+    .content-section-header {
+        height: 600px;
+    }
+    
     .service-box, .service-box-eng {
         width: 50%;
     }
@@ -3417,8 +3443,10 @@ div.customer-stretchy-wrapper {
 @media screen and (max-width: 1020px) {
     
     #services > .content-section-header {
+        /*
         height: 60vh;
         min-height: 500px;
+        */
         background-position: 0 30% !important;
     }
     
@@ -3435,6 +3463,10 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 960px) {
+    
+    #newsletter-sidebar {
+        display: none !important;
+    }
     
     /* ---------- TOP MOBILE NAV MENU START ---------- */
     
@@ -3695,7 +3727,7 @@ div.customer-stretchy-wrapper {
     
     
     #header-home {
-        background: url(./img/background/Smoy_mutkattomasti_tuloksia_still_mobile_680x720.jpg);
+        background: url(./img/background/Smoy_mutkattomasti_tuloksia_still_mobile_680x829.jpg);
     }
     
     /*
@@ -3732,9 +3764,12 @@ div.customer-stretchy-wrapper {
     */
     
     .content-section-header {
+        /*
         height: 66vh;
         min-height: 440px;
-        max-height: 560px;
+        */
+        
+        height: 500px;
     }
     
     
@@ -3750,8 +3785,12 @@ div.customer-stretchy-wrapper {
     
     
     #services > .content-section-header {
+        /*
         height: 66vh;
+        
         min-height: 440px;
+        
+        */
         /*background-position: 0 15% !important;*/
     }
     
@@ -4057,7 +4096,11 @@ div.customer-stretchy-wrapper {
 }
 
 
-
+@media screen and (max-width: 960px) and (orientation: landscape) { 
+    #header-home {
+        background-position: 50% 38% !important;
+    }
+}
 
 
 @media screen and (max-width: 960px) and (min-height: 360px) { 
@@ -4820,17 +4863,6 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 720px) { 
     
-    .content-section-header {
-        height: 44vh;
-        min-height: 320px;
-        max-height: 440px;
-    }
-    
-    #services > .content-section-header {
-        height: 44vh;
-        min-height: 320px;
-        background-position: 0 35% !important;
-    }
     
     .heading-orange, .heading-pink, .heading-black {
         font-size: 2.25em;
@@ -4847,6 +4879,17 @@ div.customer-stretchy-wrapper {
     
     
 }
+
+
+@media screen and (max-width: 720px) and (min-width: 631px) { 
+    #services > .content-section-header {
+        background-position: 56% 50% !important;
+        background-size: 750px !important;
+    }
+
+}
+
+
 
 
 @media screen and (max-width: 700px) {
@@ -4868,6 +4911,10 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-width: 630px) {
+    
+    .content-section-header {
+        height: 400px;
+    }
     
     /*
     #sub-menu {
@@ -5013,7 +5060,13 @@ div.customer-stretchy-wrapper {
 }
 
 
+@media screen and (max-width: 630px) and (min-width: 531px) { 
+    #services > .content-section-header {
+        background-position: 50% 60% !important;
+        background-size: 630px !important;
+    }
 
+}
 
 
 
@@ -5067,22 +5120,46 @@ div.customer-stretchy-wrapper {
         background-position: 16%;
     }
     */
-    
+    /*
     .content-section-header, #services > .content-section-header {
+        
         height: 28vh;
+        
         min-height: 280px;
     }
+    
+    */
+    
+    /*
     
     #services > .content-section-header {
         background-position: 0 10% !important;
     }
+    */
     
     #blog > .content-section-header {
-        background-position: 80% 82% !important;
-        background-size: 145% !important;
+        background-position: 80% 85% !important;
+        background-size: 170% !important;
     }
     
 }
+
+
+
+
+@media screen and (max-width: 530px) {  
+    .content-section-header {
+        height: 340px;
+    }
+    
+    #services > .content-section-header {
+        background-position: -50px 28% !important;
+        background-size: 135% !important;
+    }
+}
+
+
+
 
 
 /*
@@ -5190,7 +5267,7 @@ div.customer-stretchy-wrapper {
         padding: 12px;
     }
     
-    #subscription-message-title, #error-message-title {
+    #subscription-message-title, #unsubscription-message-title, #error-message-title {
         font-size: 12pt;
     }
     
@@ -5199,15 +5276,14 @@ div.customer-stretchy-wrapper {
         margin: 5px auto 20px auto !important;
     }
     
-    #subscription-message-body, #error-message-body {
+    #subscription-message-body, #unsubscription-message-body, #error-message-body {
         font-size: 13pt;
         line-height: 1.2;
         margin-bottom: 15px;
     }
     
-    #subscription-message-bottom, #error-message-bottom {
+    #subscription-message-bottom, #unsubscription-message-bottom, #error-message-bottom {
         font-size: 9.25pt;
-        max-width: 190px;
         line-height: 1.45;
     }
     
@@ -5224,7 +5300,6 @@ div.customer-stretchy-wrapper {
     }
     
     #message-page-social-container .message-page-social-icon-border {
-        display: block;
         height: 20px;
         width: 38px;
         /*padding: 10px 0 8px 0;*/
@@ -5521,12 +5596,11 @@ div.customer-stretchy-wrapper {
        
 }
 
-@media screen and (max-width: 400px) {  
+@media screen and (max-width: 410px) {  
 
     #services > .content-section-header {
-        height: 28vh;
-        min-height: 280px;
-        background-position: -12px 10% !important;
+        background-position: 0 35% !important;
+        background-size: 300% !important;
     }
 
 
@@ -5545,6 +5619,9 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 360px) {
     
+    .content-section-header {
+        height: 260px;
+    }
     
     .navigation-top {
         height: 37px;
@@ -5654,16 +5731,26 @@ div.customer-stretchy-wrapper {
         height: 32px !important;
     }
     
+    .heading-orange, .heading-pink, .heading-black {
+        font-size: 1.5em;
+    }
+    
+    .body-text-orange, .body-text-pink, .body-text-black {
+        padding: 8px;
+        font-size: 9pt;
+        line-height: 1.48;
+        letter-spacing: 0.62pt;
+    }
+    
     #our-customers > .content-section-header {
         background-position: 66% 83% !important;
         background-size: 160% !important;
     }
     
     #blog > .content-section-header {
-        background-position: 81% 83% !important;
-        background-size: 253% !important;
+        background-position: 77% 83% !important;
+        background-size: 215% !important;
     }
-    
     
     .single-post-content p {
         font-size: 10.8pt;
@@ -5767,12 +5854,6 @@ div.customer-stretchy-wrapper {
 }
 
 @media screen and (max-width: 320px) { 
-    
-    .content-section-header {
-        min-height: 240px;
-        max-height: 280px;
-    }
-    
     .content-header-wrapper {
         bottom: 15px;
         width: 99%;
@@ -5857,7 +5938,7 @@ div.customer-stretchy-wrapper {
     
 }
 
-
+/*
 @media screen  and (min-width: 300px) and (max-width: 360px) { 
     #header-home {
         -webkit-background-size: 150% !important;
@@ -5868,6 +5949,8 @@ div.customer-stretchy-wrapper {
     }
 
 }
+*/
+
 
 
 @media screen and (max-width: 260px) {
@@ -5952,7 +6035,7 @@ div.customer-stretchy-wrapper {
 }
 
 
-
+/*
 @media screen  and (min-width: 200px) and (max-width: 299px) { 
     #header-home {
         -webkit-background-size: 170% !important;
@@ -5963,6 +6046,8 @@ div.customer-stretchy-wrapper {
     }
 
 }
+*/
+
 
 /*
 

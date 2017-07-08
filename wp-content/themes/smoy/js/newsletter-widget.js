@@ -33,7 +33,10 @@ jQuery(function() {
     newsletterSidebar = jQuery('#newsletter-sidebar');
     newsletterFooter = document.getElementById('newsletter-footer');
     newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
-    if(jQuery(newsletterSidebar).length){
+    
+    let w = Math.max( $window.width(), window.innerWidth);
+    
+    if(jQuery(newsletterSidebar).length && (w > 960)){
         var startScrollPos = $window.scrollTop();
         $document.bind('scroll.newsletterScrollHandler', function() {
             newsletter_detectScrollPos(startScrollPos);
@@ -56,7 +59,7 @@ jQuery(function() {
     let footerWidgetDescNode = jQuery( '#newsletter-footer .footer-newsletter-widget-wrapper' ).contents().get(0);
     jQuery(footerWidgetDescNode).wrap('<div class="footer-newsletter-widget-desc"></div>');
     jQuery( '#newsletter-button, #newsletter-button-mobile, #footer-newsletter-box-close' ).click(function() {
-      let viewportWidth = Math.max( jQuery(window).width(), window.innerWidth);
+      let viewportWidth = Math.max( $window.width(), window.innerWidth);
       jQuery('#newsletter-button, #newsletter-button-mobile').toggleClass( 'active-button' );
       if(this.id === 'newsletter-button' || this.id === 'newsletter-button-mobile') {
          if(!jQuery(newsletterSidebar).hasClass('newsletter-sidebar-disabled')){
@@ -70,8 +73,6 @@ jQuery(function() {
       }
       toggleFooterNewsletterBox (newsletterFooter, viewportWidth);
     });
-    
-    
     
     var viewportWidth = Math.max( $window.width(), window.innerWidth);
     var timeOutVar;
@@ -92,10 +93,12 @@ jQuery(function() {
     });
     
     let footerWidgetContainer = document.getElementsByClassName('footer-newsletter-widget-container')[0];
-    setTimeout(function(){
-        footerWidgetContainer.style.display = 'block';
-    }, 450);
-
+    if(footerWidgetContainer !== undefined){
+       setTimeout(function(){
+            footerWidgetContainer.style.display = 'block';
+        }, 450);
+    }
+    
 });
 
 function newsletter_detectScrollPos (startScrollPos) {
@@ -108,7 +111,6 @@ function newsletter_detectScrollPos (startScrollPos) {
     }
     
 }
-
 
 function toggleFooterNewsletterBox (newsletterFooter, width) {
     let transVal = getTransitionValue(width);

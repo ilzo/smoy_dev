@@ -24,7 +24,9 @@
 </footer>
 </div>  <!-- END OF PAGE-WRAPPER-SINGLE -->
 <?php wp_footer(); ?>
-<script type="text/javascript"> 
+<script type="text/javascript">
+var $document = jQuery(document);
+var $window = jQuery(window);
 var w = window.innerWidth
 || document.documentElement.clientWidth
 || document.body.clientWidth;

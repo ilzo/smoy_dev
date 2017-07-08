@@ -6,7 +6,6 @@
  * @subpackage smoy
  * 
  */
-
 get_header('service'); ?>
 <?php get_sidebar('newsletter'); ?>
 <main id="main" class="site-main" role="main">
@@ -15,5 +14,5 @@ get_header('service'); ?>
             get_template_part( 'template-parts/content', 'single-smoy-service' );
         endwhile;
     ?>
-</main><!-- .site-main -->
+</main>
 <?php get_footer('service'); ?>

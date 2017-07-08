@@ -35,9 +35,7 @@ wp_nav_menu( array(
         'menu_id'             => 'right-menu',
         'container'           => 'div',
         'container_class'     => 'nav-right-container'
-));    
-    
-    
+));     
 ?> 
 </div>
 <div id="open-button-container">

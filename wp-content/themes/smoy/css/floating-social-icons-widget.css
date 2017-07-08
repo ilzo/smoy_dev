@@ -19,7 +19,7 @@
   height: 68px;
   margin-left: -40px;
   position: absolute;
-  text-align: center;
+  text-align: center;  
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   -webkit-transition: -webkit-transform ease-out 200ms;

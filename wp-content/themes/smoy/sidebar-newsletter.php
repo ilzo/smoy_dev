@@ -9,7 +9,7 @@
  * 
  */
 if ( is_active_sidebar( 'newsletter_subscription_sidebar' ) ) : ?>
-<?php if(!smoy_is_mobile_phone()) : ?>
+<?php if(!smoy_is_mobile() && !is_singular('smoy_service')) : ?>
 <div id="newsletter-sidebar" class="widget-area" role="secondary">
     <?php dynamic_sidebar( 'newsletter_subscription_sidebar' ); ?>
 </div>

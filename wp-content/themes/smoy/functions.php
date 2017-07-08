@@ -658,13 +658,18 @@ function add_logo_to_nav( $items, $args )
 */
 
 
+
+
+
 function smoy_is_mobile() {
     require_once(get_template_directory() . '/inc/Mobile_Detect.php' );
     $detect = new Mobile_Detect;
-    if( $detect->isMobile() || $detect->isTablet() ){
+    $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
+    if( $detect->isMobile() || $detect->isTablet() || $detect->isAndroidOS() || stripos($ua,'android') !== false ){
         return true;
-    }
-    return false;
+    }else{
+       return false; 
+    } 
 }
 
 
@@ -674,6 +679,7 @@ function smoy_is_mobile_phone() {
     if( $detect->isMobile() && !$detect->isTablet() ){
         return true;
     }
+
     return false;
 }
 
@@ -733,17 +739,14 @@ function load_scripts()
     
     //wp_enqueue_script( 'nav-menu');
     
-    
     if(is_home()){
         wp_enqueue_script( 'front-page-video' );
     }
-    
     
     if(is_home() || is_page('eng')){
         wp_enqueue_script( 'gsap-tweenmax' );
         wp_enqueue_script( 'customer-references' );
     }
-    
     
     
     if(is_home() || is_singular('smoy_service') || (is_singular() && in_category('blogi'))){
@@ -971,31 +974,75 @@ function smoy_redirect_to_latest_blog_post() {
 }
 
 
+/*
+
 add_action( 'template_redirect', 'smoy_redirect_from_newsletter_page' );
 
 function smoy_redirect_from_newsletter_page() {
     
     if(!is_page('uutiskirje') )
         return;
-    if( !isset($_GET['nm']) || !isset($_GET['nk']) || $_GET['nm'] !== 'confirmed'){
-        
+    
+    if( !isset($_GET['nm']) || !isset($_GET['nk']) || !preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) || $_GET['nm'] !== 'confirmed' || $_GET['nm'] !== 'unsubscribed'){
         status_header( 404 );
         nocache_headers();
         include( get_query_template( '404' ) );
         die();
         
-        
-        
-        
-        
-        /*
-         wp_safe_redirect( home_url(), 307 );
-         exit;
-         */
-    } 
+    }
     
+    
+    if(isset($_GET['nm']) && isset($_GET['nk']) && preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) && $_GET['nm'] !== 'unsubscribed') {
+       
+        
+    }   
     
 }
+*/
+
+
+add_filter( 'template_include', 'smoy_newsletter_template');
+
+function smoy_newsletter_template($template) {
+    if(is_page('uutiskirje') ) {
+        if(isset($_GET['nm']) && isset($_GET['nk']) && preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) && $_GET['nm'] === 'confirmed') {
+            $newsletter_subscription_template = locate_template( array( 'page-uutiskirje.php' ) );
+            return $newsletter_subscription_template;
+        }else if(isset($_GET['nm']) && isset($_GET['nk']) && preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) && $_GET['nm'] === 'unsubscribed') {
+            $newsletter_subscription_template = locate_template( array( 'page-uutiskirje-peruttu.php' ) );
+            return $newsletter_subscription_template;
+        }else{
+            status_header( 404 );
+            nocache_headers();
+            $not_found_template = locate_template( array( '404.php' ) );
+            return $not_found_template;
+        }
+    }
+    return $template;
+}
+
+
+
+
+
+
+
+/*
+function portfolio_page_template( $template ) {
+
+	if ( is_page( 'portfolio' )  ) {
+		$new_template = locate_template( array( 'portfolio-page-template.php' ) );
+		if ( '' != $new_template ) {
+			return $new_template;
+		}
+	}
+
+	return $template;
+}
+*/
+
+
+
 
 
 add_filter('the_content', 'smoy_modify_single_content');

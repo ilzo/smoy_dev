@@ -6,7 +6,6 @@
  * @subpackage smoy
  * 
  */
-
 ?>
 <div id="sub-menu-overlay">
     <?php wp_nav_menu( array(
