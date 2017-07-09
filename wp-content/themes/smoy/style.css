@@ -2978,13 +2978,17 @@ div.customer-stretchy-wrapper {
     height: 2px;
     width: 84px;
     background-color: #f2f2f2;
-    margin: 4px auto 30px 112px;
+    margin: 4px auto 30px auto;
 }
 
 
 #message-title-underline.error-page-title-underline {
     width: 70px;
-    margin: 4px auto 30px 159px;
+}
+
+#message-title-underline.unsubscription-page-title-underline {
+    width: 136px;
+    margin: 4px auto 20px auto;
 }
 
 #subscription-message-body, #subscription-message-bottom, #error-message-body, #error-message-bottom { 
@@ -2994,7 +2998,14 @@ div.customer-stretchy-wrapper {
 #subscription-message-body, #unsubscription-message-body, #error-message-body{
     font-size: 18pt;
     line-height: 1.08;
+}
+
+#subscription-message-body, #error-message-body{
     margin-bottom: 30px;
+}
+
+#unsubscription-message-body {
+    margin-bottom: 20px;
 }
 
 #error-message-body a{
@@ -5261,8 +5272,14 @@ div.customer-stretchy-wrapper {
     }
     */
     
+    #message-page-content {
+        min-height: 600px;
+        height: 100%;
+        width: 100%;
+    }
+    
     #smoy-message-container {
-        height: 54%;
+        height: 70%;
         max-width: 70%;
         padding: 12px;
     }
@@ -5273,13 +5290,24 @@ div.customer-stretchy-wrapper {
     
     #message-title-underline {
         width: 51px !important;
-        margin: 5px auto 20px auto !important;
+        margin: 5px auto 10px auto !important;
+    }
+    
+    #message-title-underline.unsubscription-page-title-underline {
+        width: 85px !important;
     }
     
     #subscription-message-body, #unsubscription-message-body, #error-message-body {
         font-size: 13pt;
         line-height: 1.2;
-        margin-bottom: 15px;
+    }
+    
+    #subscription-message-body, #error-message-body {
+       margin-bottom: 10px;
+    }
+    
+    #unsubscription-message-body {
+        margin-bottom: 7px;
     }
     
     #subscription-message-bottom, #unsubscription-message-bottom, #error-message-bottom {
@@ -5931,7 +5959,6 @@ div.customer-stretchy-wrapper {
     }
     
     #smoy-message-container {
-        height: 54%;
         max-width: 96%;
         padding: 4px;
     }
