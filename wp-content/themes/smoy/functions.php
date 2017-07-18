@@ -1,6 +1,5 @@
 <?php
 
-
 define('MAINTENANCE', false); //set to true to enable maintenance mode
 if (!is_admin() && !current_user_can( 'manage_options' ) && MAINTENANCE) { //envoke maintenance if set
     if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
@@ -29,43 +28,12 @@ function smoy_setup() {
 	) );
     
     */
-    
     //remove_filter( 'the_content', 'wpautop' );
-
-	
+    
 	add_theme_support( 'post-thumbnails' );
-    /* Set the image size by cropping the image */
-    //add_image_size('test-thumbnail', 500, 326, true);
-    //add_image_size( 'test-big', 3000, 9999);
-    add_image_size( 'single-background-small', 640);
-    add_image_size( 'single-background-medium', 1280);
-    add_image_size( 'single-background-large', 1600);
-    add_image_size( 'service-thumb', 1600, 9999);
-    //add_image_size( 'background-large', 2400);
-    //add_image_size( 'background-x-large', 3000);
+    add_image_size( 'service-thumb-desktop', 1280);
+    add_image_size( 'service-thumb-mobile', 460, 230, true);
     
-    
-    //add_image_size( 'bg-test-1', 3000, 9999);
-    //add_image_size( 'bg-test-2', 5000, 9999);
-    
-    /*
-    add_image_size('works-thumbnail-large', 1250, 815, true ); 
-    add_image_size( 'single-big-test', 3000, 9999);
-    add_image_size( 'single-big-test-2', 1024, 9999);
-    add_image_size( 'front-bg-small', 1200, 800, false);
-    add_image_size( 'front-bg-medium', 1800, 1200, false );
-    add_image_size( 'front-bg-large', 2400, 1600, false );
-    add_image_size('front-bg-mobile', 1920, 1600, true);
-    
-    
-    add_image_size( 'front-bg-small-crop', 1200, 800, true);
-    */
-    
-    
-	/* set_post_thumbnail_size( 1200, 9999 );*/
-    
-    
-
 	/*
 	 * Switch default core markup for search form, comment form, and comments
 	 * to output valid HTML5.
@@ -97,8 +65,6 @@ function smoy_setup() {
 		'chat',
 	) );
     
-    
-
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, icons, and column width.
@@ -111,14 +77,10 @@ function smoy_setup() {
     if ( ! isset( $content_width ) ) {
         $content_width = 800;
     }
-  
     
-        
+    add_filter('jpeg_quality', function($arg){return 75;});
+       
 }
-
-
-/*add_filter( 'jpeg_quality', create_function( '', 'return 80;' ) );*/
-
 
 add_action('init', 'smoy_services');
 
@@ -142,7 +104,6 @@ function smoy_services() {
         'menu_position' => null,
         'menu_icon' => 'dashicons-store',
         'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
-        //'rewrite' => true
         'rewrite' => array(
             'slug' => 'palvelut',
             'with_front' => false
@@ -152,30 +113,6 @@ function smoy_services() {
     register_post_type( 'smoy_service' , $args );
     flush_rewrite_rules();
 }
-
-
-//code below will remove the post_name slug from the url
-/*
-function smoy_remove_slug( $post_link, $post, $leavename ) {
-    if ( 'smoy_service' != $post->post_type || 'publish' != $post->post_status ) {
-        return $post_link;
-    }
-    $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
-    return $post_link;
-}
-add_filter( 'post_type_link', 'smoy_remove_slug', 10, 3 );
-
-function smoy_parse_request( $query ) {
-    if ( ! $query->is_main_query() || 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
-        return;
-    }
-    if ( ! empty( $query->query['name'] ) ) {
-        $query->set( 'post_type', array( 'post', 'smoy_service', 'page' ) );
-    }
-}
-add_action( 'pre_get_posts', 'smoy_parse_request' );
-
-*/
 
 add_action('init', 'smoy_people');
 
@@ -386,16 +323,10 @@ final class Smoy_Service_Metabox {
         
         return $post;
     }
-    
-    
-    
-    
-    
-    
+      
 }
 
 $smoy_service_metabox = new Smoy_Service_Metabox();
-
 
 final class Smoy_Person_Metabox {
     // These hook into to the two core actions we need to perform; creating the metabox, and saving it's contents when it is posted
@@ -548,7 +479,6 @@ final class Smoy_Message_Page_Metabox {
     }
 }
 
-
 $smoy_message_page_metabox = new Smoy_Message_Page_Metabox();
                 
 add_action( 'init', 'smoy_register_menus' );
@@ -584,7 +514,6 @@ function smoy_replace_nav_placeholder_with_latest_post_link( $items, $menu, $arg
  
     return $items;
 }
-
 
 require_once(get_template_directory() . '/inc/smoy-recent-posts-widget.php');
 require_once(get_template_directory() . '/inc/smoy-floating-social-icons-widget.php');
@@ -628,10 +557,8 @@ function smoy_widgets_init() {
 		'after_widget'  => '</div>'
 	));
     
-    register_widget('Smoy_Floating_Social_Icons_Widget');
-     
+    register_widget('Smoy_Floating_Social_Icons_Widget');  
 }
-
 
 add_action('admin_head', 'smoy_admin_styles');
 
@@ -642,24 +569,6 @@ function smoy_admin_styles() {
     }
   </style>';
 }
-
-
-/*
-
-add_filter( 'wp_nav_menu_items', 'add_logo_to_nav', 10, 2 );
-
-function add_logo_to_nav( $items, $args )
-{
-     if( $args->theme_location == 'top' ){
-        $items .= '<li><a title="Admin" href="'. esc_url( admin_url() ) .'">' . __( 'Admin' ) . '</a></li>';
-    }
-    return $items;
-}
-*/
-
-
-
-
 
 function smoy_is_mobile() {
     require_once(get_template_directory() . '/inc/Mobile_Detect.php' );
@@ -672,112 +581,32 @@ function smoy_is_mobile() {
     } 
 }
 
-
 function smoy_is_mobile_phone() {
     require_once(get_template_directory() . '/inc/Mobile_Detect.php' );
     $detect = new Mobile_Detect;
     if( $detect->isMobile() && !$detect->isTablet() ){
         return true;
     }
-
     return false;
 }
 
-
-function load_scripts()
-{
-    
-    
+function load_scripts() {
     wp_register_script('top-nav-menu', get_template_directory_uri() .'/js/top-nav-menu.js', array('jquery'), null, true);
-    
     wp_register_script('front-page-video', get_template_directory_uri() .'/js/front-page-video.js', array('jquery'), null, true);
-    
-    //wp_register_script( 'freewall', get_template_directory_uri() . '/js/freewall.js', array( 'jquery'), '1.0.6', false);
-    
-    
-    //wp_register_script( 'scrolloverflow', get_template_directory_uri() . '/js/scrolloverflow.min.js', array(), '5.2.0', false);
-    
-    
-    //wp_register_script( 'fullpage-js', get_template_directory_uri() . '/js/jquery.fullpage.js', array( 'jquery', 'scrolloverflow' ), '2.8.2', false);
-    
-    //wp_register_script( 'masonry-4.1.0', get_template_directory_uri() . '/js/masonry.pkgd.min.js', array('jquery'), '4.1.0', false);
-    
     wp_register_script( 'gsap-tweenmax', get_template_directory_uri() .'/js/TweenMax.min.js', array(), '1.19.1', false );
-    
     wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery', 'gsap-tweenmax'), null, false);
-    
     wp_register_script('newsletter-widget', get_template_directory_uri() .'/js/newsletter-widget.js', array('jquery'), null, false);
-    
-    //wp_register_script( 'gsap-tweenmax', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js', array(), '1.18.5', false );
-    
-    //wp_register_script( 'gsap-timelinelite', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TimelineLite.min.js', array(), '1.18.5', false );
-    
-    //wp_register_script( 'scroll-magic', get_template_directory_uri() . '/js/ScrollMagic.min.js', array( 'gsap-tweenmax' ), '2.0.5', false);
-    
-
-    //wp_register_script( 'scroll-magic-gsap-plugin', get_template_directory_uri() . '/js/animation.gsap.min.js', array( 'gsap-tweenmax', 'scroll-magic' ), '2.0.5', false);
-    
-    /*
-    wp_register_script( 'smoy-animations-home', get_template_directory_uri() . '/js/smoyAnimationsHome.js', array( 'jquery', 'gsap-tweenmax', 'scroll-magic', 'scroll-magic-gsap-plugin'), '1.0.0', true );
-    */
-    
-    
-    //wp_register_script( 'lightbox', get_template_directory_uri() . '/js/lightbox.js', array('salvattore'), '2.8.2', true);
-    
-    //wp_register_script( 'custom-juicer', get_template_directory_uri() . '/js/customJuicer.js', array( 'jquery'), '1.0.0', true );
-   
     wp_enqueue_script( 'top-nav-menu' );
-    
-    
-    
-    
-    //wp_enqueue_script( 'gsap-timelinelite' );
-    
-    //wp_enqueue_script( 'scroll-magic' );
-    
-    //wp_enqueue_script( 'scroll-magic-gsap-plugin' );
-    
-    //wp_enqueue_script( 'nav-menu');
-    
     if(is_home()){
         wp_enqueue_script( 'front-page-video' );
     }
-    
     if(is_home() || is_page('eng')){
         wp_enqueue_script( 'gsap-tweenmax' );
         wp_enqueue_script( 'customer-references' );
     }
-    
-    
     if(is_home() || is_singular('smoy_service') || (is_singular() && in_category('blogi'))){
         wp_enqueue_script( 'newsletter-widget' );
-    }
-    
-    /*
-    if (!is_singular('smoy_project')) {
-        
-    }
-    
-    if (!wp_is_mobile() && !is_singular('loud_project')) {
-        wp_enqueue_script('masonry-4.1.0');
-    }
-    */
-    
-    /*
-    if (is_singular('smoy_project')) {
-       
-        wp_enqueue_script( 'smoy-animations-single' );
-        
-    }
-    */
-    
-    /*
-    if (wp_is_mobile() && !is_singular('smoy_project')) {
-        wp_enqueue_script( 'smoy-animations-home-mobile' );
-    }
-    */
-    
-     
+    }    
 }
 
 function smoy_styles() {
@@ -791,7 +620,6 @@ function smoy_load_dashicons_front_end() {
     wp_enqueue_style( 'dashicons' );
 }
 
-
 add_action( 'after_setup_theme', 'smoy_setup' );
 
 add_action( 'wp_enqueue_scripts', 'smoy_styles' );
@@ -799,50 +627,6 @@ add_action( 'wp_enqueue_scripts', 'smoy_styles' );
 add_action( 'wp_enqueue_scripts', 'load_scripts' );
 
 add_action( 'wp_enqueue_scripts', 'smoy_load_dashicons_front_end' );
-
-
-
-//add_filter( 'pre_get_posts', 'smoy_get_posts' );
-
-
-/*
-function smoy_get_posts( $query ) {
-
-	if ( is_home() && $query->is_main_query() )
-		$query->set( 'post_type', array( 'post', 'projects' ) );
-
-	return $query;
-}
-*/
-
-
-/*
-
-add_filter( 'the_content', 'modify_single_content', 10, 1 );
-
-function modify_single_content($content) 
-{
-    if ( !is_home()) {
-         
-         $content = str_replace('</p>', '</div></section>', $content);
-        
-         $string = '';
-
-         return preg_replace_callback(
-             '|<p>|',
-             function ( $matches )
-             {
-                 static $i = 1;
-                 return sprintf( '<section id="single-section-%1$d" class="single-section"><div id="single-container-%1$d" class="single-container">', $i++ );
-             },
-             $content
-         );
-     }
-}
-
-*/
-
-
 
 add_action( 'wp_head', 'smoy_service_add_html_meta_tags' , 2 );
 
@@ -861,7 +645,6 @@ function smoy_service_add_html_meta_tags() {
     }
 }
 
-
 add_filter( 'smoy_get_service_or_blog_post_featured_img_path', 'post_featured_img_path');
 
 function post_featured_img_path() {
@@ -873,59 +656,143 @@ function post_featured_img_path() {
     }
 }
 
+add_action( 'save_post', 'smoy_upload_post_custom_image_sizes' );
 
+/**
+ * This function utilizes lazy image size function to generate additional custom image sizes for post featured image and all content images.
+ * Image sizes are created only when editing service and blog posts, after saving the post. 
+ *
+ */
+function smoy_upload_post_custom_image_sizes($post_id) {
+	if(wp_is_post_revision($post_id))
+		return;
+    
+	$type = get_post_type($post_id);
+    $wp_term_obj = get_the_category($post_id)[0];
+    $cat_name = $wp_term_obj->name;
+    if($type == 'smoy_service' || $cat_name == 'Blogi') {
+        $thumb_id = get_post_thumbnail_id($post_id);
+        if(!empty($thumb_id)){
+            $thumb_srcset = wp_get_attachment_image_srcset($thumb_id, 'full');
+            $thumb_sizes = explode( ", ", $thumb_srcset );
+            $thumb_srcset_length = count($thumb_sizes);
+            // Call lazy image size function if the image has only full and/or medium-large size uploaded
+            if ($thumb_srcset_length < 3) {
+                lazy_image_size($thumb_id, 460);
+                lazy_image_size($thumb_id, 1280);
+            }     
+        }
+        $post_images = smoy_get_post_images($post_id, $thumb_id);
+        if(!empty($post_images)){
+            foreach ($post_images as $image) {
+                $srcset_length = count($image['sizes']);
+                $img_id = $image['id'];
+                if($srcset_length < 3){
+                    lazy_image_size($img_id, 460);
+                    lazy_image_size($img_id, 1280);
+                } 
+            }  
+        }   
+    }  
+}
 
+/**
+ * Create an image with the desired size on-the-fly.
+ *
+ * This function will generate an image by temporarily registering an image size, generating the image (if necessary) and 
+ * then removing the size so new images will not be created in that size. It's "lazy" because images are not generated until they are needed.
+ *
+ * https://wordpress.stackexchange.com/questions/181877/generate-thumbnails-only-for-featured-images
+ * 
+ * @param $image_id
+ * @param $width
+ *
+ */
+function lazy_image_size($image_id, $width) {
+    // Temporarily create an image size
+    //$size_id = 'lazy_' . $width . 'x' .$height . '_' . ((string) $crop);
+    $size_id = 'lazy_' . $width;
+    add_image_size($size_id, $width);
 
-add_filter('intermediate_image_sizes_advanced', 'smoy_set_image_sizes_by_post_type');
-    
-function smoy_set_image_sizes_by_post_type($sizes) {
-    $post_id = $_REQUEST['post_id'];
-    
-    $type = get_post_type($post_id);
-    
-    $category = get_the_category($post_id);
-    
-    if ( $type === "smoy_service" || $category === 'blogi') {
-        /*add_image_size('custom_size_img', 165, 249, true);*/
-        unset( $sizes['thumbnail']);
-        unset( $sizes['medium']);
-        unset( $sizes['large']);    
-    }else{
-        unset( $sizes['service-background-small']);
-        unset( $sizes['service-background-medium']);
-        unset( $sizes['service-background-large']);
-        unset( $sizes['service-thumb']);
+    // Get the attachment data
+    $meta = wp_get_attachment_metadata($image_id);
+
+    // If the size does not exist
+    if(!isset($meta['sizes'][$size_id])) {
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+        $file = get_attached_file($image_id);
+        $new_meta = wp_generate_attachment_metadata($image_id, $file);
+
+        // Merge the sizes so we don't lose already generated sizes
+        $new_meta['sizes'] = array_merge($meta['sizes'], $new_meta['sizes']);
+
+        // Update the meta data
+        wp_update_attachment_metadata($image_id, $new_meta);
     }
 
+    // Remove the image size so new images won't be created in this size automatically
+    remove_image_size($size_id);
+}
+
+add_filter('intermediate_image_sizes_advanced', 'smoy_unset_service_image_sizes');
+    
+function smoy_unset_service_image_sizes($sizes) {
+    $post_id = $_REQUEST['post_id'];
+    $type = get_post_type($post_id);
+    /*
+    $wp_term_obj = get_the_category($post_id)[0];
+    $cat_name = $wp_term_obj->name;
+    */
+    if ($type !== 'smoy_service') { 
+        unset($sizes['service-thumb-desktop']);
+        unset($sizes['service-thumb-mobile']);
+    }
     return $sizes;       
 }
-    
-    
+
+function smoy_get_post_images($id, $thumb_id, $size = 'full') {
+  $attachments = get_posts( array(
+    'post_type' => 'attachment',
+    'posts_per_page' => -1,
+    'post_status' => 'any',
+    'post_parent' => $id,
+    'exclude' => $thumb_id)
+  );
+  /* Return array of all images */
+  if ($attachments) {
+    foreach ($attachments as $attachment) {
+      $attach_id = $attachment->ID;
+      $img_srcset = wp_get_attachment_image_srcset($attach_id, $size);
+      $sizes = explode( ", ", $img_srcset );
+      $image['id'] = $attach_id;
+      $image['sizes'] = $sizes;
+      $images[] = $image;
+    }
+  }
+ return $images;
+}
+
 add_action( 'wp_head', 'smoy_generate_responsive_background_image_styles');
 
-/*
-*
+/**
 *
 * Generate responsive background image styles function -
-* This function generates CSS media query breakpoints to serve different sized background images (widths 640, 1280, 1600 and full have been tested )
-* based on the screen size of the client. Function has been tested for blog post and service page background images. 
+* This function generates CSS media query breakpoints to serve different sized background images (460, 768, 1280 and full)
+* based on the screen size of the client. Background images and responsive styling is applied only in service and blog post pages. 
 *
 */
 function smoy_generate_responsive_background_image_styles() {
-    
     if ( is_singular('smoy_service') || in_category('blogi') ) {
         global $post;
         $image_id = get_post_thumbnail_id($post->ID); // set or grab your image id
         $img_srcset = wp_get_attachment_image_srcset( $image_id, 'full' );
-        
         $sizes = explode( ", ", $img_srcset );
-        
         asort($sizes, SORT_NATURAL | SORT_FLAG_CASE);
         $sizes = array_values($sizes);
         $css = '';
         $prev_size = '';
         foreach( $sizes as $size ) {
-            
             // Split up the size string, into an array with [0]=>img_url, [1]=>size
             $split = explode( " ", $size );
             if( !isset( $split[0], $split[1] ) )
@@ -936,9 +803,6 @@ function smoy_generate_responsive_background_image_styles() {
             }else if (is_singular('smoy_service')) {
                 $background_css = '#header-service { background-image: url(' . esc_url( $split[0] ) . ') !important;}';
             }
-            
-            //$background_css = '#header-single { background-image: url(' . esc_url( $split[0] ) . ') !important;}';
-
             // Grab the previous image size as the min-width and/or add the background css to the main css string
             if( !empty( $prev_size ) ) {
                 $css .= '@media only screen and (min-width: ' . $prev_size . ') {';
@@ -947,20 +811,18 @@ function smoy_generate_responsive_background_image_styles() {
             } else {
                 $css .= $background_css;
             }
-
             // Set the current image size as the "previous image" size, for use with media queries
             $prev_size = str_replace( "w", "px", $split[1] );
-        
         }
         // The final css, wrapped in a <style> tag
         $css = !empty( $css ) ? '<style type="text/css">' . $css . '</style>' : '';
-        
         echo $css;
         
-        
-    }
+    }else if(is_singular()){
+        $css = '<style type="text/css">#header-single{min-height: 0; height: 2.5em !important;}</style>';
+        echo $css;
+    }  
 }
-
 
 add_action( 'template_redirect', 'smoy_redirect_to_latest_blog_post' );
 
@@ -972,34 +834,6 @@ function smoy_redirect_to_latest_blog_post() {
     wp_safe_redirect( $permalink, 307 );
     exit;
 }
-
-
-/*
-
-add_action( 'template_redirect', 'smoy_redirect_from_newsletter_page' );
-
-function smoy_redirect_from_newsletter_page() {
-    
-    if(!is_page('uutiskirje') )
-        return;
-    
-    if( !isset($_GET['nm']) || !isset($_GET['nk']) || !preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) || $_GET['nm'] !== 'confirmed' || $_GET['nm'] !== 'unsubscribed'){
-        status_header( 404 );
-        nocache_headers();
-        include( get_query_template( '404' ) );
-        die();
-        
-    }
-    
-    
-    if(isset($_GET['nm']) && isset($_GET['nk']) && preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) && $_GET['nm'] !== 'unsubscribed') {
-       
-        
-    }   
-    
-}
-*/
-
 
 add_filter( 'template_include', 'smoy_newsletter_template');
 
@@ -1020,30 +854,6 @@ function smoy_newsletter_template($template) {
     }
     return $template;
 }
-
-
-
-
-
-
-
-/*
-function portfolio_page_template( $template ) {
-
-	if ( is_page( 'portfolio' )  ) {
-		$new_template = locate_template( array( 'portfolio-page-template.php' ) );
-		if ( '' != $new_template ) {
-			return $new_template;
-		}
-	}
-
-	return $template;
-}
-*/
-
-
-
-
 
 add_filter('the_content', 'smoy_modify_single_content');
 
@@ -1102,155 +912,14 @@ function smoy_modify_single_content($content) {
     } 
 }
 
-
-
-add_action('generate_responsive_background_image', 'smoy_background_image_style');
-
-function smoy_background_image_style() {
-    
-    
-}
-
-
-/*
-add_action( 'pre_get_posts', 'smoy_set_post_query_category' );
-
-function smoy_set_post_query_category( $query ) { 
-    if ($query->is_main_query()) {
-        $query->set( 'cat', '2'); 
-    } 
-} 
-*/
-
-
-
-
-
-/*
-
-add_filter('wpcf7_ajax_loader', 'my_wpcf7_ajax_loader');
-function my_wpcf7_ajax_loader () {
-	return  esc_url( get_stylesheet_directory_uri() ) . '/images/ajax-loader-contact.gif';
-}
-
-
-add_filter('next_post_link', 'posts_link_next_class');
-
-function posts_link_next_class($format){
-     $format = str_replace('href=', 'class="animsition-link" href=', $format);
-     return $format;
-}
-
-add_filter('previous_post_link', 'posts_link_prev_class');
-
-function posts_link_prev_class($format) {
-     $format = str_replace('href=', 'class="animsition-link" href=', $format);
-     return $format;
-}
-*/
-
-/*
-function getImages() {
-    global $post;
-    $szPostContent = $post->post_content;
-    $szSearchPattern = '~<img [^\>]*\ />~';
-    // Run preg_match_all to grab all the images and save the results in $aPics
-    preg_match_all( $szSearchPattern, $szPostContent, $aPics );
-    return $aPics[0];
-}
-*/
-
-
-
-//add_filter('the_content', 'strip_images_and_gallery');
-
-
-//function strip_images_and_gallery($content){
-    /*
-    $content = preg_replace('/<img[^>]+./', '', $content);
-    $content = preg_replace('/<a[^>]+./', '', $content);
-    */
-/*
-    
-    $content = str_replace('<p>', '<p class="single-text">', $content);
-    $content = strip_tags($content, '<p><a><h1><h2><blockquote><code><ul><li><i><em><strong>');
-    
-    preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
-
-    if ( ! empty( $matches ) ) {
-        foreach ( $matches as $shortcode ) {
-            if ( 'gallery' === $shortcode[2] ) {
-                $pos = strpos( $content, $shortcode[0] );
-                if( false !== $pos ) {
-                    return substr_replace( $content, '', $pos, strlen( $shortcode[0] ) );
-                }
-            }
-        }
-    }
-
-    return $content;    
-}
-*/
-
-
-/*
-add_filter( 'the_content', 'strip_shortcode_gallery', 10, 1 );
-
-function strip_shortcode_gallery( $content ) {
-    preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
-
-    if ( ! empty( $matches ) ) {
-        foreach ( $matches as $shortcode ) {
-            if ( 'gallery' === $shortcode[2] ) {
-                $pos = strpos( $content, $shortcode[0] );
-                if( false !== $pos ) {
-                    return substr_replace( $content, '', $pos, strlen( $shortcode[0] ) );
-                }
-            }
-        }
-    }
-
-    return $content;
-}
-*/
-
-
-
-/*
-add_filter( 'wp_nav_menu_items', 'smoy_custom_menu_item', 10, 2 );
-function smoy_custom_menu_item ($items, $args) {
-    if ($args->theme_location == 'top') {
-    $items .= '<li>Show whatever</li>';
-    }
-    
-    print_r($items);
-  
-    return $items;
-}
-
-*/
-
-
-
-/*
-function twentysixteen_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'twentysixteen_content_width', 840 );
-}
-add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
-*/
-
-
+add_filter('the_content', 'smoy_blog_excerpts');
 
 function smoy_blog_excerpts($content = false) {
         global $post;
         $excerpt_length = 42;
         $double_angle_html = '<div class="read-more-symbol">&#187</div>';    
         $read_more_html = sprintf( '%s', __( 'Lue lisää ', 'smoy' ) .  $double_angle_html);
-        
-        if ( $post->post_excerpt ) {
-            
-            
-            
+        if( $post->post_excerpt ) {
             if(is_home()){
                 $content = get_the_excerpt();
                 function custom_excerpt_length( $length ) {
@@ -1261,11 +930,8 @@ function smoy_blog_excerpts($content = false) {
                 function excerpt_readmore($more) {
                     return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>';
                 }
-
-                add_filter('excerpt_more', 'excerpt_readmore');
-                
+                add_filter('excerpt_more', 'excerpt_readmore');   
             }
-            
         }else{
             if(is_home()){
                 $content = $post->post_content;
@@ -1274,38 +940,12 @@ function smoy_blog_excerpts($content = false) {
                     array_pop($words);
                     $content = implode(' ', $words);
                 }
-                
                 $content = strip_tags($content);
-                $content = '<p class="blog-excerpt-content">' . $content . ' ...</p>';
-                
-                /*
-                function output_readmore_content($post) {
-                    return '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>';
-                }
-
-                add_action('smoy_get_readmore_content', 'output_readmore_content');
-                
-                
-                $content .= '<a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>';
-                */
-                
-                
-                
-                
-            }
-            
-            
-            
+                $content = '<p class="blog-excerpt-content">' . $content . ' ...</p>';    
+            }  
         }
-        
-
         return $content;
-    
 }
-
-
-add_filter('the_content', 'smoy_blog_excerpts');
-
 
 function smoy_custom_pagination($numpages = '', $pagerange = '', $paged='') {
 
@@ -1355,7 +995,6 @@ function smoy_custom_pagination($numpages = '', $pagerange = '', $paged='') {
         'add_fragment'    => ''
     );
     
-    
     $paginate_links = paginate_links($pagination_args);
 
     if ($paginate_links) {
@@ -1363,72 +1002,9 @@ function smoy_custom_pagination($numpages = '', $pagerange = '', $paged='') {
         echo $paginate_links;
         echo "</nav>";
     }
-    
-    
-
 }
-
-
-/*
-add_action( 'wp_head', 'output_single_header_style');
-
-function output_single_header_style() {
-    
-    if(!is_single()){
-        return;
-    }
-    
-    global $post;
-        
-    $smoy_single_post_thumbnail_url = get_the_post_thumbnail_url( $post, 'large' );
-        
-    $header_css_line = '#header-single{ background: url("'.$smoy_single_post_thumbnail_url.'");}';
-    $smoy_single_header_css = '<style type="text/css">';
-    $smoy_single_header_css .= $header_css_line;
-    $smoy_single_header_css .= '</style>';
-
-    echo $smoy_single_header_css;
-        
-    
-    
-}
-*/
-
-
-
-/*
-function smoy_get_blog_attached_images() {
-    global $post;
-    $szPostContent = $post->post_content;
-    $szSearchPattern = '~<img [^\>]*\ />~';
-    // Run preg_match_all to grab all the images and save the results in $aPics
-    preg_match_all( $szSearchPattern, $szPostContent, $aPics );
-    return $aPics[0];
-}
-*/
-
 
 function smoy_callback_is_eng_page() { return is_page( 'eng' ); }
-
-/*
-function smoy_callback_is_eng_page(){
-    
-}
-*/
-    
-    
-    /*
-function is_certain_page_template(){
-    // Get the page's template
-    $template = get_post_meta( get_the_ID(), '_wp_page_template', true );
-    $is_template = preg_match( '%fullwidth.php%', $template );
-    if ( $is_template == 0 ){
-        return false;
-    } else {
-        return true;
-    }
-}
-*/
 
 function smoy_callback_is_front_page_or_eng_page() { 
     if(is_home() || is_page( 'eng' )){
@@ -2665,69 +2241,9 @@ function smoy_customize_register( $wp_customize ) {
     
 }
 
-
-/*
-function smoy_customer_references_styles() {
-    $id = get_theme_mod('little_header');
-
-    if ($id != 0) {
-        $url = wp_get_attachment_url($id);
-
-        echo '<div style="margin-bottom: 30px;">';
-        echo '<img src="' . $url . '" alt="" />';
-        echo '</div>';
-    }
-}
-*/
-
-/*
-
-add_action( 'wp_head', 'smoy_customer_references_styles' );
-
-function smoy_customer_references_styles(){
-    
-    echo "<style type=\"text/css\">";
-    
-    for ($i = 1; $i < 13; $i++) {
-        
-        //${'smoy_customer_logo_'.$i} = get_theme_mod( 'smoy_customer_logo_'.$i);
-        
-        ${'smoy_customer_bg_img_'.$i} = get_theme_mod( 'smoy_customer_bg_img_'.$i);
-        
-        if (${'smoy_customer_bg_img_'.$i} != 0) {
-            $url = wp_get_attachment_url(${'smoy_customer_bg_img_'.$i});
-            echo "#customer-".$i." .customer-content-wrapper {background: linear-gradient( rgba(17, 24, 27, 0.68), rgba(17, 24, 27, 0.68) ), url(\"".${'smoy_customer_bg_img_'.$i}."\");}\n";
-            
-        }
-         
-          
-    }
-    
-    echo "</style>";
-     
-}
-*/
-
-/*
-add_shortcode('googlemap', 'smoy_google_maps_iframe_markup');
-
-function smoy_google_maps_iframe_markup( $atts ) {
-   extract(shortcode_atts(array(
-      'src' => ''
-   ), $atts));
-   return '<iframe src="'.$src.'&amp;output=embed" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="border:0" allowfullscreen></iframe>';
-}
-*/
-
-/*
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d681.8225615488669!2d24.944558429841454!3d60.164272390996295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46920bc905c8395b%3A0x1ead66bd8bb052bf!2sPieni+Roobertinkatu+9%2C+00101+Helsinki!5e0!3m2!1sfi!2sfi!4v1498540101772" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
-*/
-
-
 function smoy_sanitize_checkbox( $input ) {
 	return ( $input === true ) ? true : false;
 }
-
 
 function smoy_sanitize_radio( $input, $setting ) {
   // Ensure input is a slug.
@@ -2770,35 +2286,17 @@ function smoy_front_page_header_video_output() {
 add_action( 'wp_head', 'smoy_about_us_styles');
 
 function smoy_about_us_styles() {
-    
     if(is_home() || is_page( 'eng' )) {
-        
         $quote_circle_middle_positions = array(
               array(130, 1026),
               array(247, 1158),
               array(436, 1050),
               array(608, 1170)
         );
-        
-
         $css = array();
         $j = 1;
-        //$heightCss = array();
-        //$media_queries = array();
-        
-        
-        /*
-        $media_queries[0] = '@media screen and (max-width: 1280px) {';
-        $media_queries[1] = '@media screen and (max-width: 960px) {';
-        $media_queries[2] = '@media screen and (max-width: 630px) {';
-        */
-
         for($i = 0; $i < 4; $i++){
-            
-            
-            //$this_quote_circle_content = get_theme_mod( 'smoy_about_quote_circle_content_'.$j);
             $this_quote_circle_radius = get_theme_mod( 'smoy_about_quote_circle_radius_'.$j);
-            
             if(is_home()){
                 $this_quote_circle_content_margin_top = get_theme_mod( 'smoy_about_quote_circle_content_margin_top_'.$j);
                 $this_quote_circle_content_margin_sides = get_theme_mod( 'smoy_about_quote_circle_content_margin_sides_'.$j);
@@ -2806,37 +2304,12 @@ function smoy_about_us_styles() {
                 $this_quote_circle_content_margin_top = get_theme_mod( 'smoy_about_quote_circle_content_margin_top_eng_'.$j);
                 $this_quote_circle_content_margin_sides = get_theme_mod( 'smoy_about_quote_circle_content_margin_sides_eng_'.$j);
             }
-            
-
-            /*
-            $num = "20";
-            if ( (int)$num == $num && (int)$num > 0 )
-            */
-            
             $this_vertical_pos_right = $quote_circle_middle_positions[$i][1] + 250;
-            
-            $this_vertical_pos_left = $quote_circle_middle_positions[$i][1] - 250;
-                
-                
-                
+            $this_vertical_pos_left = $quote_circle_middle_positions[$i][1] - 250; 
             $css['#filler-shape-'.$j]['top'] = $quote_circle_middle_positions[$i][0] . 'px';
-            
             $css['#filler-shape-'.$j.'.middle']['left'] = $quote_circle_middle_positions[$i][1] . 'px';
-            
             $css['#filler-shape-'.$j.'.left']['left'] = $this_vertical_pos_left . 'px';
-            
             $css['#filler-shape-'.$j.'.right']['left'] = $this_vertical_pos_right . 'px';
-                
-               
-            
-            
-            /*
-            if(!empty($this_quote_circle_content)){
-                $css['#customer-'.$j.' .customer-content img']['min-height'] = $this_customer_logo_min_height . 'px';
-            }
-            */
-            
-            
             if(!empty($this_quote_circle_radius) && (int)$this_quote_circle_radius == $this_quote_circle_radius && (int)$this_quote_circle_radius > 0 ){
                 $this_quote_circle_radius = intval($this_quote_circle_radius);
                 $this_quote_circle_diameter = $this_quote_circle_radius * 2;
@@ -2848,13 +2321,11 @@ function smoy_about_us_styles() {
                 $css['#filler-shape-'.$j]['height'] = '150px';
                 $css['#filler-shape-'.$j]['border-radius'] = '75px';
             }
-            
             if(!empty($this_quote_circle_content_margin_top) && is_numeric($this_quote_circle_content_margin_top)){
                 $css['#filler-shape-'.$j.' p']['margin-top'] = $this_quote_circle_content_margin_top . 'px';
             }else{
                 $css['#filler-shape-'.$j.' p']['margin-top'] = '40px';
             }
-
             if(!empty($this_quote_circle_content_margin_sides) && is_numeric($this_quote_circle_content_margin_sides)){
                 $css['#filler-shape-'.$j.' p']['margin-left'] = $this_quote_circle_content_margin_sides . 'px';
                 $css['#filler-shape-'.$j.' p']['margin-right'] = $this_quote_circle_content_margin_sides . 'px';
@@ -2862,11 +2333,8 @@ function smoy_about_us_styles() {
                 $css['#filler-shape-'.$j.' p']['margin-left'] = '15px';
                 $css['#filler-shape-'.$j.' p']['margin-right'] = '15px';
             }
-            
-            $j++;
-               
+            $j++;  
         }
-        
         $final_css = '<style type="text/css">';
         foreach ( $css as $style => $style_array ) {
             $final_css .= $style . '{';
@@ -2875,65 +2343,30 @@ function smoy_about_us_styles() {
             }
             $final_css .= '}';
         }
-        
-        /*
-        $media_queries_length = count($media_queries);
-        foreach ( $heightCss as $style => $style_array ) {
-            $prev_val = 0.0;
-            for($i = 0; $i < $media_queries_length; $i++) {
-                $final_css .= $media_queries[$i];
-                $final_css .= $style . '{';
-                foreach ( $style_array as $property => $value ) {
-
-                 $floatval = floatval($value);
-                 if($prev_val === 0.0) {
-                     $newval = $floatval * 1.25;
-                 }else{
-                     $newval = $prev_val * 1.25;
-                 }   
-                    $final_css .= $property . ':' . $newval . 'vw;';
-                }
-                $final_css .= '}';
-                $final_css .= '}';
-                $prev_val = $newval;
-            }
-        }
-        */
-        
         $final_css .= '</style>';
-
-        echo $final_css;
-        
+        echo $final_css; 
     }
 }
-
 
 add_action( 'smoy_get_about_us', 'smoy_about_us_output');
 
 function smoy_about_us_output() {
-    
     if(is_home() || is_page( 'eng' )) {
-        
         $overlay_hole_middle_translate_positions = array(
               array(1026, 130),
               array(1158, 247),
               array(1050, 436),
               array(1170, 608)
         );
-        
-        //print_r($overlay_hole_middle_translate_positions);
         if(is_home()){
             $smoy_about_section_title = get_theme_mod( 'smoy_about_section_title');
         }else{
             $smoy_about_section_title = get_theme_mod( 'smoy_about_section_title_eng');
         }
-        
-        
         $smoy_about_content_titles = array();
         $smoy_about_content_body_texts = array();
         $smoy_about_quote_ball_body_texts = array();
         $smoy_about_radius_array = array();
-    
         for ($i = 0; $i < 3; $i++) {
             $j = $i + 1;
             if(is_home()){
@@ -2943,19 +2376,15 @@ function smoy_about_us_output() {
                 $smoy_about_content_titles[$i] = get_theme_mod( 'smoy_about_content_title_eng_'.$j);
                 $smoy_about_content_body_texts[$i] = get_theme_mod( 'smoy_about_content_body_eng_'.$j);
             }
-            
         }
-        
         for($i = 0; $i < 4; $i++){
             $j = $i + 1;
             $this_quote_circle_radius = get_theme_mod( 'smoy_about_quote_circle_radius_'.$j);
-            
             if(is_home()){
                 $smoy_about_quote_ball_body_texts[$i] = get_theme_mod( 'smoy_about_quote_circle_content_'.$j);
             }else{
                 $smoy_about_quote_ball_body_texts[$i] = get_theme_mod( 'smoy_about_quote_circle_content_eng_'.$j);
             }
-            
             if(!empty($this_quote_circle_radius) && (int)$this_quote_circle_radius == $this_quote_circle_radius && (int)$this_quote_circle_radius > 0 ){
                 $smoy_about_radius_array[$i] = $this_quote_circle_radius;
                 $overlay_hole_middle_translate_positions[$i][0] = $overlay_hole_middle_translate_positions[$i][0] + $this_quote_circle_radius;
@@ -2964,12 +2393,8 @@ function smoy_about_us_output() {
                 $smoy_about_radius_array[$i] = 75;
                 $overlay_hole_middle_translate_positions[$i][0] = $overlay_hole_middle_translate_positions[$i][0] + 75;
                 $overlay_hole_middle_translate_positions[$i][1] = $overlay_hole_middle_translate_positions[$i][1] + 75;
-            }
-              
+            }   
         }
-        
-        //print_r($overlay_hole_middle_translate_positions);
-        
         ob_start();
         require_once(get_template_directory() . '/template-parts/smoy-about-us.php' );
         $output = ob_get_clean();
@@ -2978,95 +2403,37 @@ function smoy_about_us_output() {
     }
 }
 
-
 add_action( 'wp_head', 'smoy_services_styles');
 
 function smoy_services_styles() {
-    
     if(is_home() || is_page( 'eng' )) {
-        
-        /*
-        
-            class Smoy_Service {
-                 public $id;
-                 public $title = '';
-                 public $excerpt = '';
-                 public $url;
-                 public $featured_img = null;
-
-                 public function __construct($id, $title, $excerpt, $url, $featured_img) {
-                     $this->id = $id;
-                     $this->title = $title;
-                     $this->excerpt = $excerpt;
-                     $this->url = $url;
-                     if(!empty($featured_img)){
-                        $this->featured_img = $featured_img;
-                     }
-
-                 }
-
-             }
-             */
-
-            //$smoy_services_titles = array();
-            //$smoy_services_mobile_titles = array();
-            //$smoy_services_checkboxes = array();
-            //$smoy_services_body_texts = array();
-
-            //$servicesArray = array();
-
             $smoy_services_query = new WP_Query( array( 'post_type' => 'smoy_service', 'order' => 'DESC', 'posts_per_page'=> 6) );
-
             $smoy_service_posts = $smoy_services_query->posts;
             $css = array();
-            //$services_bg_imgs = array();
-            
+            $css_media_query = array();
             $i = 0;
             foreach($smoy_service_posts as $post) {
                 $j = $i + 1; 
-                
-                $bg_img_url = get_the_post_thumbnail_url($post->ID, 'service-thumb');
-                //$this_service_featured_img = get_the_post_thumbnail_url($post->ID, 'service-thumb');
-                if(!empty($bg_img_url)){
-                    
+                $bg_img_url_desktop = get_the_post_thumbnail_url($post->ID, 'service-thumb-desktop');
+                $bg_img_url_mobile = get_the_post_thumbnail_url($post->ID, 'service-thumb-mobile');
+                if(!empty($bg_img_url_desktop)){
                     $bg_img_pos = get_theme_mod( 'smoy_service_bg_img_position_'.$j); 
-                    //$bg_url = wp_get_attachment_url($bg_img);
-                    //$css['#service-'.$j.' .service-content-wrapper']['background-image'] = "url(\"".$bg_img_url."\")";
-                    $css['#service-'.$j.' .service-image-wrapper']['background-image'] = "url(\"".$bg_img_url."\")";
-                    
-                    //$css['#service-'.$j.' .service-content-wrapper']['background-color'] = "rgba(4, 20, 30, 0.75)";
-                    
-                    
-                    
+                    $css['#service-'.$j.' .service-image-wrapper']['background-image'] = "url(\"".$bg_img_url_desktop."\")";
+                    $css_media_query['#service-'.$j.' .service-image-wrapper']['background-image'] = "url(\"".$bg_img_url_mobile."\")";
                     if(empty($bg_img_pos)){
-                        //$css['#service-'.$j.' .service-content-wrapper']['background-position'] = "50% !important";
                         $css['#service-'.$j.' .service-image-wrapper']['background-position'] = "50% !important";
                     }else{
-                        //$css['#service-'.$j.' .service-content-wrapper']['background-position'] = $bg_img_pos . "% !important";
                         $css['#service-'.$j.' .service-image-wrapper']['background-position'] = $bg_img_pos . "% !important";
                     }    
                 }
-                
                 $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_'.$j);
-                
-                /*
-                if(is_home()){
-                    $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_'.$j);
-                }else{
-                    $body_text_max_width = get_theme_mod( 'smoy_service_body_max_width_eng_'.$j);
-                }
-                */
-                
                 if(empty($body_text_max_width)) {
                     $css['#service-'.$j.' .service-body-text']['max-width'] = "60%";
                 }else{
                     $css['#service-'.$j.' .service-body-text']['max-width'] = $body_text_max_width;
                 }
-                
                 $i++;
-
             }
-        
             $final_css = '<style type="text/css">';
             foreach ( $css as $style => $style_array ) {
                 $final_css .= $style . '{';
@@ -3075,16 +2442,20 @@ function smoy_services_styles() {
                 }
                 $final_css .= '}';
             }
-
+            $final_css .= '@media only screen and (max-width: 960px) {';
+            foreach ( $css_media_query as $style => $style_array ) {
+                $final_css .= $style . '{';
+                foreach ( $style_array as $property => $value ) {
+                    $final_css .= $property . ':' . $value . ';';
+                }
+                $final_css .= '}';
+            }
+            $final_css .= '}';
             $final_css .= '</style>';
-
             echo $final_css;
             wp_reset_postdata();  
     }
-
-
 }
-
 
 add_action( 'smoy_get_content_section_header_services', 'smoy_section_header_services_output');
 
@@ -3118,55 +2489,35 @@ function smoy_section_header_services_output() {
     }
 }
 
-
 add_action('smoy_get_services', 'smoy_services_front_page_output');
 
 function smoy_services_front_page_output() {
     if(is_home()) {
-        
         class Smoy_Service {
              public $id;
              public $title = '';
              public $excerpt = '';
              public $url;
-             //public $featured_img = null;
-
-             public function __construct($id, $title, $excerpt, $url/*, $featured_img*/) {
+             public function __construct($id, $title, $excerpt, $url) {
                  $this->id = $id;
                  $this->title = $title;
                  $this->excerpt = $excerpt;
-                 $this->url = $url;
-                 /*
-                 if(!empty($featured_img)){
-                    $this->featured_img = $featured_img;
-                 }
-                 */
-                 
-             }
-             
+                 $this->url = $url;  
+             } 
          }
-        
         $smoy_services_titles_front = array();
         $smoy_services_mobile_titles = array();
         $smoy_services_checkboxes = array();
-        //$smoy_services_body_texts = array();
-        
         $servicesArray = array();
-    
         $smoy_services_query = new WP_Query( array( 'post_type' => 'smoy_service', 'order' => 'DESC', 'posts_per_page'=> 6) );
-
         $smoy_service_posts = $smoy_services_query->posts;
-        
         $i = 0;
         foreach($smoy_service_posts as $post) {
             $j = $i + 1; 
             $smoy_services_titles_front[$i] = get_theme_mod( 'smoy_service_title_front_'.$j);
             $smoy_services_mobile_titles[$i] = get_theme_mod( 'smoy_service_mobile_title_'.$j);
             $smoy_services_checkboxes[$i] = get_theme_mod( 'smoy_service_hyphen_checkbox_'.$j);
-            //$smoy_this_service_title = $post->post_title;
-
             if ($smoy_services_checkboxes[$i] === true) {
-                
                 $dash_pos = strpos($smoy_services_titles_front[$i],"-");
                 if($dash_pos !== false){
                     $dash_pos++;
@@ -3174,39 +2525,20 @@ function smoy_services_front_page_output() {
                 }
                 
             }
-            
-            //$smoy_services_body_texts[$i] = get_theme_mod( 'smoy_service_content_body_'.$j);
-            
             $this_service_permalink = esc_url(get_permalink($post));
-            //$this_service_featured_img = get_the_post_thumbnail_url($post->ID, 'service-thumb');
-            
-            
-            
-            $this_service = new Smoy_Service($post->ID, $post->post_title, get_the_excerpt($post), $this_service_permalink/*, $this_service_featured_img*/);
+            $this_service = new Smoy_Service($post->ID, $post->post_title, get_the_excerpt($post), $this_service_permalink);
             $servicesArray[$i] = $this_service;
             $i++;
-    
         }
-        
-        
-        
-
         ob_start();
         require_once(get_template_directory() . '/template-parts/smoy-services-front.php' );
         $output = ob_get_clean();
         echo $output;
-        
         wp_reset_postdata();     
-        
     }else if(is_page( 'eng' )){
-        
-        
         $j = 1;
         for($i = 0; $i < 6; $i++) {
-            
             $smoy_services_titles_front[$i] = get_theme_mod( 'smoy_service_title_front_eng_'.$j);
-            //$smoy_services_desc_bodies_eng[$i] = get_theme_mod( 'smoy_service_desc_body_eng_'.$j);
-            
             $j++;
         }
         
@@ -3214,42 +2546,30 @@ function smoy_services_front_page_output() {
         require_once(get_template_directory() . '/template-parts/smoy-services-front-eng.php' );
         $output = ob_get_clean();
         echo $output;
-        
-        
-    }
-    
-      
+          
+    }   
 }
-
 
 add_action( 'wp_head', 'smoy_customer_references_styles');
 
 function smoy_customer_references_styles() {
-    
     if(is_home() || is_page( 'eng' )) {
-
         $css = array();
         $heightCss = array();
         $media_queries = array();
         $j = 1;
-        
         $media_queries[0] = '@media screen and (max-width: 1280px) {';
         $media_queries[1] = '@media screen and (max-width: 960px) {';
         $media_queries[2] = '@media screen and (max-width: 630px) {';
-
         for($i = 0; $i < 12; $i++){
             $bg_img = get_theme_mod( 'smoy_customer_bg_img_'.$j);
-            
             $this_customer_logo_height = get_theme_mod( 'smoy_customer_logo_height_'.$j);
             $this_customer_logo_min_height = get_theme_mod( 'smoy_customer_logo_min_height_'.$j);
             $this_customer_logo_max_height = get_theme_mod( 'smoy_customer_logo_max_height_'.$j);
-
             if(!empty($bg_img)){
                 $bg_url = wp_get_attachment_url($bg_img);
                 $css['#customer-'.$j]['background-image'] = "url(\"".$bg_url."\")";
-                
             }
-            
             if(!empty($this_customer_logo_height)){
                 $css['#customer-'.$j.' .customer-content img']['height'] = $this_customer_logo_height . 'vw';
                 $heightCss['#customer-'.$j.' .customer-content img']['height'] = $this_customer_logo_height . 'vw';
@@ -3262,11 +2582,8 @@ function smoy_customer_references_styles() {
             if(!empty($this_customer_logo_max_height)){
                 $css['#customer-'.$j.' .customer-content img']['max-height'] = $this_customer_logo_max_height . 'px';
             }
-            
-            $j++;
-               
+            $j++;    
         }
-        
         $final_css = '<style type="text/css">';
         foreach ( $css as $style => $style_array ) {
             $final_css .= $style . '{';
@@ -3275,7 +2592,6 @@ function smoy_customer_references_styles() {
             }
             $final_css .= '}';
         }
-        
         $media_queries_length = count($media_queries);
         foreach ( $heightCss as $style => $style_array ) {
             $prev_val = 0.0;
@@ -3297,11 +2613,8 @@ function smoy_customer_references_styles() {
                 $prev_val = $newval;
             }
         }
-        
         $final_css .= '</style>';
-
-        echo $final_css;
-        
+        echo $final_css; 
     }
 }
 
@@ -3310,9 +2623,7 @@ add_action( 'smoy_get_content_section_header_references', 'smoy_section_header_r
 
 function smoy_section_header_ref_output() {
     if(is_home() || is_page( 'eng' )) {
-        
         $this_section_header_id_prefix = 'customers';
-        
         if(is_home()) {
             $smoy_section_header_title = get_theme_mod( 'smoy_customer_ref_header_title');
             $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc');
@@ -3322,56 +2633,39 @@ function smoy_section_header_ref_output() {
             $smoy_section_header_body = get_theme_mod( 'smoy_customer_ref_header_desc_eng');
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_customer_ref_header_desc_max_width_eng' );
         }
-        
         $smoy_section_header_body = trim($smoy_section_header_body);
         $smoy_section_header_body = replace_textarea_linebreaks($smoy_section_header_body);
-        
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
         }
         $smoy_section_header_text_background = get_theme_mod( 'smoy_customer_ref_header_text_bg_color');
-        
         ob_start();
         include get_template_directory() . '/template-parts/smoy-content-section-header.php';
         $output = ob_get_clean();
         echo $output;
-        
     }
 }
-
 
 add_action('smoy_get_references', 'smoy_refs_front_page_output');
 
 function smoy_refs_front_page_output() {
-    
     $smoy_refs_logos = array();
     $smoy_bg_img_widths = array();
     $smoy_bg_img_heights = array();
-    
-    
     for ($i = 0; $i < 12; $i++) {
-        
-        
         $j = $i + 1; 
         $smoy_refs_logos[$i] = wp_get_attachment_url(get_theme_mod( 'smoy_customer_logo_'.$j));
         $bg_img = get_theme_mod( 'smoy_customer_bg_img_'.$j);
         $bg_url = wp_get_attachment_url($bg_img);
-        
         list($width, $height) = getimagesize($bg_url);
-        
         $smoy_bg_img_widths[$i] = $width;
         $smoy_bg_img_heights[$i] = $height;
-        //echo "<img src=\"img/flag.jpg\" $attr alt=\"getimagesize() example\" />";
-        //echo $width . "<br/>";
-        //echo $height . "<br/>";
     }
-    
     ob_start();
 	require_once(get_template_directory() . '/template-parts/smoy-customer-references.php' );
 	$output = ob_get_clean();
 	echo $output;
 }
-
 
 add_action( 'smoy_get_content_section_header_people', 'smoy_section_header_people_output');
 
@@ -3527,7 +2821,6 @@ add_action( 'smoy_get_content_section_header_contact', 'smoy_section_header_cont
 function smoy_section_header_contact_output() {
     if(is_home() || is_page( 'eng' )) {
         $this_section_header_id_prefix = 'contact';
-        
         if(is_home()) {
             $smoy_section_header_title = get_theme_mod( 'smoy_contact_header_title');
             $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc');
@@ -3537,60 +2830,46 @@ function smoy_section_header_contact_output() {
             $smoy_section_header_body = get_theme_mod( 'smoy_contact_header_desc_eng');
             $smoy_section_header_desc_max_width = get_theme_mod( 'smoy_contact_header_desc_max_width_eng' );
         }
-        
         $smoy_section_header_body = trim($smoy_section_header_body);
         $smoy_section_header_body = replace_textarea_linebreaks($smoy_section_header_body);
-        
         if(empty($smoy_section_header_desc_max_width)){
             $smoy_section_header_desc_max_width = '500px';
         }
         $smoy_section_header_text_background = get_theme_mod( 'smoy_contact_header_text_bg_color');
-        
         ob_start();
         include get_template_directory() . '/template-parts/smoy-content-section-header.php';
         $output = ob_get_clean();
         echo $output;
-    
     }
 }
-
 
 add_action('smoy_get_contact_form', 'smoy_contact_form_output');
 
 function smoy_contact_form_output() {
     if(is_home() || is_page( 'eng' )) {
-    
         class Smoy_Contact_Person {
              public $name = '';
              public $title = null;
              public $phone = null;
-
              public function __construct($name, $title, $phone) {
                  $this->name = $name;
                  if(!empty($title)){
                      $this->title = $title;
                  }
-
                  if(!empty($phone)){
                     $this->phone = $phone;
                  }
-
              }
-
         }
-        
         if(is_home()){
             $contact_form_shortcode = get_theme_mod( 'smoy_contact_form_shortcode' );
         }else{
             $contact_form_shortcode = get_theme_mod( 'smoy_contact_form_shortcode_eng' );
         }
-
         if(empty($contact_form_shortcode)) {
             $contact_form_shortcode = '';
         }
-
         $contact_ppl_array = array();
-
         for ($i = 0; $i < 3; $i++) {
             $j = $i + 1;
             $thisPersonName = get_theme_mod( 'smoy_contact_person_name_'.$j);
@@ -3599,113 +2878,72 @@ function smoy_contact_form_output() {
             }else{
                 $thisPersonTitle = get_theme_mod( 'smoy_contact_person_title_eng_'.$j);
             }
-            
             $thisPersonPhone = get_theme_mod( 'smoy_contact_person_phone_'.$j);
-
             $thisPerson = new Smoy_Contact_Person($thisPersonName, $thisPersonTitle, $thisPersonPhone);
             $contact_ppl_array[$i] = $thisPerson;
-
         }
-
-
         ob_start();
         require_once(get_template_directory() . '/template-parts/smoy-contact-form-front.php' );
         $output = ob_get_clean();
         echo $output;
-        
     }
-    
-
 }
 
 
 add_action('smoy_get_footer_contact_info', 'smoy_footer_contact_output');
 
 function smoy_footer_contact_output() { 
-    
-    
     $smoy_footer_contact_building = get_theme_mod('smoy_footer_contact_building');
     $smoy_footer_contact_street = get_theme_mod('smoy_footer_contact_street');
     $smoy_footer_contact_city = get_theme_mod('smoy_footer_contact_city');
     $smoy_footer_contact_phone = get_theme_mod('smoy_footer_contact_phone');
     $smoy_footer_contact_email = get_theme_mod('smoy_footer_contact_email');
-    
     ob_start();
     require_once(get_template_directory() . '/template-parts/smoy-footer-contact-info.php' );
     $output = ob_get_clean();
     echo $output;
-    
-
 }
-
 
 add_action('smoy_get_front_page_google_map', 'smoy_front_page_google_map_output');
 
 function smoy_front_page_google_map_output() {
     if(is_home() || is_page( 'eng' )) {
         $smoy_google_map_url = get_theme_mod('smoy_location_map');
-        //echo do_shortcode($smoy_location_map);
         ?>
         <iframe id="smoy-front-page-map" src="<?php echo esc_url($smoy_google_map_url) ?>" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="border:0" allowfullscreen></iframe>
         <?php
     } 
 }
 
-
 add_action('smoy_get_footer_social_icons', 'smoy_footer_social_icons_output');
 
 function smoy_footer_social_icons_output() { 
-    
     $iconArr = array();
     $iconUrlArr = array();
     $linkArr = array();
-    
     $iconArr[0] = get_theme_mod('smoy_footer_social_icon_1');
     $iconArr[1] = get_theme_mod('smoy_footer_social_icon_2');
     $iconArr[2] = get_theme_mod('smoy_footer_social_icon_3');
     $iconArr[3] = get_theme_mod('smoy_footer_social_icon_4');
     $iconArr[4] = get_theme_mod('smoy_footer_social_icon_5');
-    
     $linkArr[0] = get_theme_mod('smoy_footer_social_icon_link_1');
     $linkArr[1] = get_theme_mod('smoy_footer_social_icon_link_2');
     $linkArr[2] = get_theme_mod('smoy_footer_social_icon_link_3');
     $linkArr[3] = get_theme_mod('smoy_footer_social_icon_link_4');
     $linkArr[4] = get_theme_mod('smoy_footer_social_icon_link_5');
-    
     $iconArrLength = count($iconArr);
-    
     for($i = 0; $i < $iconArrLength; $i++){
-        
         if(!empty($iconArr[$i])){
             $icon_url = wp_get_attachment_url($iconArr[$i]);
             $iconUrlArr[$i] = $icon_url;    
         }
-        
-        /*
-        
-        if(empty($linkArr[$i])){
-            $linkArr[$i] = '#';    
-        }else{
-            
-        }
-        */
-        
-        
-        
     }
-    
     $iconUrlArrLength = count($iconUrlArr);
-    
-    
     ob_start();
     require_once(get_template_directory() . '/template-parts/smoy-footer-social-icons.php' );
     $output = ob_get_clean();
     echo $output;
-    
-
 }
-
-
 
 add_action('smoy_get_message_page_social_icons', 'smoy_message_page_social_icons_output');
 
@@ -3713,30 +2951,24 @@ function smoy_message_page_social_icons_output() {
     if(is_page( 'uutiskirje' ) || is_404()){
         $smoy_message_social_query = new WP_Query( array( 'post_type' => 'page', 'page_id' => '2936') );
         $posts = $smoy_message_social_query->posts;
-        
         $message_page_facebook = get_post_meta($posts[0]->ID, 'message_page_facebook');
         $message_page_twitter = get_post_meta($posts[0]->ID, 'message_page_twitter');
         $message_page_instagram = get_post_meta($posts[0]->ID, 'message_page_instagram');
         $message_page_pinterest = get_post_meta($posts[0]->ID, 'message_page_pinterest');
         $message_page_linkedin = get_post_meta($posts[0]->ID, 'message_page_linkedin');
         $message_page_youtube = get_post_meta($posts[0]->ID, 'message_page_youtube');
-    
         $social_icons = array('facebook', 'twitter', 'instagram', 'pinterest', 'linkedin', 'youtube-play');
         $message_page_social_links = array($message_page_facebook[0], $message_page_twitter[0], $message_page_instagram[0], $message_page_pinterest[0], $message_page_linkedin[0], $message_page_youtube[0]);
-        
         $iconArrLength = count($social_icons);
         for($i = 0; $i < $iconArrLength; $i++) {
             if(!empty($message_page_social_links[$i]) && $message_page_social_links[$i] !== '#') {
                 ?>
                 <a target="_blank" href="<?php echo esc_url($message_page_social_links[$i]) ?>" class="message-page-social-link"><div id="<?php echo $social_icons[$i] ?>-logo-border" class="message-page-social-icon-border"><i class="icon-<?php echo $social_icons[$i]?>"></i></div></a>
                 <?php     
-            }
-               
+            }    
         }
-        
         wp_reset_postdata();     
     }
-    
 }
 
 

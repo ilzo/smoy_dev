@@ -23,4 +23,4 @@ get_header('single'); ?>
 		?>
 	</main>
 </div>
-<?php get_footer(); ?>
+<?php get_footer('single'); ?>
