@@ -1424,8 +1424,10 @@ button {
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
-    background-position: center !important;
+    /*background-position: center !important;*/
 }
+
+/*
 
 .content-section-header:before {
     content: "";
@@ -1435,6 +1437,7 @@ button {
     will-change: transform;
     
 }
+*/
 
 .content-header-wrapper {
     position: absolute;
@@ -1448,31 +1451,6 @@ button {
     float: left;
 }
 
-#services > .content-section-header {
-    background: url("./img/background/palvelut.jpg");
-    /*background-position: 0 0 !important;*/
-    background-position: 0 41% !important;
-}
-
-#our-customers > .content-section-header {
-    background: url("./img/background/referenssit.jpg");
-    background-position: 70% 70% !important;
-}
-
-
-#our-staff > .content-section-header {
-    background: url("./img/background/me.jpg");
-}
-
-
-#blog > .content-section-header {
-    background: url("./img/background/blogi.jpg");
-    background-position: 80% 80% !important;
-}
-
-#contact > .content-section-header {
-    background: url("./img/background/ota_yhteytta.jpg");
-}
 
 .content-section-header .header-desc-linebreak {
     display: block;
@@ -3453,14 +3431,6 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 1020px) {
     
-    #services > .content-section-header {
-        /*
-        height: 60vh;
-        min-height: 500px;
-        */
-        background-position: 0 30% !important;
-    }
-    
     .person-content .person-name {
         font-size: 1.25em;
     }
@@ -3764,22 +3734,7 @@ div.customer-stretchy-wrapper {
     */
     
     
-    
-    
-    
-    /*
     .content-section-header {
-        height: 90vh;
-        min-height: 0;
-    }
-    */
-    
-    .content-section-header {
-        /*
-        height: 66vh;
-        min-height: 440px;
-        */
-        
         height: 500px;
     }
     
@@ -3793,17 +3748,6 @@ div.customer-stretchy-wrapper {
     }
     */
     
-    
-    
-    #services > .content-section-header {
-        /*
-        height: 66vh;
-        
-        min-height: 440px;
-        
-        */
-        /*background-position: 0 15% !important;*/
-    }
     
     
     .customer-box {
@@ -4632,17 +4576,6 @@ div.customer-stretchy-wrapper {
 
     .person-content .person-title, .person-content .person-phone {
         font-size: 0.85em;
-    
-    }
-    
-    /*
-    #services > .content-section-header {
-        background-position: 85% 50% !important;
-    }
-    */
-    
-    #our-customers > .content-section-header {
-        background-position: 30% !important;
     }
     
     #contact-wrapper {
@@ -4874,7 +4807,6 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 720px) { 
     
-    
     .heading-orange, .heading-pink, .heading-black {
         font-size: 2.25em;
     }
@@ -4883,24 +4815,11 @@ div.customer-stretchy-wrapper {
         max-width: 85% !important;
         padding: 12px 3.25% 12px 3.25%;
         float: left;
-        /*font-size: 1.08em;*/
         font-size: 0.95em;
         line-height: 1.35;
     }
     
-    
 }
-
-
-@media screen and (max-width: 720px) and (min-width: 631px) { 
-    #services > .content-section-header {
-        background-position: 56% 50% !important;
-        background-size: 750px !important;
-    }
-
-}
-
-
 
 
 @media screen and (max-width: 700px) {
@@ -4924,7 +4843,7 @@ div.customer-stretchy-wrapper {
 @media screen and (max-width: 630px) {
     
     .content-section-header {
-        height: 400px;
+        height: 460px;
     }
     
     /*
@@ -5071,39 +4990,6 @@ div.customer-stretchy-wrapper {
 }
 
 
-@media screen and (max-width: 630px) and (min-width: 531px) { 
-    #services > .content-section-header {
-        background-position: 50% 60% !important;
-        background-size: 630px !important;
-    }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -5120,56 +5006,11 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 548px) {
     
-    
     #about-us {
         background-position: 67%;
     }
     
-    /*
-
-    #about-us {
-        background-position: 16%;
-    }
-    */
-    /*
-    .content-section-header, #services > .content-section-header {
-        
-        height: 28vh;
-        
-        min-height: 280px;
-    }
-    
-    */
-    
-    /*
-    
-    #services > .content-section-header {
-        background-position: 0 10% !important;
-    }
-    */
-    
-    #blog > .content-section-header {
-        background-position: 80% 85% !important;
-        background-size: 170% !important;
-    }
-    
 }
-
-
-
-
-@media screen and (max-width: 530px) {  
-    .content-section-header {
-        height: 340px;
-    }
-    
-    #services > .content-section-header {
-        background-position: -50px 28% !important;
-        background-size: 135% !important;
-    }
-}
-
-
 
 
 
@@ -5624,17 +5465,6 @@ div.customer-stretchy-wrapper {
        
 }
 
-@media screen and (max-width: 410px) {  
-
-    #services > .content-section-header {
-        background-position: 0 35% !important;
-        background-size: 300% !important;
-    }
-
-
-}
-
-
 
 @media screen and (max-width: 387px) {  
 
@@ -5646,10 +5476,6 @@ div.customer-stretchy-wrapper {
 }
 
 @media screen and (max-width: 360px) {
-    
-    .content-section-header {
-        height: 260px;
-    }
     
     .navigation-top {
         height: 37px;
@@ -5768,16 +5594,6 @@ div.customer-stretchy-wrapper {
         font-size: 9pt;
         line-height: 1.48;
         letter-spacing: 0.62pt;
-    }
-    
-    #our-customers > .content-section-header {
-        background-position: 66% 83% !important;
-        background-size: 160% !important;
-    }
-    
-    #blog > .content-section-header {
-        background-position: 77% 83% !important;
-        background-size: 215% !important;
     }
     
     .single-post-content p {
@@ -6144,59 +5960,15 @@ div.customer-stretchy-wrapper {
 
 }
 
-/*
-
-@media screen and (max-width: 370px) and (max-height: 359px) { 
-    .nav-right-container {
-        display: none !important;
-    }
-}
-*/
-
-
-
-
-@media screen and (max-height: 600px) and (min-width: 450px){
-    
-    
-    
-}
-
-
-
-@media screen and (max-height: 550px) and (max-width: 800px) {
-    
-    
-    
-
-    
-}
-
-
 
 
 /*------------- LARGE SCREENS ------------- */
 
 
-@media only screen  and (min-width : 1280px) {
-    #services > .content-section-header {
-        height: 80vh;
-        min-height: 700px;
-        background-position: 0 30% !important;
-    }
-    
-}
-
-
 @media only screen  and (min-width : 1530px) {
-    #services > .content-section-header {
-        min-height: 960px;
+    .content-section-header {
+        height: 90vh;
+        min-height: 1000px;
     }
     
-}
-
-
-
-@media only screen  and (min-width : 1824px) {
-/* Styles */
 }

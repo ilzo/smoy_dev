@@ -3,7 +3,7 @@ Contributors: micropat, addtoany
 Tags: AddToAny, share, sharing, social, share buttons, share button, social media, media, marketing, links, email, seo, woocommerce, google, linkedin, reddit, facebook, like, twitter, pinterest, whatsapp, instagram, youtube, share this, sharethis, feed, icons
 Requires at least: 3.7
 Tested up to: 4.8
-Stable tag: 1.7.12
+Stable tag: 1.7.13
 
 Share buttons for WordPress including the AddToAny sharing button, Facebook, Twitter, Google+, Pinterest, WhatsApp, many more, and follow icons too.
 
@@ -42,7 +42,7 @@ AddToAny is the universal sharing platform, and AddToAny's plugin is the most po
 
 * Loads asynchronously so your content always loads before or in parallel with AddToAny
 * Supports theme features such as HTML5, widgets, infinite scroll, post formats
-* Supports multilingual sites and multisite networks
+* Supports WooCommerce, multilingual sites, and multisite networks
 * No signup, no login, no account necessary
 
 = Mobile Optimized & Retina Ready =
@@ -349,9 +349,14 @@ Upload (or move) the `add-to-any` plugin directory into the `/wp-content/mu-plug
 
 == Changelog ==
 
+= 1.7.13 =
+* Update standard placement for [WooCommerce](https://woocommerce.com/) to display share buttons after the product meta block instead of the product description
+ * In WooCommerce, you can customize where share buttons display by [editing](https://docs.woocommerce.com/document/editing-projects-templates-safely/) your `share.php` Single Product Share template.
+* Use Japanese language pack (thanks miccweb)
+
 = 1.7.12 =
-* Fix the `[addtoany]` shortcode's `buttons` attribute
 * Use `rel="noopener"` on links that open in a new tab/window for site JavaScript performance in some browsers
+* Fix the `[addtoany]` shortcode's `buttons` attribute
 
 = 1.7.11 =
 * Add icon size option to Follow buttons widget
@@ -879,6 +884,9 @@ Upload (or move) the `add-to-any` plugin directory into the `/wp-content/mu-plug
 * For all prior versions, see 1.6.12 or earlier
 
 == Upgrade Notice ==
+
+= 1.7.13 =
+For [WooCommerce](https://woocommerce.com/) sites, the default standard placement for share buttons has moved from the product description to after the product meta block. You can customize exactly where share buttons display by [editing](https://docs.woocommerce.com/document/editing-projects-templates-safely/) your `share.php` Single Product Share template.
 
 = 1.6.12 =
 Automatic placement logic for [WordPress excerpts](https://codex.wordpress.org/Excerpt) has changed. If your theme displays buttons in a post's excerpt/snippet/intro after this plugin update, you can uncheck the "Display at the bottom of excerpts" placement option in AddToAny settings to remove those buttons. Use custom icons? For improved layout and compatibility, specify the width & height of your icons in Settings > AddToAny > Advanced Options.

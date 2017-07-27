@@ -1014,6 +1014,13 @@ function smoy_callback_is_front_page_or_eng_page() {
 }
 
 
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* --------- SMOY THEME CUSTOMIZER SETTINGS START --------- */
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+
+
 add_action( 'customize_register', 'smoy_customize_register' );
 
 function smoy_customize_register( $wp_customize ) {
@@ -1021,6 +1028,18 @@ function smoy_customize_register( $wp_customize ) {
     /* ----------------------------------- */
     /* ------------- SECTIONS ------------ */
     /* ----------------------------------- */
+    
+    /* ------ Front-Page Content Section Header Background Images Section ------ */
+    
+    
+    $linebreak = '<div style="margin: 10px 0;"></div>';
+    
+    $wp_customize->add_section( 'smoy_bg_imgs', array(
+      'title' => __( 'Section background images', 'smoy' ),
+      'description' => sprintf( __( 'You can upload front page section header background images here. The original full-sized image will be used for desktop screens and the cropped version for small mobile screens. Recommended resolution for original image is 3000x2000 at most. Uploaded image should be optimized for web use (file size no more than 300 - 500 kB). Use JPEG file format only. %s Note: Use custom css section to add custom styling for background images when necessary.', 'smoy' ), $linebreak ),
+      'capability' => 'edit_theme_options'
+    ));
+    
     
     /* ------- Front-Page About Us Section -------- */
     
@@ -1089,6 +1108,86 @@ function smoy_customize_register( $wp_customize ) {
     /* ----------------------------------- */
     /* ------------- SETTINGS ------------ */
     /* ----------------------------------- */
+    
+
+    /* ------ Front-Page Content Section Header Background Images Section ------ */
+    
+    
+    $wp_customize->add_setting('smoy_services_header_bg_img', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_services_header_bg_pos', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_references_header_bg_img', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_references_header_bg_pos', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_staff_header_bg_img', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_staff_header_bg_pos', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_blog_header_bg_img', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_blog_header_bg_pos', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_contact_header_bg_img', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_contact_header_bg_pos', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
    
@@ -1188,49 +1287,49 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------- Front-Page Services Section -------- */
     
-        $wp_customize->add_setting('smoy_services_header_title', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_services_header_title_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        
-        $wp_customize->add_setting('smoy_services_header_desc', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_services_header_desc_max_width', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-    
-    
-        $wp_customize->add_setting('smoy_services_header_desc_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_services_header_desc_max_width_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-    
-    
-        $wp_customize->add_setting( 'smoy_services_header_text_bg_color', array(
-          'capability' => 'edit_theme_options',
-          'default' => 'orange',
-          'sanitize_callback' => 'smoy_sanitize_radio',
-        ));
+    $wp_customize->add_setting('smoy_services_header_title', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_services_header_title_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_services_header_desc', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_services_header_desc_max_width', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+
+    $wp_customize->add_setting('smoy_services_header_desc_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_services_header_desc_max_width_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+
+    $wp_customize->add_setting( 'smoy_services_header_text_bg_color', array(
+      'capability' => 'edit_theme_options',
+      'default' => 'orange',
+      'sanitize_callback' => 'smoy_sanitize_radio',
+    ));
     
     for ($i = 1; $i < 7; $i++) {
         
@@ -1314,47 +1413,47 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------- Front-Page Customer References ----- */
     
-        $wp_customize->add_setting('smoy_customer_ref_header_title', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        
-        $wp_customize->add_setting('smoy_customer_ref_header_desc', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_customer_ref_header_title_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        
-        $wp_customize->add_setting('smoy_customer_ref_header_desc_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-    
-        $wp_customize->add_setting( 'smoy_customer_ref_header_text_bg_color', array(
-          'capability' => 'edit_theme_options',
-          'default' => 'orange',
-          'sanitize_callback' => 'smoy_sanitize_radio',
-        ));
+    $wp_customize->add_setting('smoy_customer_ref_header_title', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_customer_ref_header_desc', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_customer_ref_header_title_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_customer_ref_header_desc_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_customer_ref_header_desc_max_width_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting( 'smoy_customer_ref_header_text_bg_color', array(
+      'capability' => 'edit_theme_options',
+      'default' => 'orange',
+      'sanitize_callback' => 'smoy_sanitize_radio',
+    ));
     
     for ($i = 1; $i < 13; $i++) {
         
@@ -1396,122 +1495,122 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------------- Front-Page People ------------- */
     
-        $wp_customize->add_setting('smoy_people_header_title', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        
-        $wp_customize->add_setting('smoy_people_header_desc', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_people_header_desc_max_width', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_people_header_title_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        
-        $wp_customize->add_setting('smoy_people_header_desc_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_people_header_desc_max_width_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-    
-        $wp_customize->add_setting( 'smoy_people_header_text_bg_color', array(
-          'capability' => 'edit_theme_options',
-          'default' => 'orange',
-          'sanitize_callback' => 'smoy_sanitize_radio',
-        ));
+    $wp_customize->add_setting('smoy_people_header_title', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_people_header_desc', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_people_header_desc_max_width', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_people_header_title_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_people_header_desc_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_people_header_desc_max_width_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting( 'smoy_people_header_text_bg_color', array(
+      'capability' => 'edit_theme_options',
+      'default' => 'orange',
+      'sanitize_callback' => 'smoy_sanitize_radio',
+    ));
     
 
     /* ------------ Front-Page Contact ------------- */
     
     
-        $wp_customize->add_setting('smoy_contact_header_title', array(
+    $wp_customize->add_setting('smoy_contact_header_title', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_contact_header_desc', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_contact_header_desc_max_width', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_contact_header_title_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting('smoy_contact_header_desc_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_setting('smoy_contact_header_desc_max_width_eng', array(
+        'type' => 'theme_mod',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_setting( 'smoy_contact_header_text_bg_color', array(
+      'capability' => 'edit_theme_options',
+      'default' => 'orange',
+      'sanitize_callback' => 'smoy_sanitize_radio',
+    ));
+
+
+    for($i = 1; $i < 4; $i++) {
+
+        $wp_customize->add_setting('smoy_contact_person_name_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
-        
-        $wp_customize->add_setting('smoy_contact_header_desc', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_contact_header_desc_max_width', array(
+
+        $wp_customize->add_setting('smoy_contact_person_title_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
-    
-        $wp_customize->add_setting('smoy_contact_header_title_eng', array(
+
+        $wp_customize->add_setting('smoy_contact_person_title_eng_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
-        
-        $wp_customize->add_setting('smoy_contact_header_desc_eng', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_textarea_field'
-        ));
-    
-        $wp_customize->add_setting('smoy_contact_header_desc_max_width_eng', array(
+
+        $wp_customize->add_setting('smoy_contact_person_phone_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
-    
-        $wp_customize->add_setting( 'smoy_contact_header_text_bg_color', array(
-          'capability' => 'edit_theme_options',
-          'default' => 'orange',
-          'sanitize_callback' => 'smoy_sanitize_radio',
-        ));
-    
-    
-        for($i = 1; $i < 4; $i++) {
 
-            $wp_customize->add_setting('smoy_contact_person_name_'.$i, array(
-                'type' => 'theme_mod',
-                'capability' => 'edit_theme_options',
-                'sanitize_callback' => 'sanitize_text_field'
-            ));
-
-            $wp_customize->add_setting('smoy_contact_person_title_'.$i, array(
-                'type' => 'theme_mod',
-                'capability' => 'edit_theme_options',
-                'sanitize_callback' => 'sanitize_text_field'
-            ));
-            
-            $wp_customize->add_setting('smoy_contact_person_title_eng_'.$i, array(
-                'type' => 'theme_mod',
-                'capability' => 'edit_theme_options',
-                'sanitize_callback' => 'sanitize_text_field'
-            ));
-
-            $wp_customize->add_setting('smoy_contact_person_phone_'.$i, array(
-                'type' => 'theme_mod',
-                'capability' => 'edit_theme_options',
-                'sanitize_callback' => 'sanitize_text_field'
-            ));
-
-        }
+    }
     
     
     $wp_customize->add_setting('smoy_contact_form_shortcode', array(
@@ -1606,6 +1705,109 @@ function smoy_customize_register( $wp_customize ) {
     /* ----------------------------------- */
     /* ------------- CONTROLS ------------ */
     /* ----------------------------------- */
+    
+    
+    /* ------ Front-Page Content Section Header Background Images Section ------ */
+    
+    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_services_header_bg_img', array(
+        'section'     => 'smoy_bg_imgs',
+        'label'       => __('Services header background image', 'smoy'),
+        'description' => __('Insert the services section header background image here.', 'smoy'),
+        'flex_width'  => false, 
+        'flex_height' => false, 
+        'width'       => 680,
+        'height'      => 720,
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+
+    $wp_customize->add_control( 'smoy_services_header_bg_pos', array(
+        'label' => __( 'Background position', 'smoy'),
+        'description' => __('Adjust services section header background position. Use normal css units and values. The default is 50% 50%.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_bg_imgs',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_references_header_bg_img', array(
+        'section'     => 'smoy_bg_imgs',
+        'label'       => __('References header background image', 'smoy'),
+        'description' => __('Insert the references section header background image here.', 'smoy'),
+        'flex_width'  => false, 
+        'flex_height' => false, 
+        'width'       => 680,
+        'height'      => 720,
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+
+    $wp_customize->add_control( 'smoy_references_header_bg_pos', array(
+        'label' => __( 'Background position', 'smoy'),
+        'description' => __('Adjust references section header background position. Use normal css units and values. The default is 50% 50%.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_bg_imgs',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'smoy_staff_header_bg_img', array(
+        'label' => __('Our staff header background image', 'smoy'),
+        'description' => __('Insert the staff section header background image here. Note: no mobile image will be cropped for this section, because the section is hidden in mobile screens.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+
+    $wp_customize->add_control( 'smoy_staff_header_bg_pos', array(
+        'label' => __( 'Background position', 'smoy'),
+        'description' => __('Adjust staff section header background position. Use normal css units and values. The default is 50% 50%.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_bg_imgs',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_blog_header_bg_img', array(
+        'section'     => 'smoy_bg_imgs',
+        'label'       => __('Blog header background image', 'smoy'),
+        'description' => __('Insert the blog section header background image here.', 'smoy'),
+        'flex_width'  => false, 
+        'flex_height' => false, 
+        'width'       => 680,
+        'height'      => 720,
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+
+    $wp_customize->add_control( 'smoy_blog_header_bg_pos', array(
+        'label' => __( 'Background position', 'smoy'),
+        'description' => __('Adjust blog section header background position. Use normal css units and values. The default is 50% 50%.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_bg_imgs',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_contact_header_bg_img', array(
+        'section'     => 'smoy_bg_imgs',
+        'label'       => __('Contact header background image', 'smoy'),
+        'description' => __('Insert the contact section header background image here.', 'smoy'),
+        'flex_width'  => false, 
+        'flex_height' => false, 
+        'width'       => 680,
+        'height'      => 720,
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+
+    $wp_customize->add_control( 'smoy_contact_header_bg_pos', array(
+        'label' => __( 'Background position', 'smoy'),
+        'description' => __('Adjust contact section header background position. Use normal css units and values. The default is 50% 50%.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_bg_imgs',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
+    
+    
+    
+    
+    
+    
+    
+    
     
     /* ------- Front-Page About Us Section -------- */
     
@@ -1717,63 +1919,63 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------- Front-Page Services Section -------- */
     
-       
-        $wp_customize->add_control( 'smoy_services_header_title', array(
-          'label' => __( 'Header title', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'is_front_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_services_header_desc', array(
-          'label' => __( 'Header description body', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'is_front_page'
-        ));
     
-        $wp_customize->add_control( 'smoy_services_header_desc_max_width', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-    
-        $wp_customize->add_control( 'smoy_services_header_title_eng', array(
-          'label' => __( 'Header title (in english)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_services_header_desc_eng', array(
-          'label' => __( 'Header description body (in english)', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_services_header_desc_max_width_eng', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_services_header_text_bg_color', array(
-          'type' => 'radio',
-          'section' => 'smoy_services_section', 
-          'label' => __( 'Text background', 'smoy'),
-          'description' => __( 'Select header text background color', 'smoy'),
-          'choices' => array(
-            'orange' => __( 'Orange', 'smoy'),
-            'pink' => __( 'Pink' , 'smoy')
-          ),
-          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
-        ));
+    $wp_customize->add_control( 'smoy_services_header_title', array(
+      'label' => __( 'Header title', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_services_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_services_header_desc', array(
+      'label' => __( 'Header description body', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_services_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_services_header_desc_max_width', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_services_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+
+    $wp_customize->add_control( 'smoy_services_header_title_eng', array(
+      'label' => __( 'Header title (in english)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_services_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_services_header_desc_eng', array(
+      'label' => __( 'Header description body (in english)', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_services_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_services_header_desc_max_width_eng', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_services_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_services_header_text_bg_color', array(
+      'type' => 'radio',
+      'section' => 'smoy_services_section', 
+      'label' => __( 'Text background', 'smoy'),
+      'description' => __( 'Select header text background color', 'smoy'),
+      'choices' => array(
+        'orange' => __( 'Orange', 'smoy'),
+        'pink' => __( 'Pink' , 'smoy')
+      ),
+      'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
     
     
     for ($i = 1; $i < 7; $i++) {
@@ -1877,86 +2079,78 @@ function smoy_customize_register( $wp_customize ) {
 
     /* ------- Front-Page Customer References ----- */
     
-        $wp_customize->add_control( 'smoy_customer_ref_header_title', array(
-          'label' => __( 'Header title', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_customer_ref_section',
-          'active_callback' => 'is_front_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_customer_ref_header_desc', array(
-          'label' => __( 'Header description body', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_customer_ref_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_customer_ref_header_desc_max_width', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_customer_ref_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_customer_ref_header_title_eng', array(
-          'label' => __( 'Header title (in english)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_customer_ref_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_customer_ref_header_desc_eng', array(
-          'label' => __( 'Header description body (in english)', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_customer_ref_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_customer_ref_header_desc_max_width_eng', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_customer_ref_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_customer_ref_header_text_bg_color', array(
-          'type' => 'radio',
-          'section' => 'smoy_customer_ref_section', 
-          'label' => __( 'Text background', 'smoy'),
-          'description' => __( 'Select header text background color', 'smoy'),
-          'choices' => array(
-            'orange' => __( 'Orange', 'smoy'),
-            'pink' => __( 'Pink' , 'smoy')
-          ),
-          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
-        ));
+    $wp_customize->add_control( 'smoy_customer_ref_header_title', array(
+      'label' => __( 'Header title', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_customer_ref_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_customer_ref_header_desc', array(
+      'label' => __( 'Header description body', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_customer_ref_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_customer_ref_header_desc_max_width', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_customer_ref_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_customer_ref_header_title_eng', array(
+      'label' => __( 'Header title (in english)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_customer_ref_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_customer_ref_header_desc_eng', array(
+      'label' => __( 'Header description body (in english)', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_customer_ref_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_customer_ref_header_desc_max_width_eng', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_customer_ref_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_customer_ref_header_text_bg_color', array(
+      'type' => 'radio',
+      'section' => 'smoy_customer_ref_section', 
+      'label' => __( 'Text background', 'smoy'),
+      'description' => __( 'Select header text background color', 'smoy'),
+      'choices' => array(
+        'orange' => __( 'Orange', 'smoy'),
+        'pink' => __( 'Pink' , 'smoy')
+      ),
+      'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
     
     
     for ($i = 1; $i < 13; $i++) {
         
-        $wp_customize->add_control( 
-            new WP_Customize_Media_Control(
-                $wp_customize,'smoy_customer_logo_'.$i, array(
-                    'label' => __( 'Customer logo '.$i , 'smoy'),
-                    'section' => 'smoy_customer_ref_section',
-                    'mime_type' => 'image',
-                    'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
-                )
-            )
-        );
+        $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize,'smoy_customer_logo_'.$i, array(
+            'label' => __( 'Customer logo '.$i , 'smoy'),
+            'section' => 'smoy_customer_ref_section',
+            'mime_type' => 'image',
+            'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+        )));
         
-        $wp_customize->add_control( 
-            new WP_Customize_Media_Control(
-                $wp_customize,'smoy_customer_bg_img_'.$i, array(
-                    'label' => __( 'Customer background image '.$i , 'smoy'),
-                    'section' => 'smoy_customer_ref_section',
-                    'mime_type' => 'image',
-                    'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
-                )
-            )
-        );
+        $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize,'smoy_customer_bg_img_'.$i, array(
+            'label' => __( 'Customer background image '.$i , 'smoy'),
+            'section' => 'smoy_customer_ref_section',
+            'mime_type' => 'image',
+            'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+        )));
         
         $wp_customize->add_control( 'smoy_customer_logo_height_'.$i, array(
           'label' => __( 'Logo '.$i.' height', 'smoy'),
@@ -1999,168 +2193,168 @@ function smoy_customize_register( $wp_customize ) {
     
     /* ------------- Front-Page People -------------- */
     
-       $wp_customize->add_control( 'smoy_people_header_title', array(
-          'label' => __( 'Header title', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_people_section',
-          'active_callback' => 'is_front_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_people_header_desc', array(
-          'label' => __( 'Header description body', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_people_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_people_header_desc_max_width', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
-          'type' => 'text',
-          'section' => 'smoy_people_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_people_header_title_eng', array(
-          'label' => __( 'Header title (in english)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_people_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_people_header_desc_eng', array(
-          'label' => __( 'Header description body (in english)', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_people_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_people_header_desc_max_width_eng', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
-          'type' => 'text',
-          'section' => 'smoy_people_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_people_header_text_bg_color', array(
-          'type' => 'radio',
-          'section' => 'smoy_people_section', 
-          'label' => __( 'Text background', 'smoy'),
-          'description' => __( 'Select header text background color', 'smoy'),
-          'choices' => array(
-            'orange' => __( 'Orange', 'smoy'),
-            'pink' => __( 'Pink' , 'smoy')
-          ),
-          'active_callback' => 'is_front_page'
-        ));
+   $wp_customize->add_control( 'smoy_people_header_title', array(
+      'label' => __( 'Header title', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_people_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_people_header_desc', array(
+      'label' => __( 'Header description body', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_people_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_people_header_desc_max_width', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+      'type' => 'text',
+      'section' => 'smoy_people_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_people_header_title_eng', array(
+      'label' => __( 'Header title (in english)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_people_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_people_header_desc_eng', array(
+      'label' => __( 'Header description body (in english)', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_people_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_people_header_desc_max_width_eng', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+      'type' => 'text',
+      'section' => 'smoy_people_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_people_header_text_bg_color', array(
+      'type' => 'radio',
+      'section' => 'smoy_people_section', 
+      'label' => __( 'Text background', 'smoy'),
+      'description' => __( 'Select header text background color', 'smoy'),
+      'choices' => array(
+        'orange' => __( 'Orange', 'smoy'),
+        'pink' => __( 'Pink' , 'smoy')
+      ),
+      'active_callback' => 'is_front_page'
+    ));
     
     /* ------------- Front-Page Contact ------------- */
     
-        $wp_customize->add_control( 'smoy_contact_header_title', array(
-          'label' => __( 'Header title', 'smoy'),
+    $wp_customize->add_control( 'smoy_contact_header_title', array(
+      'label' => __( 'Header title', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_contact_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_contact_header_desc', array(
+      'label' => __( 'Header description body', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_contact_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_contact_header_desc_max_width', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+      'type' => 'text',
+      'section' => 'smoy_contact_section',
+      'active_callback' => 'is_front_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_contact_header_title_eng', array(
+      'label' => __( 'Header title (in english)', 'smoy'),
+      'type' => 'text',
+      'section' => 'smoy_contact_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_contact_header_desc_eng', array(
+      'label' => __( 'Header description body (in english)', 'smoy'),
+      'type' => 'textarea',
+      'section' => 'smoy_contact_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_contact_header_desc_max_width_eng', array(
+      'label' => __( 'Header description max width', 'smoy'),
+      'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
+      'type' => 'text',
+      'section' => 'smoy_contact_section',
+      'active_callback' => 'smoy_callback_is_eng_page'
+    ));
+
+    $wp_customize->add_control( 'smoy_contact_header_text_bg_color', array(
+      'type' => 'radio',
+      'section' => 'smoy_contact_section', 
+      'label' => __( 'Text background', 'smoy'),
+      'description' => __( 'Select header text background color', 'smoy'),
+      'choices' => array(
+        'orange' => __( 'Orange', 'smoy'),
+        'pink' => __( 'Pink' , 'smoy')
+      ),
+      'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
+    
+    
+    
+    for($i = 1; $i < 4; $i++) {
+
+        $wp_customize->add_control('smoy_contact_person_name_'.$i, array(
+          'label' => __( 'Contact person '.$i.' name', 'smoy'),
           'type' => 'text',
           'section' => 'smoy_contact_section',
-          'active_callback' => 'is_front_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_contact_header_desc', array(
-          'label' => __( 'Header description body', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_contact_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_contact_header_desc_max_width', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
-          'type' => 'text',
-          'section' => 'smoy_contact_section',
-          'active_callback' => 'is_front_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_contact_header_title_eng', array(
-          'label' => __( 'Header title (in english)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_contact_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-        
-        $wp_customize->add_control( 'smoy_contact_header_desc_eng', array(
-          'label' => __( 'Header description body (in english)', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_contact_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_contact_header_desc_max_width_eng', array(
-          'label' => __( 'Header description max width', 'smoy'),
-          'description' => __( 'Adjust the header description max width. You can use normal css units, like px, em and % (default 500px)' ),
-          'type' => 'text',
-          'section' => 'smoy_contact_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-    
-        $wp_customize->add_control( 'smoy_contact_header_text_bg_color', array(
-          'type' => 'radio',
-          'section' => 'smoy_contact_section', 
-          'label' => __( 'Text background', 'smoy'),
-          'description' => __( 'Select header text background color', 'smoy'),
-          'choices' => array(
-            'orange' => __( 'Orange', 'smoy'),
-            'pink' => __( 'Pink' , 'smoy')
-          ),
           'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
         ));
-    
-    
-    
-        for($i = 1; $i < 4; $i++) {
 
-            $wp_customize->add_control('smoy_contact_person_name_'.$i, array(
-              'label' => __( 'Contact person '.$i.' name', 'smoy'),
-              'type' => 'text',
-              'section' => 'smoy_contact_section',
-              'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
-            ));
-            
-            $wp_customize->add_control('smoy_contact_person_title_'.$i, array(
-              'label' => __( 'Contact person '.$i.' title', 'smoy'),
-              'type' => 'text',
-              'section' => 'smoy_contact_section',
-              'active_callback' => 'is_front_page'
-            ));
-            
-            $wp_customize->add_control('smoy_contact_person_title_eng_'.$i, array(
-              'label' => __( 'Contact person '.$i.' title (in english)', 'smoy'),
-              'type' => 'text',
-              'section' => 'smoy_contact_section',
-              'active_callback' => 'smoy_callback_is_eng_page'
-            ));
-            
-            $wp_customize->add_control('smoy_contact_person_phone_'.$i, array(
-              'label' => __( 'Contact person '.$i.' phone number', 'smoy'),
-              'type' => 'text',
-              'section' => 'smoy_contact_section',
-              'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
-            ));
-             
-        }
+        $wp_customize->add_control('smoy_contact_person_title_'.$i, array(
+          'label' => __( 'Contact person '.$i.' title', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'is_front_page'
+        ));
+
+        $wp_customize->add_control('smoy_contact_person_title_eng_'.$i, array(
+          'label' => __( 'Contact person '.$i.' title (in english)', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
+        ));
+
+        $wp_customize->add_control('smoy_contact_person_phone_'.$i, array(
+          'label' => __( 'Contact person '.$i.' phone number', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_contact_section',
+          'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+        ));
+
+    }
     
     $wp_customize->add_control('smoy_contact_form_shortcode', array(
-              'label' => __( 'Contact form shortcode', 'smoy'),
-              'description' => __( 'Place the contact form shortcode here', 'smoy'),
-              'type' => 'text',
-              'section' => 'smoy_contact_section',
-              'active_callback' => 'is_front_page'
+        'label' => __( 'Contact form shortcode', 'smoy'),
+        'description' => __( 'Place the contact form shortcode here', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_contact_section',
+        'active_callback' => 'is_front_page'
     ));
     
     $wp_customize->add_control('smoy_contact_form_shortcode_eng', array(
-              'label' => __( 'Contact form shortcode for english page', 'smoy'),
-              'description' => __( 'Place the contact form shortcode here', 'smoy'),
-              'type' => 'text',
-              'section' => 'smoy_contact_section',
-              'active_callback' => 'smoy_callback_is_eng_page'
+        'label' => __( 'Contact form shortcode for english page', 'smoy'),
+        'description' => __( 'Place the contact form shortcode here', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_contact_section',
+        'active_callback' => 'smoy_callback_is_eng_page'
     ));
     
     
@@ -2241,6 +2435,16 @@ function smoy_customize_register( $wp_customize ) {
     
 }
 
+
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* ---------- SMOY THEME CUSTOMIZER SETTINGS END ---------- */
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+
+
+
+
 function smoy_sanitize_checkbox( $input ) {
 	return ( $input === true ) ? true : false;
 }
@@ -2282,6 +2486,151 @@ function smoy_front_page_header_video_output() {
         <?php
     } 
 }
+
+
+/*
+add_filter( 'pre_set_theme_mod_smoy_services_header_bg_img', 'smoy_before_service_section_bg_save', 10, 2 ); 
+
+ 
+function smoy_before_service_section_bg_save( $value, $old_value ) { 
+    
+    $desktop_img_id = $value - 1;
+    $desktop_srcset = wp_get_attachment_image_srcset($desktop_img_id, 'full');
+    $desktop_sizes = explode( ", ", $desktop_srcset );
+    $desktop_srcset_length = count($desktop_sizes);
+    
+    
+    if(!empty($value) && $desktop_srcset_length > 0) {
+        if ($desktop_srcset_length < 3) {
+            lazy_image_size($desktop_img_id, 460);
+            lazy_image_size($desktop_img_id, 1280);
+            lazy_image_size($desktop_img_id, 1600);
+            lazy_image_size($desktop_img_id, 1920);
+        }
+    }
+    
+    
+    $some_test = get_post(absint($value));
+    $some_other_test = get_post($desktop_img_id);
+    print_r($some_test);
+    echo PHP_EOL;
+    print_r($some_other_test);
+    echo PHP_EOL;
+    print_r($desktop_sizes);
+    echo PHP_EOL;
+    wp_die();
+    
+    
+    return $value; 
+}; 
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+         
+
+
+add_action( 'wp_head', 'smoy_section_header_background_styles');
+
+function smoy_section_header_background_styles() {
+    if(is_home() || is_page( 'eng' )) {
+        $front_sections = array('services', 'our-customers', 'our-staff', 'blog', 'contact');
+        $section_header_imgs = array(get_theme_mod('smoy_services_header_bg_img'), get_theme_mod('smoy_references_header_bg_img'), get_theme_mod('smoy_staff_header_bg_img'), get_theme_mod('smoy_blog_header_bg_img'), get_theme_mod('smoy_contact_header_bg_img'));
+        $bg_positions = array(get_theme_mod('smoy_services_header_bg_pos'), get_theme_mod('smoy_references_header_bg_pos'), get_theme_mod('smoy_staff_header_bg_pos'), get_theme_mod('smoy_blog_header_bg_pos'), get_theme_mod('smoy_contact_header_bg_pos'));
+        
+        if(!empty($section_header_imgs)) {
+            $css = array();
+            $css_media_query = array();
+            $i = 0;
+            
+            foreach($front_sections as $section) {
+                if(!empty($section_header_imgs[$i])){
+                    
+                    $bg_pos = $bg_positions[$i];
+                    
+                    if($section === 'our-staff'){
+                        $desktop_img_id = $section_header_imgs[$i];
+                        $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
+                        
+                        if(!empty($desktop_src)){
+                            $css['#'.$section.' .content-section-header']['background-image'] = "url(\"".$desktop_src."\")";
+                            $css_media_query['#'.$section.' .content-section-header']['background-image'] = "none";
+                        }
+
+                        if(!empty($bg_pos)){
+                            $css['#'.$section.' .content-section-header']['background-position'] = $bg_pos;
+                        }else{
+                            $css['#'.$section.' .content-section-header']['background-position'] = '50% 50%';
+                        } 
+                    }else{
+                        $desktop_img_id = $section_header_imgs[$i] - 1;
+                        $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
+                        $mobile_src = wp_get_attachment_image_src($section_header_imgs[$i], 'full')[0];
+
+                        if(!empty($mobile_src) && !empty($desktop_src)){
+                            $css['#'.$section.' .content-section-header']['background-image'] = "url(\"".$desktop_src."\")";
+                            $css_media_query['#'.$section.' .content-section-header']['background-image'] = "url(\"".$mobile_src."\")";
+                            $css_media_query['#'.$section.' .content-section-header']['background-position'] = "center !important";
+                        }
+
+                        if(!empty($bg_pos)){
+                            $css['#'.$section.' .content-section-header']['background-position'] = $bg_pos;
+                        }else{
+                            $css['#'.$section.' .content-section-header']['background-position'] = '50% 50%';
+                        }
+                             
+                    }
+                    
+                }
+                
+                $i++;
+                 
+            }
+            
+            if(!empty($css) && !empty($css_media_query)) {
+                $final_css = '<style type="text/css">';
+                foreach ( $css as $style => $style_array ) {
+                    $final_css .= $style . '{';
+                    foreach ( $style_array as $property => $value ) {
+                        $final_css .= $property . ':' . $value . ';';
+                    }
+                    $final_css .= '}';
+                }
+                $final_css .= '@media only screen and (max-width: 630px) {';
+                foreach ( $css_media_query as $style => $style_array ) {
+                    $final_css .= $style . '{';
+                    foreach ( $style_array as $property => $value ) {
+                        $final_css .= $property . ':' . $value . ';';
+                    }
+                    $final_css .= '}';
+                }
+                $final_css .= '}';
+                $final_css .= '</style>';
+                echo $final_css;
+            }
+            
+        }
+          
+    }
+}
+
+
+
+
+
+
+
+
 
 add_action( 'wp_head', 'smoy_about_us_styles');
 
