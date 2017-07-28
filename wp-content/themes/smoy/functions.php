@@ -2580,7 +2580,7 @@ function smoy_section_header_background_styles() {
                         if(!empty($mobile_src) && !empty($desktop_src)){
                             $css['#'.$section.' .content-section-header']['background-image'] = "url(\"".$desktop_src."\")";
                             $css_media_query['#'.$section.' .content-section-header']['background-image'] = "url(\"".$mobile_src."\")";
-                            $css_media_query['#'.$section.' .content-section-header']['background-position'] = "center !important";
+                            $css_media_query['#'.$section.' .content-section-header']['background-position'] = "center";
                         }
 
                         if(!empty($bg_pos)){

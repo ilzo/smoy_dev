@@ -4516,13 +4516,6 @@ div.customer-stretchy-wrapper {
         background-position: 74.5%;
     }
     
-    
-    /*
-
-    #about-us {
-        background-position: 0; 
-    }
-    */
 
 }
 
@@ -4842,6 +4835,18 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 630px) {
     
+    #about-us {
+        background: url("./img/background/meista_mobile.jpg");
+        background-position: 80%;
+    }
+    
+    #contact-wrapper {
+        background: linear-gradient( rgba(18, 18, 18, 0.25), rgba(18, 18, 18, 0.25) ),
+        url("./img/background/ota_yhteytta_content_mobile.jpg");
+        background-position: 80%;
+    }
+    
+    
     .content-section-header {
         height: 460px;
     }
@@ -4887,22 +4892,17 @@ div.customer-stretchy-wrapper {
         left: 8px;
     }
     
-    
-    
     #header-eng {
         background-size: cover;
         background-position: 59.5%;
     }
     
      
-    
     #about-us {
-        /*background-position: 14%;*/
         padding: 8em 1.25em 8em 1.25em;
     }
     
    
-    
     .about-container p {
         font-size: 1.30em;
     }
@@ -4974,6 +4974,11 @@ div.customer-stretchy-wrapper {
         font-size: 13.8pt;
     }
     
+    #location {
+        height: 60vh;
+        min-height: 300px;
+    }
+    
     /*
     
     .footer-social-link {
@@ -5003,7 +5008,7 @@ div.customer-stretchy-wrapper {
 */
 
 
-
+/*
 @media screen and (max-width: 548px) {
     
     #about-us {
@@ -5011,6 +5016,7 @@ div.customer-stretchy-wrapper {
     }
     
 }
+*/
 
 
 
@@ -5178,8 +5184,6 @@ div.customer-stretchy-wrapper {
         margin-bottom: 8px;
     }
     
-    
-
 }
 
 
@@ -5187,7 +5191,6 @@ div.customer-stretchy-wrapper {
     
     #about-us {
         padding: 3em 1.25em 3em 1.25em;
-        /*background-position: 17.5%;*/
     }
     
     .about-section-title {
