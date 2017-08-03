@@ -242,6 +242,7 @@ jQuery(function() {
         jQuery('#right-menu .smoytalk-link').css('display', 'inline-block'); 
     }
     
+    /*
     $document.scroll(function() {
         subHeight = navSub[0].clientHeight;
         if(subHeight === 0) {
@@ -261,6 +262,7 @@ jQuery(function() {
             }
        } 
     });
+    */
     
     jQuery(window).resize(checkScreenWidth);
     var noRedirectLinks = [];
@@ -384,9 +386,11 @@ jQuery(function() {
         }, 1500);
     });
     
+    /*
     if( window.location.pathname !== '/' ){
         setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600); 
     }else{
+        
         
         if($document.scrollTop() > 180) { 
             setTimeout(function(){ 
@@ -394,13 +398,18 @@ jQuery(function() {
             }, 600);
         
         }else{
+            
             setTimeout(function(){ 
                 jQuery('.navigation-top').addClass('nav-ready nav-hidden');
             }, 600); 
-            
+               
         }
+        
          
     }
+    */
+    
+    jQuery('.navigation-top').addClass('nav-ready nav-black');
      
 });
 
