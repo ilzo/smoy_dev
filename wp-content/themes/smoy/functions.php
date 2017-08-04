@@ -516,6 +516,7 @@ function smoy_replace_nav_placeholder_with_latest_post_link( $items, $menu, $arg
 }
 
 require_once(get_template_directory() . '/inc/smoy-recent-posts-widget.php');
+require_once(get_template_directory() . '/inc/smoy-newsletter-form-widget.php');
 require_once(get_template_directory() . '/inc/smoy-floating-social-icons-widget.php');
 add_action( 'widgets_init', 'smoy_widgets_init' );
 
@@ -528,8 +529,6 @@ function smoy_widgets_init() {
 		'before_title'  => '<h2 class="latest-blog-posts-title">',
 		'after_title'   => '</h2>',
 	));
-    
-    register_widget('Smoy_Recent_Posts_Widget');
     
     register_sidebar( array(
 		'name'          => 'Newsletter subscription sidebar',
@@ -549,7 +548,6 @@ function smoy_widgets_init() {
 		'after_title'   => '</h2><div class="footer-newsletter-widget-title-underline"></div><div class="footer-newsletter-widget-wrapper">',
 	));
     
-    
     register_sidebar( array(
 		'name'          => 'Social icons widget sidebar',
 		'id'            => 'social_widget_sidebar',
@@ -557,6 +555,8 @@ function smoy_widgets_init() {
 		'after_widget'  => '</div>'
 	));
     
+    register_widget('Smoy_Recent_Posts_Widget');
+    register_widget('Smoy_Newsletter_Form_Widget');
     register_widget('Smoy_Floating_Social_Icons_Widget');  
 }
 

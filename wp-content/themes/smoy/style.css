@@ -862,8 +862,27 @@ button {
     margin: 16px 0 0 0;
 }
 
+
+.newsletter-form-container {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin: 16px 0 0 0;
+}
+
+
+
+
 .tnp-field label {
     font-family: 'MyriadProRegular', Fallback, sans-serif;
+}
+
+.newsletter-form-container label {
+    font-family: 'MyriadProRegular', Fallback, sans-serif;
+}
+
+.newsletter-form-container label:first-of-type {
+    font-size: 14px;
 }
 
 /*
@@ -883,6 +902,17 @@ button {
     padding: 0;
 }
 
+
+
+.newsletter-form-container .tnp-field {
+    display: inline;
+    margin-bottom: 10px;
+    border: 0;
+    padding: 0;
+}
+
+
+
 /*
 
 .tnp-field.tnp-field-email {
@@ -895,6 +925,37 @@ button {
     width: 65%;
     float: left;
 }
+
+
+.newsletter-form-container .your-email, 
+.newsletter-form-container .your-email input[type=email] {
+    width: 187px;
+}
+
+.newsletter-form-container .your-email,
+.newsletter-form-container input[type=submit]{
+    display: inline;
+} 
+
+.newsletter-form-container .your-email {
+    float: left;
+}
+
+.newsletter-form-container .your-email input[type=email] {
+    box-sizing: border-box;
+    height: auto;
+}
+
+.newsletter-form-container input[type=submit]{
+    width: 25%;
+    float: right;
+    margin: 15px 22px 0 0;
+    padding: 4px 5px 5px 5px !important;
+    font-family: 'RobotoSlabBold', Fallback, sans-serif;
+    background-color: transparent !important;
+    border: solid 2px !important;
+    cursor: pointer;
+} 
 
 /*
 .tnp-field.tnp-field-button {
@@ -911,6 +972,10 @@ button {
 
 
 .tnp-widget input[type=text], .tnp-widget input[type=email], .tnp-widget input[type=submit], .tnp-widget select {
+    margin-top: 12px;
+}
+
+.newsletter-form-container input[type=text], .newsletter-form-container input[type=email], .newsletter-form-container input[type=submit], .newsletter-form-container select {
     margin-top: 12px;
 }
 
@@ -3017,14 +3082,15 @@ div.customer-stretchy-wrapper {
 }
 
 
+/*
 @media screen and (min-aspect-ratio: 1280/600) {
     
     #smoy-home-video {
-        /* top: 35%; */
         transform: translateY(-40%) !important;
     }
 
 }
+*/
 
 
 @media screen and (max-width: 1380px) {
@@ -4668,6 +4734,10 @@ div.customer-stretchy-wrapper {
         font-size: 17px !important; 
     }
     
+    .newsletter-form-container input[type=email] {
+        font-size: 17px !important; 
+    }
+    
     
 }
 
@@ -5000,6 +5070,10 @@ div.customer-stretchy-wrapper {
     }
     
     .tnp-widget input[type=email] {
+        margin-top: 36px !important;
+    }
+    
+    .newsletter-form-container input[type=email] {
         margin-top: 36px !important;
     }
     
@@ -5649,6 +5723,10 @@ div.customer-stretchy-wrapper {
     }
     
     .tnp-widget input[type=email] {
+        font-size: 14px !important;
+    }
+    
+    .newsletter-form-container input[type=email] {
         font-size: 14px !important;
     }
     

@@ -3,7 +3,7 @@ Contributors: micropat, addtoany
 Tags: AddToAny, share, sharing, social, share buttons, share button, social media, media, marketing, links, email, seo, woocommerce, google, linkedin, reddit, facebook, like, twitter, pinterest, whatsapp, instagram, youtube, share this, sharethis, feed, icons
 Requires at least: 3.7
 Tested up to: 4.8
-Stable tag: 1.7.13
+Stable tag: 1.7.14
 
 Share buttons for WordPress including the AddToAny sharing button, Facebook, Twitter, Google+, Pinterest, WhatsApp, many more, and follow icons too.
 
@@ -348,6 +348,9 @@ Upload (or move) the `add-to-any` plugin directory into the `/wp-content/mu-plug
 5. Settings for Floating Share Bars
 
 == Changelog ==
+
+= 1.7.14 =
+* Fix the standard placement option for WooCommerce Product types
 
 = 1.7.13 =
 * Update standard placement for [WooCommerce](https://woocommerce.com/) to display share buttons after the product meta block instead of the product description

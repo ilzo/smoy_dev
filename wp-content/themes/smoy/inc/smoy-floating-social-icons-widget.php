@@ -52,16 +52,16 @@ class Smoy_Floating_Social_Icons_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-        $item_icon_1 = ! empty( $instance['item_icon_1'] ) ? $instance['item_icon_1'] : '';
-        $item_icon_2 = ! empty( $instance['item_icon_2'] ) ? $instance['item_icon_2'] : '';
-        $item_icon_3 = ! empty( $instance['item_icon_3'] ) ? $instance['item_icon_3'] : '';
-        $item_icon_4 = ! empty( $instance['item_icon_4'] ) ? $instance['item_icon_4'] : '';
-        $item_icon_5 = ! empty( $instance['item_icon_5'] ) ? $instance['item_icon_5'] : '';
-        $item_url_1 = ! empty( $instance['item_url_1'] ) ? $instance['item_url_1'] : '#';
-        $item_url_2 = ! empty( $instance['item_url_2'] ) ? $instance['item_url_2'] : '#';
-        $item_url_3 = ! empty( $instance['item_url_3'] ) ? $instance['item_url_3'] : '#';
-        $item_url_4 = ! empty( $instance['item_url_4'] ) ? $instance['item_url_4'] : '#';
-        $item_url_5 = ! empty( $instance['item_url_5'] ) ? $instance['item_url_5'] : '#';
+        $item_icon_1 = !empty($instance['item_icon_1']) ? $instance['item_icon_1'] : '';
+        $item_icon_2 = !empty($instance['item_icon_2']) ? $instance['item_icon_2'] : '';
+        $item_icon_3 = !empty($instance['item_icon_3']) ? $instance['item_icon_3'] : '';
+        $item_icon_4 = !empty($instance['item_icon_4']) ? $instance['item_icon_4'] : '';
+        $item_icon_5 = !empty($instance['item_icon_5']) ? $instance['item_icon_5'] : '';
+        $item_url_1 = !empty($instance['item_url_1']) ? $instance['item_url_1'] : '#';
+        $item_url_2 = !empty($instance['item_url_2']) ? $instance['item_url_2'] : '#';
+        $item_url_3 = !empty($instance['item_url_3']) ? $instance['item_url_3'] : '#';
+        $item_url_4 = !empty($instance['item_url_4']) ? $instance['item_url_4'] : '#';
+        $item_url_5 = !empty($instance['item_url_5']) ? $instance['item_url_5'] : '#';
         
 		?>
         <p>
@@ -119,18 +119,16 @@ class Smoy_Floating_Social_Icons_Widget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
-        $instance['item_icon_1'] = ( ! empty( $new_instance['item_icon_1'] ) ) ? strip_tags( $new_instance['item_icon_1'] ) : '';
-        $instance['item_icon_2'] = ( ! empty( $new_instance['item_icon_2'] ) ) ? strip_tags( $new_instance['item_icon_2'] ) : '';
-        $instance['item_icon_3'] = ( ! empty( $new_instance['item_icon_3'] ) ) ? strip_tags( $new_instance['item_icon_3'] ) : '';
-        $instance['item_icon_4'] = ( ! empty( $new_instance['item_icon_4'] ) ) ? strip_tags( $new_instance['item_icon_4'] ) : '';
-        $instance['item_icon_5'] = ( ! empty( $new_instance['item_icon_5'] ) ) ? strip_tags( $new_instance['item_icon_5'] ) : '';
-        
-        $instance['item_url_1'] = ( ! empty( $new_instance['item_url_1'] ) ) ? strip_tags( $new_instance['item_url_1'] ) : '';
-        $instance['item_url_2'] = ( ! empty( $new_instance['item_url_2'] ) ) ? strip_tags( $new_instance['item_url_2'] ) : '';
-        $instance['item_url_3'] = ( ! empty( $new_instance['item_url_3'] ) ) ? strip_tags( $new_instance['item_url_3'] ) : '';
-        $instance['item_url_4'] = ( ! empty( $new_instance['item_url_4'] ) ) ? strip_tags( $new_instance['item_url_4'] ) : '';
-        $instance['item_url_5'] = ( ! empty( $new_instance['item_url_5'] ) ) ? strip_tags( $new_instance['item_url_5'] ) : '';
-        
+        $instance['item_icon_1'] = (!empty($new_instance['item_icon_1'])) ? strip_tags($new_instance['item_icon_1']) : '';
+        $instance['item_icon_2'] = (!empty($new_instance['item_icon_2'])) ? strip_tags($new_instance['item_icon_2']) : '';
+        $instance['item_icon_3'] = (!empty($new_instance['item_icon_3'])) ? strip_tags($new_instance['item_icon_3']) : '';
+        $instance['item_icon_4'] = (!empty($new_instance['item_icon_4'])) ? strip_tags($new_instance['item_icon_4']) : '';
+        $instance['item_icon_5'] = (!empty($new_instance['item_icon_5'])) ? strip_tags($new_instance['item_icon_5']) : '';
+        $instance['item_url_1'] = (!empty($new_instance['item_url_1'])) ? strip_tags($new_instance['item_url_1']) : '';
+        $instance['item_url_2'] = (!empty($new_instance['item_url_2'])) ? strip_tags($new_instance['item_url_2']) : '';
+        $instance['item_url_3'] = (!empty($new_instance['item_url_3'])) ? strip_tags($new_instance['item_url_3']) : '';
+        $instance['item_url_4'] = (!empty($new_instance['item_url_4'])) ? strip_tags($new_instance['item_url_4']) : '';
+        $instance['item_url_5'] = (!empty($new_instance['item_url_5'])) ? strip_tags($new_instance['item_url_5']) : '';
 		return $instance;
 	}
 

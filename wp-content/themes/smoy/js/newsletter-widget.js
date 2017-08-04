@@ -41,9 +41,11 @@ jQuery(function() {
         $document.bind('scroll.newsletterScrollHandler', function() {
             newsletter_detectScrollPos(startScrollPos);
         });
-        
+        /*
        let textNode = jQuery(newsletterWidgetWrapper)[0].firstChild;
        jQuery(textNode).wrap( '<div class="newsletter-widget-desc"></div>' );
+       */
+        
        jQuery( '.newsletter-widget-container' ).click(function(e) {
             e.stopPropagation();
             openNewsletterBox(newsletterSidebar);
@@ -105,11 +107,18 @@ function newsletter_detectScrollPos (startScrollPos) {
     let windowHeight = $window.height();
     let documentHeight = $document.height();
     let currentScrollPos = $window.scrollTop();
-    if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + windowHeight >= documentHeight - 580) {
-        setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 6000);
-        $document.unbind('scroll.newsletterScrollHandler');
-    }
-    
+    let header_height = jQuery('#header-home').height();
+    if ( window.location.pathname === '/' ){
+        if (currentScrollPos - startScrollPos <= header_height ) {
+            setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 500);
+            $document.unbind('scroll.newsletterScrollHandler');
+        }
+    }else{
+        if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + windowHeight >= documentHeight - 580) {
+            setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 6000);
+            $document.unbind('scroll.newsletterScrollHandler');
+        }
+    }   
 }
 
 function toggleFooterNewsletterBox (newsletterFooter, width) {

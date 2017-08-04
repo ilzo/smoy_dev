@@ -1,17 +1,45 @@
 var $root = jQuery('html, body');
 var smoy_video;
-var smoy_video_cached;
 var smoy_video_source_tags;
 var smoy_video_src_mp4 = '';
 var smoy_video_src_webm = '';
-var header_height = 0;
-var onplaying = true;
-var onpause = false;
+
+
 var playPromise;
 var loadPromise;
 
+jQuery(function() {
+    var w = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    var header_height = jQuery('#header-home').height();
+    smoy_video = document.getElementById('smoy-home-video'); 
+    if(doesItExist(smoy_video)){
+        smoy_video_source_tags = smoy_video.getElementsByTagName('source');
+        smoy_video_src_mp4 = smoy_video_source_tags[0].getAttribute('src');
+        smoy_video_src_webm = smoy_video_source_tags[1].getAttribute('src');
+        
+        $document.bind('scroll', function() {
+            smoy_video_detectScrollPos(w, header_height);
+        });
+        
+        smoy_video.addEventListener('timeupdate', videoUpdateHandler);
+        //smoy_video.addEventListener('ended', videoEndHandler);
+        //smoy_video_check_width(w);
+        smoy_video_detectScrollPos(w, header_height); 
+    }
+    
+    jQuery(window).resize(function() {
+        header_height = jQuery('#header-home').height();
+        w = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+        smoy_video_check_width(w);
+    });
+});
 
-function smoy_video_detectScrollPos(w) {
+
+function smoy_video_detectScrollPos(w, header_height) {
     let currentScrollPos = $window.scrollTop();
     if(w > 960){ 
         if (currentScrollPos < (header_height - (header_height * 0.35))) {
@@ -59,14 +87,6 @@ function removeSmoyVideo() {
     }
 }
 
-function addSmoyVideo () {
-    if(!doesItExist(smoy_video)){
-        smoy_video = smoy_video_cached;
-        jQuery('#header-home').append(smoy_video);
-        console.log('video added');
-    }
-}
-    
 function pauseSmoyVideo() {
     if(doesItExist(smoy_video) && doesItExist(smoy_video_source_tags)){
         if(smoy_video_source_tags[0].getAttribute('src') !== '') {
@@ -99,71 +119,6 @@ function doesItExist(variable) {
 }
 
 
-jQuery(function() {
-    var w = window.innerWidth
-    || document.documentElement.clientWidth
-    || document.body.clientWidth;
-    smoy_video = document.getElementById('smoy-home-video');
-    smoy_video_cached = smoy_video; 
-    header_height = jQuery('#header-home').height();
-    
-    
-    if(doesItExist(smoy_video)){
-        
-        
-        /*
-        smoy_video.onplaying = function() {
-            onplaying = true;
-            onpause = false;
-        };
-        smoy_video.onpause = function() {
-            onplaying = false;
-            onpause = true;
-        };
-        */
-        
-        
-        
-        smoy_video_source_tags = smoy_video.getElementsByTagName('source');
-        smoy_video_src_mp4 = smoy_video_source_tags[0].getAttribute('src');
-        smoy_video_src_webm = smoy_video_source_tags[1].getAttribute('src');
-        
-        
-        $document.bind('scroll', function() {
-            smoy_video_detectScrollPos(w);
-        });
-        
-        
-        
-        smoy_video.addEventListener('timeupdate', videoUpdateHandler);
-        //smoy_video.addEventListener('ended', videoEndHandler);
-        
-        //smoy_video_check_width(w);
-        smoy_video_detectScrollPos(w);
-        
-        
-    }
-    
-    /*
-    window.onresize = function(){
-        console.log('terse');
-        header_height = jQuery('#header-home').height();
-        w = window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth;
-        smoy_video_check_width(w);
-    }
-    */
-    
-    jQuery(window).resize(function() {
-        header_height = jQuery('#header-home').height();
-        w = window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth;
-        smoy_video_check_width(w);
-    });
-});
-
 
 //function videoEndHandler() {
     //console.log('The video has ended');
@@ -181,3 +136,4 @@ function videoUpdateHandler() {
         this.removeEventListener('timeupdate', videoUpdateHandler );
     }
 }
+
