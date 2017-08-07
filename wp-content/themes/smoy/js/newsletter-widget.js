@@ -29,7 +29,7 @@ function closeNewsletterBox(newsletterSidebar) {
     }  
 }
 
-jQuery(function() {
+jQuery(window).on('load', function() {
     newsletterSidebar = jQuery('#newsletter-sidebar');
     newsletterFooter = document.getElementById('newsletter-footer');
     newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
@@ -57,9 +57,11 @@ jQuery(function() {
         });
            
     }
-    
+    /*
     let footerWidgetDescNode = jQuery( '#newsletter-footer .footer-newsletter-widget-wrapper' ).contents().get(0);
     jQuery(footerWidgetDescNode).wrap('<div class="footer-newsletter-widget-desc"></div>');
+    */
+    
     jQuery( '#newsletter-button, #newsletter-button-mobile, #footer-newsletter-box-close' ).click(function() {
       let viewportWidth = Math.max( $window.width(), window.innerWidth);
       jQuery('#newsletter-button, #newsletter-button-mobile').toggleClass( 'active-button' );
@@ -101,6 +103,55 @@ jQuery(function() {
         }, 450);
     }
     
+    var newsletter_wpcf7 = document.querySelector('.newsletter-form-container .wpcf7');
+    var newsletter_form = newsletter_wpcf7.childNodes[3];
+    var newsletter_form_email = newsletter_form.childNodes[5].childNodes[0];
+    var newsletter_form_submit = newsletter_form.childNodes[7];
+    var newsletter_form_ajaxloader = newsletter_form.childNodes[8];
+    var newsletter_form_submit_value = newsletter_form_submit.value;
+    jQuery(newsletter_form_ajaxloader).empty();
+    newsletter_form_email.required = true;
+    
+    jQuery(newsletter_form).submit(function() {
+        newsletter_form_submit.disabled = true;
+        newsletter_form_submit.value = '';
+    });
+    
+    /*
+    newsletter_wpcf7.addEventListener('wpcf7submit', function(e){
+    }, false);
+    */
+    
+    newsletter_wpcf7.addEventListener('wpcf7invalid', function(e){
+        newsletter_form_submit.disabled = false;
+        newsletter_form_submit.value = newsletter_form_submit_value;
+    }, false);
+    
+    newsletter_wpcf7.addEventListener('wpcf7mailsent', function(e){
+        var theme_path = WPURLS.theme_path;
+        var email = newsletter_form_email.childNodes[0].value;
+        jQuery.ajax({ 
+            url: theme_path + '/inc/smoy-simple-crypt.php',
+            data: { 'user_email' : email},
+            type: 'post',
+            success: function(output) {
+                let result = jQuery.parseJSON(output);
+                let encrypted = result['enc'];
+                location = '/uutiskirje/?email='+email+'&n='+encrypted;
+            }
+        }); 
+    }, false);
+    
+    newsletter_wpcf7.addEventListener('wpcf7mailfailed', function(e){
+        var responseOutput = e.target.childNodes[3].childNodes[9];
+        jQuery(responseOutput).one('DOMSubtreeModified', function(){
+          alert(this.textContent);
+        });
+        newsletter_form_submit.disabled = false;
+        newsletter_form_submit.value = newsletter_form_submit_value;
+    }, false);
+    
+  
 });
 
 function newsletter_detectScrollPos (startScrollPos) {

@@ -79,7 +79,7 @@ function smoy_setup() {
     }
     
     add_filter('jpeg_quality', function($arg){return 75;});
-       
+         
 }
 
 add_action('init', 'smoy_services');
@@ -595,7 +595,7 @@ function load_scripts() {
     wp_register_script('front-page-video', get_template_directory_uri() .'/js/front-page-video.js', array('jquery'), null, true);
     wp_register_script( 'gsap-tweenmax', get_template_directory_uri() .'/js/TweenMax.min.js', array(), '1.19.1', false );
     wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery', 'gsap-tweenmax'), null, false);
-    wp_register_script('newsletter-widget', get_template_directory_uri() .'/js/newsletter-widget.js', array('jquery'), null, false);
+    wp_register_script('newsletter-widget-js', get_template_directory_uri() .'/js/newsletter-widget.js', array('jquery'), null, false);
     wp_enqueue_script( 'top-nav-menu' );
     if(is_home()){
         wp_enqueue_script( 'front-page-video' );
@@ -605,8 +605,10 @@ function load_scripts() {
         wp_enqueue_script( 'customer-references' );
     }
     if(is_home() || is_singular('smoy_service') || (is_singular() && in_category('blogi'))){
-        wp_enqueue_script( 'newsletter-widget' );
-    }    
+        wp_enqueue_script( 'newsletter-widget-js' );
+        wp_localize_script('newsletter-widget-js', 'WPURLS', array('theme_path' => get_stylesheet_directory_uri()));
+    }
+
 }
 
 function smoy_styles() {
@@ -835,7 +837,9 @@ function smoy_redirect_to_latest_blog_post() {
     exit;
 }
 
+/*
 add_filter( 'template_include', 'smoy_newsletter_template');
+
 
 function smoy_newsletter_template($template) {
     if(is_page('uutiskirje') ) {
@@ -854,6 +858,27 @@ function smoy_newsletter_template($template) {
     }
     return $template;
 }
+*/
+
+add_filter( 'template_include', 'smoy_newsletter_template');
+
+function smoy_newsletter_template($template) {
+    if(is_page('uutiskirje') ) {
+        require_once(get_template_directory() . '/inc/smoy-simple-crypt.php' );
+        if(isset($_GET['email']) && isset($_GET['n']) && $_GET['email'] === smoy_simple_crypt($_GET['n'], 'd')) {
+            $newsletter_subscription_template = locate_template( array( 'page-uutiskirje.php' ) );
+            return $newsletter_subscription_template;
+        }else{
+            status_header( 404 );
+            nocache_headers();
+            $not_found_template = locate_template( array( '404.php' ) );
+            return $not_found_template;
+        }
+    }
+    return $template;
+}
+
+
 
 add_filter('the_content', 'smoy_modify_single_content');
 

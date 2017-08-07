@@ -6,7 +6,6 @@
  */
 get_header('message'); ?>
     <div id="smoy-message-container" class="newsletter-subscription-message-container">
-        
         <h2 id="unsubscription-message-title">Tilaus peruttu</h2>
         <div id="message-title-underline" class="unsubscription-page-title-underline"></div>
         <p id="unsubscription-message-body">Uutiskirjeen tilauksen peruuttaminen onnistui.</p>

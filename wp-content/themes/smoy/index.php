@@ -10,47 +10,42 @@
  *
  * @package smoy
  */
-
+if ( !defined('ABSPATH') ) {
+    exit;
+}
 get_header(); ?>
+<?php get_sidebar('newsletter'); ?>
+<section id="about-us">
+    <?php do_action('smoy_get_about_us'); ?>
+</section>
 
-<div id="primary" class="content-area">
-    <main id="main" class="site-main" role="main">
-        <?php if ( have_posts() ) : ?>
-
-			<?php if ( is_home() && ! is_front_page() ) : ?>
-				<header>
-					<h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
-				</header>
-			<?php endif; ?>
-
-			<?php
-			// Start the loop.
-			while ( have_posts() ) : the_post();
-
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', get_post_format() );
-
-			// End the loop.
-			endwhile;
-
-			// Previous/next page navigation.
-			the_posts_pagination( array(
-				'prev_text'          => __( 'Previous page', 'smoy' ),
-				'next_text'          => __( 'Next page', 'smoy' ),
-				'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'smoy' ) . ' </span>',
-			) );
-
-		// If no content, include the "No posts found" template.
-		else :
-			get_template_part( 'template-parts/content', 'none' );
-
-		endif;
-		?>
-    </main>
+<section id="services" class="content-section-front">
+    <?php do_action('smoy_get_content_section_header_services'); ?>
+    <?php do_action('smoy_get_services'); ?>
+</section>
+<section id="our-customers" class="content-section-front">
+    <?php do_action('smoy_get_content_section_header_references'); ?>
+    <?php do_action('smoy_get_references'); ?>
+</section>
+<section id="our-staff" class="content-section-front">
+    <?php do_action('smoy_get_content_section_header_people'); ?>
+    <?php do_action('smoy_get_people'); ?> 
+</section>
+<section id="blog" class="content-section-front">
+<div class="content-section-header">
+    <div class="content-header-wrapper">
+        <div id="blog-heading" class="content-section-heading">
+            <h1 class="heading-black">Blogi.</h1>
+        </div>
+   </div>
 </div>
-
+<?php get_template_part( 'template-parts/smoy-blogs-front'); ?>
+</section>
+<section id="contact" class="content-section-front">
+    <?php do_action('smoy_get_content_section_header_contact'); ?>
+    <?php do_action('smoy_get_contact_form'); ?> 
+</section>
+<section id="location" onclick="document.getElementById('smoy-front-page-map').style.pointerEvents='auto'">
+    <?php do_action('smoy_get_front_page_google_map'); ?>
+</section>
 <?php get_footer(); ?>

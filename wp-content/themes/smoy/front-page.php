@@ -4,6 +4,9 @@
  *
  * @package smoy
  */
+if ( !defined('ABSPATH') ) {
+    exit;
+}
 get_header(); ?>
 <?php get_sidebar('newsletter'); ?>
 <section id="about-us">

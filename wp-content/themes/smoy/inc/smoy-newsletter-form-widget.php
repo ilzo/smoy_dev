@@ -19,14 +19,11 @@ class Smoy_Newsletter_Form_Widget extends WP_Widget {
         
         $title = (!empty($instance['title'])) ? $instance['title'] : __( 'Tilaa uutiskirje' );
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-
 		$desc = (!empty( $instance['desc'])) ? $instance['desc'] : '';
         $desc = apply_filters('widget_text', $desc, $instance, $this->id_base);
-        
         $form_shortcode = $instance['form_shortcode'];
         
         echo $args['before_widget'];
-        
         if ($title) {
             echo $args['before_title'] . $title . $args['after_title'];
 		}
@@ -40,10 +37,7 @@ class Smoy_Newsletter_Form_Widget extends WP_Widget {
         $form .= "</div>\n";
         
         echo $form;
-        
         echo $args['after_widget']; 
-        
-        
     }
 
     function update($new_instance, $old_instance) {
