@@ -852,17 +852,9 @@ button {
 
 #newsletter-footer .newsletter-widget-desc {
     padding-right: 55px;
-    margin-bottom: 26px;
+    /*margin-bottom: 26px;*/
+    margin-bottom: 20px;
 }
-
-/*
-.tnp-widget {
-    width: 100%;
-    display: block;
-    box-sizing: border-box;
-    margin: 16px 0 0 0;
-}
-*/
 
 .newsletter-form-container {
     width: 100%;
@@ -871,12 +863,6 @@ button {
     margin: 5px 0 0 0;
 }
 
-/*
-.tnp-field label {
-    font-family: 'MyriadProRegular', Fallback, sans-serif;
-}
-*/
-
 .newsletter-form-container label {
     font-family: 'MyriadProRegular', Fallback, sans-serif;
 }
@@ -884,39 +870,6 @@ button {
 .newsletter-form-container label:first-of-type {
     font-size: 14px;
 }
-
-
-/*
-.tnp-widget .tnp-field {
-    display: inline;
-    margin-bottom: 10px;
-    border: 0;
-    padding: 0;
-}
-
-.newsletter-form-container .tnp-field {
-    display: inline;
-    margin-bottom: 10px;
-    border: 0;
-    padding: 0;
-}
-*/
-
-
-/*
-
-.tnp-field.tnp-field-email {
-    width: 65%;
-}
-
-
-
-.tnp-field.tnp-field-email {
-    width: 65%;
-    float: left;
-}
-*/
-
 
 .newsletter-form-container .your-email, 
 .newsletter-form-container .your-email input[type="email"] {
@@ -953,56 +906,21 @@ button {
     cursor: pointer;
 }
 
-/*
-.tnp-field.tnp-field-button {
-    margin-left: 2px;
-    width: 25%;
-}
-
-
-.tnp-field.tnp-field-button {
-    width: 25%;
-    float: right;
-    margin: 15px 22px 0 0; 
-}
-
-
-.tnp-widget input[type=text], .tnp-widget input[type=email], .tnp-widget input[type=submit], .tnp-widget select {
-    margin-top: 12px;
-}
-*/
-
-/*
-.newsletter-form-container input[type=text], .newsletter-form-container input[type=email], .newsletter-form-container input[type=submit], .newsletter-form-container select {
-    margin-top: 12px;
-}
-*/
-
-/*
-.tnp-field input.tnp-submit {
-    padding: 4px 5px 5px 5px !important;
-    font-family: 'RobotoSlabBold', Fallback, sans-serif;
-    background-color: transparent !important;
-    border: solid 2px !important;
-    cursor: pointer;
-}
-*/
-
-
-
-
 
 @-moz-document url-prefix() {
-    
-    /*
-    .tnp-field.tnp-field-button {
-        margin: 15px 22px 0 0;
+
+    .newsletter-widget-title {
+        padding: 0 10px 29px 0;
+    }
+
+    .newsletter-form-container input[type="submit"] {
+        padding: 5px 0 4px 0;
     }
     
-    .tnp-field input.tnp-submit {
-        padding: 5px 5px 6px 5px !important;
+    #newsletter-footer {
+        height: 310px;
     }
-    */
+    
 }
 
 #newsletter-footer .newsletter-form-container {
@@ -1012,56 +930,28 @@ button {
     margin: 16px 0 0 0;
 }
 
-/*
-#newsletter-footer .tnp-field label {
-    font-family: 'MyriadProRegular', Fallback, sans-serif;
+#newsletter-footer .newsletter-form-container .your-email, 
+#newsletter-footer .newsletter-form-container .your-email input[type="email"] {
+    width: 218px;
 }
-
-#newsletter-footer .tnp-widget .tnp-field {
-    display: inline;
-    margin-bottom: 10px;
-    border: 0;
-    padding: 0;
-}
-
-#newsletter-footer .tnp-field.tnp-field-email {
-    width: 65%;
-    float: left;
-}
-
-#newsletter-footer .tnp-field.tnp-field-button {
-    width: 25%;
-    float: right;
-    margin: 15px 22px 0 0; 
-}
-*/
-
-#newsletter-footer .newsletter-form-container input[type="text"], 
-#newsletter-footer .newsletter-form-container input[type="email"], 
-#newsletter-footer .newsletter-form-container input[type="submit"], 
-#newsletter-footer .newsletter-form-container select {
+ 
+#newsletter-footer .newsletter-form-container input[type="email"] {
     margin-top: 16px;
 }
 
 #newsletter-footer .newsletter-form-container input[type="submit"] {
-    padding: 4px 5px 5px 5px !important;
-    font-family: 'RobotoSlabBold', Fallback, sans-serif;
-    background-color: transparent !important;
-    border: solid 2px !important;
+    margin: 16px 20px 0 0;
+    padding: 4px 5px 4px 5px;
 }
 
-/*
 
 @-moz-document url-prefix() {
-    #newsletter-footer .tnp-field.tnp-field-button {
-        margin: 15px 22px 0 0;
-    }
-    
-    #newsletter-footer .tnp-field input.tnp-submit {
-        padding: 5px 5px 6px 5px !important;
+    #newsletter-footer .newsletter-form-container input[type="submit"] {
+        padding: 5px 5px 5px 5px;
     }
 }
-*/
+
+
 
 #newsletter-footer .newsletter-form-container input[type="email"] {
     padding: 7px !important;
@@ -2037,7 +1927,6 @@ span.arrow-right {
 }
 
 /*
-
 .customer-box {
     display: inline-block;
     width: 25%;
@@ -2045,11 +1934,11 @@ span.arrow-right {
 }
 */
 
-
 .customer-box {
     display: inline-block;
     width: 24.88%;
     margin: -1px -1px -1px -1px;
+    cursor: pointer;
 }
 
 
@@ -2165,6 +2054,10 @@ div.customer-stretchy-wrapper {
     width: 530px;
     text-align: left;
     margin: 0;
+}
+
+#blog a {
+    text-decoration: none;
 }
 
 .blog-front-header {
@@ -2625,7 +2518,8 @@ div.customer-stretchy-wrapper {
     z-index: 100;
     border: 1px solid #ff0000;
     background: #ffbcbc;
-    padding: .2em .8em;
+    padding: 0.3em 0.8em;
+    width: 165px
 }
 
 .newsletter-form-container .wpcf7-not-valid-tip {
@@ -2644,6 +2538,20 @@ div.customer-stretchy-wrapper {
     padding: 0;
     margin: 0 0 0 4px;
     vertical-align: middle;
+}
+
+#newsletter-footer .newsletter-form-container .use-floating-validation-tip .wpcf7-not-valid-tip {
+    top: 73%;
+    text-align: center;
+    width: 220px;
+}
+
+@-moz-document url-prefix() {
+    #newsletter-footer .newsletter-form-container .use-floating-validation-tip .wpcf7-not-valid-tip {
+        width: 230px;
+        padding: 0.22em 0.8em;
+        top: 72.5%;
+    } 
 }
 
 #contact .ajax-loader, #contact .ajax-loader:before, #contact .ajax-loader:after {
@@ -2995,7 +2903,7 @@ div.customer-stretchy-wrapper {
 
 #message-title-underline.unsubscription-page-title-underline {
     width: 136px;
-    margin: 4px auto 20px auto;
+    margin: 4px auto 30px auto;
 }
 
 #subscription-message-body, #subscription-message-bottom, #error-message-body, #error-message-bottom { 
@@ -3012,7 +2920,7 @@ div.customer-stretchy-wrapper {
 }
 
 #unsubscription-message-body {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 #error-message-body a{
@@ -3374,6 +3282,12 @@ div.customer-stretchy-wrapper {
         bottom: 16px;
     }
     
+    @-moz-document url-prefix() {
+        #newsletter-footer {
+            height: 303px;
+        }
+    }
+    
     .footer-newsletter-widget-container {
         margin: 0 0 0 14.98em;
     }
@@ -3671,6 +3585,7 @@ div.customer-stretchy-wrapper {
         display: inline-block;
         float: left;
         opacity: 100;
+        cursor: pointer;
     }
     
     #top-menu-overlay .closebtn {
@@ -4725,7 +4640,8 @@ div.customer-stretchy-wrapper {
     
     #newsletter-footer {
         max-width: 100%;
-        height: 360px;
+        /*height: 360px;*/
+        height: 320px;
         /*bottom: 448px;*/
         bottom: 50px;
     }
@@ -4763,35 +4679,71 @@ div.customer-stretchy-wrapper {
         margin-bottom: 50px;
     }
     
-    /*
-    #newsletter-footer .tnp-field.tnp-field-button {
-        margin: 20px 0 0 0;
+    @-moz-document url-prefix() {
+        #newsletter-footer .newsletter-widget-desc {
+            padding: 0;
+            margin-bottom: 30px;
+        }
     }
     
-    #newsletter-footer .tnp-widget .tnp-field {
-        border: 0;
-        padding: 0;
+    .newsletter-form-container .your-email, 
+    .newsletter-form-container input[type="submit"] {
+        display: block;
     }
-    */
+    
+    #newsletter-footer .newsletter-form-container .your-email {
+        margin-top: 15px;
+    }
+    
+    #newsletter-footer .newsletter-form-container .your-email {
+        width: 78%;
+    }
+    
+    #newsletter-footer .newsletter-form-container .your-email input[type="email"] {
+        width: 100%;
+    }
     
     #newsletter-footer .newsletter-form-container label {
-        font-size: 18px;
-        text-align: left;
+        float: left;
+        font-size: 17px;
+        margin: 0;
+    }
+    
+    #newsletter-footer .newsletter-form-container .your-email {
+        float: left;
     }
     
     #newsletter-footer .newsletter-form-container input[type="submit"] {
         font-size: 20px;
-        padding: 7px 7px 7px 7px !important;
+        width: 20%;
+        margin: 15px 0 0 0;
+        padding: 7px 7px 6px 7px !important;
         border: solid 3px !important;
         letter-spacing: 1.5px;
     }
+    
+    @-moz-document url-prefix() {
+        #newsletter-footer .newsletter-form-container input[type="submit"] {
+            padding: 7px 7px 5px 7px !important;
+        }
+    }
      
-    .newsletter-form-container input[type="email"] {
+    #newsletter-footer .newsletter-form-container input[type="email"] {
         font-size: 17px !important; 
+        margin: 0;
+        padding: 12px !important;
     }
     
-    #newsletter-footer .newsletter-form-container input[type="email"] {
-        padding: 12px !important;
+    #newsletter-footer .newsletter-form-container .your-email {
+        text-align: left;
+        padding: 0 !important;
+    }
+    
+    #newsletter-footer .newsletter-form-container .use-floating-validation-tip .wpcf7-not-valid-tip {
+        width: 100%;
+        top: 109%;
+        padding: 0.45em 0;
+        font-size: 15px;
     }
     
     
@@ -5073,11 +5025,26 @@ div.customer-stretchy-wrapper {
 
 */
 
+@media screen and (max-width: 560px) {
+    
+    #newsletter-footer {
+        height: 328px;
+    }
+    
+    #newsletter-footer .newsletter-form-container input[type="submit"] {
+        font-size: 16px;
+        padding: 9px 7px 9px 7px !important;
+        letter-spacing: 1.2px;
+    }
+    
+    #newsletter-footer .newsletter-form-container .use-floating-validation-tip .wpcf7-not-valid-tip {
+        width: 128%;
+    }
+}
+
 @media screen and (max-width: 511px) {  
 
     #newsletter-footer {
-        /*bottom: 479px;*/
-        /*bottom: 83px;*/
         bottom: 50px;
     }
 
@@ -5091,7 +5058,8 @@ div.customer-stretchy-wrapper {
         /* bottom: 463px; */
         /*bottom: 120px;*/
         bottom: 90px;
-        height: 323px;
+        /*height: 323px;*/
+        height: 290px;
     }
     
     .footer-newsletter-widget-container {
@@ -5117,16 +5085,27 @@ div.customer-stretchy-wrapper {
     
     #newsletter-footer .newsletter-widget-desc {
         padding: 0;
-        margin-bottom: 50px;
+        margin-bottom: 40px;
     }
     
-    
+    /*
     #newsletter-footer .newsletter-form-container label {
         position: absolute;
     }
+    */
     
-    .newsletter-form-container input[type="email"] {
-        margin-top: 36px !important;
+    #newsletter-footer .newsletter-form-container .your-email {
+        width: 70%;
+        margin-top: 16px !important;
+    }
+    
+    #newsletter-footer .newsletter-form-container input[type="submit"] {
+        width: 27%;
+        margin: 16px 0 0 0;  
+    }
+    
+    #newsletter-footer .newsletter-form-container .use-floating-validation-tip .wpcf7-not-valid-tip {
+        width: 142%;
     }
     
     
@@ -5190,7 +5169,7 @@ div.customer-stretchy-wrapper {
     }
     
     #unsubscription-message-body {
-        margin-bottom: 7px;
+        margin-bottom: 25px;
     }
     
     #subscription-message-bottom, #unsubscription-message-bottom, #error-message-bottom {
@@ -5496,9 +5475,15 @@ div.customer-stretchy-wrapper {
     }
     
     #newsletter-footer {
-        height: 314px;
+        height: 315px;
         /*bottom: 355px;*/
         bottom: 20px; 
+    }
+    
+    @-moz-document url-prefix() {
+        #newsletter-footer {
+            height: 320px;
+        }
     }
     
        
@@ -5670,6 +5655,12 @@ div.customer-stretchy-wrapper {
         height: 290px;
     }
     
+    @-moz-document url-prefix() {
+        #newsletter-footer {
+            height: 298px;
+        }
+    }
+    
     .footer-newsletter-widget-container {
         padding: 12px 12px 0 12px;
     }
@@ -5690,10 +5681,9 @@ div.customer-stretchy-wrapper {
     }
     
     #newsletter-footer .newsletter-widget-desc {
-        margin-bottom: 45px;
+        margin-bottom: 35px;
     }
-    
-    
+
     #newsletter-footer .newsletter-form-container label {
         font-size: 15px;
     }
@@ -5701,6 +5691,11 @@ div.customer-stretchy-wrapper {
     #newsletter-footer .newsletter-form-container input[type="submit"] {
         font-size: 16px;
         padding: 9px 9px 9px 9px !important;
+    }
+    
+    #newsletter-footer .newsletter-form-container .use-floating-validation-tip .wpcf7-not-valid-tip {
+        padding: 0.2em 0;
+        font-size: 14px;
     }
     
 }
@@ -5776,7 +5771,7 @@ div.customer-stretchy-wrapper {
     
     #smoy-message-container {
         max-width: 96%;
-        padding: 4px;
+        padding: 18px 4px;
     }
     
 }

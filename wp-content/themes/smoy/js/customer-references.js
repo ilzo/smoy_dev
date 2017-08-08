@@ -498,10 +498,10 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
     }, 900); 
     jQuery(customerCloneOverlay).animate({
         opacity: '0',
-    }, 1250 );
+    }, 625 );
     jQuery(customerCloneLogo).animate({
         opacity: '0',
-    }, 1250 );
+    }, 625 );
 }
 
 function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clickedId, customerCloneOverlay, customerCloneLogo, closeLink) {
@@ -562,8 +562,8 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
     }); 
     jQuery(customerCloneOverlay).animate({
                 opacity: '1',
-    }, 1250 );
+    }, 625 );
     jQuery(customerCloneLogo).animate({
                 opacity: '1',
-    }, 1250 );
+    }, 625 );
 }

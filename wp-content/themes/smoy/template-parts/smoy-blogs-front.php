@@ -8,10 +8,12 @@ if ( $smoy_latest_loop->have_posts() ) :
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
             <div class="blog-panel-content">
                 <div class="wrap">
+                    <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
                     <header class="blog-front-header">
                         <?php the_title( '<h2 class="blog-front-title">', '</h2>' ); ?>
                         <?php the_time('F Y', '<h4 class="blog-front-month">', '</h4>'); ?>
                     </header>
+                    </a>
                     <div class="blog-front-content">
                         <?php the_content(); ?>
                     </div>

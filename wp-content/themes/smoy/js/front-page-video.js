@@ -3,8 +3,6 @@ var smoy_video;
 var smoy_video_source_tags;
 var smoy_video_src_mp4 = '';
 var smoy_video_src_webm = '';
-
-
 var playPromise;
 var loadPromise;
 
@@ -23,10 +21,10 @@ jQuery(function() {
             smoy_video_detectScrollPos(w, header_height);
         });
         
-        smoy_video.addEventListener('timeupdate', videoUpdateHandler);
         //smoy_video.addEventListener('ended', videoEndHandler);
-        //smoy_video_check_width(w);
+        smoy_video.addEventListener('timeupdate', videoUpdateHandler);
         smoy_video_detectScrollPos(w, header_height); 
+        smoy_video_check_width(w);
     }
     
     jQuery(window).resize(function() {
@@ -38,7 +36,6 @@ jQuery(function() {
     });
 });
 
-
 function smoy_video_detectScrollPos(w, header_height) {
     let currentScrollPos = $window.scrollTop();
     if(w > 960){ 
@@ -46,15 +43,12 @@ function smoy_video_detectScrollPos(w, header_height) {
             smoy_video_check_width(w);
         }else{
             removeSmoyVideo();
-            //pauseSmoyVideo();
         }
     } 
 }
 
-
 function smoy_video_check_width(w) {
     if(w <= 960) {
-        //removeSmoyVideo();
         pauseSmoyVideo();
     }else if(w > 960){
         if(doesItExist(smoy_video)){ 
@@ -63,6 +57,7 @@ function smoy_video_check_width(w) {
                pauseSmoyVideo();
             }else{
                playSmoyVideo();
+               
             }
         } 
     } 
@@ -74,7 +69,7 @@ function playSmoyVideo() {
             smoy_video_source_tags[0].setAttribute('src', smoy_video_src_mp4);
             smoy_video_source_tags[1].setAttribute('src', smoy_video_src_webm);
             smoy_video.load();
-            console.log('video now playing');
+            smoy_video.addEventListener('timeupdate', videoUpdateHandler);
         }
     }
 }
@@ -83,7 +78,6 @@ function removeSmoyVideo() {
     if(doesItExist(smoy_video)){
         jQuery(smoy_video).remove();
         smoy_video = null;
-        console.log('video removed');
     }
 }
 
@@ -104,8 +98,7 @@ function pauseSmoyVideo() {
                   smoy_video.load();
                 }).catch(error => {});
             }
-            
-            console.log('video now paused');
+            smoy_video.removeEventListener('timeupdate', videoUpdateHandler);
         }
     }
 }
@@ -118,8 +111,6 @@ function doesItExist(variable) {
     return itExists; 
 }
 
-
-
 //function videoEndHandler() {
     //console.log('The video has ended');
     //jQuery(this).addClass('video-ended');
@@ -129,11 +120,9 @@ function doesItExist(variable) {
 
 function videoUpdateHandler() {
     if(this.currentTime >= 21.5) {
-        console.log('hello from videoUpdateHandler!');
         $root.animate({
             scrollTop: jQuery("#about-us").offset().top
         }, 1000);
         this.removeEventListener('timeupdate', videoUpdateHandler );
     }
 }
-

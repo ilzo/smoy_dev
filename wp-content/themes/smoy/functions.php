@@ -865,8 +865,11 @@ add_filter( 'template_include', 'smoy_newsletter_template');
 function smoy_newsletter_template($template) {
     if(is_page('uutiskirje') ) {
         require_once(get_template_directory() . '/inc/smoy-simple-crypt.php' );
-        if(isset($_GET['email']) && isset($_GET['n']) && $_GET['email'] === smoy_simple_crypt($_GET['n'], 'd')) {
+        if(isset($_GET['email']) && isset($_GET['n']) && $_GET['email'] === smoy_simple_crypt($_GET['n'], 'd')){
             $newsletter_subscription_template = locate_template( array( 'page-uutiskirje.php' ) );
+            return $newsletter_subscription_template;
+        }else if(isset($_GET['status']) && $_GET['status'] === 'unsubscribed'){
+            $newsletter_subscription_template = locate_template( array( 'page-uutiskirje-peruttu.php' ) );
             return $newsletter_subscription_template;
         }else{
             status_header( 404 );
