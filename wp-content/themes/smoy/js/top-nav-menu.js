@@ -10,6 +10,15 @@ jQuery(function() {
         ulSubMenu : jQuery('#sub-menu')[0],
         menuAlavalikkoContainer: jQuery('.menu-alavalikko-container')[0],
         topNavMobile : jQuery('.top-nav-mobile'),
+        smoytalk_menu_item : jQuery('#right-menu .smoytalk-link')[0],
+        english_menu_item : jQuery('#right-menu .english-link')[0],
+        finnish_menu_item : jQuery('#right-menu .finnish-link')[0],
+        smoytalk_span_wht : jQuery('<span class="menu-sprite sprite-smoytalk-wht"></span>'),
+        smoytalk_span_or : jQuery('<span class="menu-sprite sprite-smoytalk-or"></span>'),
+        english_span_wht : jQuery('<span class="menu-sprite sprite-eng-wht"></span>'),
+        english_span_or : jQuery('<span class="menu-sprite sprite-eng-or"></span>'),
+        finnish_span_wht : jQuery('<span class="menu-sprite sprite-fi-wht"></span>'),
+        finnish_span_or : jQuery('<span class="menu-sprite sprite-fi-or"></span>'),
         palvelut_link : jQuery('#menu-item-2405 a')[0],
         smoytalk_link : jQuery('#right-menu .smoytalk-link a')[0],
         english_link : jQuery('#right-menu .english-link a')[0],
@@ -237,10 +246,7 @@ jQuery(function() {
         }, 1000);
     });
     
-    if(domManager.smoytalk_link){
-        jQuery(domManager.smoytalk_link).html('');
-        jQuery('#right-menu .smoytalk-link').css('display', 'inline-block'); 
-    }
+    
     
     /*
     $document.scroll(function() {
@@ -264,6 +270,21 @@ jQuery(function() {
     });
     */
     
+    $document.scroll(function() {
+        if(window.location.pathname !== '/'){
+            subHeight = navSub[0].clientHeight;
+            if(subHeight === 0) {
+                scroll_start = jQuery(this).scrollTop();
+                if(scroll_start > 180) {
+                    jQuery('.navigation-top').addClass('nav-black').removeClass('nav-transparent');
+                }else{
+                    jQuery('.navigation-top').addClass('nav-transparent').removeClass('nav-black');  
+                }     
+            }
+        }   
+    });
+    
+    
     jQuery(window).resize(checkScreenWidth);
     var noRedirectLinks = [];
     
@@ -278,14 +299,45 @@ jQuery(function() {
             openSubNav(palvelut_link);
         });
         
+        if(domManager.smoytalk_link){
+            jQuery(domManager.smoytalk_link).html('');
+            jQuery(domManager.smoytalk_menu_item).append(domManager.smoytalk_span_wht).append(domManager.smoytalk_span_or);
+            jQuery(domManager.smoytalk_menu_item).css('display', 'inline-block');
+            jQuery(domManager.smoytalk_link).hover(function() {
+                jQuery(domManager.smoytalk_span_or).addClass('visuallyvisible');
+                jQuery(domManager.smoytalk_span_wht).addClass('visuallyhidden');
+
+            }, function() {
+                jQuery(domManager.smoytalk_span_or).removeClass('visuallyvisible');
+                jQuery(domManager.smoytalk_span_wht).removeClass('visuallyhidden');
+            });   
+        }
+        
         if(domManager.english_link){
             jQuery(domManager.english_link).html('');
-            jQuery('#right-menu .english-link').css('display', 'inline-block'); 
+            jQuery(domManager.english_menu_item).append(domManager.english_span_wht).append(domManager.english_span_or);
+            jQuery(domManager.english_menu_item).css('display', 'inline-block');
+            jQuery(domManager.english_link).hover(function() {
+                jQuery(domManager.english_span_or).addClass('visuallyvisible');
+                jQuery(domManager.english_span_wht).addClass('visuallyhidden');
+            }, function() {
+                jQuery(domManager.english_span_or).removeClass('visuallyvisible');
+                jQuery(domManager.english_span_wht).removeClass('visuallyhidden');
+            });
         }
     }else{
         if(domManager.finnish_link){
             jQuery(domManager.finnish_link).html('');
-            jQuery('#right-menu .finnish-link').css('display', 'inline-block'); 
+            jQuery(domManager.finnish_menu_item).append(domManager.finnish_span_wht).append(domManager.finnish_span_or);
+            jQuery(domManager.finnish_menu_item).css('display', 'inline-block');
+            jQuery(domManager.finnish_link).hover(function() {
+                jQuery(domManager.finnish_span_or).addClass('visuallyvisible');
+                jQuery(domManager.finnish_span_wht).addClass('visuallyhidden');
+
+            }, function() {
+                jQuery(domManager.finnish_span_or).removeClass('visuallyvisible');
+                jQuery(domManager.finnish_span_wht).removeClass('visuallyhidden');
+            });
         } 
     }
     
@@ -297,7 +349,7 @@ jQuery(function() {
     }else if (window.location.pathname === '/eng/') {
         let blogi_link = jQuery( "#top-menu a:contains('Blogi')" )[0];
         jQuery(blogi_link).parent().remove();
-        jQuery('#right-menu .smoytalk-link').remove();
+        jQuery('#right-menu .sprite-smoytalk-wht').remove();
         translatedLinkTexts = Array(4);
         translatedLinkTexts[0] = 'References';
         translatedLinkTexts[1] = 'We';
@@ -386,31 +438,19 @@ jQuery(function() {
         }, 1500);
     });
     
-    /*
-    if( window.location.pathname !== '/' ){
-        setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600); 
-    }else{
-        
-        
-        if($document.scrollTop() > 180) { 
-            setTimeout(function(){ 
-                jQuery('.navigation-top').addClass('nav-ready');
-            }, 600);
-        
-        }else{
-            
-            setTimeout(function(){ 
-                jQuery('.navigation-top').addClass('nav-ready nav-hidden');
-            }, 600); 
-               
-        }
-        
-         
-    }
-    */
     
-    jQuery('.navigation-top').addClass('nav-ready nav-black');
-     
+    if( window.location.pathname === '/' ){
+        //setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600);
+        jQuery('.navigation-top').addClass('nav-ready nav-black');
+    }else{
+        if($document.scrollTop() > 180) { 
+            setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600);
+        }else{
+            //setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready nav-hidden') }, 600);
+            setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600);
+        } 
+    }
+    
 });
 
 function openSubNav(link) {

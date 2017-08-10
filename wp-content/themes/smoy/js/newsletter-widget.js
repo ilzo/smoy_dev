@@ -38,9 +38,16 @@ jQuery(window).on('load', function() {
     
     if(jQuery(newsletterSidebar).length && (w > 960)){
         var startScrollPos = $window.scrollTop();
+        
+        if ( window.location.pathname === '/' ){
+            newsletter_detectScrollPos(startScrollPos);
+        }
+        
         $document.bind('scroll.newsletterScrollHandler', function() {
             newsletter_detectScrollPos(startScrollPos);
-        });
+        });                               
+        
+        
         /*
        let textNode = jQuery(newsletterWidgetWrapper)[0].firstChild;
        jQuery(textNode).wrap( '<div class="newsletter-widget-desc"></div>' );
@@ -165,17 +172,21 @@ function newsletter_detectScrollPos (startScrollPos) {
     let documentHeight = $document.height();
     let currentScrollPos = $window.scrollTop();
     let header_height = jQuery('#header-home').height();
-    if ( window.location.pathname === '/' ){
-        if (currentScrollPos - startScrollPos <= header_height ) {
-            setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 500);
-            $document.unbind('scroll.newsletterScrollHandler');
+    if(jQuery(newsletterSidebar).hasClass('hiding')) {
+        if ( window.location.pathname === '/' ){
+            if (currentScrollPos + startScrollPos >= header_height ) {
+                setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 500);
+                $document.unbind('scroll.newsletterScrollHandler');
+                jQuery(newsletterSidebar).removeClass('hiding');
+            }
+        }else{
+            if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + windowHeight >= documentHeight - 580) {
+                setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 6000);
+                $document.unbind('scroll.newsletterScrollHandler');
+                jQuery(newsletterSidebar).removeClass('hiding');
+            }
         }
-    }else{
-        if (currentScrollPos - startScrollPos >= 1200 || startScrollPos - currentScrollPos >= 2200 || currentScrollPos + windowHeight >= documentHeight - 580) {
-            setTimeout(function(){jQuery(newsletterSidebar).animate({ 'right': '+=45px' }, 1200)}, 6000);
-            $document.unbind('scroll.newsletterScrollHandler');
-        }
-    }   
+    }  
 }
 
 function toggleFooterNewsletterBox (newsletterFooter, width) {

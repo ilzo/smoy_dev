@@ -12,10 +12,18 @@
     <?php endif; ?>
     <br/>
     <?php if (!empty($smoy_footer_contact_phone)): ?>
-        <p><?php echo $smoy_footer_contact_phone ?></p>
+        <?php if(is_page('eng')): ?>
+            <p>Tel <?php echo $smoy_footer_contact_phone ?></p>
+        <?php else: ?>
+            <p>Vaihde <?php echo $smoy_footer_contact_phone ?></p>
+        <?php endif; ?>
     <?php endif; ?>
     <?php if (!empty($smoy_footer_contact_email)): ?>
         <p><?php echo $smoy_footer_contact_email ?></p>
     <?php endif; ?>
-    <p>Y-tunnus 0741439-6</p>
+    <?php if(is_page('eng')): ?>
+        <p>VAT 0741439-6</p>
+    <?php else: ?>
+        <p>Y-tunnus 0741439-6</p>
+    <?php endif; ?>
 </div>

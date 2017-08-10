@@ -196,7 +196,8 @@ final class Smoy_Service_Metabox {
     }
 
     public function create_service_meta_boxes() {
-        // http://codex.wordpress.org/Function_Reference/add_meta_box
+        
+        /*
         add_meta_box(
             'service_keywords_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
             __( 'Avainsanoja', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
@@ -205,6 +206,7 @@ final class Smoy_Service_Metabox {
             'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
             'low' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
         );
+        */
         
         add_meta_box(
             'service_color_scheme_meta_box',
@@ -221,7 +223,8 @@ final class Smoy_Service_Metabox {
         
         //add_meta_box('postimagediv', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
     }
-
+    
+    /*
     public function print_service_keywords_meta_box( $post, $metabox ) {
         ?>
             <!-- These hidden fields are a registry of metaboxes that need to be saved if you wanted to output multiple boxes. The current metabox ID is added to the array. -->
@@ -241,6 +244,7 @@ final class Smoy_Service_Metabox {
             
         <?php
     }
+    */
     
     public function print_service_color_scheme_meta_box( $post, $metabox ) {
         ?>
@@ -280,8 +284,9 @@ final class Smoy_Service_Metabox {
         if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
 
         // Determine if the postback contains any metaboxes that need to be saved
-        if(empty( $_POST['service_keywords_meta_box_ids'] ) && empty($_POST['service_color_meta_box_ids']) && empty($_POST['custom_css'])){ return; }
+        if(/*empty( $_POST['service_keywords_meta_box_ids'] ) && */ empty($_POST['service_color_meta_box_ids']) && empty($_POST['custom_css'])){ return; }
 
+        /*
         // Iterate through keywords metabox
         foreach( $_POST['service_keywords_meta_box_ids'] as $metabox_id ){
             // Verify thhe request to update this metabox
@@ -298,6 +303,7 @@ final class Smoy_Service_Metabox {
                 update_post_meta($post_id, $field_id, $_POST[ $field_id ]);
             }
         }
+        */
         
         // Iterate through color scheme metabox
         foreach( $_POST['service_color_meta_box_ids'] as $metabox_id ){
@@ -623,13 +629,12 @@ function smoy_load_dashicons_front_end() {
 }
 
 add_action( 'after_setup_theme', 'smoy_setup' );
-
 add_action( 'wp_enqueue_scripts', 'smoy_styles' );
-
 add_action( 'wp_enqueue_scripts', 'load_scripts' );
-
 add_action( 'wp_enqueue_scripts', 'smoy_load_dashicons_front_end' );
 
+
+/*
 add_action( 'wp_head', 'smoy_service_add_html_meta_tags' , 2 );
 
 function smoy_service_add_html_meta_tags() {
@@ -645,6 +650,57 @@ function smoy_service_add_html_meta_tags() {
             echo '<meta name="keywords" content="' . wp_strip_all_tags($keywords[0]) . '" />' . "\n";
         }
     }
+}
+*/
+
+add_filter('language_attributes', 'add_opengraph_doctype');
+
+function add_opengraph_doctype( $output ) {
+    return $output . 'xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
+}
+
+add_action( 'wp_head', 'smoy_insert_og_tags', 2);
+
+function smoy_insert_og_tags() {
+    if(is_page('uutiskirje')) 
+        return;
+    
+    global $post;
+    $default_image = get_stylesheet_directory_uri() . '/img/logo/mainostoimisto_SMOY_logo_black.png';
+    echo '<meta property="fb:admins" content="334604136630618"/>';
+    if(is_singular()) {
+        if(is_page('eng')){
+            echo '<meta property="og:title" content="Mainostoimisto Smoy Helsinki"/>';
+            echo '<meta property="og:type" content="website"/>';
+            echo '<meta property="og:url" content="' . esc_attr(get_permalink()) . '"/>';
+            echo '<meta property="og:site_name" content="Smoy"/>';
+            echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+        }else{
+            echo '<meta property="og:title" content="' . esc_attr(get_the_title()) . '"/>';
+            echo '<meta property="og:type" content="article"/>';
+            echo '<meta property="og:url" content="' . esc_attr(get_permalink()) . '"/>';
+            echo '<meta property="og:site_name" content="Smoy"/>';
+            if(!has_post_thumbnail( $post->ID )){ 
+                echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+            }else{
+                $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium_large' );
+                if(!empty($thumbnail_src)){
+                    echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+                }else{
+                    $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+                    if(!empty($thumbnail_src)){
+                        echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+                    }
+                }
+            }  
+        }
+    }else{
+        echo '<meta property="og:title" content="Mainostoimisto Smoy Helsinki"/>';
+        echo '<meta property="og:type" content="website"/>';
+        echo '<meta property="og:site_name" content="Smoy"/>';
+        echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+    }
+    
 }
 
 add_filter( 'smoy_get_service_or_blog_post_featured_img_path', 'post_featured_img_path');
@@ -670,8 +726,12 @@ function smoy_upload_post_custom_image_sizes($post_id) {
 		return;
     
 	$type = get_post_type($post_id);
-    $wp_term_obj = get_the_category($post_id)[0];
-    $cat_name = $wp_term_obj->name;
+    $cat_name = '';
+    $wp_term_obj = get_the_category($post_id);
+    if ($wp_term_obj){
+        $cat_name = $wp_term_obj[0]->name;
+    }
+    
     if($type == 'smoy_service' || $cat_name == 'Blogi') {
         $thumb_id = get_post_thumbnail_id($post_id);
         if(!empty($thumb_id)){
@@ -889,10 +949,12 @@ function smoy_modify_single_content($content) {
     
     if ( is_singular('smoy_service')) {
         global $post;
+        /*
         $keywords = get_post_meta($post->ID, 'service_keywords');
         if(!empty($keywords)) {
            $keywordsContainer = '<div class="smoy-service-keywords"><span>Avainsanoja</span> '.wp_strip_all_tags($keywords[0]).'</div>'; 
         }
+        */
         
         $dom = new DOMDocument();
         $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
@@ -911,7 +973,7 @@ function smoy_modify_single_content($content) {
         }
         
         $content = preg_replace('/<p([^>]+)?>/', '<p$1 class="service-lead-paragraph">', $content, 1);
-        $content .= $keywordsContainer;
+        //$content .= $keywordsContainer;
         return $content;
     }else if(is_singular() && in_category('blogi')){
         
@@ -943,36 +1005,25 @@ function smoy_modify_single_content($content) {
 add_filter('the_content', 'smoy_blog_excerpts');
 
 function smoy_blog_excerpts($content = false) {
+    if(is_home()){
         global $post;
         $excerpt_length = 42;
         $double_angle_html = '<div class="read-more-symbol">&#187</div>';    
         $read_more_html = sprintf( '%s', __( 'Lue lisää ', 'smoy' ) .  $double_angle_html);
         if( $post->post_excerpt ) {
-            if(is_home()){
-                $content = get_the_excerpt();
-                function custom_excerpt_length( $length ) {
-                    return 20;
-                }
-                add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
-                
-                function excerpt_readmore($more) {
-                    return '... <a title="' . the_title_attribute('echo=0') . '" href="'. get_permalink($post->ID) . '" class="more-link"><p class="more-text"></p>' . __( $read_more_html, 'smoy' ) . '</a>';
-                }
-                add_filter('excerpt_more', 'excerpt_readmore');   
-            }
+            $content = get_the_excerpt();
         }else{
-            if(is_home()){
-                $content = $post->post_content;
-                $words = explode(' ', $content, $excerpt_length + 1);
-                if(count($words) > $excerpt_length) {
-                    array_pop($words);
-                    $content = implode(' ', $words);
-                }
-                $content = strip_tags($content);
-                $content = '<p class="blog-excerpt-content">' . $content . ' ...</p>';    
-            }  
+            $content = $post->post_content;
         }
-        return $content;
+        $words = explode(' ', $content, $excerpt_length + 1);
+        if(count($words) > $excerpt_length) {
+            array_pop($words);
+            $content = implode(' ', $words);
+        }
+        $content = strip_tags($content);
+        $content = '<p class="blog-excerpt-content">' . $content . ' ...</p>';   
+    }
+    return $content;
 }
 
 function smoy_custom_pagination($numpages = '', $pagerange = '', $paged='') {
@@ -1699,6 +1750,11 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_setting('smoy_footer_contact_email_eng', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
     
     for($i = 1; $i < 6; $i++) {
         
@@ -1716,8 +1772,6 @@ function smoy_customize_register( $wp_customize ) {
         
     }
     
-    
-    
     /*
     $wp_customize->add_setting('smoy_footer_contact_business_id', array(
             'type' => 'theme_mod',
@@ -1725,9 +1779,6 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     */
-    
-    
-    
     
     
     /* ----------------------------------- */
@@ -2428,7 +2479,15 @@ function smoy_customize_register( $wp_customize ) {
     $wp_customize->add_control( 'smoy_footer_contact_email', array(
           'label' => __( 'E-mail', 'smoy'),
           'type' => 'text',
-          'section' => 'smoy_footer_section'
+          'section' => 'smoy_footer_section',
+          'active_callback' => 'is_front_page'
+    ));
+    
+    $wp_customize->add_control( 'smoy_footer_contact_email_eng', array(
+          'label' => __( 'E-mail', 'smoy'),
+          'type' => 'text',
+          'section' => 'smoy_footer_section',
+          'active_callback' => 'smoy_callback_is_eng_page'
     ));
     
     for ($i = 1; $i < 6; $i++) {
@@ -3274,7 +3333,11 @@ function smoy_footer_contact_output() {
     $smoy_footer_contact_street = get_theme_mod('smoy_footer_contact_street');
     $smoy_footer_contact_city = get_theme_mod('smoy_footer_contact_city');
     $smoy_footer_contact_phone = get_theme_mod('smoy_footer_contact_phone');
-    $smoy_footer_contact_email = get_theme_mod('smoy_footer_contact_email');
+    if(is_page('eng')){
+        $smoy_footer_contact_email = get_theme_mod('smoy_footer_contact_email_eng');
+    }else{
+        $smoy_footer_contact_email = get_theme_mod('smoy_footer_contact_email');
+    }
     ob_start();
     require_once(get_template_directory() . '/template-parts/smoy-footer-contact-info.php' );
     $output = ob_get_clean();
