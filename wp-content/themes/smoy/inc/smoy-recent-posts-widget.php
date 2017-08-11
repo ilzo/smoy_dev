@@ -87,7 +87,7 @@ class Smoy_Recent_Posts_Widget extends WP_Widget {
                 <?php endif; ?>  
             </li>
 			<li class="post-link-container">
-                <a href="<?php the_permalink(); ?>"><?php get_the_title() ? the_title() : the_ID(); ?></a>
+                <a href="<?php the_permalink(); ?>"><span class="latest-posts-symbol">&#187</span><?php get_the_title() ? the_title() : the_ID(); ?></a>
 			</li>
 		<?php endwhile; ?>
 		</ul>

@@ -457,7 +457,7 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
     var cloneBoxHeightLarge = (2 * customerBoxHeight) + 2;
     var topAndLeft = gridTracker.getBoxOpenAnimPos(clickedId);
     if(topAndLeft.top !== '' && topAndLeft.left !== ''){
-       customerTween.to(customerCloneContentWrapper, 1.25, {
+       customerTween.to(customerCloneContentWrapper, 0.9, {
             width: cloneBoxWidthLarge,
             height: cloneBoxHeightLarge,
             left: topAndLeft.left,
@@ -467,7 +467,7 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
             ease: Power1.ease0ut
         }).play();
     }else if(topAndLeft.top !== '' && topAndLeft.left === '') {
-        customerTween.to(customerCloneContentWrapper, 1.25, {
+        customerTween.to(customerCloneContentWrapper, 0.9, {
             width: cloneBoxWidthLarge,
             height: cloneBoxHeightLarge,
             top: topAndLeft.top,
@@ -476,7 +476,7 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
             ease: Power1.ease0ut
         }).play(); 
     }else if(topAndLeft.top === '' && topAndLeft.left !== ''){  
-        customerTween.to(customerCloneContentWrapper, 1.25, {
+        customerTween.to(customerCloneContentWrapper, 0.9, {
             width: cloneBoxWidthLarge,
             height: cloneBoxHeightLarge,
             left: topAndLeft.left,
@@ -485,7 +485,7 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
             ease: Power1.ease0ut
         }).play();
     }else{
-        customerTween.to(customerCloneContentWrapper, 1.25, {
+        customerTween.to(customerCloneContentWrapper, 0.9, {
             width: cloneBoxWidthLarge,
             height: cloneBoxHeightLarge,
             backgroundSize: whereToResize,
@@ -495,13 +495,13 @@ function resizeCloneBox(customerCloneContentWrapper, clickedId, customerCloneOve
     }
     jQuery(closeLink).animate({
         opacity: '1',
-    }, 900); 
+    }, 600); 
     jQuery(customerCloneOverlay).animate({
         opacity: '0',
-    }, 625 );
+    }, 900 );
     jQuery(customerCloneLogo).animate({
         opacity: '0',
-    }, 625 );
+    }, 900 );
 }
 
 function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clickedId, customerCloneOverlay, customerCloneLogo, closeLink) {
@@ -513,7 +513,7 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
     var reverseResizeComplete = function(){jQuery(customerCloneContentWrapper).remove()};
     var topAndLeft = gridTracker.getBoxCloseAnimPos(clickedId);
     if(topAndLeft.top !== '' && topAndLeft.left !== ''){
-       customerTween.to(customerCloneContentWrapper, 1.25, {
+       customerTween.to(customerCloneContentWrapper, 0.75, {
             width: toBeResizedWith,
             height: toBeResizedHeight,
             left: topAndLeft.left,
@@ -524,7 +524,7 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
             onComplete: reverseResizeComplete
         }).play();
     }else if(topAndLeft.top !== '' && topAndLeft.left === '') {
-        customerTween.to(customerCloneContentWrapper, 1.25, {
+        customerTween.to(customerCloneContentWrapper, 0.75, {
             width: toBeResizedWith,
             height: toBeResizedHeight,
             top: topAndLeft.top,
@@ -534,7 +534,7 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
             onComplete: reverseResizeComplete
         }).play();
     }else if(topAndLeft.top === '' && topAndLeft.left !== ''){
-        customerTween.to(customerCloneContentWrapper, 1.25, {
+        customerTween.to(customerCloneContentWrapper, 0.75, {
             width: toBeResizedWith,
             height: toBeResizedHeight,
             left: topAndLeft.left,
@@ -544,7 +544,7 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
             onComplete: reverseResizeComplete
         }).play();
     }else{
-        customerTween.to(customerCloneContentWrapper, 1.25, {
+        customerTween.to(customerCloneContentWrapper, 0.75, {
             width: toBeResizedWith,
             height: toBeResizedHeight,
             backgroundSize: originalBgSize,
@@ -562,8 +562,8 @@ function reverseResizeCloneBox(originalBgSize, customerCloneContentWrapper, clic
     }); 
     jQuery(customerCloneOverlay).animate({
                 opacity: '1',
-    }, 625 );
+    }, 750 );
     jQuery(customerCloneLogo).animate({
                 opacity: '1',
-    }, 625 );
+    }, 750 );
 }

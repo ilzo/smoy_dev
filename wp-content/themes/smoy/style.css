@@ -1847,26 +1847,57 @@ aside#primary-sidebar {
     text-transform: capitalize;
 }
 
-#primary-sidebar ul li.post-link-container {
+#primary-sidebar ul .post-link-container {
+    display: block;
+    position: relative;
     font-family: 'CaeciliaLTStdLight', Fallback, sans-serif;
     color: #ff8100;
-    text-indent: -1.35em;
+    /*text-indent: -1.35em;*/
     font-weight: 600;
     margin-bottom: 0.85em;
 }
 
+/*
 #primary-sidebar ul li.post-link-container:before {
     content: "»";
     padding-right: 0.65em;
 }
+*/
+
+#primary-sidebar ul .post-link-container a .latest-posts-symbol {
+    display: block;
+    position: absolute;
+    top: -2px;
+    left: -20px;
+    -webkit-transition: all 0.18s ease-out 0s;
+    -moz-transition: all 0.18s ease-out 0s;
+    -ms-transition: all 0.18s ease-out 0s;
+    -o-transition: all 0.18s ease-out 0s;
+    transition: all 0.18s ease-out 0s;
+}
 
 #primary-sidebar ul li a {
+    display: block;
     font-family: 'CaeciliaLTStdLight', Fallback, sans-serif;
     color: #ff8100;
     font-size: 11pt;
     text-decoration: none;
     font-weight: 600;
+    -webkit-transition: color 0.18s ease-out 0s;
+    -moz-transition: color 0.18s ease-out 0s;
+    -ms-transition: color 0.18s ease-out 0s;
+    -o-transition: color 0.18s ease-out 0s;
+    transition: color 0.18s ease-out 0s;
     
+}
+
+#primary-sidebar ul .post-link-container a:hover { 
+    color: black;
+}
+
+#primary-sidebar ul .post-link-container a:hover .latest-posts-symbol {
+    color: #ff8100;
+    left: -15px;
 }
 
 .single-navigation {
@@ -1912,7 +1943,7 @@ aside#primary-sidebar {
     */
     display: inline-block;
     color: #ff8100;
-    font-size: 26pt;
+    font-size: 24pt;
     margin-top: -2px;
     vertical-align: middle;
     font-weight: 400;
@@ -1920,7 +1951,7 @@ aside#primary-sidebar {
 
 @-moz-document url-prefix() {
     .single-navigation span {
-        margin-top: -4px;
+        margin-top: -6px;
     }
 }
 
@@ -3956,22 +3987,41 @@ div.customer-stretchy-wrapper {
         max-width: 100%;
     }
     
+    /*
     #primary-sidebar ul li.post-link-container:before {
         padding-right: 0.38em;
         font-size: 17pt;
     }
+    */
+    
+    
+    
+    /*
+    #primary-sidebar ul li.post-link-container:hover .latest-posts-symbol {
+        left: -19px;
+    }
+    */
     
     #primary-sidebar ul span.post-date {
         font-size: 12.25pt;
     }
     
-    #primary-sidebar ul li.post-link-container {
-        text-indent: -1.5em;
+    #primary-sidebar ul .post-link-container {
+        display: inline-block;
         margin-bottom: 1.5em;
     }
     
-    #primary-sidebar ul li a {
+    #primary-sidebar ul .post-link-container a .latest-posts-symbol {
         font-size: 15pt;
+        left: -24px;  
+    }
+    
+    #primary-sidebar ul .post-link-container a:hover .latest-posts-symbol {
+        left: -19px;
+    }
+    
+    #primary-sidebar ul li a {
+        font-size: 13.75pt;
     }
     
     .single-navigation {
@@ -3994,6 +4044,11 @@ div.customer-stretchy-wrapper {
     .single-navigation span {
         font-size: 34pt;
         margin-top: -6px;
+    }
+    
+    .single-previous a:after,  
+    .single-next a:after{
+        bottom: 9px;
     }
     
     /*
@@ -5326,6 +5381,11 @@ div.customer-stretchy-wrapper {
         margin-top: -3px;
     }
     
+    .single-previous a:after,  
+    .single-next a:after{
+        bottom: 6px;
+    }
+    
     @-moz-document url-prefix() {
         .single-navigation span {
             margin-top: -4px;
@@ -5681,9 +5741,21 @@ div.customer-stretchy-wrapper {
         font-size: 11pt;
     }
     
+    #primary-sidebar ul .post-link-container a .latest-posts-symbol {
+        font-size: 13pt;
+        top: -3px;
+        left: -18px;
+    }
+    
+    #primary-sidebar ul .post-link-container a:hover .latest-posts-symbol {
+        left: -14px;
+    }
+    
+    /*
     #primary-sidebar ul li.post-link-container:before {
         font-size: 15pt;
     }
+    */
     
     #primary-sidebar ul span.post-date {
         font-size: 10pt;
