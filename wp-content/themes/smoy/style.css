@@ -48,7 +48,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 	height: auto;
 }
 
-
 html {
     position:relative;
     overflow-y: scroll;
@@ -59,6 +58,10 @@ body {
     position:relative;
     padding:0; 
     margin:0; 
+}
+
+svg {
+  pointer-events: none;
 }
 
 .page-wrapper {
@@ -108,6 +111,7 @@ body {
 }
 
 #header-home {
+    position: relative;
     background: url(./img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg);
     background-position: 50% 50% !important;
 }
@@ -129,16 +133,23 @@ body {
     transform: translateY(-35%);
 }
 
-#home-page-header-down-arrow {
+#header-down-arrow-wrapper {
     position: absolute;
     display: block;
     top: 88vh;
+    width: 64px;
+    height: 64px;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     cursor: pointer;
 }
+
+/*
+#header-down-arrow {
+    margin: auto;
+}
+*/
 
 #header-logo-container {
     margin: 0;
@@ -5714,8 +5725,11 @@ div.customer-stretchy-wrapper {
         left: 6px;
     }
     
-    #home-page-header-down-arrow {
+    #header-down-arrow-wrapper {
         top: 80vh !important;
+    }
+    
+    #header-down-arrow-wrapper, #header-down-arrow  {
         width: 32px !important;
         height: 32px !important;
     }
@@ -6072,8 +6086,12 @@ div.customer-stretchy-wrapper {
 
 
 @media screen and (max-height: 560px) { 
-    #home-page-header-down-arrow {
+    
+    #header-down-arrow-wrapper {
         top: 83vh;
+    }
+    
+    #header-down-arrow-wrapper, #header-down-arrow {
         width: 48px;
         height: 48px;
     }

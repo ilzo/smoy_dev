@@ -13,15 +13,5 @@
 </footer>
 </div>  <!-- END OF PAGE-WRAPPER-MESSAGE -->
 <?php wp_footer(); ?>
-<script type="text/javascript"> 
-var w = window.innerWidth
-|| document.documentElement.clientWidth
-|| document.body.clientWidth;
-var h = window.innerHeight
-|| document.documentElement.clientHeight
-|| document.body.clientHeight;
-jQuery(function() {});
-    
-</script>
 </body>
 </html>

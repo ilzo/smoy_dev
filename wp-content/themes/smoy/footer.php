@@ -34,22 +34,23 @@
 </div>  <!-- END OF PAGE WRAPPER -->
 <?php wp_footer(); ?>
 <script type="text/javascript">
-var $document = jQuery(document);
-var $window = jQuery(window);    
-var socialWidgetSidebar;
-var newsletterSidebar;
-var overlayHoles = document.getElementsByClassName('overlay-hole');
-var serviceClass = ''; 
-var w = window.innerWidth
-|| document.documentElement.clientWidth
-|| document.body.clientWidth;
-/*
-var h = window.innerHeight
-|| document.documentElement.clientHeight
-|| document.body.clientHeight;
-*/
-    
 jQuery(function() {
+    var socialWidgetSidebar;
+    var newsletterSidebar;
+    var serviceClass = '';
+    var overlayHoles = document.getElementsByClassName('overlay-hole');
+    var w = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    /*
+    var h = window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+    */
+    var $document = jQuery(document);
+    var $root = jQuery('html, body');
+    var $window = jQuery(window);
+    
     if(window.location.pathname === '/eng/') { 
         serviceClass = 'service-box-eng';
     }else if(window.location.pathname === '/') {
@@ -66,7 +67,6 @@ jQuery(function() {
     
     socialWidgetSidebar = jQuery('#social-sidebar');
     newsletterSidebar = jQuery('#newsletter-sidebar');
-    
     
     if(jQuery(socialWidgetSidebar).length){
         $document.bind('scroll', function() {
@@ -89,153 +89,149 @@ jQuery(function() {
         || document.body.clientHeight;
         */
         checkWidth(w);
-
     }
     
     /*
-    
     jQuery('.hover').bind('touchstart', function(e) {
         //e.preventDefault();
         jQuery(this).toggleClass('hover_effect');
     });
     */
-     
-});
     
-function social_sidebar_detectScrollPos() {
-    let currentScrollPos = $window.scrollTop();
-    let windowHeight = $window.height();
-    let documentHeight = $document.height();
-    if (currentScrollPos + windowHeight >= documentHeight - 380 || currentScrollPos < 300) {
-        if (!socialWidgetSidebar.hasClass('hidden')) {
-            socialWidgetSidebar.addClass('visuallyhidden');
-            socialWidgetSidebar.one('transitionend', function(e) {
-              socialWidgetSidebar.addClass('hidden');
-            });
-          }
-    }else{
-        if (socialWidgetSidebar.hasClass('hidden')) {
-            socialWidgetSidebar.removeClass('hidden');
-            setTimeout(function () {
-              socialWidgetSidebar.removeClass('visuallyhidden');
-            }, 20);
-        
-        }
-    }   
-}
-    
- 
-function delayedReplace(){
-    jQuery('.wpcf7-form div.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
-}
-
-function checkWidth(w) {
-    
-    
-    let thisTranslateValues;
-    let thisLeftTranslateValue;
-    let thisTopTranslateValue;
-    let mustChangeIntParse = 0;
-    
-    if(w > 1680) {
-        if(jQuery('.about-mask').hasClass('middle')){ 
-            jQuery('.about-mask').addClass('right').removeClass('middle');
-            changeOverlayHoleLeftTrans (250);
-        }else if(jQuery('.about-mask').hasClass('left')){
-            jQuery('.about-mask').addClass('right').removeClass('left');
-            changeOverlayHoleLeftTrans (500);
-        }
-        
-    }else if(w > 1400 && w <= 1680){
-        if(jQuery('.about-mask').hasClass('right')){ 
-            jQuery('.about-mask').addClass('middle').removeClass('right');
-            changeOverlayHoleLeftTrans (-250);
-        }else if(jQuery('.about-mask').hasClass('left')){
-            jQuery('.about-mask').addClass('middle').removeClass('left');
-            changeOverlayHoleLeftTrans (250);
-                 
-        }
-        
-    }else if(w <= 1400){
-        if(jQuery('.about-mask').hasClass('middle')){ 
-            jQuery('.about-mask').addClass('left').removeClass('middle');
-            changeOverlayHoleLeftTrans (-250);
-        }else if(jQuery('.about-mask').hasClass('right')){
-            jQuery('.about-mask').addClass('left').removeClass('right');
-            changeOverlayHoleLeftTrans (-500);
-        }
+    var down_arrow_wrapper = jQuery('#header-down-arrow-wrapper');
+    if(jQuery(down_arrow_wrapper).length > 0) {
+        jQuery(down_arrow_wrapper).click(function() {
+            $root.animate({
+                scrollTop: jQuery("#about-us").offset().top
+            }, 1000);
+        });
     }
     
-    if(w <= 960) {
-        if(newsletterSidebar) {
-            if(jQuery(newsletterSidebar).is(':visible')) {  
-              jQuery(newsletterSidebar).hide();
-            }
-        }
-        
-        for(let i = 1; i < 7; i++) {
-            let thisService = jQuery('#service-'+i);
-            let thisServiceTitle = jQuery('#service-'+i+' .service-title');
-            let thisServiceTitleMobile = jQuery('#service-'+i+' .service-title-mobile');
-            if(thisService.hasClass(serviceClass)){
-                thisService.removeClass(serviceClass);
-            }
-            thisService.addClass('service-box-mobile');
-            
-            if(thisServiceTitleMobile.length > 0) {
-                thisServiceTitle.css('display', 'none');
-                thisServiceTitleMobile.css('display', 'block');
-            }
-               
-        }
-        
-        jQuery('#services-wrapper').css('display', 'block');
-        
-    }else if(w > 960){
-        if(newsletterSidebar) {
-           if(!jQuery(newsletterSidebar).is(':visible')) { 
-              jQuery(newsletterSidebar).show();
-            }
-        }
-        
-        for(let i = 1; i < 7; i++) {
-            let thisService = jQuery('#service-'+i);
-            let thisServiceTitle = jQuery('#service-'+i+' .service-title');
-            let thisServiceTitleMobile = jQuery('#service-'+i+' .service-title-mobile');
-            let thisServiceContent = jQuery('#service-'+i+' .service-content');
-            if(thisService.hasClass('service-box-mobile')){
-                thisService.removeClass('service-box-mobile');
-            }
-            thisService.addClass(serviceClass);
-            if(jQuery('#service-'+i+' .service-title-mobile').length > 0) {
-                jQuery('#service-'+i+' .service-title-mobile').css('display', 'none');
-                jQuery('#service-'+i+' .service-title').css('display', 'block');
-            }
-            
-        }
-        
-        jQuery('#services-wrapper').css('display', 'block');
-    }
-    
-}
-    
-function changeOverlayHoleLeftTrans(amount) {
-    for(var i = 0; i < overlayHoles.length; i++){
-        thisTranslateValues = overlayHoles[i].getAttribute('transform').replace(/[^\/\d]/g,'');
-        if(thisTranslateValues.length > 6){
-            thisLeftTranslateValue = parseInt(thisTranslateValues.substring(0, 4));
-            thisTopTranslateValue = thisTranslateValues.substring(4, 7);
+   function social_sidebar_detectScrollPos() {
+        var currentScrollPos = $window.scrollTop();
+        var windowHeight = $window.height();
+        var documentHeight = $document.height();
+        if (currentScrollPos + windowHeight >= documentHeight - 380 || currentScrollPos < 300) {
+            if (!socialWidgetSidebar.hasClass('hidden')) {
+                socialWidgetSidebar.addClass('visuallyhidden');
+                socialWidgetSidebar.one('transitionend', function(e) {
+                  socialWidgetSidebar.addClass('hidden');
+                });
+              }
         }else{
-            thisLeftTranslateValue = parseInt(thisTranslateValues.substring(0, 3));
-            thisTopTranslateValue = thisTranslateValues.substring(3, 6);
-        }
-        
-        thisLeftTranslateValue += amount;
-        thisLeftTranslateValue = String(thisLeftTranslateValue);
-        overlayHoles[i].setAttribute('transform', 'translate('+thisLeftTranslateValue+','+thisTopTranslateValue+')');        
+            if (socialWidgetSidebar.hasClass('hidden')) {
+                socialWidgetSidebar.removeClass('hidden');
+                setTimeout(function () {
+                  socialWidgetSidebar.removeClass('visuallyhidden');
+                }, 20);
+
+            }
+        }   
     }
-}
-   
+
+    function delayedReplace(){
+        jQuery('.wpcf7-form div.ajax-loader').replaceWith('<div class="ajax-loader">Loading...</div>');
+    }
+
+    function checkWidth(w) {
+        var thisTranslateValues;
+        var thisLeftTranslateValue;
+        var thisTopTranslateValue;
+        var mustChangeIntParse = 0;
+        if(w > 1680) {
+            if(jQuery('.about-mask').hasClass('middle')){ 
+                jQuery('.about-mask').addClass('right').removeClass('middle');
+                changeOverlayHoleLeftTrans (250);
+            }else if(jQuery('.about-mask').hasClass('left')){
+                jQuery('.about-mask').addClass('right').removeClass('left');
+                changeOverlayHoleLeftTrans (500);
+            }
+
+        }else if(w > 1400 && w <= 1680){
+            if(jQuery('.about-mask').hasClass('right')){ 
+                jQuery('.about-mask').addClass('middle').removeClass('right');
+                changeOverlayHoleLeftTrans (-250);
+            }else if(jQuery('.about-mask').hasClass('left')){
+                jQuery('.about-mask').addClass('middle').removeClass('left');
+                changeOverlayHoleLeftTrans (250);
+            }
+
+        }else if(w <= 1400){
+            if(jQuery('.about-mask').hasClass('middle')){ 
+                jQuery('.about-mask').addClass('left').removeClass('middle');
+                changeOverlayHoleLeftTrans (-250);
+            }else if(jQuery('.about-mask').hasClass('right')){
+                jQuery('.about-mask').addClass('left').removeClass('right');
+                changeOverlayHoleLeftTrans (-500);
+            }
+        }
+
+        if(w <= 960) {
+            if(newsletterSidebar) {
+                if(jQuery(newsletterSidebar).is(':visible')) {  
+                  jQuery(newsletterSidebar).hide();
+                }
+            }
+
+            for(var i = 1; i < 7; i++) {
+                var thisService = jQuery('#service-'+i);
+                var thisServiceTitle = jQuery('#service-'+i+' .service-title');
+                var thisServiceTitleMobile = jQuery('#service-'+i+' .service-title-mobile');
+                if(thisService.hasClass(serviceClass)){
+                    thisService.removeClass(serviceClass);
+                }
+                thisService.addClass('service-box-mobile');
+
+                if(thisServiceTitleMobile.length > 0) {
+                    thisServiceTitle.css('display', 'none');
+                    thisServiceTitleMobile.css('display', 'block');
+                }     
+            }
+            jQuery('#services-wrapper').css('display', 'block');
+
+        }else if(w > 960){
+            if(newsletterSidebar) {
+               if(!jQuery(newsletterSidebar).is(':visible')) { 
+                  jQuery(newsletterSidebar).show();
+                }
+            }
+
+            for(var i = 1; i < 7; i++) {
+                var thisService = jQuery('#service-'+i);
+                var thisServiceTitle = jQuery('#service-'+i+' .service-title');
+                var thisServiceTitleMobile = jQuery('#service-'+i+' .service-title-mobile');
+                var thisServiceContent = jQuery('#service-'+i+' .service-content');
+                if(thisService.hasClass('service-box-mobile')){
+                    thisService.removeClass('service-box-mobile');
+                }
+                thisService.addClass(serviceClass);
+                if(jQuery('#service-'+i+' .service-title-mobile').length > 0) {
+                    jQuery('#service-'+i+' .service-title-mobile').css('display', 'none');
+                    jQuery('#service-'+i+' .service-title').css('display', 'block');
+                }
+            } 
+            jQuery('#services-wrapper').css('display', 'block');
+        }
+    }
+
+    function changeOverlayHoleLeftTrans(amount) {
+        for(var i = 0; i < overlayHoles.length; i++){
+            thisTranslateValues = overlayHoles[i].getAttribute('transform').replace(/[^\/\d]/g,'');
+            if(thisTranslateValues.length > 6){
+                thisLeftTranslateValue = parseInt(thisTranslateValues.substring(0, 4));
+                thisTopTranslateValue = thisTranslateValues.substring(4, 7);
+            }else{
+                thisLeftTranslateValue = parseInt(thisTranslateValues.substring(0, 3));
+                thisTopTranslateValue = thisTranslateValues.substring(3, 6);
+            }
+
+            thisLeftTranslateValue += amount;
+            thisLeftTranslateValue = String(thisLeftTranslateValue);
+            overlayHoles[i].setAttribute('transform', 'translate('+thisLeftTranslateValue+','+thisTopTranslateValue+')');        
+        }
+    } 
+      
+});
 </script>
 </body>
 </html>    

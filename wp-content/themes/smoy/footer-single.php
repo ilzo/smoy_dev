@@ -25,15 +25,15 @@
 </div>  <!-- END OF PAGE-WRAPPER-SINGLE -->
 <?php wp_footer(); ?>
 <script type="text/javascript">
-var $document = jQuery(document);
-var $window = jQuery(window);
-var w = window.innerWidth
-|| document.documentElement.clientWidth
-|| document.body.clientWidth;
-var h = window.innerHeight
-|| document.documentElement.clientHeight
-|| document.body.clientHeight;
 jQuery(function() {
+    var w = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    var h = window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+    var $document = jQuery(document);
+    var $window = jQuery(window);
     var addToAnyContainer = jQuery('.addtoany_share_save_container')[0];
     var sourcesElem = jQuery( "p:contains('Lähteet')" ).last()[0];
     if(typeof sourcesElem !== "undefined" && typeof addToAnyContainer !== "undefined"){
@@ -57,30 +57,29 @@ jQuery(function() {
             social_sidebar_detectScrollPos();
         });
     }
-});
     
-function social_sidebar_detectScrollPos() {
-    let currentScrollPos = $window.scrollTop();
-    let windowHeight = $window.height();
-    let documentHeight = $document.height();
-    if (currentScrollPos + windowHeight >= documentHeight - 380) {
-        if (!socialWidgetSidebar.hasClass('hidden')) {
-            socialWidgetSidebar.addClass('visuallyhidden');
-            socialWidgetSidebar.one('transitionend', function(e) {
-              socialWidgetSidebar.addClass('hidden');
-            });
-          }
-    }else{
-        if (socialWidgetSidebar.hasClass('hidden')) {
-            socialWidgetSidebar.removeClass('hidden');
-            setTimeout(function () {
-              socialWidgetSidebar.removeClass('visuallyhidden');
-            }, 20);
-        
-        }
+    function social_sidebar_detectScrollPos() {
+        var currentScrollPos = $window.scrollTop();
+        var windowHeight = $window.height();
+        var documentHeight = $document.height();
+        if (currentScrollPos + windowHeight >= documentHeight - 380) {
+            if (!socialWidgetSidebar.hasClass('hidden')) {
+                socialWidgetSidebar.addClass('visuallyhidden');
+                socialWidgetSidebar.one('transitionend', function(e) {
+                  socialWidgetSidebar.addClass('hidden');
+                });
+              }
+        }else{
+            if (socialWidgetSidebar.hasClass('hidden')) {
+                socialWidgetSidebar.removeClass('hidden');
+                setTimeout(function () {
+                  socialWidgetSidebar.removeClass('visuallyhidden');
+                }, 20);
+
+            }
+        }   
     }   
-}    
-    
+}); 
 </script>
 </body>
 </html>
