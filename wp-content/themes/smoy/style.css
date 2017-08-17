@@ -84,7 +84,7 @@ svg {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .visuallyhidden {
@@ -728,7 +728,7 @@ button {
 #newsletter-sidebar {
     position: fixed;
     height: 100%;
-    width: auto;
+    width: 373px;
     top: 0;
     right: -373px;
     z-index: 3;

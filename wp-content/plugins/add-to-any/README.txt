@@ -3,7 +3,7 @@ Contributors: micropat, addtoany
 Tags: AddToAny, share, sharing, social, share buttons, share button, social media, media, marketing, links, email, seo, woocommerce, google, linkedin, reddit, facebook, like, twitter, pinterest, whatsapp, instagram, youtube, share this, sharethis, feed, icons
 Requires at least: 3.7
 Tested up to: 4.8
-Stable tag: 1.7.14
+Stable tag: 1.7.16
 
 Share buttons for WordPress including the AddToAny sharing button, Facebook, Twitter, Google+, Pinterest, WhatsApp, many more, and follow icons too.
 
@@ -187,7 +187,7 @@ To hardcode the shared current URL and modify the title (server-side):
 `<?php if ( function_exists( 'ADDTOANY_SHARE_SAVE_KIT' ) ) { 
 	ADDTOANY_SHARE_SAVE_KIT( array( 
 		'linkname' => is_home() ? get_bloginfo( 'description' ) : wp_title( '', false ),
-		'linkurl'  => esc_url_raw( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ),
+		'linkurl'  => esc_url_raw( home_url( $_SERVER['REQUEST_URI'] ) ),
 	) );
 } ?>`
 
@@ -348,6 +348,14 @@ Upload (or move) the `add-to-any` plugin directory into the `/wp-content/mu-plug
 5. Settings for Floating Share Bars
 
 == Changelog ==
+
+= 1.7.16 =
+* Set the CSS enqueue priority to `20` to load after most theme stylesheets
+ * Resolves lines under buttons (`box-shadow`) caused by CSS such as the default Twenty Seventeen theme's stylesheet
+
+= 1.7.15 =
+* Use the `wp_enqueue_scripts` action hook instead of `wp_print_styles` for the plugin's stylesheet
+* Use the `home_url()` instead of the `Host` header when generating the current URL to be shared (thanks Paul)
 
 = 1.7.14 =
 * Fix the standard placement option for WooCommerce Product types

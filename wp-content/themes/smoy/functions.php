@@ -8,6 +8,8 @@ if (!is_admin() && !current_user_can( 'manage_options' ) && MAINTENANCE) { //env
     }
 }
 
+add_action( 'after_setup_theme', 'smoy_setup' );
+
 function smoy_setup() {
 	
 	/*
@@ -82,6 +84,61 @@ function smoy_setup() {
          
 }
 
+add_action('init', 'smoy_custom_post_types_init');
+
+function smoy_custom_post_types_init() {
+    register_post_type( 'smoy_service', array(
+        'labels' => array(
+            'name' => _x('Palvelut', 'post type general name'),
+            'singular_name' => _x('Palvelu', 'post type singular name'),
+            'add_new_item' => _x( 'Lisää uusi palvelu', 'smoy' ),
+            'set_featured_image' => _x('Aseta pääkuva', 'smoy')
+        ),
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'menu_position' => null,
+        'menu_icon' => 'dashicons-store',
+        'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
+        'rewrite' => array(
+            'slug' => 'palvelut',
+            'with_front' => false
+        )
+    ));
+    
+    register_post_type( 'smoy_person', array(
+        'labels' => array(
+            'name' => _x('Henkilöstö', 'post type general name'),
+            'singular_name' => _x('Henkilö', 'post type singular name'),
+            'add_new_item' => _x( 'Lisää uusi henkilö', 'smoy' ),
+            'set_featured_image' => _x('Aseta henkilökuva', 'smoy')
+        ),
+        'public' => false,
+        'publicly_queryable' => false,
+        'exclude_from_search' => true,
+        'show_ui' => true,
+        'query_var' => false,
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'menu_position' => null,
+        'menu_icon' => 'dashicons-groups',
+        'supports' => array('title', 'thumbnail'),
+        'rewrite' => false
+    ));
+}
+
+add_action( 'after_switch_theme', 'smoy_rewrite_flush' );
+
+function smoy_rewrite_flush() {
+    smoy_custom_post_types_init();
+    flush_rewrite_rules();
+}
+
+/*
+
 add_action('init', 'smoy_services');
 
 function smoy_services() {
@@ -144,7 +201,7 @@ function smoy_people() {
     flush_rewrite_rules();
 }
 
-
+*/
 
 /*
 add_action('do_meta_boxes', 'smoy_move_person_image_meta_box');
@@ -628,7 +685,6 @@ function smoy_load_dashicons_front_end() {
     wp_enqueue_style( 'dashicons' );
 }
 
-add_action( 'after_setup_theme', 'smoy_setup' );
 add_action( 'wp_enqueue_scripts', 'smoy_styles' );
 add_action( 'wp_enqueue_scripts', 'load_scripts' );
 add_action( 'wp_enqueue_scripts', 'smoy_load_dashicons_front_end' );

@@ -12,6 +12,8 @@ jQuery(window).on('load', function() {
     var newsletterBottomValues = ['27px', '16px', '50px', '50px', '90px', '20px', '35px', '20px', '38px', '95px', '124px'];
     var newsLetterTransitionValues = ['315', '315', '397', '396', '343', '335', '335', '315', '292', '241', '214'];
     var newsletterSidebar = jQuery('#newsletter-sidebar');
+    //var newsletterSidebar = document.getElementById('newsletter-sidebar');
+    
     var newsletterFooter = document.getElementById('newsletter-footer');
     var newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
     var w = Math.max( $window.width(), window.innerWidth);
@@ -33,12 +35,12 @@ jQuery(window).on('load', function() {
         
        jQuery( '.newsletter-widget-container' ).click(function(e) {
             e.stopPropagation();
-            openNewsletterBox(newsletterSidebar);
+            openNewsletterBox();
         });
 
         jQuery('#newsletter-box-close').click(function(e) {
             e.stopPropagation();
-            closeNewsletterBox(newsletterSidebar);
+            closeNewsletterBox();
         });
            
     }
@@ -63,19 +65,22 @@ jQuery(window).on('load', function() {
       toggleFooterNewsletterBox (newsletterFooter, viewportWidth);
     });
     
-    var viewportWidth = Math.max( $window.width(), window.innerWidth);
+    var viewportWidth = Math.max($window.width(), window.innerWidth);
     var timeOutVar;
     $window.resize(function() {
-       var currentWidth = Math.max( $window.width(), window.innerWidth);
+       var currentWidth = Math.max($window.width(), window.innerWidth);
        if(currentWidth !== viewportWidth){
             viewportWidth = currentWidth;
-            hideFooterNewsletterBox(newsletterFooter, viewportWidth);
+            initNewsletterSidebar();
+            hideFooterNewsletterBox(newsletterFooter);
             clearTimeout(timeOutVar);
             timeOutVar = setTimeout(function(){
+                showNewsletterBox();
                 initNewsletterFooterBottomValue(newsletterFooter, viewportWidth);
                 if(jQuery(newsletterFooter).is(':hidden')){
                     jQuery(newsletterFooter).show();
                 }
+                //newsletter_detectScrollPos (startScrollPos);
             }, 380);  
        }
     });
@@ -130,14 +135,16 @@ jQuery(window).on('load', function() {
         }, false);
     }
     
-    function openNewsletterBox(newsletterSidebar) {
+    showNewsletterBox();
+    
+    function openNewsletterBox() {
         if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
             jQuery(newsletterSidebar).animate({ 'right': '+=328px' }, 850);
             jQuery(newsletterSidebar).addClass('newsletter-box-opened'); 
         }   
     }    
 
-    function closeNewsletterBox(newsletterSidebar) {
+    function closeNewsletterBox() {
         if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
             jQuery(newsletterSidebar[0]).removeClass('newsletter-box-opened');
             jQuery(newsletterSidebar).animate({ 'right': '-=328px' }, 850);
@@ -165,6 +172,29 @@ jQuery(window).on('load', function() {
             }
         }  
     }
+    
+    function showNewsletterBox () {
+        if(jQuery(newsletterSidebar[0]).hasClass('hidden')) {
+            jQuery(newsletterSidebar[0]).removeClass('hidden'); 
+        }   
+    }
+    
+    function initNewsletterSidebar () {
+        if(!jQuery(newsletterSidebar[0]).hasClass('hidden') && !jQuery(newsletterSidebar[0]).hasClass('hiding')) {
+            //jQuery(newsletterSidebar[0]).addClass('hidden');
+            if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
+                jQuery(newsletterSidebar[0]).removeClass('newsletter-box-opened');
+                jQuery(newsletterSidebar).animate({ 'right': '-=373px' }, 0);
+            }else{
+                jQuery(newsletterSidebar).animate({ 'right': '-=45px' }, 0);
+            }
+            jQuery(newsletterSidebar[0]).addClass('hidden hiding');
+            //startScrollPos = $window.scrollTop();
+            $document.bind('scroll.newsletterScrollHandler', function() {
+                newsletter_detectScrollPos(startScrollPos);
+            });
+        }
+    }
 
     function toggleFooterNewsletterBox (newsletterFooter, width) {
         var transVal = getTransitionValue(width);
@@ -177,9 +207,8 @@ jQuery(window).on('load', function() {
         }
 
     }
-
-    function hideFooterNewsletterBox (newsletterFooter, width) {
-        var transVal = getTransitionValue(width);
+    
+    function hideFooterNewsletterBox (newsletterFooter) {
         if(jQuery('#newsletter-button, #newsletter-button-mobile').hasClass('active-button')){
            jQuery('#newsletter-button, #newsletter-button-mobile').removeClass( 'active-button' );
         }
@@ -190,7 +219,6 @@ jQuery(window).on('load', function() {
         if(jQuery(newsletterFooter).is(':visible')){
            jQuery(newsletterFooter).hide();
         }
-
     }
 
     function getTransitionValue (width) {
