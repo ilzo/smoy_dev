@@ -1,19 +1,10 @@
 jQuery(window).on('load', function() {
     var $document = jQuery(document);
     var $window = jQuery(window);
-    /*
-    var newsletterBottomValues = ['47px', '36px', '51px', '83px', '120px', '20px', '35px', '20px', '38px', '102px', '149px'];
-    var newsLetterTransitionValues = ['295', '296', '397', '396', '343', '335', '335', '300', '292', '248', '219'];
-    */
-    /*
-    var newsletterBottomValues = ['27px', '16px', '51px', '83px', '120px', '20px', '35px', '20px', '38px', '102px', '149px'];
-    var newsLetterTransitionValues = ['315', '315', '397', '396', '343', '335', '335', '300', '292', '248', '219'];
-    */
-    var newsletterBottomValues = ['27px', '16px', '50px', '50px', '90px', '20px', '35px', '20px', '38px', '95px', '124px'];
-    var newsLetterTransitionValues = ['315', '315', '397', '396', '343', '335', '335', '315', '292', '241', '214'];
     var newsletterSidebar = jQuery('#newsletter-sidebar');
     //var newsletterSidebar = document.getElementById('newsletter-sidebar');
-    
+    var footer = document.getElementById('footer');
+    var footerHeight = window.getComputedStyle(footer).getPropertyValue('height');
     var newsletterFooter = document.getElementById('newsletter-footer');
     var newsletterWidgetWrapper = jQuery('.newsletter-widget-wrapper');
     var w = Math.max( $window.width(), window.innerWidth);
@@ -42,6 +33,10 @@ jQuery(window).on('load', function() {
             e.stopPropagation();
             closeNewsletterBox();
         });
+        
+        if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
+            jQuery(newsletterSidebar[0]).addClass('newsletter-box-hover');
+        }
            
     }
     /*
@@ -50,7 +45,7 @@ jQuery(window).on('load', function() {
     */
     
     jQuery( '#newsletter-button, #newsletter-button-mobile, #footer-newsletter-box-close' ).click(function() {
-      let viewportWidth = Math.max( $window.width(), window.innerWidth);
+      var viewportWidth = Math.max( $window.width(), window.innerWidth);
       jQuery('#newsletter-button, #newsletter-button-mobile').toggleClass( 'active-button' );
       if(this.id === 'newsletter-button' || this.id === 'newsletter-button-mobile') {
          if(!jQuery(newsletterSidebar).hasClass('newsletter-sidebar-disabled')){
@@ -68,6 +63,7 @@ jQuery(window).on('load', function() {
     var viewportWidth = Math.max($window.width(), window.innerWidth);
     var timeOutVar;
     $window.resize(function() {
+       footerHeight = window.getComputedStyle(footer).getPropertyValue('height');
        var currentWidth = Math.max($window.width(), window.innerWidth);
        if(currentWidth !== viewportWidth){
             viewportWidth = currentWidth;
@@ -76,11 +72,10 @@ jQuery(window).on('load', function() {
             clearTimeout(timeOutVar);
             timeOutVar = setTimeout(function(){
                 showNewsletterBox();
-                initNewsletterFooterBottomValue(newsletterFooter, viewportWidth);
+                initNewsletterFooter(viewportWidth);
                 if(jQuery(newsletterFooter).is(':hidden')){
                     jQuery(newsletterFooter).show();
                 }
-                //newsletter_detectScrollPos (startScrollPos);
             }, 380);  
        }
     });
@@ -135,10 +130,12 @@ jQuery(window).on('load', function() {
         }, false);
     }
     
+    initNewsletterFooter(viewportWidth);
     showNewsletterBox();
     
     function openNewsletterBox() {
         if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
+            jQuery(newsletterSidebar).removeClass('newsletter-box-hover');
             jQuery(newsletterSidebar).animate({ 'right': '+=328px' }, 850);
             jQuery(newsletterSidebar).addClass('newsletter-box-opened'); 
         }   
@@ -147,7 +144,9 @@ jQuery(window).on('load', function() {
     function closeNewsletterBox() {
         if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
             jQuery(newsletterSidebar[0]).removeClass('newsletter-box-opened');
-            jQuery(newsletterSidebar).animate({ 'right': '-=328px' }, 850);
+            jQuery(newsletterSidebar).animate({ 'right': '-=328px' }, 850, function() {
+               jQuery(newsletterSidebar[0]).addClass('newsletter-box-hover');
+            });
         }  
     }
     
@@ -181,7 +180,6 @@ jQuery(window).on('load', function() {
     
     function initNewsletterSidebar () {
         if(!jQuery(newsletterSidebar[0]).hasClass('hidden') && !jQuery(newsletterSidebar[0]).hasClass('hiding')) {
-            //jQuery(newsletterSidebar[0]).addClass('hidden');
             if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
                 jQuery(newsletterSidebar[0]).removeClass('newsletter-box-opened');
                 jQuery(newsletterSidebar).animate({ 'right': '-=373px' }, 0);
@@ -189,23 +187,21 @@ jQuery(window).on('load', function() {
                 jQuery(newsletterSidebar).animate({ 'right': '-=45px' }, 0);
             }
             jQuery(newsletterSidebar[0]).addClass('hidden hiding');
-            //startScrollPos = $window.scrollTop();
             $document.bind('scroll.newsletterScrollHandler', function() {
                 newsletter_detectScrollPos(startScrollPos);
             });
         }
     }
 
-    function toggleFooterNewsletterBox (newsletterFooter, width) {
-        var transVal = getTransitionValue(width);
+    function toggleFooterNewsletterBox (newsletterFooter) {
+        var transVal = footerHeight;
         if(!jQuery(newsletterFooter).hasClass('footer-newsletter-box-opened')) {
-            jQuery(newsletterFooter).animate({ 'bottom': '+='+transVal+'px' }, 850);
+            jQuery(newsletterFooter).animate({ 'bottom': '+='+transVal}, 850);
             jQuery(newsletterFooter).addClass('footer-newsletter-box-opened'); 
         }else{
             jQuery(newsletterFooter).removeClass('footer-newsletter-box-opened');
-            jQuery(newsletterFooter).animate({ 'bottom': '-='+transVal+'px' }, 850);     
+            jQuery(newsletterFooter).animate({ 'bottom': '-='+transVal}, 850);     
         }
-
     }
     
     function hideFooterNewsletterBox (newsletterFooter) {
@@ -220,81 +216,43 @@ jQuery(window).on('load', function() {
            jQuery(newsletterFooter).hide();
         }
     }
-
-    function getTransitionValue (width) {
-        var transVal = '';
-        if(1280 < width) {
-            transVal = newsLetterTransitionValues[0];
-        }else if(840 < width && width <= 1280 ) {
-            transVal = newsLetterTransitionValues[1];
-        }else if (511 < width && width <= 840) {
-            transVal = newsLetterTransitionValues[2];
-        }else if(460 < width && width <= 511) {
-            transVal = newsLetterTransitionValues[3];   
-        }else if(450 < width && width <= 460) {
-            transVal = newsLetterTransitionValues[4];
-        }else if(387 < width && width <= 450) {
-            transVal = newsLetterTransitionValues[5];     
-        }else if(360 < width && width <= 387) {
-            transVal = newsLetterTransitionValues[6];
-        }else if(300 < width && width <= 360) { 
-            transVal = newsLetterTransitionValues[7];
-        }else if(260 < width && width <= 300) { 
-            transVal = newsLetterTransitionValues[8];
-        }else if(223 < width && width <= 260) { 
-            transVal = newsLetterTransitionValues[9];
-        }else if(width <= 223) { 
-            transVal = newsLetterTransitionValues[10];
+    
+    function initNewsletterFooter(width) {
+       
+        var footerHeightInt = parseInt(footerHeight, 10);
+    
+        //var newsletterFooterBottom = footerHeightInt;
+        newsletterFooter.style.bottom = 0;
+        
+        if(840 <= width) {
+            newsletterFooter.style.height = footerHeightInt + 'px';
+        }else if(460 <= width && width < 840) {
+            newsletterFooter.style.height = (footerHeightInt * 0.85) + 'px';
+        }else if(450 <= width && width < 460) {
+            newsletterFooter.style.height = (footerHeightInt * 0.75) + 'px';
+        }else if(300 <= width && width < 450){
+            newsletterFooter.style.height = (footerHeightInt * 0.93) + 'px';
+        }else if(width < 300) { 
+            newsletterFooter.style.height = (footerHeightInt * 0.77) + 'px';
         }
-        return transVal;
+      
     }
-
-    function initNewsletterFooterBottomValue (newsletterFooter, width) { 
-        var newsletterFooterBottom = newsletterFooter.style.bottom;
-        if(1280 < width) {
-            if(newsletterFooterBottom !== newsletterBottomValues[0]){
-               newsletterFooter.style.bottom = newsletterBottomValues[0];
-            }
-        }else if(840 < width && width <= 1280 ) {
-            if(newsletterFooterBottom !== newsletterBottomValues[1]){
-               newsletterFooter.style.bottom = newsletterBottomValues[1];
-            }
-        }else if (511 < width && width <= 840) {
-            if(newsletterFooterBottom !== newsletterBottomValues[2]){
-               newsletterFooter.style.bottom = newsletterBottomValues[2];
-            }
-        }else if(460 < width && width <= 511) {
-            if(newsletterFooterBottom !== newsletterBottomValues[3]){
-               newsletterFooter.style.bottom = newsletterBottomValues[3];
-            }   
-        }else if(450 < width && width <= 460) {
-            if(newsletterFooterBottom !== newsletterBottomValues[4]){
-               newsletterFooter.style.bottom = newsletterBottomValues[4];
-            }
-        }else if(387 < width && width <= 450) {
-            if(newsletterFooterBottom !== newsletterBottomValues[5]){
-               newsletterFooter.style.bottom = newsletterBottomValues[5];
-            }     
-        }else if(360 < width && width <= 387) {
-            if(newsletterFooterBottom !== newsletterBottomValues[6]){
-               newsletterFooter.style.bottom = newsletterBottomValues[6];
-            }
-        }else if(300 < width && width <= 360) { 
-            if(newsletterFooterBottom !== newsletterBottomValues[7]){
-               newsletterFooter.style.bottom = newsletterBottomValues[7];
-            }
-        }else if(260 < width && width <= 300) { 
-            if(newsletterFooterBottom !== newsletterBottomValues[8]){
-               newsletterFooter.style.bottom = newsletterBottomValues[8];
-            }
-        }else if(223 < width && width <= 260) { 
-            if(newsletterFooterBottom !== newsletterBottomValues[9]){
-               newsletterFooter.style.bottom = newsletterBottomValues[9];
-            }
-        }else if(width <= 223) { 
-            if(newsletterFooterBottom !== newsletterBottomValues[10]){
-               newsletterFooter.style.bottom = newsletterBottomValues[10];
-            }
+    
+    
+    /*
+    function addSidebarHoverClass() {
+        if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
+            jQuery(newsletterSidebar[0]).addClass('newsletter-box-hover');
         }
     }
+    
+    
+    function removeSidebarHoverClass() {
+        if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened newsletter-box-hover')) {
+            jQuery(newsletterSidebar[0]).removeClass('newsletter-box-hover');
+        }
+    }
+    */
+    
+
 });

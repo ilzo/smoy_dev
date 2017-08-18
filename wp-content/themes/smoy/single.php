@@ -11,7 +11,7 @@ if ( !defined('ABSPATH') ) {
 }
 get_header('single'); ?>
 <div id="primary" class="content-area">
-	<main id="main" class="site-main" role="main">
+	<div id="main" class="site-main" role="main">
 		<?php
 		while ( have_posts() ) : the_post();
 			get_template_part( 'template-parts/content', 'single' );
@@ -21,6 +21,6 @@ get_header('single'); ?>
 		endwhile;
         wp_reset_postdata();
 		?>
-	</main>
+	</div>
 </div>
 <?php get_footer('single'); ?>

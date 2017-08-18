@@ -19,7 +19,7 @@ jQuery(function() {
             currentScrollPos = $window.scrollTop();
             smoy_video_detectScrollPos(w, currentScrollPos, header_height);
         });
-        smoy_video.addEventListener('timeupdate', videoUpdateHandler);
+        //smoy_video.addEventListener('timeupdate', videoUpdateHandler);
         smoy_video_detectScrollPos(w, currentScrollPos, header_height); 
         smoy_video_check_width(w);
     }
@@ -37,7 +37,10 @@ jQuery(function() {
             if (currentScrollPos < (header_height - (header_height * 0.35))) {
                 smoy_video_check_width(w);
             }else{
-                removeSmoyVideo();
+                if(doesItExist(removeSmoyVideo)){
+                   removeSmoyVideo();
+                   removeSmoyVideo = null;
+                }
             }
         } 
     }
@@ -63,12 +66,23 @@ jQuery(function() {
                 smoy_video_source_tags[0].setAttribute('src', smoy_video_src_mp4);
                 smoy_video_source_tags[1].setAttribute('src', smoy_video_src_webm);
                 smoy_video.load();
-                smoy_video.addEventListener('timeupdate', videoUpdateHandler);
+                //smoy_video.addEventListener('timeupdate', videoUpdateHandler);
             }
         }
     }
 
+    /*
     function removeSmoyVideo() {
+        console.log('hello from remove video');
+        if(doesItExist(smoy_video)){
+            console.log('video exists, removing video');
+            jQuery(smoy_video).remove();
+            smoy_video = null;
+        }
+    }
+    */
+    
+    var removeSmoyVideo = function() {
         if(doesItExist(smoy_video)){
             jQuery(smoy_video).remove();
             smoy_video = null;
@@ -81,7 +95,7 @@ jQuery(function() {
                 smoy_video.pause();
                 smoy_video_source_tags[0].setAttribute('src', '');
                 smoy_video_source_tags[1].setAttribute('src', '');
-                smoy_video.removeEventListener('timeupdate', videoUpdateHandler);
+                //smoy_video.removeEventListener('timeupdate', videoUpdateHandler);
             }
         }
     }
@@ -93,6 +107,8 @@ jQuery(function() {
         }
         return itExists; 
     }
+    
+    /*
 
     function videoUpdateHandler() {
         if(this.currentTime >= 21.25) {
@@ -102,4 +118,7 @@ jQuery(function() {
             this.removeEventListener('timeupdate', videoUpdateHandler );
         }
     }  
+    
+    */
+    
 });
