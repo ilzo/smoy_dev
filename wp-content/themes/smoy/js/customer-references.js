@@ -411,6 +411,22 @@ jQuery(function() {
             
         }
         var originalBgSize = jQuery(thisCustomerContentWrapper[0]).css('background-size');
+        
+        // In case of when the background-size property gets pixel values instead of percentage for some reason (like in IE) 
+        if(originalBgSize.indexOf('px') !== -1){
+            var originalBgSizeVals = originalBgSize.split(' ');
+            var toBeResizedArr = [];
+            toBeResizedArr[0] = customerBoxWidth;
+            toBeResizedArr[1] = customerBoxHeight;
+            var percentageVals = [];
+            for(var i = 0; i < 2; i++) {
+                originalBgSizeVals[i] = parseInt(originalBgSizeVals[i]);
+                percentageVals[i] = Number(((originalBgSizeVals[i] / toBeResizedArr[i]) * 100).toFixed(1));
+            }
+            var percentageStr = percentageVals[0] + '% ' + percentageVals[1] + '%';
+            originalBgSize = percentageStr;
+        }
+        
         jQuery(customerWrapperHtml).css({
             'background-image' : jQuery(thisCustomerContentWrapper[0]).css('background-image'),
             'background-size': originalBgSize
@@ -561,5 +577,5 @@ jQuery(function() {
         jQuery(customerCloneLogo).animate({
                     opacity: '1',
         }, 750 );
-    } 
+    }
 });
