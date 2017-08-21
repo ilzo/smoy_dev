@@ -1007,6 +1007,7 @@ button {
     padding: 7px !important;
 }
 
+/*
 #about-us {
     position: relative;
     max-width: 100%;
@@ -1020,6 +1021,21 @@ button {
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
+    padding: 6.75em 10% 6.75em 10%;
+}
+*/
+
+#about-us {
+    position: relative;
+    max-width: 100%;
+    margin-top: 0;
+    min-height: 800px;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     padding: 6.75em 10% 6.75em 10%;
 }
 
@@ -1247,7 +1263,7 @@ button {
     font-family: 'RobotoSlabBold', Fallback, sans-serif;
 	background-color: transparent;
 	border: 2px solid #ff8100;
-	display: inline-block;
+	display: block;
 	color: #f2f2f2;
 	font-size: 24px;
 	padding: 22px 22px;
@@ -1973,7 +1989,7 @@ aside#primary-sidebar {
 
 @-moz-document url-prefix() {
     .single-navigation span {
-        margin-top: -6px;
+        margin-top: -4px;
     }
 }
 
@@ -2419,6 +2435,7 @@ div.customer-stretchy-wrapper {
     min-height: 530px;
 }
 
+/*
 #contact-wrapper {
     position: relative;
     padding: 15em 25em 15em 15%;
@@ -2432,6 +2449,19 @@ div.customer-stretchy-wrapper {
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
+}
+*/
+
+#contact-wrapper {
+    position: relative;
+    padding: 15em 25em 15em 15%;
+    min-height: 100%;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 #contact-info-container, #contact-form-container {
@@ -2940,8 +2970,8 @@ div.customer-stretchy-wrapper {
 
 #newsletter-button {
     font-size: 1.25em;
-    padding: 9px 22px;
-    margin-top: 0;
+    padding: 9px 23px;
+    margin: 0 0 28px 0;
 }
 
 .text-divider {
@@ -3380,6 +3410,12 @@ div.customer-stretchy-wrapper {
     
     #newsletter-button {
         font-size: 1em;
+        margin: 0 0 40px 0;
+    }
+    
+    #footer-button-container img {
+        height: auto;
+        width: 166px;
     }
     
     .footer-social-link {
@@ -3409,9 +3445,11 @@ div.customer-stretchy-wrapper {
         display: none;
     }
     
+    /*
     #about-us {
         background-position: 40%; 
     }
+    */
     
     .single-service-title {
         font-size: 3.6em;
@@ -4110,6 +4148,12 @@ div.customer-stretchy-wrapper {
     
     #newsletter-button {
         padding: 15px 22px;
+        margin: 0 0 30px 0;
+    }
+    
+    #footer-button-container img {
+        height: auto;
+        width: 165px;
     }
     
     .footer-social-link img, #footer-content-right img {
@@ -4589,9 +4633,11 @@ div.customer-stretchy-wrapper {
     }
     */
     
+    /*
     #about-us {
         background-position: 55%;
     }
+    */
     
     
     /*
@@ -4937,9 +4983,11 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 700px) {
     
+    /*
     #about-us {
         background-position: 60%;
     }
+    */
 
     #our-staff {
         display: none;
@@ -4955,16 +5003,19 @@ div.customer-stretchy-wrapper {
 
 @media screen and (max-width: 630px) {
     
+    /*
     #about-us {
         background: url("./img/background/meista_mobile.jpg");
         background-position: 80%;
     }
+    
     
     #contact-wrapper {
         background: linear-gradient( rgba(18, 18, 18, 0.25), rgba(18, 18, 18, 0.25) ),
         url("./img/background/ota_yhteytta_content_mobile.jpg");
         background-position: 80%;
     }
+    */
     
     
     .content-section-header {
@@ -5347,7 +5398,7 @@ div.customer-stretchy-wrapper {
     }
     
     .heading-orange:not(#about-main-title), .heading-pink, .heading-black {
-        margin-bottom: 0;
+        margin-bottom: 2px;
     }
     
     .body-text-orange, .body-text-pink, .body-text-black {

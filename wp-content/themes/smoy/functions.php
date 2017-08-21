@@ -1176,8 +1176,8 @@ function smoy_customize_register( $wp_customize ) {
     $linebreak = '<div style="margin: 10px 0;"></div>';
     
     $wp_customize->add_section( 'smoy_bg_imgs', array(
-      'title' => __( 'Section background images', 'smoy' ),
-      'description' => sprintf( __( 'You can upload front page section header background images here. The original full-sized image will be used for desktop screens and the cropped version for small mobile screens. Recommended resolution for original image is 3000x2000 at most. Uploaded image should be optimized for web use (file size no more than 300 - 500 kB). Use JPEG file format only. %s Note: Use custom css section to add custom styling for background images when necessary.', 'smoy' ), $linebreak ),
+      'title' => __( 'Front page background images', 'smoy' ),
+      'description' => sprintf( __( 'Upload front page background images here. The original full-sized image will be used for desktop screens and the cropped version for small mobile screens. Recommended resolution for original image is 3000x2000 at most. Uploaded image should be optimized for web use (file size no more than 300 - 500 kB). Use JPEG file format only. %s Note: Use custom css panel to add custom styling for background images when necessary.', 'smoy' ), $linebreak ),
       'capability' => 'edit_theme_options'
     ));
     
@@ -1253,6 +1253,17 @@ function smoy_customize_register( $wp_customize ) {
 
     /* ------ Front-Page Content Section Header Background Images Section ------ */
     
+    $wp_customize->add_setting('smoy_about_us_bg_img', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_about_us_bg_pos', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
     
     $wp_customize->add_setting('smoy_services_header_bg_img', array(
             'type' => 'theme_mod',
@@ -1314,24 +1325,19 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_setting('smoy_contact_content_bg_img', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_contact_content_bg_pos', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'sanitize_text_field'
+    ));
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
     /* ------- Front-Page About Us Section -------- */
     
     $wp_customize->add_setting('smoy_about_section_title', array(
@@ -1848,7 +1854,26 @@ function smoy_customize_register( $wp_customize ) {
     /* ----------------------------------- */
     
     
-    /* ------ Front-Page Content Section Header Background Images Section ------ */
+    /* ------ Front-Page Background Images Section ------ */
+    
+    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_about_us_bg_img', array(
+        'section'     => 'smoy_bg_imgs',
+        'label'       => __('About us background image', 'smoy'),
+        'description' => __('Insert the about us section header background image here.', 'smoy'),
+        'flex_width'  => false, 
+        'flex_height' => false, 
+        'width'       => 530,
+        'height'      => 1000,
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+    
+    $wp_customize->add_control( 'smoy_about_us_bg_pos', array(
+        'label' => __( 'Background position', 'smoy'),
+        'description' => __('Adjust about us section background position. Use normal css units and values. The default is 50% 50%.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_bg_imgs',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
     
     $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_services_header_bg_img', array(
         'section'     => 'smoy_bg_imgs',
@@ -1942,12 +1967,24 @@ function smoy_customize_register( $wp_customize ) {
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
     
+    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_contact_content_bg_img', array(
+        'section'     => 'smoy_bg_imgs',
+        'label'       => __('Contact section background image', 'smoy'),
+        'description' => __('Insert the contact section background image here.', 'smoy'),
+        'flex_width'  => false, 
+        'flex_height' => false, 
+        'width'       => 530,
+        'height'      => 1000,
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
     
-    
-    
-    
-    
-    
+    $wp_customize->add_control( 'smoy_contact_content_bg_pos', array(
+        'label' => __( 'Background position', 'smoy'),
+        'description' => __('Adjust contact section background position. Use normal css units and values. The default is 50% 50%.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_bg_imgs',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    ));
     
     
     /* ------- Front-Page About Us Section -------- */
@@ -2775,12 +2812,55 @@ function smoy_section_header_background_styles() {
     }
 }
 
+add_action( 'wp_head', 'smoy_about_us_background_styles');
 
+function smoy_about_us_background_styles() {
+    if(is_home() || is_page( 'eng' )) {
+        $about_us_img = get_theme_mod('smoy_about_us_bg_img');
+        $bg_position = get_theme_mod('smoy_about_us_bg_pos');
+        if(!empty($about_us_img)) {
+            $css = array();
+            $css_media_query = array();
+            $desktop_img_id = $about_us_img - 1;
+            $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
+            $mobile_src = wp_get_attachment_image_src($about_us_img, 'full')[0];
 
+            if(!empty($mobile_src) && !empty($desktop_src)){
+                $css['#about-us']['background-image'] = "url(\"".$desktop_src."\")";
+                $css_media_query['#about-us']['background-image'] = "url(\"".$mobile_src."\")";
+                $css_media_query['#about-us']['background-position'] = "center";
+            }
 
-
-
-
+            if(!empty($bg_position)){
+                $css['#about-us']['background-position'] = $bg_position;
+            }else{
+                $css['#about-us']['background-position'] = '50% 50%';
+            }
+                             
+            if(!empty($css) && !empty($css_media_query)) {
+                $final_css = '<style type="text/css">';
+                foreach ( $css as $style => $style_array ) {
+                    $final_css .= $style . '{';
+                    foreach ( $style_array as $property => $value ) {
+                        $final_css .= $property . ':' . $value . ';';
+                    }
+                    $final_css .= '}';
+                }
+                $final_css .= '@media only screen and (max-width: 630px) {';
+                foreach ( $css_media_query as $style => $style_array ) {
+                    $final_css .= $style . '{';
+                    foreach ( $style_array as $property => $value ) {
+                        $final_css .= $property . ':' . $value . ';';
+                    }
+                    $final_css .= '}';
+                }
+                $final_css .= '}';
+                $final_css .= '</style>';
+                echo $final_css;
+            } 
+        }  
+    }
+}
 
 
 add_action( 'wp_head', 'smoy_about_us_styles');
@@ -3340,6 +3420,56 @@ function smoy_section_header_contact_output() {
         include get_template_directory() . '/template-parts/smoy-content-section-header.php';
         $output = ob_get_clean();
         echo $output;
+    }
+}
+
+add_action( 'wp_head', 'smoy_contact_background_styles');
+
+function smoy_contact_background_styles() {
+    if(is_home() || is_page( 'eng' )) {
+        $contact_img = get_theme_mod('smoy_contact_content_bg_img');
+        $bg_position = get_theme_mod('smoy_contact_content_bg_pos');
+        if(!empty($contact_img)) {
+            $css = array();
+            $css_media_query = array();
+            $desktop_img_id = $contact_img - 1;
+            $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
+            $mobile_src = wp_get_attachment_image_src($contact_img, 'full')[0];
+
+            if(!empty($mobile_src) && !empty($desktop_src)){
+                $css['#contact-wrapper']['background-image'] = "url(\"".$desktop_src."\")";
+                $css_media_query['#contact-wrapper']['background-image'] = "url(\"".$mobile_src."\")";
+                $css_media_query['#contact-wrapper']['background-position'] = "center";
+            }
+
+            if(!empty($bg_position)){
+                $css['#contact-wrapper']['background-position'] = $bg_position;
+            }else{
+                $css['#contact-wrapper']['background-position'] = '50% 50%';
+            }
+                             
+            if(!empty($css) && !empty($css_media_query)) {
+                $final_css = '<style type="text/css">';
+                foreach ( $css as $style => $style_array ) {
+                    $final_css .= $style . '{';
+                    foreach ( $style_array as $property => $value ) {
+                        $final_css .= $property . ':' . $value . ';';
+                    }
+                    $final_css .= '}';
+                }
+                $final_css .= '@media only screen and (max-width: 630px) {';
+                foreach ( $css_media_query as $style => $style_array ) {
+                    $final_css .= $style . '{';
+                    foreach ( $style_array as $property => $value ) {
+                        $final_css .= $property . ':' . $value . ';';
+                    }
+                    $final_css .= '}';
+                }
+                $final_css .= '}';
+                $final_css .= '</style>';
+                echo $final_css;
+            } 
+        }  
     }
 }
 
