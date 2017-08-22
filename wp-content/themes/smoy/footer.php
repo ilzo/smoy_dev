@@ -18,13 +18,16 @@
     </div>
     <!--<div id="footer-content-center"> -->
         <?php if(is_home()): ?>
-        <div id="footer-button-container">
+        <div id="footer-content-left-second">
             <button id="newsletter-button" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
             <img src="<?php echo get_template_directory_uri(); ?>/img/logo/gold-AAA-logo-2017-fi.png" width="196px" height="109px" />
         </div>
+        <?php else: ?>
+        <div id="footer-content-left-second" style="margin-top: 7px;">
+            <img src="<?php echo get_template_directory_uri(); ?>/img/logo/gold-AAA-logo-2017-eng.png" width="196px" height="109px" />
+        </div>
         <?php endif; ?>
         <?php do_action('smoy_get_footer_social_icons') ?>
-        
     <!--</div> -->
     <div id="footer-content-right">
         <img src="<?php echo get_template_directory_uri(); ?>/img/logo/asml-logo.png" width="102px" height="38px" />

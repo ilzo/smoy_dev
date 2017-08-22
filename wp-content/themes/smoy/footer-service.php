@@ -9,8 +9,9 @@
         </div>
         <?php do_action('smoy_get_footer_contact_info') ?>
     </div>
-        <div id="footer-button-container">
+        <div id="footer-content-left-second">
             <button id="newsletter-button" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
+            <img src="<?php echo get_template_directory_uri(); ?>/img/logo/gold-AAA-logo-2017-fi.png" width="196px" height="109px" />
         </div>
         <?php do_action('smoy_get_footer_social_icons') ?>
     <div id="footer-content-right">
