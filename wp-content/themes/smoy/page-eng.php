@@ -4,7 +4,6 @@
  *
  * @package smoy
  */
-
 get_header(); ?>
 <section id="about-us">
     <?php do_action('smoy_get_about_us'); ?>

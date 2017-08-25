@@ -3,7 +3,7 @@
         <h1 id="about-main-title" class="heading-orange"><?php echo $smoy_about_section_title ?></h1>
     </div>
     <div class="about-container">
-        <?php /*$i = 1;*/ for($i = 0; $i < 3; $i++):?>
+        <?php for($i = 0; $i < 3; $i++):?>
             <h3 class="about-section-title"><?php echo $smoy_about_content_titles[$i] ?></h3>
             <div class="title-underline-orange"></div>
             <p><?php echo $smoy_about_content_body_texts[$i] ?></p>

@@ -238,28 +238,6 @@ jQuery(function() {
     var subHeight;
     var navSub = document.getElementsByClassName('navigation-sub');
 
-    /*
-    $document.scroll(function() {
-        subHeight = navSub[0].clientHeight;
-        if(subHeight === 0) {
-            scroll_start = jQuery(this).scrollTop();
-            if(scroll_start > 180) {
-                if( window.location.pathname === '/' ){
-                    jQuery('.navigation-top').addClass('nav-black').removeClass('nav-hidden');
-                }else{
-                    jQuery('.navigation-top').addClass('nav-black').removeClass('nav-transparent');
-                }
-            }else{
-                if( window.location.pathname === '/' ){
-                    jQuery('.navigation-top').addClass('nav-hidden').removeClass('nav-black');
-                }else{
-                    jQuery('.navigation-top').addClass('nav-transparent').removeClass('nav-black');
-                }    
-            }
-       } 
-    });
-    */
-    
     $document.scroll(function() {
         if(window.location.pathname !== '/'){
             subHeight = navSub[0].clientHeight;
@@ -274,7 +252,6 @@ jQuery(function() {
         }   
     });
     
-    
     jQuery(window).resize(checkScreenWidth);
     var noRedirectLinks = [];
     
@@ -282,7 +259,7 @@ jQuery(function() {
         jQuery(noRedirectLinks[1]).parent().hide();
     }
     
-    if(window.location.pathname !== '/eng/') {
+    if(window.location.pathname !== '/eng') {
         jQuery(domManager.palvelut_link).click(function(e) {
             e.preventDefault();
             var palvelut_link = jQuery(this);
@@ -336,7 +313,7 @@ jQuery(function() {
         noRedirectLinks[0] = jQuery( "#top-menu a:contains('Referenssit')" )[0];
         noRedirectLinks[1] = jQuery( "#top-menu a:contains('Me')" )[0];
         noRedirectLinks[2] = jQuery( "#top-menu a:contains('Ota yhteyttä')" )[0];
-    }else if (window.location.pathname === '/eng/') {
+    }else if (window.location.pathname === '/eng') {
         var blogi_link = jQuery( "#top-menu a:contains('Blogi')" )[0];
         jQuery(blogi_link).parent().remove();
         jQuery('#right-menu .sprite-smoytalk-wht').remove();
@@ -394,7 +371,7 @@ jQuery(function() {
     });
     
     
-    if(window.location.pathname === '/' || window.location.pathname === '/eng/') {
+    if(window.location.pathname === '/' || window.location.pathname === '/eng') {
         if(jQuery('#our-staff').children().length === 0) {
            jQuery(noRedirectLinks[1]).parent().remove(); 
         }else{
@@ -420,7 +397,7 @@ jQuery(function() {
         closeSubNav(domManager.palvelut_link);
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
-        if(windowWidth <= 960 /*&& windowHeight >= 360*/){
+        if(windowWidth <= 960){
             domManager.closeNav();
         }
         $root.animate({
@@ -428,15 +405,12 @@ jQuery(function() {
         }, 1500);
     });
     
-    
     if( window.location.pathname === '/' ){
-        //setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600);
         jQuery('.navigation-top').addClass('nav-ready nav-black');
     }else{
         if($document.scrollTop() > 180) { 
             setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600);
         }else{
-            //setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready nav-hidden') }, 600);
             setTimeout(function(){ jQuery('.navigation-top').addClass('nav-ready') }, 600);
         } 
     }

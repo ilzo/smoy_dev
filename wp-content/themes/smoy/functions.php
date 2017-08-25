@@ -1,55 +1,19 @@
 <?php
-
-define('MAINTENANCE', false); //set to true to enable maintenance mode
-if (!is_admin() && !current_user_can( 'manage_options' ) && MAINTENANCE) { //envoke maintenance if set
-    if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
-        require_once( WP_CONTENT_DIR . '/maintenance.php' );
-        die();
-    }
-}
-
 add_action( 'after_setup_theme', 'smoy_setup' );
 
 function smoy_setup() {
-	
-	/*
-	 * Let WordPress manage the document title.
-	 * By adding theme support, we declare that this theme does not use a
-	 * hard-coded <title> tag in the document head, and expect WordPress to
-	 * provide it for us.
-	 */
 	add_theme_support( 'title-tag' );
-    
     load_theme_textdomain( 'smoy' );
-
-    /*
-	add_theme_support( 'custom-logo', array(
-		'height'      => 240,
-		'width'       => 240,
-		'flex-height' => true,
-	) );
-    
-    */
-    //remove_filter( 'the_content', 'wpautop' );
-    
 	add_theme_support( 'post-thumbnails' );
     add_image_size( 'service-thumb-desktop', 1280);
     add_image_size( 'service-thumb-mobile', 460, 230, true);
-    
-	/*
-	 * Switch default core markup for search form, comment form, and comments
-	 * to output valid HTML5.
-	 */
-    
 	add_theme_support( 'html5', array(
 		'search-form',
 		'comment-form',
 		'comment-list',
 		'gallery',
 		'caption',
-	) );
-    
-    
+	));
 	/*
 	 * Enable support for Post Formats.
 	 *
@@ -65,23 +29,12 @@ function smoy_setup() {
 		'status',
 		'audio',
 		'chat',
-	) );
+	));
     
-	/*
-	 * This theme styles the visual editor to resemble the theme style,
-	 * specifically font, colors, icons, and column width.
-	 */
-	//add_editor_style( array( 'css/editor-style.css', twentysixteen_fonts_url() ) );
-
 	// Indicate widget sidebars can use selective refresh in the Customizer.
 	//add_theme_support( 'customize-selective-refresh-widgets' );
     
-    if ( ! isset( $content_width ) ) {
-        $content_width = 800;
-    }
-    
-    add_filter('jpeg_quality', function($arg){return 75;});
-         
+    add_filter('jpeg_quality', function($arg){return 75;});     
 }
 
 add_action('init', 'smoy_custom_post_types_init');
@@ -137,81 +90,6 @@ function smoy_rewrite_flush() {
     flush_rewrite_rules();
 }
 
-/*
-
-add_action('init', 'smoy_services');
-
-function smoy_services() {
-    
-    $labels = array(
-        'name' => _x('Palvelut', 'post type general name'),
-        'singular_name' => _x('Palvelu', 'post type singular name'),
-        'add_new_item' => _x( 'Lisää uusi palvelu', 'smoy' ),
-        'set_featured_image' => _x('Aseta pääkuva', 'smoy')
-    );
-
-    $args = array(
-        'labels' => $labels,
-        'public' => true,
-        'publicly_queryable' => true,
-        'show_ui' => true,
-        'query_var' => true,
-        'capability_type' => 'post',
-        'hierarchical' => false,
-        'menu_position' => null,
-        'menu_icon' => 'dashicons-store',
-        'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
-        'rewrite' => array(
-            'slug' => 'palvelut',
-            'with_front' => false
-        )
-    ); 
-
-    register_post_type( 'smoy_service' , $args );
-    flush_rewrite_rules();
-}
-
-add_action('init', 'smoy_people');
-
-function smoy_people() {
-    
-    $labels = array(
-        'name' => _x('Henkilöstö', 'post type general name'),
-        'singular_name' => _x('Henkilö', 'post type singular name'),
-        'add_new_item' => _x( 'Lisää uusi henkilö', 'smoy' ),
-        'set_featured_image' => _x('Aseta henkilökuva', 'smoy')
-    );
-
-    $args = array(
-        'labels' => $labels,
-        'public' => false,
-        'publicly_queryable' => false,
-        'exclude_from_search' => true,
-        'show_ui' => true,
-        'query_var' => false,
-        'capability_type' => 'post',
-        'hierarchical' => false,
-        'menu_position' => null,
-        'menu_icon' => 'dashicons-groups',
-        'supports' => array('title', 'thumbnail'),
-        'rewrite' => false
-    ); 
-
-    register_post_type( 'smoy_person' , $args );
-    flush_rewrite_rules();
-}
-
-*/
-
-/*
-add_action('do_meta_boxes', 'smoy_move_person_image_meta_box');
-
-function smoy_move_person_image_meta_box(){
-    remove_meta_box( 'postimagediv', 'post', 'side' );
-    add_meta_box('smoy_person_image_metabox', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
-}
-*/
-
 //Custom CSS Widget
 add_action('admin_menu', 'smoy_custom_css_hooks');
 add_action('save_post', 'smoy_save_custom_css');
@@ -253,18 +131,6 @@ final class Smoy_Service_Metabox {
     }
 
     public function create_service_meta_boxes() {
-        
-        /*
-        add_meta_box(
-            'service_keywords_meta_box', // (string) (required) HTML 'id' attribute of the edit screen section
-            __( 'Avainsanoja', 'smoy' ), // (string) (required) Title of the edit screen section, visible to user
-            array( $this, 'print_service_keywords_meta_box' ), // (callback) (required) Function that prints out the HTML for the edit screen section. The function name as a string, or, within a class, an array to call one of the class's methods.
-            'smoy_service', // (string) (required) The type of Write screen on which to show the edit screen section ('post', 'page', 'dashboard', 'link', 'attachment' or 'custom_post_type' where custom_post_type is the custom post type slug)
-            'normal', // (string) (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
-            'low' // (string) (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
-        );
-        */
-        
         add_meta_box(
             'service_color_scheme_meta_box',
             __( 'Otsikoiden taustaväri/Alleviivausten väri', 'smoy' ), 
@@ -274,34 +140,9 @@ final class Smoy_Service_Metabox {
             'low' 
         );
         
-        
         add_meta_box('custom_css', __( 'Oma CSS', 'smoy' ), array( $this, 'print_service_custom_css_meta_box'), 'smoy_service', 'normal', 'low');
-        //remove_meta_box( 'postimagediv', 'smoy_person', 'side' );
         
-        //add_meta_box('postimagediv', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
     }
-    
-    /*
-    public function print_service_keywords_meta_box( $post, $metabox ) {
-        ?>
-            <!-- These hidden fields are a registry of metaboxes that need to be saved if you wanted to output multiple boxes. The current metabox ID is added to the array. -->
-            <input type="hidden" name="service_keywords_meta_box_ids[]" value="<?php echo $metabox['id']; ?>" />
-            <!-- http://codex.wordpress.org/Function_Reference/wp_nonce_field -->
-            <?php wp_nonce_field( 'save_' . $metabox['id'], $metabox['id'] . '_nonce' ); ?>
-
-            <!-- This is a sample of fields that are associated with the metabox. You will notice that get_post_meta is trying to get previously saved information associated with the metabox. -->
-            <!-- http://codex.wordpress.org/Function_Reference/get_post_meta -->
-            <table class="form-table">
-            <tr><th><label for="service_keywords"><?php _e( 'Palvelun avainsanat', 'smoy' ); ?></label></th>
-            <td><textarea name="service_keywords" id="service_keywords"><?php echo get_post_meta($post->ID, 'service_keywords', true); ?></textarea></td></tr>
-            </table>
-
-            <!-- These hidden fields are a registry of fields that need to be saved for each metabox. The field names correspond to the field name output above. -->
-            <input type="hidden" name="<?php echo $metabox['id']; ?>_fields[]" value="service_keywords" />
-            
-        <?php
-    }
-    */
     
     public function print_service_color_scheme_meta_box( $post, $metabox ) {
         ?>
@@ -341,27 +182,8 @@ final class Smoy_Service_Metabox {
         if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){ return; }
 
         // Determine if the postback contains any metaboxes that need to be saved
-        if(/*empty( $_POST['service_keywords_meta_box_ids'] ) && */ empty($_POST['service_color_meta_box_ids']) && empty($_POST['custom_css'])){ return; }
+        if(empty($_POST['service_color_meta_box_ids']) && empty($_POST['custom_css'])){ return; }
 
-        /*
-        // Iterate through keywords metabox
-        foreach( $_POST['service_keywords_meta_box_ids'] as $metabox_id ){
-            // Verify thhe request to update this metabox
-            if(!isset($_POST[$metabox_id . '_nonce'])){ continue; }
-            if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
-
-            // Determine if the metabox contains any fields that need to be saved
-            if( count( $_POST[ $metabox_id . '_fields' ] ) == 0 ){ continue; }
-
-            // Iterate through the registered fields        
-            foreach( $_POST[ $metabox_id . '_fields' ] as $field_id ){
-                // Update or create the submitted contents of the fiels as post meta data
-                // http://codex.wordpress.org/Function_Reference/update_post_meta
-                update_post_meta($post_id, $field_id, $_POST[ $field_id ]);
-            }
-        }
-        */
-        
         // Iterate through color scheme metabox
         foreach( $_POST['service_color_meta_box_ids'] as $metabox_id ){
             // Verify thhe request to update this metabox
@@ -413,7 +235,6 @@ final class Smoy_Person_Metabox {
         );
         
         remove_meta_box( 'postimagediv', 'smoy_person', 'side' );
-        
         add_meta_box('postimagediv', _x('Henkilökuva', 'smoy'), 'post_thumbnail_meta_box', 'smoy_person', 'normal', 'high');
     }
 
@@ -448,7 +269,7 @@ final class Smoy_Person_Metabox {
 
         // Iterate through the registered metaboxes
         foreach( $_POST['meta_box_ids'] as $metabox_id ){
-            // Verify thhe request to update this metabox
+            // Verify the request to update this metabox
             if( ! wp_verify_nonce( $_POST[ $metabox_id . '_nonce' ], 'save_' . $metabox_id ) ){ continue; }
 
             // Determine if the metabox contains any fields that need to be saved
@@ -688,27 +509,6 @@ function smoy_load_dashicons_front_end() {
 add_action( 'wp_enqueue_scripts', 'smoy_styles' );
 add_action( 'wp_enqueue_scripts', 'load_scripts' );
 add_action( 'wp_enqueue_scripts', 'smoy_load_dashicons_front_end' );
-
-
-/*
-add_action( 'wp_head', 'smoy_service_add_html_meta_tags' , 2 );
-
-function smoy_service_add_html_meta_tags() {
-    
-    if ( is_singular('smoy_service')) {
-        global $post;
-        $keywords = get_post_meta($post->ID, 'service_keywords');
-        $excerpt = get_the_excerpt($post);
-        if(!empty($excerpt)) {
-            echo '<meta name="description" content="' . wp_strip_all_tags($excerpt) . '" />' . "\n";
-        }
-        if(!empty($keywords)) {
-            echo '<meta name="keywords" content="' . wp_strip_all_tags($keywords[0]) . '" />' . "\n";
-        }
-    }
-}
-*/
-
 add_filter('language_attributes', 'add_opengraph_doctype');
 
 function add_opengraph_doctype( $output ) {
@@ -834,7 +634,6 @@ function smoy_upload_post_custom_image_sizes($post_id) {
  */
 function lazy_image_size($image_id, $width) {
     // Temporarily create an image size
-    //$size_id = 'lazy_' . $width . 'x' .$height . '_' . ((string) $crop);
     $size_id = 'lazy_' . $width;
     add_image_size($size_id, $width);
 
@@ -864,10 +663,6 @@ add_filter('intermediate_image_sizes_advanced', 'smoy_unset_service_image_sizes'
 function smoy_unset_service_image_sizes($sizes) {
     $post_id = $_REQUEST['post_id'];
     $type = get_post_type($post_id);
-    /*
-    $wp_term_obj = get_the_category($post_id)[0];
-    $cat_name = $wp_term_obj->name;
-    */
     if ($type !== 'smoy_service') { 
         unset($sizes['service-thumb-desktop']);
         unset($sizes['service-thumb-mobile']);
@@ -876,6 +671,7 @@ function smoy_unset_service_image_sizes($sizes) {
 }
 
 function smoy_get_post_images($id, $thumb_id, $size = 'full') {
+  $images = array();
   $attachments = get_posts( array(
     'post_type' => 'attachment',
     'posts_per_page' => -1,
@@ -959,29 +755,6 @@ function smoy_redirect_to_latest_blog_post() {
     exit;
 }
 
-/*
-add_filter( 'template_include', 'smoy_newsletter_template');
-
-
-function smoy_newsletter_template($template) {
-    if(is_page('uutiskirje') ) {
-        if(isset($_GET['nm']) && isset($_GET['nk']) && preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) && $_GET['nm'] === 'confirmed') {
-            $newsletter_subscription_template = locate_template( array( 'page-uutiskirje.php' ) );
-            return $newsletter_subscription_template;
-        }else if(isset($_GET['nm']) && isset($_GET['nk']) && preg_match('/\d+[-][a-z0-9]{10}$/', $_GET['nk']) && $_GET['nm'] === 'unsubscribed') {
-            $newsletter_subscription_template = locate_template( array( 'page-uutiskirje-peruttu.php' ) );
-            return $newsletter_subscription_template;
-        }else{
-            status_header( 404 );
-            nocache_headers();
-            $not_found_template = locate_template( array( '404.php' ) );
-            return $not_found_template;
-        }
-    }
-    return $template;
-}
-*/
-
 add_filter( 'template_include', 'smoy_newsletter_template');
 
 function smoy_newsletter_template($template) {
@@ -990,9 +763,6 @@ function smoy_newsletter_template($template) {
         if(isset($_GET['email']) && isset($_GET['n']) && $_GET['email'] === smoy_simple_crypt($_GET['n'], 'd')){
             $newsletter_subscription_template = locate_template( array( 'page-uutiskirje.php' ) );
             return $newsletter_subscription_template;
-        }else if(isset($_GET['status']) && $_GET['status'] === 'unsubscribed'){
-            $newsletter_subscription_template = locate_template( array( 'page-uutiskirje-peruttu.php' ) );
-            return $newsletter_subscription_template;
         }else{
             status_header( 404 );
             nocache_headers();
@@ -1003,61 +773,41 @@ function smoy_newsletter_template($template) {
     return $template;
 }
 
-
-
 add_filter('the_content', 'smoy_modify_single_content');
 
 function smoy_modify_single_content($content) {
     
     if ( is_singular('smoy_service')) {
         global $post;
-        /*
-        $keywords = get_post_meta($post->ID, 'service_keywords');
-        if(!empty($keywords)) {
-           $keywordsContainer = '<div class="smoy-service-keywords"><span>Avainsanoja</span> '.wp_strip_all_tags($keywords[0]).'</div>'; 
-        }
-        */
-        
         $dom = new DOMDocument();
         $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $xpath = new DOMXPath($dom);
-        //$results = $xpath->query('//div[@class="someclass"]');
         $results = $xpath->query('//h1|//h2|//h3|//h4|//h5|//h6');
         if ($results->length > 0) {
             foreach($results as $node){
                 $titleUnderline = $dom->createElement('div', '');
                 $titleUnderline->setAttribute('class', 'single-service-title-underline');
-                //$node->parentNode->appendChild($testNode); // Insert new node after 
-                $node->parentNode->insertBefore( $titleUnderline, $node->nextSibling);
-                //$node->parentNode->insertBefore($testNode, $node); // Insert new node before  
+                $node->parentNode->insertBefore( $titleUnderline, $node->nextSibling);  
             }
             $content = $dom->saveHTML();
         }
-        
         $content = preg_replace('/<p([^>]+)?>/', '<p$1 class="service-lead-paragraph">', $content, 1);
-        //$content .= $keywordsContainer;
         return $content;
     }else if(is_singular() && in_category('blogi')){
-        
         $leadParagraphStart = strpos($content, '<p>');
         $leadParagraphEnd = strpos($content, '</p>', $leadParagraphStart);
         $leadParagraph = substr($content, $leadParagraphStart, $leadParagraphEnd - $leadParagraphStart + 4);
-        
         if (strpos($leadParagraph, '&nbsp;') !== false) {
             $leadParagraphStart = strpos($content, '<p>', $leadParagraphEnd);
             $leadParagraphEnd = strpos($content, '</p>', $leadParagraphStart);
             $leadParagraph = substr($content, $leadParagraphStart, $leadParagraphEnd - $leadParagraphStart + 4);
         }
-        
         $content = str_replace($leadParagraph, "<div class=\"blog-post-lead-paragraph\">".$leadParagraph."</div>", $content);
-        
         $sourcesString = 'Lähteet';
         $sourcesTitlePos = strrpos($content, $sourcesString);
-
         if($sourcesTitlePos !== false){
             $content = substr_replace($content, "<span class=\"blog-post-sources-title\">Lähteet</span>", $sourcesTitlePos, strlen($sourcesString));
         }
-        
         return $content;
     }else{
        return $content; 
@@ -1170,7 +920,7 @@ function smoy_customize_register( $wp_customize ) {
     /* ------------- SECTIONS ------------ */
     /* ----------------------------------- */
     
-    /* ------ Front-Page Content Section Header Background Images Section ------ */
+    /* ------ Front-Page Background Images Section ------ */
     
     
     $linebreak = '<div style="margin: 10px 0;"></div>';
@@ -1251,7 +1001,7 @@ function smoy_customize_register( $wp_customize ) {
     /* ----------------------------------- */
     
 
-    /* ------ Front-Page Content Section Header Background Images Section ------ */
+    /* ------ Front-Page Background Images Section ------ */
     
     $wp_customize->add_setting('smoy_about_us_bg_img', array(
             'type' => 'theme_mod',
@@ -1486,7 +1236,6 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
         ));
         
-        
         $wp_customize->add_setting('smoy_service_mobile_title_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
@@ -1506,47 +1255,12 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
         ));
         
-        /*
-        $wp_customize->add_setting('smoy_service_desc_body_eng_'.$i, array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        */
-        
-    
-        /*
-        
-        $wp_customize->add_setting('smoy_service_content_body_'.$i, array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        */
-        
         $wp_customize->add_setting('smoy_service_body_max_width_'.$i, array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
         ));
         
-        
-        /*
-        $wp_customize->add_setting('smoy_service_body_max_width_eng_'.$i, array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-        ));
-        */
-        
-        
-        /*
-        $wp_customize->add_setting('smoy_service_bg_img_'.$i, array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'absint'
-        ));
-        */
         
         $wp_customize->add_setting('smoy_service_bg_img_position_'.$i, array(
             'type' => 'theme_mod',
@@ -1839,14 +1553,6 @@ function smoy_customize_register( $wp_customize ) {
         ));
         
     }
-    
-    /*
-    $wp_customize->add_setting('smoy_footer_contact_business_id', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'sanitize_text_field'
-    ));
-    */
     
     
     /* ----------------------------------- */
@@ -2187,25 +1893,6 @@ function smoy_customize_register( $wp_customize ) {
           'active_callback' => 'smoy_callback_is_eng_page'
         ));
         
-        /*
-        $wp_customize->add_control( 'smoy_service_desc_body_eng_'.$i, array(
-          'label' => __( 'Service '.$i.' english description', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-        */
-        
-        
-        /*
-        $wp_customize->add_control( 'smoy_service_content_body_'.$i, array(
-          'label' => __( 'Service '.$i.' body text', 'smoy'),
-          'type' => 'textarea',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'is_front_page'
-        ));
-        */
-        
         $wp_customize->add_control( 'smoy_service_body_max_width_'.$i, array(
           'label' => __( 'Service '.$i.' body text max width', 'smoy'),
           'description' => __( 'Adjust the body text max width. You can use normal css units, like px, em and % (default 60%)', 'smoy'),
@@ -2213,30 +1900,6 @@ function smoy_customize_register( $wp_customize ) {
           'section' => 'smoy_services_section',
           'active_callback' => 'is_front_page'
         ));
-        
-        /*
-        $wp_customize->add_control( 'smoy_service_body_max_width_eng_'.$i, array(
-          'label' => __( 'Service '.$i.' body text max width', 'smoy'),
-          'description' => __( 'Adjust the body text max width. You can use normal css units, like px, em and % (default 60%)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_services_section',
-          'active_callback' => 'smoy_callback_is_eng_page'
-        ));
-        */
-        
-        /*
-        
-        $wp_customize->add_control( 
-            new WP_Customize_Media_Control(
-                $wp_customize,'smoy_service_bg_img_'.$i, array(
-                    'label' => __( 'Service background image '.$i , 'smoy'),
-                    'section' => 'smoy_services_section',
-                    'mime_type' => 'image',
-                    'active_callback' => 'is_front_page'
-                )
-            )
-        );
-        */
         
         $wp_customize->add_control( 'smoy_service_bg_img_position_'.$i, array(
             'type' => 'range',
@@ -2608,17 +2271,7 @@ function smoy_customize_register( $wp_customize ) {
         ));
         
     }
-    
-    /*
-    $wp_customize->add_control( 'smoy_footer_contact_business_id', array(
-          'label' => __( 'Business id (Y-tunnus)', 'smoy'),
-          'type' => 'text',
-          'section' => 'smoy_footer_section'
-    ));
-    */
-    
-    
-    
+     
 }
 
 
@@ -2674,58 +2327,6 @@ function smoy_front_page_header_video_output() {
         <?php
     } 
 }
-
-
-/*
-add_filter( 'pre_set_theme_mod_smoy_services_header_bg_img', 'smoy_before_service_section_bg_save', 10, 2 ); 
-
- 
-function smoy_before_service_section_bg_save( $value, $old_value ) { 
-    
-    $desktop_img_id = $value - 1;
-    $desktop_srcset = wp_get_attachment_image_srcset($desktop_img_id, 'full');
-    $desktop_sizes = explode( ", ", $desktop_srcset );
-    $desktop_srcset_length = count($desktop_sizes);
-    
-    
-    if(!empty($value) && $desktop_srcset_length > 0) {
-        if ($desktop_srcset_length < 3) {
-            lazy_image_size($desktop_img_id, 460);
-            lazy_image_size($desktop_img_id, 1280);
-            lazy_image_size($desktop_img_id, 1600);
-            lazy_image_size($desktop_img_id, 1920);
-        }
-    }
-    
-    
-    $some_test = get_post(absint($value));
-    $some_other_test = get_post($desktop_img_id);
-    print_r($some_test);
-    echo PHP_EOL;
-    print_r($some_other_test);
-    echo PHP_EOL;
-    print_r($desktop_sizes);
-    echo PHP_EOL;
-    wp_die();
-    
-    
-    return $value; 
-}; 
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-         
 
 
 add_action( 'wp_head', 'smoy_section_header_background_styles');
@@ -3280,9 +2881,7 @@ function smoy_section_header_people_output() {
 add_action('smoy_get_people', 'smoy_staff_front_page_output');
 
 function smoy_staff_front_page_output() {
-    
     if((is_home() || is_page( 'eng' )) && !wp_is_mobile()){
-        
          class Smoy_Person {
              public $id;
              public $name = '';
@@ -3304,19 +2903,13 @@ function smoy_staff_front_page_output() {
                  if(!empty($thumbnail)){
                     $this->thumbnail = $thumbnail;
                  }
-
-             }
-             
+             } 
          }   
-
         $arrIndex = 0;
         $pplArray = array();
         $metaArray = array();
-        
         $smoy_people_query = new WP_Query( array( 'post_type' => 'smoy_person', 'order' => 'ASC', 'posts_per_page'=> -1) );
-
         $posts = $smoy_people_query->posts;
-
         foreach($posts as $post) {
             $thisPersonTitle = get_post_meta($post->ID, 'person_title');
             $thisPersonPhone = get_post_meta($post->ID, 'person_phone');
@@ -3324,77 +2917,27 @@ function smoy_staff_front_page_output() {
             $thisPerson = new Smoy_Person($post->ID, $post->post_title, $thisPersonTitle[0], $thisPersonPhone[0], $thisPersonThumb);
             $pplArray[$arrIndex] = $thisPerson;
             $arrIndex++;
-            
         }
-        
         $arrLength = count($pplArray);
-        
-        //$remainder = count($pplArray) % 8;
-        
-        
         if($arrLength % 8 !== 0){
             $remainder = $arrLength % 8;
             $blackBoxNum = 8 - $remainder;
-            
             $currentPos = ($arrLength - 1) - ($blackBoxNum * 2);
-            
             for($i = 0; $i < $blackBoxNum; $i++){
-                
                 $blackBox = 'black_box';
-                
-                //$original = array( 'a', 'b', 'c', 'd', 'e' );
-                //$inserted = array( 'x' ); // Not necessarily an array
-
-                array_splice( $pplArray, $currentPos, 0, $blackBox); // splice in at position 3
-                
-                $currentPos += 2;
-                // $original is now a b c x d e
-                
-            }
-            
-              
+                array_splice( $pplArray, $currentPos, 0, $blackBox);
+                $currentPos += 2; 
+            }   
         }
         
-
         ob_start();
         require_once(get_template_directory() . '/template-parts/smoy-people.php' );
         $output = ob_get_clean();
         echo $output;
-        
-
-        /*    
-        if ( $smoy_people_loop->have_posts() ) :
-        while ( $smoy_people_loop->have_posts() ) : $smoy_people_loop->the_post();
-
-        $pplArray[$arrIndex] = 
-
-
-        $arrIndex++;
-        endwhile;
-        endif;
-        */
-
-
         wp_reset_postdata();     
-        
     }
     
-    /*
-    
-    $smoy_refs_logos = array();
-    
-    for ($i = 0; $i < 12; $i++) {
-        $j = $i + 1; 
-        $smoy_refs_logos[$i] = wp_get_attachment_url(get_theme_mod( 'smoy_customer_logo_'.$j));
-    }
-    
-    ob_start();
-	require_once(get_template_directory() . '/template-parts/smoy-customer-references.php' );
-	$output = ob_get_clean();
-	echo $output;
-    */
 }
-
 
 add_action( 'smoy_get_content_section_header_contact', 'smoy_section_header_contact_output');
 
@@ -3435,19 +2978,16 @@ function smoy_contact_background_styles() {
             $desktop_img_id = $contact_img - 1;
             $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
             $mobile_src = wp_get_attachment_image_src($contact_img, 'full')[0];
-
             if(!empty($mobile_src) && !empty($desktop_src)){
                 $css['#contact-wrapper']['background-image'] = "url(\"".$desktop_src."\")";
                 $css_media_query['#contact-wrapper']['background-image'] = "url(\"".$mobile_src."\")";
                 $css_media_query['#contact-wrapper']['background-position'] = "center";
             }
-
             if(!empty($bg_position)){
                 $css['#contact-wrapper']['background-position'] = $bg_position;
             }else{
                 $css['#contact-wrapper']['background-position'] = '50% 50%';
-            }
-                             
+            }            
             if(!empty($css) && !empty($css_media_query)) {
                 $final_css = '<style type="text/css">';
                 foreach ( $css as $style => $style_array ) {
@@ -3604,6 +3144,3 @@ function smoy_message_page_social_icons_output() {
         wp_reset_postdata();     
     }
 }
-
-
-

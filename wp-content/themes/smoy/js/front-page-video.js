@@ -71,15 +71,6 @@ jQuery(function() {
         }
     }
 
-    /*
-    function removeSmoyVideo() {
-        if(doesItExist(smoy_video)){
-            jQuery(smoy_video).remove();
-            smoy_video = null;
-        }
-    }
-    */
-    
     var removeSmoyVideo = function() {
         if(doesItExist(smoy_video)){
             jQuery(smoy_video).remove();

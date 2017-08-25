@@ -16,7 +16,6 @@
         <?php endif; ?>
         <?php do_action('smoy_get_footer_contact_info') ?>
     </div>
-    <!--<div id="footer-content-center"> -->
         <?php if(is_home()): ?>
         <div id="footer-content-left-second">
             <button id="newsletter-button" class="newsletter-subscribe-button">Tilaa uutiskirje</button>
@@ -28,7 +27,6 @@
         </div>
         <?php endif; ?>
         <?php do_action('smoy_get_footer_social_icons') ?>
-    <!--</div> -->
     <div id="footer-content-right">
         <img src="<?php echo get_template_directory_uri(); ?>/img/logo/asml-logo.png" width="102px" height="38px" />
         <img src="<?php echo get_template_directory_uri(); ?>/img/logo/mtl-jasentunnus.png" width="105px" height="105px"/>
@@ -46,16 +44,10 @@ jQuery(function() {
     var w = window.innerWidth
     || document.documentElement.clientWidth
     || document.body.clientWidth;
-    /*
-    var h = window.innerHeight
-    || document.documentElement.clientHeight
-    || document.body.clientHeight;
-    */
     var $document = jQuery(document);
     var $root = jQuery('html, body');
     var $window = jQuery(window);
-    
-    if(window.location.pathname === '/eng/') { 
+    if(window.location.pathname === '/eng') { 
         serviceClass = 'service-box-eng';
     }else if(window.location.pathname === '/') {
         serviceClass = 'service-box';     
@@ -82,25 +74,12 @@ jQuery(function() {
     window.onresize = function(){
         clearTimeout(timerInit);
         timerInit = setTimeout(delayedReplace, 600);
-
         w = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;
         
-        /*
-        h = window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight;
-        */
         checkWidth(w);
     }
-    
-    /*
-    jQuery('.hover').bind('touchstart', function(e) {
-        //e.preventDefault();
-        jQuery(this).toggleClass('hover_effect');
-    });
-    */
     
     var down_arrow_wrapper = jQuery('#header-down-arrow-wrapper');
     if(jQuery(down_arrow_wrapper).length > 0) {

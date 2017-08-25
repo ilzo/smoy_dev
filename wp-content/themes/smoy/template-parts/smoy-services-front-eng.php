@@ -9,7 +9,6 @@
                     <div class="service-content">
                         <h2 class="service-title"><?php echo $smoy_services_titles_front[$i] ?></h2>
                         <div class="title-underline-pink"></div>
-                        <!--<p class="service-body-text"><?php/* echo $smoy_services_desc_bodies_eng[$i] */?></p> -->
                     </div>
                 </div>
             </div>  

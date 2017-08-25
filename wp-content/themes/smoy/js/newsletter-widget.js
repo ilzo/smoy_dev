@@ -2,7 +2,6 @@ jQuery(window).on('load', function() {
     var $document = jQuery(document);
     var $window = jQuery(window);
     var newsletterSidebar = jQuery('#newsletter-sidebar');
-    //var newsletterSidebar = document.getElementById('newsletter-sidebar');
     var footer = document.getElementById('footer');
     var footerHeight = window.getComputedStyle(footer).getPropertyValue('height');
     var newsletterFooter = document.getElementById('newsletter-footer');
@@ -10,19 +9,12 @@ jQuery(window).on('load', function() {
     var w = Math.max( $window.width(), window.innerWidth);
     if(jQuery(newsletterSidebar).length && (w > 960)){
         var startScrollPos = $window.scrollTop();
-        
         if ( window.location.pathname === '/' ){
             newsletter_detectScrollPos(startScrollPos);
         }
-        
         $document.bind('scroll.newsletterScrollHandler', function() {
             newsletter_detectScrollPos(startScrollPos);
         });                               
-        
-        /*
-       var textNode = jQuery(newsletterWidgetWrapper)[0].firstChild;
-       jQuery(textNode).wrap( '<div class="newsletter-widget-desc"></div>' );
-       */
         
        jQuery( '.newsletter-widget-container' ).click(function(e) {
             e.stopPropagation();
@@ -39,11 +31,7 @@ jQuery(window).on('load', function() {
         }
            
     }
-    /*
-    var footerWidgetDescNode = jQuery( '#newsletter-footer .footer-newsletter-widget-wrapper' ).contents().get(0);
-    jQuery(footerWidgetDescNode).wrap('<div class="footer-newsletter-widget-desc"></div>');
-    */
-    
+
     jQuery( '#newsletter-button, #newsletter-button-mobile, #footer-newsletter-box-close' ).click(function() {
       var viewportWidth = Math.max( $window.width(), window.innerWidth);
       jQuery('#newsletter-button, #newsletter-button-mobile').toggleClass( 'active-button' );
@@ -218,12 +206,8 @@ jQuery(window).on('load', function() {
     }
     
     function initNewsletterFooter(width) {
-       
         var footerHeightInt = parseInt(footerHeight, 10);
-    
-        //var newsletterFooterBottom = footerHeightInt;
         newsletterFooter.style.bottom = 0;
-        
         if(840 <= width) {
             newsletterFooter.style.height = footerHeightInt + 'px';
         }else if(460 <= width && width < 840) {
@@ -235,24 +219,6 @@ jQuery(window).on('load', function() {
         }else if(width < 300) { 
             newsletterFooter.style.height = (footerHeightInt * 0.77) + 'px';
         }
-      
     }
     
-    
-    /*
-    function addSidebarHoverClass() {
-        if(!jQuery(newsletterSidebar).hasClass('newsletter-box-opened')) {
-            jQuery(newsletterSidebar[0]).addClass('newsletter-box-hover');
-        }
-    }
-    
-    
-    function removeSidebarHoverClass() {
-        if(jQuery(newsletterSidebar).hasClass('newsletter-box-opened newsletter-box-hover')) {
-            jQuery(newsletterSidebar[0]).removeClass('newsletter-box-hover');
-        }
-    }
-    */
-    
-
 });
