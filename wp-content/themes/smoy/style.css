@@ -525,11 +525,6 @@ a img {
     
 }
 
-/* ????? */
-#top-menu-overlay a:hover, #top-menu-overlay a:focus {
-    color: #f1f1f1;
-}
-
 #top-menu-open, #top-menu-overlay .closebtn {
     -webkit-transition: all 0.25s ease-out 0s;
     -moz-transition: all 0.25s ease-out 0s;
