@@ -744,12 +744,20 @@ function smoy_generate_responsive_background_image_styles() {
     }  
 }
 
-add_action( 'template_redirect', 'smoy_redirect_to_latest_blog_post' );
+add_action( 'template_redirect', 'smoy_redirect_to_latest_post' );
 
-function smoy_redirect_to_latest_blog_post() {
-    if(!is_page('blogi') )
+function smoy_redirect_to_latest_post() {
+    if(!is_page('blogi') && !is_page('arkisto'))
         return;
-    $latest = get_posts( 'post_type=post&category_name=blogi&numberposts=1');
+	
+	if(is_page('blogi')){
+		$latest = get_posts( 'post_type=post&category_name=blogi&numberposts=1');
+	}else if(is_page('arkisto')){
+		$latest = get_posts( 'post_type=post&category_name=arkisto&numberposts=1');
+	}else{
+		$latest = array();
+	}
+    
     $permalink = get_permalink( $latest[0]->ID );
     wp_safe_redirect( $permalink, 307 );
     exit;

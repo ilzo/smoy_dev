@@ -239,7 +239,7 @@ jQuery(function() {
     var navSub = document.getElementsByClassName('navigation-sub');
 
     $document.scroll(function() {
-        if(window.location.pathname !== '/'){
+        if(window.location.pathname !== '/' && window.location.href.indexOf('/arkisto') === -1){
             subHeight = navSub[0].clientHeight;
             if(subHeight === 0) {
                 scroll_start = jQuery(this).scrollTop();
@@ -405,7 +405,7 @@ jQuery(function() {
         }, 1500);
     });
     
-    if( window.location.pathname === '/' ){
+    if( window.location.pathname === '/' || window.location.href.indexOf('/arkisto') > -1 ){
         jQuery('.navigation-top').addClass('nav-ready nav-black');
     }else{
         if($document.scrollTop() > 180) { 
