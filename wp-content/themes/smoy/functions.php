@@ -744,6 +744,8 @@ function smoy_generate_responsive_background_image_styles() {
     }  
 }
 
+
+/*
 add_action( 'template_redirect', 'smoy_redirect_to_latest_post' );
 
 function smoy_redirect_to_latest_post() {
@@ -764,6 +766,40 @@ function smoy_redirect_to_latest_post() {
     wp_safe_redirect( $permalink, 307 );
     exit;
 }
+
+*/
+
+
+// DO 301 REDIRECT FOR SOME OLD URLS
+add_action( 'template_redirect', 'smoy_redirect_to_new_page_urls' );
+
+function smoy_redirect_to_new_page_urls() {
+	global $wp;
+    // get current url with query string.
+	$current_url =  home_url( $wp->request );
+    
+    /*
+    $old_urls = array('http://www.smoy.com/markkinointiviestinta', 'http://www.smoy.com/asiakkuusmarkkinointi', 'http://www.smoy.com/kaannokset', 'http://www.smoy.com/kuvaukset', 'http://www.smoy.com/blogi/page/1', 'http://www.smoy.com/blogi/page/2', 'http://www.smoy.com/blogi/page/3', 'http://www.smoy.com/arkisto/page/1', 'http://www.smoy.com/arkisto/page/2', 'http://www.smoy.com/arkisto/page/3', 'http://www.smoy.com/arkisto/page/4', 'http://www.smoy.com/arkisto/page/5', 'http://www.smoy.com/arkisto/page/6', 'http://www.smoy.com/arkisto/page/7', 'http://www.smoy.com/arkisto/page/8', 'http://www.smoy.com/arkisto/page/9', 'http://www.smoy.com/arkisto/page/10', 'http://www.smoy.com/arkisto/page/11', 'http://www.smoy.com/arkisto/page/12', 'http://www.smoy.com/arkisto/page/13', 'http://www.smoy.com/arkisto/page/14', 'http://www.smoy.com/tag/');
+    
+    $new_urls = array('http://www.smoy.com', 'http://www.smoy.com/palvelut/asiakkuusmarkkinointi', 'http://www.smoy.com/palvelut/kuvauspalvelut-ja-kaannokset', 'http://www.smoy.com/palvelut/kuvauspalvelut-ja-kaannokset', 'http://www.smoy.com/blogi', 'http://www.smoy.com/blogi', 'http://www.smoy.com/blogi', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com');
+    */
+    
+    $old_urls = array('http://192.168.11.6:8083/markkinointiviestinta', 'http://192.168.11.6:8083/asiakkuusmarkkinointi', 'http://192.168.11.6:8083/kaannokset', 'http://192.168.11.6:8083/kuvaukset', 'http://192.168.11.6:8083/blogi/page/1', 'http://192.168.11.6:8083/blogi/page/2', 'http://192.168.11.6:8083/blogi/page/3', 'http://192.168.11.6:8083/arkisto/page/1', 'http://192.168.11.6:8083/arkisto/page/2', 'http://192.168.11.6:8083/arkisto/page/3', 'http://192.168.11.6:8083/arkisto/page/4', 'http://192.168.11.6:8083/arkisto/page/5', 'http://192.168.11.6:8083/arkisto/page/6', 'http://192.168.11.6:8083/arkisto/page/7', 'http://192.168.11.6:8083/arkisto/page/8', 'http://192.168.11.6:8083/arkisto/page/9', 'http://192.168.11.6:8083/arkisto/page/10', 'http://192.168.11.6:8083/arkisto/page/11', 'http://192.168.11.6:8083/arkisto/page/12', 'http://192.168.11.6:8083/arkisto/page/13', 'http://192.168.11.6:8083/arkisto/page/14', 'http://192.168.11.6:8083/tag/');
+    
+    $new_urls = array('http://192.168.11.6:8083/#services', 'http://192.168.11.6:8083/palvelut/asiakkuusmarkkinointi', 'http://192.168.11.6:8083/palvelut/kuvauspalvelut-ja-kaannokset', 'http://192.168.11.6:8083/palvelut/kuvauspalvelut-ja-kaannokset', 'http://192.168.11.6:8083/blogi', 'http://192.168.11.6:8083/blogi', 'http://192.168.11.6:8083/blogi', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083');
+    
+    $urls_length = count($old_urls);
+    for ($i = 0; $i < $urls_length; $i++) {
+        if($current_url === $old_urls[$i] ){
+            $redirect_url = $new_urls[$i];
+            wp_safe_redirect( $redirect_url, 301 );
+            exit;
+        }
+ 
+    }
+
+}
+
 
 add_filter( 'template_include', 'smoy_newsletter_template');
 
