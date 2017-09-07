@@ -1,4 +1,5 @@
 <?php
+
 add_action( 'after_setup_theme', 'smoy_setup' );
 
 function smoy_setup() {
@@ -476,14 +477,16 @@ function smoy_is_mobile_phone() {
 
 function load_scripts() {
     wp_register_script('top-nav-menu', get_template_directory_uri() .'/js/top-nav-menu.js', array('jquery'), null, true);
-    wp_register_script('front-page-video', get_template_directory_uri() .'/js/front-page-video.js', array('jquery'), null, true);
+    //wp_register_script('front-page-video', get_template_directory_uri() .'/js/front-page-video.js', array('jquery'), null, true);
     wp_register_script( 'gsap-tweenmax', get_template_directory_uri() .'/js/TweenMax.min.js', array(), '1.19.1', false );
     wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery', 'gsap-tweenmax'), null, false);
     wp_register_script('newsletter-widget-js', get_template_directory_uri() .'/js/newsletter-widget.js', array('jquery'), null, false);
     wp_enqueue_script( 'top-nav-menu' );
+    /*
     if(is_home()){
         wp_enqueue_script( 'front-page-video' );
     }
+    */
     if(is_home() || is_page('eng')){
         wp_enqueue_script( 'gsap-tweenmax' );
         wp_enqueue_script( 'customer-references' );
@@ -745,61 +748,14 @@ function smoy_generate_responsive_background_image_styles() {
 }
 
 
-/*
-add_action( 'template_redirect', 'smoy_redirect_to_latest_post' );
+add_action('template_redirect', 'smoy_author_redirect');
 
-function smoy_redirect_to_latest_post() {
-    if(!is_page('blogi') && !is_page('arkisto') && !is_page('yleinen'))
-        return;
-	
-	if(is_page('blogi')){
-		$latest = get_posts( 'post_type=post&category_name=blogi&numberposts=1');
-	}else if(is_page('arkisto')){
-		$latest = get_posts( 'post_type=post&category_name=arkisto&numberposts=1');
-	}else if(is_page('yleinen')){
-		$latest = get_posts( 'post_type=post&category_name=blogi&numberposts=1');
-	}else{
-        $latest = array();
+function smoy_author_redirect() {
+    if (is_author()){
+        wp_redirect( home_url() ); 
+		exit;
     }
-    
-    $permalink = get_permalink( $latest[0]->ID );
-    wp_safe_redirect( $permalink, 307 );
-    exit;
 }
-
-*/
-
-
-// DO 301 REDIRECT FOR SOME OLD URLS
-add_action( 'template_redirect', 'smoy_redirect_to_new_page_urls' );
-
-function smoy_redirect_to_new_page_urls() {
-	global $wp;
-    // get current url with query string.
-	$current_url =  home_url( $wp->request );
-    
-    /*
-    $old_urls = array('http://www.smoy.com/markkinointiviestinta', 'http://www.smoy.com/asiakkuusmarkkinointi', 'http://www.smoy.com/kaannokset', 'http://www.smoy.com/kuvaukset', 'http://www.smoy.com/blogi/page/1', 'http://www.smoy.com/blogi/page/2', 'http://www.smoy.com/blogi/page/3', 'http://www.smoy.com/arkisto/page/1', 'http://www.smoy.com/arkisto/page/2', 'http://www.smoy.com/arkisto/page/3', 'http://www.smoy.com/arkisto/page/4', 'http://www.smoy.com/arkisto/page/5', 'http://www.smoy.com/arkisto/page/6', 'http://www.smoy.com/arkisto/page/7', 'http://www.smoy.com/arkisto/page/8', 'http://www.smoy.com/arkisto/page/9', 'http://www.smoy.com/arkisto/page/10', 'http://www.smoy.com/arkisto/page/11', 'http://www.smoy.com/arkisto/page/12', 'http://www.smoy.com/arkisto/page/13', 'http://www.smoy.com/arkisto/page/14', 'http://www.smoy.com/tag/');
-    
-    $new_urls = array('http://www.smoy.com', 'http://www.smoy.com/palvelut/asiakkuusmarkkinointi', 'http://www.smoy.com/palvelut/kuvauspalvelut-ja-kaannokset', 'http://www.smoy.com/palvelut/kuvauspalvelut-ja-kaannokset', 'http://www.smoy.com/blogi', 'http://www.smoy.com/blogi', 'http://www.smoy.com/blogi', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com/arkisto', 'http://www.smoy.com');
-    */
-    
-    $old_urls = array('http://192.168.11.6:8083/markkinointiviestinta', 'http://192.168.11.6:8083/asiakkuusmarkkinointi', 'http://192.168.11.6:8083/kaannokset', 'http://192.168.11.6:8083/kuvaukset', 'http://192.168.11.6:8083/blogi/page/1', 'http://192.168.11.6:8083/blogi/page/2', 'http://192.168.11.6:8083/blogi/page/3', 'http://192.168.11.6:8083/arkisto/page/1', 'http://192.168.11.6:8083/arkisto/page/2', 'http://192.168.11.6:8083/arkisto/page/3', 'http://192.168.11.6:8083/arkisto/page/4', 'http://192.168.11.6:8083/arkisto/page/5', 'http://192.168.11.6:8083/arkisto/page/6', 'http://192.168.11.6:8083/arkisto/page/7', 'http://192.168.11.6:8083/arkisto/page/8', 'http://192.168.11.6:8083/arkisto/page/9', 'http://192.168.11.6:8083/arkisto/page/10', 'http://192.168.11.6:8083/arkisto/page/11', 'http://192.168.11.6:8083/arkisto/page/12', 'http://192.168.11.6:8083/arkisto/page/13', 'http://192.168.11.6:8083/arkisto/page/14', 'http://192.168.11.6:8083/tag/');
-    
-    $new_urls = array('http://192.168.11.6:8083/#services', 'http://192.168.11.6:8083/palvelut/asiakkuusmarkkinointi', 'http://192.168.11.6:8083/palvelut/kuvauspalvelut-ja-kaannokset', 'http://192.168.11.6:8083/palvelut/kuvauspalvelut-ja-kaannokset', 'http://192.168.11.6:8083/blogi', 'http://192.168.11.6:8083/blogi', 'http://192.168.11.6:8083/blogi', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083/arkisto', 'http://192.168.11.6:8083');
-    
-    $urls_length = count($old_urls);
-    for ($i = 0; $i < $urls_length; $i++) {
-        if($current_url === $old_urls[$i] ){
-            $redirect_url = $new_urls[$i];
-            wp_safe_redirect( $redirect_url, 301 );
-            exit;
-        }
- 
-    }
-
-}
-
 
 add_filter( 'template_include', 'smoy_newsletter_template');
 
@@ -962,14 +918,26 @@ add_action( 'customize_register', 'smoy_customize_register' );
 
 function smoy_customize_register( $wp_customize ) {
     
+    
     /* ----------------------------------- */
     /* ------------- SECTIONS ------------ */
     /* ----------------------------------- */
     
-    /* ------ Front-Page Background Images Section ------ */
+    
+    /* ------ Front-Page Video Section ------ */
     
     
     $linebreak = '<div style="margin: 10px 0;"></div>';
+    
+    $wp_customize->add_section( 'smoy_front_video_section', array(
+      'title' => __( 'Front page video', 'smoy' ),
+      'description' => sprintf( __( 'Upload front page video here. Upload the video file in mp4 and webm format. You should also upload the background image shown in place of the video if it is hidden on or not found. If no background image is set, the first frame of the video is displayed as the background image. %s', 'smoy' ), $linebreak ),
+      'capability' => 'edit_theme_options'
+    ));
+    
+    
+    /* ------ Front-Page Background Images Section ------ */
+    
     
     $wp_customize->add_section( 'smoy_bg_imgs', array(
       'title' => __( 'Front page background images', 'smoy' ),
@@ -1045,6 +1013,16 @@ function smoy_customize_register( $wp_customize ) {
     /* ----------------------------------- */
     /* ------------- SETTINGS ------------ */
     /* ----------------------------------- */
+    
+    
+     /* ------ Front-Page Video Section ------ */
+    
+    $wp_customize->add_setting('smoy_front_video_mp4', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
     
 
     /* ------ Front-Page Background Images Section ------ */
@@ -1604,6 +1582,18 @@ function smoy_customize_register( $wp_customize ) {
     /* ----------------------------------- */
     /* ------------- CONTROLS ------------ */
     /* ----------------------------------- */
+    
+    
+    /* ------ Front-Page Video Section ------ */
+    
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'smoy_front_video_mp4', array(
+        'label' => __('Front page video (MP4 file)', 'smoy'),
+        'description' => __('Insert the mp4 video file here', 'smoy'),
+        'section' => 'smoy_front_video_section',
+        'mime_type' => 'video',
+        'active_callback' => 'is_front_page'
+    )));
+    
     
     
     /* ------ Front-Page Background Images Section ------ */
@@ -2350,15 +2340,19 @@ function replace_textarea_linebreaks( $textarea ){
     return str_replace("\n", '<span class="header-desc-linebreak"></span>', $textarea); 
 }
 
+
+/*
+
 add_action( 'smoy_get_front_page_header_video_markup', 'smoy_front_page_header_video_output');
 
 function smoy_front_page_header_video_output() {
     if(is_home()) {
         if(!smoy_is_mobile()) {
+            $site_url = site_url();
             ?>
-            <video id="smoy-home-video" poster="/wp-content/themes/smoy/img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg" autoplay="true" muted preload="none">
-                <source src="/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.mp4" type="video/mp4" />
-                <source src="/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.webm" type="video/webm" />
+            <video id="smoy-home-video" poster="<?php echo $site_url ?>/wp-content/themes/smoy/img/background/Smoy_mutkattomasti_tuloksia_still_small_logo.jpg" autoplay="true" muted preload="none">
+                <source src="<?php echo $site_url ?>/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.mp4" type="video/mp4" />
+                <source src="<?php echo $site_url ?>/wp-content/themes/smoy/videos/Smoy_mutkattomasti_tuloksia.webm" type="video/webm" />
             </video>
             <?php
         }
@@ -2373,6 +2367,15 @@ function smoy_front_page_header_video_output() {
         <?php
     } 
 }
+*/
+
+
+
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* ----------- SMOY THEME CUSTOMIZER FUNCTIONS ------------ */
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
 
 
 add_action( 'wp_head', 'smoy_section_header_background_styles');
