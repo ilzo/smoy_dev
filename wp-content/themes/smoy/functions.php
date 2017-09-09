@@ -477,25 +477,32 @@ function smoy_is_mobile_phone() {
 
 function load_scripts() {
     wp_register_script('top-nav-menu', get_template_directory_uri() .'/js/top-nav-menu.js', array('jquery'), null, true);
-    //wp_register_script('front-page-video', get_template_directory_uri() .'/js/front-page-video.js', array('jquery'), null, true);
+    wp_register_script('front-page-video', get_template_directory_uri() .'/js/front-page-video.js', array('jquery'), null, true);
     wp_register_script( 'gsap-tweenmax', get_template_directory_uri() .'/js/TweenMax.min.js', array(), '1.19.1', false );
     wp_register_script('customer-references', get_template_directory_uri() .'/js/customer-references.js', array('jquery', 'gsap-tweenmax'), null, false);
     wp_register_script('newsletter-widget-js', get_template_directory_uri() .'/js/newsletter-widget.js', array('jquery'), null, false);
     wp_enqueue_script( 'top-nav-menu' );
-    /*
-    if(is_home()){
-        wp_enqueue_script( 'front-page-video' );
+    
+    if(is_home()) {
+        if(!smoy_is_mobile()) {
+            wp_enqueue_script( 'front-page-video' );
+            $scroll_start = get_theme_mod('smoy_front_video_scroll_start_time');
+            if(!empty($scroll_start)){
+                wp_localize_script( 'front-page-video', 'SMOY_VIDEO_SCROLL_START', array('start_time' => $scroll_start) );
+            }else{
+                wp_localize_script( 'front-page-video', 'SMOY_VIDEO_SCROLL_START', array('start_time' => null) );
+            }   
+        } 
     }
-    */
+    
     if(is_home() || is_page('eng')){
         wp_enqueue_script( 'gsap-tweenmax' );
         wp_enqueue_script( 'customer-references' );
     }
     if(is_home() || is_singular('smoy_service') || (is_singular() && in_category('blogi')) || (is_singular() && in_category('arkisto'))){
         wp_enqueue_script( 'newsletter-widget-js' );
-        wp_localize_script('newsletter-widget-js', 'WPURLS', array('theme_path' => get_stylesheet_directory_uri()));
+        wp_localize_script( 'newsletter-widget-js', 'WPURLS', array('theme_path' => get_stylesheet_directory_uri()) );
     }
-
 }
 
 function smoy_styles() {
@@ -931,7 +938,7 @@ function smoy_customize_register( $wp_customize ) {
     
     $wp_customize->add_section( 'smoy_front_video_section', array(
       'title' => __( 'Front page video', 'smoy' ),
-      'description' => sprintf( __( 'Upload front page video here. Upload the video file both in mp4 and webm format. Also upload the background image which is shown in case the video is loading, hidden or not found. Video files must be optimized for web use prior to uploading (file size less than 8 MB). %s', 'smoy' ), $linebreak ),
+      'description' => sprintf( __( 'Upload front page video here. Upload the video file both in mp4 and webm format. You must also upload and set both the header background image and video poster image (see details below). Video files and images must be optimized/compressed for web use prior to uploading (file size for videos less than 8 MB and for images less than 300 kB). %s', 'smoy' ), $linebreak ),
       'capability' => 'edit_theme_options'
     ));
     
@@ -941,7 +948,7 @@ function smoy_customize_register( $wp_customize ) {
     
     $wp_customize->add_section( 'smoy_bg_imgs', array(
       'title' => __( 'Front page background images', 'smoy' ),
-      'description' => sprintf( __( 'Upload front page background images here. The original full-sized image will be used for desktop screens and the cropped version for small mobile screens. Recommended resolution for original image is 3000x2000 at most. The image must be optimized for web use prior to uploading (file size no more than 300 - 500 kB). Use JPEG file format only. %s Note: Use custom css panel to add custom styling for background images when necessary.', 'smoy' ), $linebreak ),
+      'description' => sprintf( __( 'Upload front page background images here. The original full-sized image will be used for desktop screens and the cropped version for small mobile screens. Recommended resolution for original image is 3000 x 2000 at most. Images must be optimized/compressed for web use prior to uploading (file size less than 300 kB). Use JPEG file format only. %s Note: Use custom css panel to add custom styling for background images when necessary.', 'smoy' ), $linebreak ),
       'capability' => 'edit_theme_options'
     ));
     
@@ -1045,6 +1052,12 @@ function smoy_customize_register( $wp_customize ) {
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'absint'
+    ));
+    
+    $wp_customize->add_setting('smoy_front_video_scroll_start_time', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'smoy_sanitize_float'
     ));
     
     $wp_customize->add_setting('smoy_front_video_css', array(
@@ -1627,7 +1640,7 @@ function smoy_customize_register( $wp_customize ) {
     
     $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'smoy_front_header_bg_img_mobile', array(
         'label' => __('Front page header background image ( Mobile )', 'smoy'),
-        'description' => __('Insert the mobile size background image here', 'smoy'),
+        'description' => __('Insert the mobile size background image here. This image will be displayed in smaller mobile screens (by default, screen width less than 960 pixels). The video will not load on mobile devices.', 'smoy'),
         'section' => 'smoy_front_video_section',
         'mime_type' => 'image',
         'active_callback' => 'is_front_page'
@@ -1656,6 +1669,14 @@ function smoy_customize_register( $wp_customize ) {
         'mime_type' => 'video',
         'active_callback' => 'is_front_page'
     )));
+    
+    $wp_customize->add_control( 'smoy_front_video_scroll_start_time', array(
+        'label' => __( 'Viewport scroll start time', 'smoy'),
+        'description' => __('Specify the exact time (in seconds) within the video playback when the browser viewport will be scrolled down to the next section. Use decimal number with a dot, for example 21.5 (seconds). If no time is specified, the viewport will scroll down after the video playback has reached to the end.', 'smoy'),
+        'type' => 'text',
+        'section' => 'smoy_front_video_section',
+        'active_callback' => 'is_front_page'
+    ));
     
     $wp_customize->add_control( 'smoy_front_video_css', array(
         'label' => __( 'Custom CSS', 'smoy'),
@@ -2389,7 +2410,16 @@ function smoy_customize_register( $wp_customize ) {
 /* -------------------------------------------------------- */
 
 
+/* ----- Customizer Input Sanitation Functions ----- */
 
+function smoy_sanitize_float( $input ) {
+    if( is_numeric($input) && ( 0 <= $input ) ) {
+        return filter_var($input, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    } else if( '' === $input ) {
+        return $input;
+    }
+    return null;
+}
 
 function smoy_sanitize_checkbox( $input ) {
 	return ( $input === true ) ? true : false;
@@ -2448,7 +2478,17 @@ function smoy_front_page_header_video_output() {
 /* -------------------------------------------------------- */
 /* -------------------------------------------------------- */
 
+add_action( 'customize_controls_print_styles', 'smoy_customizer_styles', 999 );
 
+function smoy_customizer_styles() { 
+    ?>
+	<style>
+		#customize-control-smoy_front_video_css textarea {
+			min-height: 400px;
+		}
+	</style>
+    <?php
+}
 
 
 add_action( 'smoy_get_front_page_header_video_markup', 'smoy_front_page_header_video_output');
@@ -2456,36 +2496,24 @@ add_action( 'smoy_get_front_page_header_video_markup', 'smoy_front_page_header_v
 function smoy_front_page_header_video_output() {
     if(is_home()) {
         if(!smoy_is_mobile()) {
-            $site_url = site_url();
-            
             $smoy_video_poster_id = get_theme_mod('smoy_front_video_poster');
-            
             $smoy_mp4_video_id = get_theme_mod('smoy_front_video_mp4');
             $smoy_webm_video_id = get_theme_mod('smoy_front_video_webm');
-        
             $smoy_video_poster_url = '';
             $smoy_mp4_video_url = '';
             $smoy_webm_video_url = '';
-            
-            
-            
             if(!empty($smoy_video_poster_id)){
                 $smoy_video_poster_url = wp_get_attachment_url( $smoy_video_poster_id );
             }
-            
-            
             if(!empty($smoy_mp4_video_id)){
                 $smoy_mp4_video_url = wp_get_attachment_url( $smoy_mp4_video_id );
             }
-            
             if(!empty($smoy_webm_video_id)){
-                $smoy_webm_video_url = wp_get_attachment_url( $smoy_webm_video_id);
+                $smoy_webm_video_url = wp_get_attachment_url( $smoy_webm_video_id );
             }
-            
             if('' !== $smoy_mp4_video_url ):
-            
             ?>
-            <video id="smoy-home-video" <?php if( '' !== $smoy_video_poster_url ){ echo 'poster="'. esc_url( $smoy_video_poster_url ) .'" '; } ?> autoplay="true" muted loop>
+            <video id="smoy-home-video" <?php if( '' !== $smoy_video_poster_url ){ echo 'poster="'. esc_url( $smoy_video_poster_url ) .'" '; } ?> autoplay="true" muted>
                 <source src="<?php echo esc_url( $smoy_mp4_video_url ); ?>" type="video/mp4" />
                 <?php if( '' !== $smoy_webm_video_url ): ?>
                 <source src="<?php echo esc_url( $smoy_webm_video_url ); ?>" type="video/webm" />
@@ -2510,27 +2538,18 @@ function smoy_front_page_header_video_output() {
 add_action( 'wp_head', 'smoy_front_header_background_styles');
 
 function smoy_front_header_background_styles() {
-    
     if(is_home()) {
-        
         $smoy_front_header_img_desktop_id = get_theme_mod('smoy_front_header_bg_img_desktop');
         $smoy_front_header_img_desktop_url = '';
-        
         if(!empty($smoy_front_header_img_desktop_id)){
             $smoy_front_header_img_desktop_url = wp_get_attachment_url( $smoy_front_header_img_desktop_id );
         }
-        
         $smoy_front_header_img_mobile_id = get_theme_mod('smoy_front_header_bg_img_mobile');
         $smoy_front_header_img_mobile_url = '';
-        
-        
         if(!empty($smoy_front_header_img_mobile_id)){
             $smoy_front_header_img_mobile_url = wp_get_attachment_url( $smoy_front_header_img_mobile_id );
         }
-        
         $smoy_front_video_css = get_theme_mod('smoy_front_video_css');
-        
-        
         ?>
         <style type="text/css">
         <?php if('' !== $smoy_front_header_img_desktop_url): ?>
@@ -2538,28 +2557,22 @@ function smoy_front_header_background_styles() {
             background: url(<?php echo esc_url($smoy_front_header_img_desktop_url); ?>);
         }
         <?php endif; ?>
-            
         @media screen and (max-width: 960px) {
         <?php if('' !== $smoy_front_header_img_mobile_url): ?>
         #header-home {
             background: url(<?php echo esc_url($smoy_front_header_img_mobile_url); ?>);
         }
         <?php endif; ?>
-
         #smoy-home-video {
             display: none;
         }
 
         }
-            
         <?php if(!empty($smoy_front_video_css)){echo $smoy_front_video_css;} ?>    
         </style>
         <?php
     }  
 }
-
-
-
 
 add_action( 'wp_head', 'smoy_section_header_background_styles');
 
