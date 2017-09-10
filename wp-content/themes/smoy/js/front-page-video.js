@@ -15,8 +15,13 @@ jQuery(function() {
     if(doesItExist(smoy_video)) {
         var isIE = detectIE();
         smoy_video_source_tags = smoy_video.getElementsByTagName('source');
-        smoy_video_src_mp4 = smoy_video_source_tags[0].getAttribute('src');
-        smoy_video_src_webm = smoy_video_source_tags[1].getAttribute('src');
+        for(var i = 0; i < smoy_video_source_tags.length; i++) {
+            if(smoy_video_source_tags[i].getAttribute('type') === 'video/mp4') {
+               smoy_video_src_mp4 = smoy_video_source_tags[i].getAttribute('src');
+            }else{
+                smoy_video_src_webm = smoy_video_source_tags[i].getAttribute('src');
+            } 
+        }
         $document.bind('scroll', function() {
             currentScrollPos = $window.scrollTop();
             smoy_video_detectScrollPos(w, currentScrollPos, header_height);
@@ -71,11 +76,16 @@ jQuery(function() {
     function playSmoyVideo() {
         if(doesItExist(smoy_video) && doesItExist(smoy_video_source_tags)){
             if(smoy_video_source_tags[0].getAttribute('src') === '') {
-                smoy_video_source_tags[0].setAttribute('src', smoy_video_src_mp4);
-                smoy_video_source_tags[1].setAttribute('src', smoy_video_src_webm);
+                for(var i = 0; i < smoy_video_source_tags.length; i++) {
+                    if(smoy_video_source_tags[i].getAttribute('type') === 'video/mp4') {
+                       smoy_video_source_tags[i].setAttribute('src', smoy_video_src_mp4);
+                    }else{
+                        smoy_video_source_tags[i].setAttribute('src', smoy_video_src_webm);
+                    } 
+                }
                 smoy_video.load();
                 smoy_video.addEventListener( 'timeupdate', videoUpdateHandler );
-            }
+            } 
         }
     }
 
@@ -90,8 +100,9 @@ jQuery(function() {
         if(doesItExist(smoy_video) && doesItExist(smoy_video_source_tags)){
             if(smoy_video_source_tags[0].getAttribute('src') !== '') {
                 smoy_video.pause();
-                smoy_video_source_tags[0].setAttribute('src', '');
-                smoy_video_source_tags[1].setAttribute('src', '');
+                for (var i = 0; i < smoy_video_source_tags.length; i++) {
+                  smoy_video_source_tags[i].setAttribute('src', '');
+                }
                 smoy_video.removeEventListener('timeupdate', videoUpdateHandler);
             }
         }
