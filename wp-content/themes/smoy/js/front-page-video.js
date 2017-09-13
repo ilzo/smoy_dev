@@ -33,7 +33,11 @@ jQuery(function() {
         }else{
             smoy_video.addEventListener('timeupdate', videoUpdateHandler);
         }
-        smoy_video_detectScrollPos(w, currentScrollPos, header_height); 
+        
+        setTimeout(function(){
+            smoy_video_detectScrollPos(w, currentScrollPos, header_height); 
+        }, 5000);
+        
         smoy_video_check_width(w);    
     }
     
@@ -91,6 +95,7 @@ jQuery(function() {
 
     var removeSmoyVideo = function() {
         if(doesItExist(smoy_video)){
+            smoy_video.removeEventListener('timeupdate', videoUpdateHandler);
             jQuery(smoy_video).remove();
             smoy_video = null;
         }
