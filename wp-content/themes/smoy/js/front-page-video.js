@@ -17,7 +17,7 @@ jQuery(function() {
         smoy_video_source_tags = smoy_video.getElementsByTagName('source');
         for(var i = 0; i < smoy_video_source_tags.length; i++) {
             if(smoy_video_source_tags[i].getAttribute('type') === 'video/mp4') {
-               smoy_video_src_mp4 = smoy_video_source_tags[i].getAttribute('src');
+                smoy_video_src_mp4 = smoy_video_source_tags[i].getAttribute('src');
             }else{
                 smoy_video_src_webm = smoy_video_source_tags[i].getAttribute('src');
             } 
