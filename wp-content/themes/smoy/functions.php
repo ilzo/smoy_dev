@@ -1030,12 +1030,6 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'absint'
     ));
     
-    $wp_customize->add_setting('smoy_front_header_bg_img_mobile', array(
-            'type' => 'theme_mod',
-            'capability' => 'edit_theme_options',
-            'sanitize_callback' => 'absint'
-    ));
-    
     $wp_customize->add_setting('smoy_front_video_poster', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
@@ -1633,14 +1627,6 @@ function smoy_customize_register( $wp_customize ) {
     $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'smoy_front_header_bg_img_desktop', array(
         'label' => __('Front page header background image ( Desktop )', 'smoy'),
         'description' => __('Insert the desktop size background image here. This image will be displayed in desktop screens in case the video is not set or when it is hidden.', 'smoy'),
-        'section' => 'smoy_front_video_section',
-        'mime_type' => 'image',
-        'active_callback' => 'is_front_page'
-    )));
-    
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'smoy_front_header_bg_img_mobile', array(
-        'label' => __('Front page header background image ( Mobile )', 'smoy'),
-        'description' => __('Insert the mobile size background image here. This image will be displayed in smaller mobile screens (by default, screen width less than 960 pixels). The video will not load on mobile devices.', 'smoy'),
         'section' => 'smoy_front_video_section',
         'mime_type' => 'image',
         'active_callback' => 'is_front_page'
@@ -2490,6 +2476,18 @@ function smoy_customizer_styles() {
     <?php
 }
 
+function smoy_get_original_attachment_url( $cropped_id, $cropped_src ) {
+    $cropped_img_slug = get_post_field( 'post_name', $cropped_id );
+    preg_match('/^.+[\/]/', $cropped_src, $matches);
+    $folder_path = $matches[0];
+    $original_slug = str_replace('cropped-', '', $cropped_img_slug);    
+    $original_slug = str_replace('-jpg', '', $original_slug);
+    //$original_slug = preg_replace('/-\d+x\d+/', '', $original_slug);
+    $original_slug = preg_replace('/-[0-9]+/', '', $original_slug);
+    $original_src = $folder_path . $original_slug . '.jpg';
+    return $original_src;
+}
+
 
 add_action( 'smoy_get_front_page_header_video_markup', 'smoy_front_page_header_video_output');
 
@@ -2544,11 +2542,6 @@ function smoy_front_header_background_styles() {
         if(!empty($smoy_front_header_img_desktop_id)){
             $smoy_front_header_img_desktop_url = wp_get_attachment_url( $smoy_front_header_img_desktop_id );
         }
-        $smoy_front_header_img_mobile_id = get_theme_mod('smoy_front_header_bg_img_mobile');
-        $smoy_front_header_img_mobile_url = '';
-        if(!empty($smoy_front_header_img_mobile_id)){
-            $smoy_front_header_img_mobile_url = wp_get_attachment_url( $smoy_front_header_img_mobile_id );
-        }
         $smoy_front_video_css = get_theme_mod('smoy_front_video_css');
         ?>
         <style type="text/css">
@@ -2558,15 +2551,12 @@ function smoy_front_header_background_styles() {
         }
         <?php endif; ?>
         @media screen and (max-width: 960px) {
-        <?php if('' !== $smoy_front_header_img_mobile_url): ?>
-        #header-home {
-            background: url(<?php echo esc_url($smoy_front_header_img_mobile_url); ?>);
+        #smoy-home #header-home {
+            height: 0;
         }
-        <?php endif; ?>
-        #smoy-home-video {
+        #smoy-home-video, #header-down-arrow-wrapper {
             display: none;
         }
-
         }
         <?php if(!empty($smoy_front_video_css)){echo $smoy_front_video_css;} ?>    
         </style>
@@ -2589,9 +2579,7 @@ function smoy_section_header_background_styles() {
             
             foreach($front_sections as $section) {
                 if(!empty($section_header_imgs[$i])){
-                    
                     $bg_pos = $bg_positions[$i];
-                    
                     if($section === 'our-staff'){
                         $desktop_img_id = $section_header_imgs[$i];
                         $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
@@ -2607,10 +2595,8 @@ function smoy_section_header_background_styles() {
                             $css['#'.$section.' .content-section-header']['background-position'] = '50% 50%';
                         } 
                     }else{
-                        $desktop_img_id = $section_header_imgs[$i] - 1;
-                        $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
                         $mobile_src = wp_get_attachment_image_src($section_header_imgs[$i], 'full')[0];
-
+                        $desktop_src = smoy_get_original_attachment_url($section_header_imgs[$i], $mobile_src);
                         if(!empty($mobile_src) && !empty($desktop_src)){
                             $css['#'.$section.' .content-section-header']['background-image'] = "url(\"".$desktop_src."\")";
                             $css_media_query['#'.$section.' .content-section-header']['background-image'] = "url(\"".$mobile_src."\")";
@@ -2667,10 +2653,9 @@ function smoy_about_us_background_styles() {
         if(!empty($about_us_img)) {
             $css = array();
             $css_media_query = array();
-            $desktop_img_id = $about_us_img - 1;
-            $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
             $mobile_src = wp_get_attachment_image_src($about_us_img, 'full')[0];
-
+            $desktop_src = smoy_get_original_attachment_url($about_us_img, $mobile_src);
+            
             if(!empty($mobile_src) && !empty($desktop_src)){
                 $css['#about-us']['background-image'] = "url(\"".$desktop_src."\")";
                 $css_media_query['#about-us']['background-image'] = "url(\"".$mobile_src."\")";
@@ -3220,9 +3205,9 @@ function smoy_contact_background_styles() {
         if(!empty($contact_img)) {
             $css = array();
             $css_media_query = array();
-            $desktop_img_id = $contact_img - 1;
-            $desktop_src = wp_get_attachment_image_src($desktop_img_id, 'full')[0];
             $mobile_src = wp_get_attachment_image_src($contact_img, 'full')[0];
+            $desktop_src = smoy_get_original_attachment_url($contact_img, $mobile_src);
+            
             if(!empty($mobile_src) && !empty($desktop_src)){
                 $css['#contact-wrapper']['background-image'] = "url(\"".$desktop_src."\")";
                 $css_media_query['#contact-wrapper']['background-image'] = "url(\"".$mobile_src."\")";
