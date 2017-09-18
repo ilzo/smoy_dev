@@ -521,6 +521,177 @@ add_action( 'wp_enqueue_scripts', 'load_scripts' );
 add_action( 'wp_enqueue_scripts', 'smoy_load_dashicons_front_end' );
 add_filter('language_attributes', 'add_opengraph_doctype');
 
+
+/* ------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
+/* ----------- SMOY THEME OPTIONS AND SETTINGS START ----------- */
+/* ------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
+
+
+add_action( 'admin_init', 'smoy_settings_init' );
+
+/**
+ * @internal never define functions inside callbacks.
+ * these functions could be run multiple times; this would result in a fatal error.
+ */
+function smoy_settings_init() {
+ 
+    register_setting( 'smoy', 'smoy_options' );
+ 
+    add_settings_section(
+        'smoy_section_sharing',
+        __( 'Theme settings related to sharing', 'smoy' ),
+        'smoy_section_sharing_cb',
+        'smoy'
+    );  
+
+    add_settings_field(
+        'smoy_field_og_image', // as of WP 4.6 this value is used only internally
+        // use $args' label_for to populate the id inside the callback
+        __( 'Og image', 'smoy' ),
+        'smoy_field_og_image_cb',
+        'smoy',
+        'smoy_section_sharing',
+        [
+        'label_for' => 'smoy_field_og_image',
+        'class' => 'smoy_row',
+        'smoy_custom_data' => 'custom',
+        ]
+    );   
+    
+}
+ 
+
+/**
+ * Custom theme options and settings:
+ * callback functions
+ */
+  
+// section callbacks can accept an $args parameter, which is an array.
+// $args have the following keys defined: title, id, callback.
+// the values are defined at the add_settings_section() function.
+function smoy_section_sharing_cb( $args ) {
+ ?>
+ <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Specify the default image when sharing website pages in social media. The image source will be used in content-attribute of og:image meta-tag.', 'smoy' ); ?></p>
+ <?php
+}
+ 
+ 
+// field callbacks can accept an $args parameter, which is an array.
+// $args is defined at the add_settings_field() function.
+// wordpress has magic interaction with the following keys: label_for, class.
+// the "label_for" key value is used for the "for" attribute of the <label>.
+// the "class" key value is used for the "class" attribute of the <tr> containing the field.
+// you can add custom key value pairs to be used inside your callbacks.
+function smoy_field_og_image_cb( $args ) {
+    $options = get_option( 'smoy_options' );
+    ?>
+    <select id="<?php echo esc_attr( $args['label_for'] ); ?>"
+     data-custom="<?php echo esc_attr( $args['smoy_custom_data'] ); ?>"
+     name="smoy_options[<?php echo esc_attr( $args['label_for'] ); ?>]" >
+    <option value="asiakkuusmarkkinointi" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'asiakkuusmarkkinointi', false ) ) : ( '' ); ?>>
+    <?php esc_html_e( 'Asiakkuusmarkkinointi', 'smoy' ); ?>
+    </option>
+    <option value="graafinen_design" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'graafinen_design', false ) ) : ( '' ); ?>>
+    <?php esc_html_e( 'Graafinen design', 'smoy' ); ?>
+    </option>
+    <option value="digitaaliset_ratkaisut" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'digitaaliset_ratkaisut', false ) ) : ( '' ); ?>>
+    <?php esc_html_e( 'Digitaaliset ratkaisut', 'smoy' ); ?>
+    </option>
+    <option value="kuvauspalvelut" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'kuvauspalvelut', false ) ) : ( '' ); ?>>
+    <?php esc_html_e( 'Kuvauspalvelut', 'smoy' ); ?>
+    </option>
+    </select>
+    <?php
+}
+
+
+add_action( 'admin_menu', 'smoy_options_page' );
+ 
+function smoy_options_page() {
+    add_menu_page(
+        'Smoy',
+        'Smoy Options',
+        'manage_options',
+        'smoy',
+        'smoy_options_page_html',
+        'dashicons-forms'
+    );
+}
+ 
+
+function smoy_options_page_html() {
+ 
+ if ( ! current_user_can( 'manage_options' ) ) {
+ return;
+ }
+ 
+ // check if the user have submitted the settings
+ // wordpress will add the "settings-updated" $_GET parameter to the url
+ if ( isset( $_GET['settings-updated'] ) ) {
+ // add settings saved message with the class of "updated"
+ add_settings_error( 'smoy_messages', 'smoy_message', __( 'Settings saved succesfully', 'smoy' ), 'updated' );
+ }
+ 
+ // show error/update messages
+ settings_errors( 'smoy_messages' );
+ ?>
+ <div class="wrap">
+ <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+ <form action="options.php" method="post">
+ <?php
+ // output security fields for the registered setting "smoy"
+ settings_fields( 'smoy' );
+ // output setting sections and their fields
+ // (sections are registered for "smoy", each field is registered to a specific section)
+ do_settings_sections( 'smoy' );
+ // output save settings button
+ submit_button( 'Save Settings' );
+ ?>
+ </form>
+ </div>
+ <?php
+}
+
+/* ------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
+/* ------------ SMOY THEME OPTIONS AND SETTINGS END ------------ */
+/* ------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
+
+
+add_action( 'wp_head', 'smoy_get_service_page_featured_image', 10, 1);
+
+function smoy_get_service_page_featured_image( $option = '' ) {
+    $service = null;
+    $service_thumbnail_src = '';
+
+    switch ($option) {
+        case "asiakkuusmarkkinointi":
+            $service = get_page_by_title( 'Asiakkuusmarkkinointi', OBJECT, 'smoy_service' );
+            break;
+        case "graafinen_design":
+            $service = get_page_by_title( 'Graafinen suunnittelu ja tuotanto', OBJECT, 'smoy_service' );
+            break;
+        case "digitaaliset_ratkaisut":
+            $service = get_page_by_title( 'Digitaaliset ratkaisut', OBJECT, 'smoy_service' );
+            break;
+        case "kuvauspalvelut":
+            $service = get_page_by_title( 'Käännökset ja kuvaukset', OBJECT, 'smoy_service' );
+            break;
+        default:
+            $service = get_page_by_title( 'Graafinen suunnittelu ja tuotanto', OBJECT, 'smoy_service' );
+    }
+    
+    $service_thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $service->ID ), 'medium_large' );
+    if(empty($service_thumbnail_src)){
+        $service_thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $service->ID ), 'full' );
+    }
+    return $service_thumbnail_src[0];
+}
+
+
 function add_opengraph_doctype( $output ) {
     return $output . 'xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
 }
@@ -532,7 +703,15 @@ function smoy_insert_og_tags() {
         return;
     
     global $post;
-    $default_image = get_stylesheet_directory_uri() . '/img/logo/mainostoimisto_SMOY_logo_black_fb.png';
+    $default_image_option = get_option( 'smoy_options' )["smoy_field_og_image"];
+    $service_image = smoy_get_service_page_featured_image($default_image_option);
+    
+    if(!empty($service_image) && is_string($service_image)){
+        $default_image = $service_image;
+    }else{
+        $default_image = get_stylesheet_directory_uri() . '/img/logo/mainostoimisto_SMOY_logo_black_fb.png';
+    }
+    
     echo '<meta property="fb:admins" content="334604136630618"/>';
     if(is_singular()) {
         if(is_page('eng')){
@@ -1077,6 +1256,12 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_setting('smoy_about_us_bg_img_mobile_optional', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
     $wp_customize->add_setting('smoy_services_header_bg_img', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
@@ -1088,6 +1273,18 @@ function smoy_customize_register( $wp_customize ) {
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
     ));
+    
+    
+    $wp_customize->add_setting('smoy_services_header_bg_img_mobile_optional', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    
+    
+    
+    
     
     $wp_customize->add_setting('smoy_references_header_bg_img', array(
             'type' => 'theme_mod',
@@ -1101,6 +1298,18 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_setting('smoy_references_header_bg_img_mobile_optional', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    
+    
+    
+    
+    
+    
     $wp_customize->add_setting('smoy_staff_header_bg_img', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
@@ -1112,6 +1321,18 @@ function smoy_customize_register( $wp_customize ) {
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
     ));
+    
+    /*
+    $wp_customize->add_setting('smoy_staff_header_bg_img_mobile_optional', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    */
+    
+    
+    
+    
     
     $wp_customize->add_setting('smoy_blog_header_bg_img', array(
             'type' => 'theme_mod',
@@ -1125,6 +1346,15 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_setting('smoy_blog_header_bg_img_mobile_optional', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    
+    
+    
     $wp_customize->add_setting('smoy_contact_header_bg_img', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
@@ -1137,6 +1367,15 @@ function smoy_customize_register( $wp_customize ) {
             'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_setting('smoy_contact_header_bg_img_mobile_optional', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
+    ));
+    
+    
+    
+    
     $wp_customize->add_setting('smoy_contact_content_bg_img', array(
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
@@ -1147,6 +1386,12 @@ function smoy_customize_register( $wp_customize ) {
             'type' => 'theme_mod',
             'capability' => 'edit_theme_options',
             'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_setting('smoy_contact_content_bg_img_mobile_optional', array(
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options',
+            'sanitize_callback' => 'absint'
     ));
     
     
@@ -1695,6 +1940,14 @@ function smoy_customize_register( $wp_customize ) {
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
     
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'smoy_about_us_bg_img_mobile_optional', array(
+        'label' => __( 'About us mobile image (Optional)', 'smoy'),
+        'description' => __('Insert explicit background image to be shown in small mobile devices if necessary. This will override the cropped image from above field.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+    
     $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_services_header_bg_img', array(
         'section'     => 'smoy_bg_imgs',
         'label'       => __('Services header background image', 'smoy'),
@@ -1713,6 +1966,23 @@ function smoy_customize_register( $wp_customize ) {
         'section' => 'smoy_bg_imgs',
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
+    
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'smoy_services_header_bg_img_mobile_optional', array(
+        'label' => __( 'Services header mobile image (Optional)', 'smoy'),
+        'description' => __('Insert explicit background image to be shown in small mobile devices if necessary. This will override the cropped image from above field.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_references_header_bg_img', array(
         'section'     => 'smoy_bg_imgs',
@@ -1732,6 +2002,20 @@ function smoy_customize_register( $wp_customize ) {
         'section' => 'smoy_bg_imgs',
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
+    
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'smoy_references_header_bg_img_mobile_optional', array(
+        'label' => __( 'References header mobile image (Optional)', 'smoy'),
+        'description' => __('Insert explicit background image to be shown in small mobile devices if necessary. This will override the cropped image from above field.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+    
+    
+    
+    
+    
+    
 
     $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'smoy_staff_header_bg_img', array(
         'label' => __('Our staff header background image', 'smoy'),
@@ -1748,6 +2032,21 @@ function smoy_customize_register( $wp_customize ) {
         'section' => 'smoy_bg_imgs',
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
+    
+    /*
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'smoy_staff_header_bg_img_mobile_optional', array(
+        'label' => __( 'Our staff header mobile image (Optional)', 'smoy'),
+        'description' => __('Insert explicit background image to be shown in small mobile devices if necessary. This will override the cropped image from above field.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+    */
+    
+    
+    
+    
+    
 
     $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_blog_header_bg_img', array(
         'section'     => 'smoy_bg_imgs',
@@ -1767,6 +2066,21 @@ function smoy_customize_register( $wp_customize ) {
         'section' => 'smoy_bg_imgs',
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
+    
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'smoy_blog_header_bg_img_mobile_optional', array(
+        'label' => __( 'Blog header mobile image (Optional)', 'smoy'),
+        'description' => __('Insert explicit background image to be shown in small mobile devices if necessary. This will override the cropped image from above field.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+    
+    
+    
+    
+    
+    
+    
 
     $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_contact_header_bg_img', array(
         'section'     => 'smoy_bg_imgs',
@@ -1787,6 +2101,21 @@ function smoy_customize_register( $wp_customize ) {
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
     
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'smoy_contact_header_bg_img_mobile_optional', array(
+        'label' => __( 'Contact header mobile image (Optional)', 'smoy'),
+        'description' => __('Insert explicit background image to be shown in small mobile devices if necessary. This will override the cropped image from above field.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
+    
+    
+    
+    
+    
+    
+    
+    
     $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'smoy_contact_content_bg_img', array(
         'section'     => 'smoy_bg_imgs',
         'label'       => __('Contact section background image', 'smoy'),
@@ -1805,6 +2134,14 @@ function smoy_customize_register( $wp_customize ) {
         'section' => 'smoy_bg_imgs',
         'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
     ));
+    
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'smoy_contact_content_bg_img_mobile_optional', array(
+        'label' => __( 'Contact section mobile image (Optional)', 'smoy'),
+        'description' => __('Insert explicit background image to be shown in small mobile devices if necessary. This will override the cropped image from above field.', 'smoy'),
+        'section' => 'smoy_bg_imgs',
+        'mime_type' => 'image',
+        'active_callback' => 'smoy_callback_is_front_page_or_eng_page'
+    )));
     
     
     /* ------- Front-Page About Us Section -------- */
@@ -2569,7 +2906,11 @@ add_action( 'wp_head', 'smoy_section_header_background_styles');
 function smoy_section_header_background_styles() {
     if(is_home() || is_page( 'eng' )) {
         $front_sections = array('services', 'our-customers', 'our-staff', 'blog', 'contact');
+        
         $section_header_imgs = array(get_theme_mod('smoy_services_header_bg_img'), get_theme_mod('smoy_references_header_bg_img'), get_theme_mod('smoy_staff_header_bg_img'), get_theme_mod('smoy_blog_header_bg_img'), get_theme_mod('smoy_contact_header_bg_img'));
+        
+        $section_header_optional_mobile_imgs = array(get_theme_mod('smoy_services_header_bg_img_mobile_optional'), get_theme_mod('smoy_references_header_bg_img_mobile_optional'), '', get_theme_mod('smoy_blog_header_bg_img_mobile_optional'), get_theme_mod('smoy_contact_header_bg_img_mobile_optional'));
+        
         $bg_positions = array(get_theme_mod('smoy_services_header_bg_pos'), get_theme_mod('smoy_references_header_bg_pos'), get_theme_mod('smoy_staff_header_bg_pos'), get_theme_mod('smoy_blog_header_bg_pos'), get_theme_mod('smoy_contact_header_bg_pos'));
         
         if(!empty($section_header_imgs)) {
@@ -2597,6 +2938,11 @@ function smoy_section_header_background_styles() {
                     }else{
                         $mobile_src = wp_get_attachment_image_src($section_header_imgs[$i], 'full')[0];
                         $desktop_src = smoy_get_original_attachment_url($section_header_imgs[$i], $mobile_src);
+                        
+                        if(!empty($section_header_optional_mobile_imgs[$i])){
+                            $mobile_src = wp_get_attachment_image_src($section_header_optional_mobile_imgs[$i], 'full')[0];
+                        }
+                         
                         if(!empty($mobile_src) && !empty($desktop_src)){
                             $css['#'.$section.' .content-section-header']['background-image'] = "url(\"".$desktop_src."\")";
                             $css_media_query['#'.$section.' .content-section-header']['background-image'] = "url(\"".$mobile_src."\")";
@@ -2650,11 +2996,16 @@ function smoy_about_us_background_styles() {
     if(is_home() || is_page( 'eng' )) {
         $about_us_img = get_theme_mod('smoy_about_us_bg_img');
         $bg_position = get_theme_mod('smoy_about_us_bg_pos');
+        $about_us_img_mobile_optional = get_theme_mod('smoy_about_us_bg_img_mobile_optional');
         if(!empty($about_us_img)) {
             $css = array();
             $css_media_query = array();
             $mobile_src = wp_get_attachment_image_src($about_us_img, 'full')[0];
             $desktop_src = smoy_get_original_attachment_url($about_us_img, $mobile_src);
+            
+            if(!empty($about_us_img_mobile_optional)){
+                $mobile_src = wp_get_attachment_image_src($about_us_img_mobile_optional, 'full')[0];
+            }
             
             if(!empty($mobile_src) && !empty($desktop_src)){
                 $css['#about-us']['background-image'] = "url(\"".$desktop_src."\")";
@@ -3202,11 +3553,17 @@ function smoy_contact_background_styles() {
     if(is_home() || is_page( 'eng' )) {
         $contact_img = get_theme_mod('smoy_contact_content_bg_img');
         $bg_position = get_theme_mod('smoy_contact_content_bg_pos');
+        $contact_img_mobile_optional = get_theme_mod('smoy_contact_content_bg_img_mobile_optional');
+        
         if(!empty($contact_img)) {
             $css = array();
             $css_media_query = array();
             $mobile_src = wp_get_attachment_image_src($contact_img, 'full')[0];
             $desktop_src = smoy_get_original_attachment_url($contact_img, $mobile_src);
+            
+            if(!empty($contact_img_mobile_optional)){
+                $mobile_src = wp_get_attachment_image_src($contact_img_mobile_optional, 'full')[0];
+            }
             
             if(!empty($mobile_src) && !empty($desktop_src)){
                 $css['#contact-wrapper']['background-image'] = "url(\"".$desktop_src."\")";
