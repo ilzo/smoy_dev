@@ -519,7 +519,6 @@ function smoy_load_dashicons_front_end() {
 add_action( 'wp_enqueue_scripts', 'smoy_styles' );
 add_action( 'wp_enqueue_scripts', 'load_scripts' );
 add_action( 'wp_enqueue_scripts', 'smoy_load_dashicons_front_end' );
-add_filter('language_attributes', 'add_opengraph_doctype');
 
 
 /* ------------------------------------------------------------- */
@@ -528,131 +527,183 @@ add_filter('language_attributes', 'add_opengraph_doctype');
 /* ------------------------------------------------------------- */
 /* ------------------------------------------------------------- */
 
+class SmoySettingsPage {
+    /**
+     * Holds the values to be used in the fields callbacks
+     */
+    private $options;
 
-add_action( 'admin_init', 'smoy_settings_init' );
+    /**
+     * Start up
+     */
+    public function __construct()
+    {
+        add_action( 'admin_menu', array( $this, 'add_smoy_settings_page' ) );
+        add_action( 'admin_init', array( $this, 'smoy_settings_page_init' ) );
+    }
 
-/**
- * @internal never define functions inside callbacks.
- * these functions could be run multiple times; this would result in a fatal error.
- */
-function smoy_settings_init() {
- 
-    register_setting( 'smoy', 'smoy_options' );
- 
-    add_settings_section(
-        'smoy_section_sharing',
-        __( 'Theme settings related to sharing', 'smoy' ),
-        'smoy_section_sharing_cb',
-        'smoy'
-    );  
+    /**
+     * Add options page
+     */
+    public function add_smoy_settings_page()
+    {
+        // This page will be under "Settings"
+        add_options_page(
+            'Smoy Settings', 
+            'Smoy Settings', 
+            'manage_options', 
+            'smoy-setting-admin', 
+            array( $this, 'create_smoy_admin_page' )
+        );
+    }
 
-    add_settings_field(
-        'smoy_field_og_image', // as of WP 4.6 this value is used only internally
-        // use $args' label_for to populate the id inside the callback
-        __( 'Og image', 'smoy' ),
-        'smoy_field_og_image_cb',
-        'smoy',
-        'smoy_section_sharing',
-        [
-        'label_for' => 'smoy_field_og_image',
-        'class' => 'smoy_row',
-        'smoy_custom_data' => 'custom',
-        ]
-    );   
+    /**
+     * Options page callback
+     */
+    public function create_smoy_admin_page()
+    {
+        // Set class property
+        $this->options = get_option( 'smoy_sharing_options' );
+        ?>
+        <div class="wrap">
+            <h1>Smoy Settings</h1>
+            <form method="post" action="options.php">
+            <?php
+                // This prints out all hidden setting fields
+                settings_fields( 'smoy' );
+                do_settings_sections( 'smoy-setting-admin' );
+                submit_button();
+            ?>
+            </form>
+        </div>
+        <?php
+    }
+
+    /**
+     * Register and add settings
+     */
+    public function smoy_settings_page_init()
+    {        
+        register_setting(
+            'smoy', // Option group
+            'smoy_sharing_options', // Option name
+            array( $this, 'sanitize' ) // Sanitize
+        );
+
+        add_settings_section(
+            'smoy_sharing_settings_section', // ID
+            'Smoy social sharing settings', // Title
+            array( $this, 'print_sharing_section_info' ), // Callback
+            'smoy-setting-admin' // Page
+        );  
+
+        add_settings_field(
+            'service_title_1', // ID
+            'Service title 1', // Title 
+            array( $this, 'service_title_1_cb' ), // Callback
+            'smoy-setting-admin', // Page
+            'smoy_sharing_settings_section' // Section           
+        );
+        
+        add_settings_field(
+            'service_title_2', // ID
+            'Service title 2', // Title 
+            array( $this, 'service_title_2_cb' ), // Callback
+            'smoy-setting-admin', // Page
+            'smoy_sharing_settings_section' // Section           
+        );
+        
+        add_settings_field(
+            'service_title_3', // ID
+            'Service title 3', // Title 
+            array( $this, 'service_title_3_cb' ), // Callback
+            'smoy-setting-admin', // Page
+            'smoy_sharing_settings_section' // Section           
+        );
+        
+        add_settings_field(
+            'service_title_4', // ID
+            'Service title 4', // Title 
+            array( $this, 'service_title_4_cb' ), // Callback
+            'smoy-setting-admin', // Page
+            'smoy_sharing_settings_section' // Section           
+        );
+
+              
+    }
+
+    /**
+     * Sanitize each setting field as needed
+     *
+     * @param array $input Contains all settings fields as array keys
+     */
+    public function sanitize( $input )
+    {
+        $new_input = array();
+        
+        if( isset( $input['service_title_1'] ) )
+            $new_input['service_title_1'] = sanitize_text_field( $input['service_title_1'] );
+        
+        if( isset( $input['service_title_2'] ) )
+            $new_input['service_title_2'] = sanitize_text_field( $input['service_title_2'] );
+        
+        if( isset( $input['service_title_3'] ) )
+            $new_input['service_title_3'] = sanitize_text_field( $input['service_title_3'] );
+        
+        if( isset( $input['service_title_4'] ) )
+            $new_input['service_title_4'] = sanitize_text_field( $input['service_title_4'] );
+        
     
-}
- 
+        return $new_input;
+    }
 
-/**
- * Custom theme options and settings:
- * callback functions
- */
+    /** 
+     * Print the Section text
+     */
+    public function print_sharing_section_info()
+    {
+        print 'Specify the service page images to be used as default images for og:image metatags. Note: Each field must match the title of the corresponding service page. So if you ever change the titles of service pages, remember to update the correct titles here also.';
+    }
+
+    
+    public function service_title_1_cb()
+    {
+        printf(
+            '<input type="text" id="service_title_1" name="smoy_sharing_options[service_title_1]" value="%s" style="width:400px;" />',
+            isset( $this->options['service_title_1'] ) ? esc_attr( $this->options['service_title_1']) : ''
+        );
+    }
+    
+    public function service_title_2_cb()
+    {
+        printf(
+            '<input type="text" id="service_title_2" name="smoy_sharing_options[service_title_2]" value="%s" style="width:400px;" />',
+            isset( $this->options['service_title_2'] ) ? esc_attr( $this->options['service_title_2']) : ''
+        );
+    }
+    
+    public function service_title_3_cb()
+    {
+        printf(
+            '<input type="text" id="service_title_3" name="smoy_sharing_options[service_title_3]" value="%s" style="width:400px;" />',
+            isset( $this->options['service_title_3'] ) ? esc_attr( $this->options['service_title_3']) : ''
+        );
+    }
+    
+    public function service_title_4_cb()
+    {
+        printf(
+            '<input type="text" id="service_title_4" name="smoy_sharing_options[service_title_4]" value="%s" style="width:400px;" />',
+            isset( $this->options['service_title_4'] ) ? esc_attr( $this->options['service_title_4']) : ''
+        );
+    }
   
-// section callbacks can accept an $args parameter, which is an array.
-// $args have the following keys defined: title, id, callback.
-// the values are defined at the add_settings_section() function.
-function smoy_section_sharing_cb( $args ) {
- ?>
- <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Specify the default image when sharing website pages in social media. The image source will be used in content-attribute of og:image meta-tag.', 'smoy' ); ?></p>
- <?php
-}
- 
- 
-// field callbacks can accept an $args parameter, which is an array.
-// $args is defined at the add_settings_field() function.
-// wordpress has magic interaction with the following keys: label_for, class.
-// the "label_for" key value is used for the "for" attribute of the <label>.
-// the "class" key value is used for the "class" attribute of the <tr> containing the field.
-// you can add custom key value pairs to be used inside your callbacks.
-function smoy_field_og_image_cb( $args ) {
-    $options = get_option( 'smoy_options' );
-    ?>
-    <select id="<?php echo esc_attr( $args['label_for'] ); ?>"
-     data-custom="<?php echo esc_attr( $args['smoy_custom_data'] ); ?>"
-     name="smoy_options[<?php echo esc_attr( $args['label_for'] ); ?>]" >
-    <option value="asiakkuusmarkkinointi" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'asiakkuusmarkkinointi', false ) ) : ( '' ); ?>>
-    <?php esc_html_e( 'Asiakkuusmarkkinointi', 'smoy' ); ?>
-    </option>
-    <option value="graafinen_design" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'graafinen_design', false ) ) : ( '' ); ?>>
-    <?php esc_html_e( 'Graafinen design', 'smoy' ); ?>
-    </option>
-    <option value="digitaaliset_ratkaisut" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'digitaaliset_ratkaisut', false ) ) : ( '' ); ?>>
-    <?php esc_html_e( 'Digitaaliset ratkaisut', 'smoy' ); ?>
-    </option>
-    <option value="kuvauspalvelut" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'kuvauspalvelut', false ) ) : ( '' ); ?>>
-    <?php esc_html_e( 'Kuvauspalvelut', 'smoy' ); ?>
-    </option>
-    </select>
-    <?php
 }
 
-
-add_action( 'admin_menu', 'smoy_options_page' );
- 
-function smoy_options_page() {
-    add_menu_page(
-        'Smoy',
-        'Smoy Options',
-        'manage_options',
-        'smoy',
-        'smoy_options_page_html',
-        'dashicons-forms'
-    );
+if( is_admin() ) {
+   $smoy_settings_page = new SmoySettingsPage(); 
 }
- 
-
-function smoy_options_page_html() {
- 
- if ( ! current_user_can( 'manage_options' ) ) {
- return;
- }
- 
- // check if the user have submitted the settings
- // wordpress will add the "settings-updated" $_GET parameter to the url
- if ( isset( $_GET['settings-updated'] ) ) {
- // add settings saved message with the class of "updated"
- add_settings_error( 'smoy_messages', 'smoy_message', __( 'Settings saved succesfully', 'smoy' ), 'updated' );
- }
- 
- // show error/update messages
- settings_errors( 'smoy_messages' );
- ?>
- <div class="wrap">
- <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
- <form action="options.php" method="post">
- <?php
- // output security fields for the registered setting "smoy"
- settings_fields( 'smoy' );
- // output setting sections and their fields
- // (sections are registered for "smoy", each field is registered to a specific section)
- do_settings_sections( 'smoy' );
- // output save settings button
- submit_button( 'Save Settings' );
- ?>
- </form>
- </div>
- <?php
-}
+    
 
 /* ------------------------------------------------------------- */
 /* ------------------------------------------------------------- */
@@ -661,55 +712,40 @@ function smoy_options_page_html() {
 /* ------------------------------------------------------------- */
 
 
-add_action( 'wp_head', 'smoy_get_service_page_featured_image', 10, 1);
-
-function smoy_get_service_page_featured_image( $option = '' ) {
-    $service = null;
-    $service_thumbnail_src = '';
-
-    switch ($option) {
-        case "asiakkuusmarkkinointi":
-            $service = get_page_by_title( 'Asiakkuusmarkkinointi', OBJECT, 'smoy_service' );
-            break;
-        case "graafinen_design":
-            $service = get_page_by_title( 'Graafinen suunnittelu ja tuotanto', OBJECT, 'smoy_service' );
-            break;
-        case "digitaaliset_ratkaisut":
-            $service = get_page_by_title( 'Digitaaliset ratkaisut', OBJECT, 'smoy_service' );
-            break;
-        case "kuvauspalvelut":
-            $service = get_page_by_title( 'Käännökset ja kuvaukset', OBJECT, 'smoy_service' );
-            break;
-        default:
-            $service = get_page_by_title( 'Graafinen suunnittelu ja tuotanto', OBJECT, 'smoy_service' );
-    }
-    
-    $service_thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $service->ID ), 'medium_large' );
-    if(empty($service_thumbnail_src)){
-        $service_thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $service->ID ), 'full' );
-    }
-    return $service_thumbnail_src[0];
-}
-
+add_filter( 'language_attributes', 'add_opengraph_doctype' );
 
 function add_opengraph_doctype( $output ) {
     return $output . 'xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
 }
 
-add_action( 'wp_head', 'smoy_insert_og_tags', 2);
+add_action( 'wp_head', 'smoy_insert_og_tags', 2 );
 
 function smoy_insert_og_tags() {
     if(is_page('uutiskirje')) 
         return;
     
     global $post;
-    $default_image_option = get_option( 'smoy_options' )["smoy_field_og_image"];
-    $service_image = smoy_get_service_page_featured_image($default_image_option);
+    $default_images = array();
+    $sharing_options = get_option( 'smoy_sharing_options' );
     
-    if(!empty($service_image) && is_string($service_image)){
-        $default_image = $service_image;
-    }else{
-        $default_image = get_stylesheet_directory_uri() . '/img/logo/mainostoimisto_SMOY_logo_black_fb.png';
+    if(is_array($sharing_options)){
+        foreach($sharing_options as $option){
+            $service = '';
+            if(!empty($option) && is_string($option)){
+                $service = get_page_by_title( $option, OBJECT, 'smoy_service' );
+            }
+
+            if(is_object($service)){
+                $service_thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $service->ID ), 'medium_large' );
+                if(empty($service_thumbnail_src)){
+                    $service_thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $service->ID ), 'full' );
+                }
+
+                if(!empty($service_thumbnail_src[0]) && is_string($service_thumbnail_src[0])){
+                    array_push($default_images, $service_thumbnail_src[0]);
+                } 
+            }  
+        }
     }
     
     echo '<meta property="fb:admins" content="334604136630618"/>';
@@ -719,14 +755,18 @@ function smoy_insert_og_tags() {
             echo '<meta property="og:type" content="website"/>';
             echo '<meta property="og:url" content="' . esc_attr(get_permalink()) . '"/>';
             echo '<meta property="og:site_name" content="Smoy"/>';
-            echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+            foreach($default_images as $default_image){
+                echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+            }
         }else{
             echo '<meta property="og:title" content="' . esc_attr(get_the_title()) . '"/>';
             echo '<meta property="og:type" content="article"/>';
             echo '<meta property="og:url" content="' . esc_attr(get_permalink()) . '"/>';
             echo '<meta property="og:site_name" content="Smoy"/>';
             if(!has_post_thumbnail( $post->ID )){ 
-                echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+                foreach($default_images as $default_image){
+                    echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+                }
             }else{
                 $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium_large' );
                 if(!empty($thumbnail_src)){
@@ -744,17 +784,20 @@ function smoy_insert_og_tags() {
         echo '<meta property="og:type" content="website"/>';
         echo '<meta property="og:url" content="' . esc_attr(get_home_url()) . '"/>';
         echo '<meta property="og:site_name" content="Smoy"/>';
-        echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+        foreach($default_images as $default_image){
+            echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+        }
     }else{
         echo '<meta property="og:title" content="Mainostoimisto Smoy Helsinki"/>';
         echo '<meta property="og:type" content="website"/>';
         echo '<meta property="og:site_name" content="Smoy"/>';
-        echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
-    }
-    
+        foreach($default_images as $default_image){
+            echo '<meta property="og:image" content="' . esc_attr($default_image) . '"/>';
+        }
+    }  
 }
 
-add_filter( 'smoy_get_service_or_blog_post_featured_img_path', 'post_featured_img_path');
+add_filter( 'smoy_get_service_or_blog_post_featured_img_path', 'post_featured_img_path' );
 
 function post_featured_img_path() {
     if ( is_singular('smoy_service') || (is_singular() && in_category('blogi'))) {
